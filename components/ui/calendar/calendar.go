@@ -1,7 +1,7 @@
 // Package calendar is the shadcn/ui Calendar: a date field component that
 // lets users enter and edit dates, built on react-day-picker 9.8.1 upstream.
 //
-//	calendar.Calendar(calendar.ModeSingle, calendar.Selected(time.Now()),
+//	calendar.Calendar(calendar.ModeSingle, calendar.Selected(lib.Now()),
 //	    calendar.CaptionDropdown, h.Class("rounded-md border shadow-sm"))
 //
 // Children may include the DayPicker props as typed values: a Mode, the

@@ -3,6 +3,7 @@ package calendar
 
 import (
 	_ "embed"
+	"shadcn.go/components/lib"
 	"time"
 
 	"shadcn.go/components/ui/calendar"
@@ -28,7 +29,7 @@ func init() {
 func Demo() h.Node {
 	return calendar.Calendar(
 		calendar.ModeSingle,
-		calendar.Selected(time.Now()),
+		calendar.Selected(lib.Now()),
 		h.Class("rounded-md border shadow-sm"),
 		calendar.CaptionDropdown,
 	)

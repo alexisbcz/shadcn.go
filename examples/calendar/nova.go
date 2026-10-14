@@ -2,6 +2,7 @@ package calendar
 
 import (
 	"net/http"
+	"shadcn.go/components/lib"
 	"time"
 
 	"shadcn.go/components/icons/lucide"
@@ -40,7 +41,7 @@ func init() {
 }
 
 func thisYear(month time.Month, day int) time.Time {
-	return time.Date(time.Now().Year(), month, day, 0, 0, 0, 0, time.Local)
+	return time.Date(lib.Now().Year(), month, day, 0, 0, 0, 0, time.Local)
 }
 
 func flatCard(children ...any) h.Node {
@@ -48,7 +49,7 @@ func flatCard(children ...any) h.Node {
 }
 
 func NovaDemo() h.Node {
-	return calendar.Calendar(calendar.ModeSingle, calendar.Selected(time.Now()), h.Class("rounded-lg border"), calendar.CaptionDropdown)
+	return calendar.Calendar(calendar.ModeSingle, calendar.Selected(lib.Now()), h.Class("rounded-lg border"), calendar.CaptionDropdown)
 }
 
 func NovaBasic() h.Node {
@@ -69,7 +70,7 @@ func NovaRange() h.Node {
 		calendar.DefaultMonth(from),
 		calendar.SelectedRange(from, from.AddDate(0, 0, 30)),
 		calendar.NumberOfMonths(2),
-		calendar.Disabled(calendar.After(time.Now()), calendar.Before(time.Date(1900, 1, 1, 0, 0, 0, 0, time.Local))),
+		calendar.Disabled(calendar.After(lib.Now()), calendar.Before(time.Date(1900, 1, 1, 0, 0, 0, 0, time.Local))),
 	))
 }
 
@@ -102,7 +103,7 @@ func NovaCustomDays() h.Node {
 }
 
 func NovaPresets() h.Node {
-	now := time.Now()
+	now := lib.Now()
 	presets := []string{"Today", "Tomorrow", "In 3 days", "In a week", "In 2 weeks"}
 	buttons := make([]any, len(presets))
 	for i, p := range presets {
@@ -122,7 +123,7 @@ func NovaPresets() h.Node {
 }
 
 func NovaTime() h.Node {
-	now := time.Now()
+	now := lib.Now()
 	timeField := func(id, label, value string) h.Node {
 		return field.Field(
 			field.Label(h.For(id), label),

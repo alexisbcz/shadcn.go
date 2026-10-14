@@ -1,10 +1,10 @@
 package calendar
 
 import (
+	"shadcn.go/components/lib"
 	"slices"
 	"strconv"
 	"strings"
-	"time"
 
 	h "shadcn.go/libhtml"
 )
@@ -38,7 +38,7 @@ type dayPicker struct {
 }
 
 func newDayPicker(cfg *config, l *dateLib) *dayPicker {
-	dp := &dayPicker{cfg: cfg, lib: l, today: JDN(time.Now())}
+	dp := &dayPicker{cfg: cfg, lib: l, today: JDN(lib.Now())}
 	if cfg.Today != nil {
 		dp.today = *cfg.Today
 	}
@@ -351,7 +351,7 @@ func (dp *dayPicker) render() []any {
 		navButton(cn["button_next"], "Go to the Next Month", "right", next),
 	)
 
-	ws := l.startOfWeek(JDN(time.Now()))
+	ws := l.startOfWeek(JDN(lib.Now()))
 	children := []any{nav}
 	for _, month := range months {
 		children = append(children, dp.renderMonth(month, ws, target, interactive))

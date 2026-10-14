@@ -110,7 +110,7 @@ func shortDate(t time.Time) string {
 }
 
 func NovaRange() h.Node {
-	from := time.Date(time.Now().Year(), 1, 20, 0, 0, 0, 0, time.Local)
+	from := time.Date(lib.Now().Year(), 1, 20, 0, 0, 0, 0, time.Local)
 	to := from.AddDate(0, 0, 20)
 	opts := dpOptions{Format: "short", Empty: "Pick a date", Range: true, DefaultMonth: true}
 	return field.Field(h.Class("mx-auto w-60"),
@@ -192,7 +192,7 @@ func NovaInput() h.Node {
 }
 
 func NovaNaturalLanguage() h.Node {
-	now := time.Now()
+	now := lib.Now()
 	date := time.Date(now.Year(), now.Month(), now.Day()+2, 0, 0, 0, 0, time.Local)
 	return inputPicker("date-optional", "Schedule Date", "In 2 days", "Tomorrow or next week",
 		dpOptions{Format: "long", Close: true, Input: true, Echo: true, DefaultMonth: true},

@@ -13,7 +13,10 @@
 // them all at startup).
 //
 // The reference to compare against runs at http://localhost:4000 (see
-// parity/docs/reference.sh); parity/docs/run.mjs diffs the two.
+// parity/docs/reference.sh); parity/docs/run.mjs diffs the two. It freezes
+// the browser clock at 2026-01-15T12:00:00Z, so run the Go server with
+// -now 2026-01-15T12:00:00Z for comparisons: server-rendered dates
+// (calendars, date pickers) then use the same "now".
 //
 // The site itself is package shadcn.go/docs/site; its README-level comment
 // lists the extension points (header, docs layout, search, MDX components).
@@ -25,6 +28,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"shadcn.go/components/lib"
 	"time"
 
 	_ "shadcn.go/examples/all"
@@ -36,7 +40,15 @@ func main() {
 	addr := flag.String("addr", "127.0.0.1:4100", "listen address (port 0 picks a free one)")
 	root := flag.String("root", ".", "repository root")
 	preload := flag.Bool("preload", false, "parse every docs page at startup")
+	nowFlag := flag.String("now", "", `pin "now" for every rendered date (RFC 3339), e.g. the docs harness's frozen browser clock 2026-01-15T12:00:00Z`)
 	flag.Parse()
+	if *nowFlag != "" {
+		t, err := time.Parse(time.RFC3339, *nowFlag)
+		if err != nil {
+			log.Fatalf("-now: %v", err)
+		}
+		lib.SetNow(t)
+	}
 
 	start := time.Now()
 	s, err := site.New(site.Options{Root: *root, Preload: *preload})
