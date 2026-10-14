@@ -242,7 +242,7 @@ function makeLib(cfg) {
     // shadcn's formatMonthDropdown: date.toLocaleString("default", { month: "short" }).
     monthDropdown(j) {
       const [, gm] = d2g(j)
-      return EN_MONTHS_SHORT[gm - 1]
+      return (cfg.monthLong && !fa ? EN_MONTHS : EN_MONTHS_SHORT)[gm - 1]
     },
     // day.date.toLocaleDateString() (en-US).
     localeDate(j) {
@@ -871,6 +871,7 @@ class DayPicker {
     }
     const classes = [cn.day]
     for (const [k, active] of Object.entries(m)) if (active === true && cn[k]) classes.push(cn[k])
+    for (const mod of cfg.modifiers ?? []) if (mod.class && matches(lib, day.date, mod.match)) classes.push(mod.class)
     const attr = (b) => (b ? "true" : undefined)
     const dataBool = (b) => (b === undefined ? undefined : b ? "true" : "false")
     const label = (() => {
@@ -900,7 +901,7 @@ class DayPicker {
             tabindex: target && sameDay(target, day, lib) ? "0" : "-1",
             "aria-label": btnLabel,
           },
-          [lib.day(day.date)],
+          [lib.day(day.date), ...(!day.outside && cfg.dayExtra?.[lib.weekday(day.date)] ? [v("span", {}, [cfg.dayExtra[lib.weekday(day.date)]])] : [])],
         ),
       ]
     } else if (!m.hidden) {

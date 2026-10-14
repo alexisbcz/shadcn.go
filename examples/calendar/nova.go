@@ -84,7 +84,8 @@ func NovaBookedDates() h.Node {
 	for i := 0; i < 15; i++ {
 		booked = append(booked, calendar.Day(thisYear(time.February, 12+i)))
 	}
-	return flatCard(calendar.Calendar(calendar.ModeSingle, calendar.DefaultMonth(d), calendar.Selected(d), calendar.Disabled(booked...)))
+	return flatCard(calendar.Calendar(calendar.ModeSingle, calendar.DefaultMonth(d), calendar.Selected(d), calendar.Disabled(booked...),
+		calendar.Modifier("booked", "[&>button]:line-through opacity-100", booked...)))
 }
 
 func NovaCustomDays() h.Node {
@@ -94,6 +95,8 @@ func NovaCustomDays() h.Node {
 		calendar.SelectedRange(from, from.AddDate(0, 0, 10)),
 		calendar.NumberOfMonths(1),
 		calendar.CaptionDropdown,
+		calendar.MonthDropdownLong(true),
+		calendar.DayExtra{"$120", "$100", "$100", "$100", "$100", "$100", "$120"},
 		h.Class("[--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]"),
 	))
 }
@@ -148,6 +151,7 @@ func NovaHijri() h.Node {
 	return h.Div(h.Data("example-empty-class", ""),
 		calendar.Calendar(
 			calendar.Persian,
+			calendar.ButtonStyle(style.Nova),
 			calendar.ModeSingle,
 			calendar.DefaultMonth(date),
 			calendar.Selected(date),

@@ -406,7 +406,7 @@ func (dp *dayPicker) renderMonth(month calMonth, weekStart int, target *calDay, 
 		for i := 0; i < 12; i++ {
 			m := l.addMonths(sy, i)
 			disabled := (dp.navStart != nil && m < l.startOfMonth(*dp.navStart)) || (dp.navEnd != nil && m > l.startOfMonth(*dp.navEnd))
-			monthOptions = append(monthOptions, option{value: l.getMonth(m), label: l.monthDropdown(m), disabled: disabled})
+			monthOptions = append(monthOptions, option{value: l.getMonth(m), label: dp.monthDropdown(m), disabled: disabled})
 		}
 		var yearOptions []option
 		if dp.navStart != nil && dp.navEnd != nil {
@@ -420,7 +420,7 @@ func (dp *dayPicker) renderMonth(month calMonth, weekStart int, target *calDay, 
 		if layout == CaptionDropdown || layout == CaptionDropdownMonths {
 			monthsPart = dp.dropdown("months", monthOptions, l.getMonth(month.date), "Choose the Month")
 		} else {
-			monthsPart = h.Span(l.monthDropdown(month.date))
+			monthsPart = h.Span(dp.monthDropdown(month.date))
 		}
 		if layout == CaptionDropdown || layout == CaptionDropdownYears {
 			yearsPart = dp.dropdown("years", yearOptions, l.getYear(month.date), "Choose the Year")
@@ -507,6 +507,11 @@ func (dp *dayPicker) renderDay(day calDay, target *calDay, interactive bool) *h.
 	add(isTrue(m.rangeStart), "range_start")
 	add(isTrue(m.rangeEnd), "range_end")
 	add(isTrue(m.rangeMiddle), "range_middle")
+	for _, mod := range cfg.Modifiers {
+		if mod.Class != "" && dp.matches(day.date, mod.Match) {
+			classes = append(classes, mod.Class)
+		}
+	}
 
 	label := l.fullDate(day.date)
 	if m.today {
@@ -561,6 +566,11 @@ func (dp *dayPicker) renderDay(day calDay, target *calDay, interactive bool) *h.
 		h.Aria("label", btnLabel),
 		l.day(day.date),
 	)
+	if !day.outside && len(cfg.DayExtra) == 7 {
+		if x := cfg.DayExtra[l.weekday(day.date)]; x != "" {
+			btn.Children(h.Span(x))
+		}
+	}
 	for _, kv := range []struct {
 		name string
 		v    *bool
@@ -573,4 +583,14 @@ func (dp *dayPicker) renderDay(day calDay, target *calDay, interactive bool) *h.
 		btn.Bool("disabled", true)
 	}
 	return td.Children(btn)
+}
+
+// monthDropdown is formatMonthDropdown: short month names, or long ones
+// with MonthDropdownLong.
+func (dp *dayPicker) monthDropdown(j int) string {
+	if dp.cfg.MonthLong && !dp.lib.fa {
+		_, gm, _ := d2g(j)
+		return enMonths[gm-1]
+	}
+	return dp.lib.monthDropdown(j)
 }

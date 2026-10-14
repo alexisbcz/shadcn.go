@@ -151,6 +151,39 @@ func Hidden(m ...Matcher) any { return hiddenMatch(m) }
 // WithNumerals sets the numbering system.
 func WithNumerals(n Numerals) any { return numeralsOption(n) }
 
+// ModifierOption is returned by Modifier.
+type ModifierOption struct {
+	name, class string
+	matchers    []Matcher
+}
+
+type modifierJSON struct {
+	Class string `json:"class"`
+	Match []any  `json:"match"`
+}
+
+// Modifier adds a custom modifier (react-day-picker's modifiers prop) with
+// its class (modifiersClassNames): the days matching any matcher get the
+// class on their cell.
+func Modifier(name, class string, m ...Matcher) ModifierOption {
+	return ModifierOption{name: name, class: class, matchers: m}
+}
+
+// MonthDropdownLong shows full month names in the month dropdown
+// (formatMonthDropdown with { month: "long" }).
+type MonthDropdownLong bool
+
+// DayExtra adds a <span> with text after the day number of every day
+// button that is not an outside day, by day of the week (index 0 is
+// Sunday; empty strings add nothing): a custom DayButton rendering a price
+// or a note under each day.
+type DayExtra [7]string
+
+// ButtonStyle renders the calendar's buttons (navigation and days) in a
+// style while the calendar keeps its new-york-v4 classes, like a calendar
+// copied from new-york-v4 that imports the Button of another style.
+type ButtonStyle style.Style
+
 // Matcher matches days (react-day-picker's Matcher).
 type Matcher interface{ matcher() any }
 
@@ -205,6 +238,7 @@ type Builder struct {
 	persian       bool
 	numerals      Numerals
 	st            style.Style // the enclosing style.Scope, "" for new-york-v4
+	buttonStyle   style.Style
 }
 
 // The classes of registry/bases/radix/ui/calendar.tsx, used inside a
@@ -247,6 +281,9 @@ type config struct {
 	ClassNames        map[string]string `json:"classNames"`
 	DayButtonClass    string            `json:"dayButtonClass"`
 	ChevronClass      string            `json:"chevronClass"`
+	Modifiers         []modifierJSON    `json:"modifiers,omitempty"`
+	MonthLong         bool              `json:"monthLong,omitempty"`
+	DayExtra          []string          `json:"dayExtra,omitempty"`
 
 	// Server side only.
 	selectedSingle *int
@@ -308,6 +345,18 @@ func (b *Builder) AcceptChild(c any) bool {
 		b.cfg.PagedNavigation = bool(v)
 	case ExcludeDisabled:
 		b.cfg.ExcludeDisabled = bool(v)
+	case ModifierOption:
+		mj := modifierJSON{Class: v.class, Match: []any{}}
+		for _, m := range v.matchers {
+			mj.Match = append(mj.Match, m.matcher())
+		}
+		b.cfg.Modifiers = append(b.cfg.Modifiers, mj)
+	case MonthDropdownLong:
+		b.cfg.MonthLong = bool(v)
+	case DayExtra:
+		b.cfg.DayExtra = v[:]
+	case ButtonStyle:
+		b.buttonStyle = style.Style(v)
 	case disabledMatch:
 		for _, m := range v {
 			b.cfg.Disabled = append(b.cfg.Disabled, m.matcher())
@@ -345,6 +394,9 @@ func (b *Builder) classNameMap() map[string]string {
 		return b.styleClassNameMap(label)
 	}
 	nav := button.Variants(b.buttonVariant, "")
+	if b.buttonStyle != "" {
+		nav = button.StyleVariants(b.buttonStyle, b.buttonVariant, "")
+	}
 	captionLabel := "text-sm"
 	if !label {
 		captionLabel = "flex h-8 items-center gap-1 rounded-md pr-1 pl-2 text-sm [&>svg]:size-3.5 [&>svg]:text-muted-foreground"
@@ -456,6 +508,9 @@ func (b *Builder) Element() *h.Element {
 	cfg := b.cfg
 	cfg.ClassNames = b.classNameMap()
 	cfg.DayButtonClass = button.Variants(button.VariantGhost, button.SizeIcon, lib.Cn(dayButtonClass, "rdp-day", cfg.ClassNames["day_button"]))
+	if b.buttonStyle != "" {
+		cfg.DayButtonClass = button.StyleVariants(b.buttonStyle, button.VariantGhost, button.SizeIcon, lib.Cn(dayButtonClass, "rdp-day", cfg.ClassNames["day_button"]))
+	}
 	if b.st != "" {
 		cfg.DayButtonClass = button.StyleVariants(b.st, button.VariantGhost, button.SizeIcon, stDayButton.Class(b.st, "rdp-day", cfg.ClassNames["day_button"]))
 	}
