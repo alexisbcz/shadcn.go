@@ -2,6 +2,10 @@
 // survives closing the drawer); the -/+ buttons change it by 10 within
 // [200, 400] and are disabled at the bounds.
 import { define } from "./core.js"
+import { registerFn } from "./chart.js"
+
+// drawer-rtl's tickFormatter: (value) => value.toLocaleString(locale).
+registerFn("localeString", (args) => (v) => (typeof v === "number" ? v.toLocaleString(args[0]) : v))
 
 const goals = new Map() // drawer content id -> goal
 
@@ -14,7 +18,8 @@ define("example-drawer-demo", {
     const [dec, inc] = buttons
     const render = () => {
       const goal = goals.get(content.id) ?? 350
-      value.textContent = String(goal)
+      // drawer-rtl formats the goal with the language's locale.
+      value.textContent = value.dataset.locale ? goal.toLocaleString(value.dataset.locale) : String(goal)
       dec.disabled = goal <= 200
       inc.disabled = goal >= 400
     }
@@ -138,6 +143,7 @@ function renderBars(groups, rects, t, barStyle) {
 define("example-drawer-demo-chart", {
   selector: '[data-slot="drawer-content"] .recharts-responsive-container',
   mount(container) {
+    if (container.closest('[data-slot="chart"]')) return // a chart package chart (drawer-rtl)
     const wrapper = container.querySelector(".recharts-wrapper")
     const groups = [...container.querySelectorAll(".recharts-inactive-bar")]
     if (!wrapper || groups.length !== DATA.length) return

@@ -1,9 +1,11 @@
 package drawer
 
 import (
+	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
 	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
+	"shadcn.go/components/ui/chart"
 	"shadcn.go/components/ui/drawer"
 	"shadcn.go/examples/registry"
 	h "shadcn.go/libhtml"
@@ -21,6 +23,7 @@ func init() {
 		nova("drawer-demo", NovaDemo),
 		nova("drawer-scrollable-content", NovaScrollableContent),
 		nova("drawer-sides", NovaSides),
+		nova("drawer-rtl", NovaRTL),
 	)
 }
 
@@ -63,4 +66,56 @@ func NovaSides() h.Node {
 		))
 	}
 	return h.Div(row...)
+}
+
+// NovaRTL is drawer-rtl in its default language, Arabic: drawer-demo
+// translated, with an x axis (reversed) and the docs' bar color, rendered
+// by the chart package in a ChartContainer styled like a bare recharts
+// ResponsiveContainer.
+func NovaRTL() h.Node {
+	rows := make([]chart.Row, len(goals))
+	for i, g := range goals {
+		rows[i] = chart.Row{"goal": g}
+	}
+	return drawer.Drawer(
+		drawer.Trigger(lib.AsChild, button.Button(button.VariantOutline, "فتح الدرج")),
+		drawer.Content(h.Dir("rtl"), h.Data("lang", "ar"),
+			h.Div(h.Class("mx-auto w-full max-w-sm"),
+				drawer.Header(
+					drawer.Title("نقل الهدف"),
+					drawer.Description("حدد هدف نشاطك اليومي."),
+				),
+				h.Div(h.Class("p-4 pb-0"),
+					h.Div(h.Class("flex items-center justify-center space-x-2"),
+						button.Button(button.VariantOutline, button.SizeIcon, h.Class("h-8 w-8 shrink-0 rounded-full"),
+							lucide.Minus(),
+							h.Span(h.Class("sr-only"), "تقليل"),
+						),
+						h.Div(h.Class("flex-1 text-center"),
+							h.Div(h.Class("text-7xl font-bold tracking-tighter"), h.Data("locale", "ar-EG"), "٣٥٠"),
+							h.Div(h.Class("text-[0.70rem] text-muted-foreground uppercase"), "سعرات حرارية/يوم"),
+						),
+						button.Button(button.VariantOutline, button.SizeIcon, h.Class("h-8 w-8 shrink-0 rounded-full"),
+							lucide.Plus(),
+							h.Span(h.Class("sr-only"), "زيادة"),
+						),
+					),
+					h.Div(h.Class("mt-3 h-[120px]"),
+						chart.Container(nil,
+							h.Class("aspect-auto h-full w-full text-sm [&_.recharts-cartesian-axis-tick_text]:fill-[#666]"),
+							chart.BarChart(chart.Data(rows),
+								chart.XAxis(chart.DataKey("goal"), chart.TickLine(false), chart.TickMargin(10), chart.AxisLine(false),
+									chart.TickFormatter(chart.Fn{Name: "localeString", Args: []any{"ar-EG"}}), chart.P("reversed", true)),
+								chart.Bar(chart.DataKey("goal"), chart.P("style", map[string]any{"fill": "var(--chart-2)"})),
+							),
+						),
+					),
+				),
+				drawer.Footer(
+					button.Button("إرسال"),
+					drawer.Close(lib.AsChild, button.Button(button.VariantOutline, "إلغاء")),
+				),
+			),
+		),
+	)
 }
