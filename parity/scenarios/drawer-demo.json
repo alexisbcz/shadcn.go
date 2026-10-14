@@ -1,0 +1,413 @@
+[
+  {
+    "label": "open",
+    "reset": true,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-trigger]"
+      }
+    ]
+  },
+  {
+    "label": "chart-settle",
+    "frames": false,
+    "steps": [
+      {
+        "do": "wait",
+        "ms": 700
+      }
+    ]
+  },
+  {
+    "label": "increase",
+    "frames": false,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-content] [data-size=icon]",
+        "nth": 1
+      },
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-content] [data-size=icon]",
+        "nth": 1
+      },
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-content] [data-size=icon]",
+        "nth": 1
+      },
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-content] [data-size=icon]",
+        "nth": 1
+      },
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-content] [data-size=icon]",
+        "nth": 1
+      }
+    ]
+  },
+  {
+    "label": "decrease",
+    "frames": false,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-content] [data-size=icon]",
+        "nth": 0
+      },
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-content] [data-size=icon]",
+        "nth": 0
+      }
+    ]
+  },
+  {
+    "label": "tab-1",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "tab-2",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "tab-3",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "tab-4",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "tab-5",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "shift-tab",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Shift+Tab"
+      }
+    ]
+  },
+  {
+    "label": "close-button",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-close]"
+      }
+    ]
+  },
+  {
+    "label": "reopen",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-trigger]"
+      }
+    ]
+  },
+  {
+    "label": "settle-2",
+    "frames": false,
+    "steps": [
+      {
+        "do": "wait",
+        "ms": 700
+      }
+    ]
+  },
+  {
+    "label": "drag-up",
+    "steps": [
+      {
+        "do": "drag",
+        "target": "[data-slot=drawer-title]",
+        "dx": 0,
+        "dy": -120
+      }
+    ]
+  },
+  {
+    "label": "drag-slow-reset",
+    "steps": [
+      {
+        "do": "mouse",
+        "x": 512,
+        "y": 520
+      },
+      {
+        "do": "down"
+      },
+      {
+        "do": "mouse",
+        "x": 512,
+        "y": 560,
+        "steps": 4
+      },
+      {
+        "do": "wait",
+        "ms": 1200
+      },
+      {
+        "do": "up"
+      }
+    ]
+  },
+  {
+    "label": "drag-close",
+    "steps": [
+      {
+        "do": "drag",
+        "target": "[data-slot=drawer-title]",
+        "dx": 0,
+        "dy": 300
+      }
+    ]
+  },
+  {
+    "label": "reopen-2",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-trigger]"
+      }
+    ]
+  },
+  {
+    "label": "settle-3",
+    "frames": false,
+    "steps": [
+      {
+        "do": "wait",
+        "ms": 700
+      }
+    ]
+  },
+  {
+    "label": "outside-click",
+    "steps": [
+      {
+        "do": "mouse",
+        "x": 500,
+        "y": 40
+      },
+      {
+        "do": "down"
+      },
+      {
+        "do": "up"
+      }
+    ]
+  },
+  {
+    "label": "early-drag",
+    "reset": true,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-trigger]"
+      },
+      {
+        "do": "drag",
+        "target": "[data-slot=drawer-title]",
+        "dx": 0,
+        "dy": 300
+      }
+    ]
+  },
+  {
+    "label": "early-settle",
+    "frames": false,
+    "steps": [
+      {
+        "do": "wait",
+        "ms": 700
+      }
+    ]
+  },
+  {
+    "label": "drag-sideways",
+    "steps": [
+      {
+        "do": "drag",
+        "target": "[data-slot=drawer-title]",
+        "dx": 250,
+        "dy": 0
+      }
+    ]
+  },
+  {
+    "label": "kbd-tab-minus",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "kbd-enter-minus",
+    "frames": false,
+    "steps": [
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  },
+  {
+    "label": "kbd-space-minus",
+    "frames": false,
+    "steps": [
+      {
+        "do": "press",
+        "key": " "
+      }
+    ]
+  },
+  {
+    "label": "kbd-tab-plus",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "kbd-enter-plus",
+    "frames": false,
+    "steps": [
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  },
+  {
+    "label": "drag-from-submit",
+    "steps": [
+      {
+        "do": "drag",
+        "target": "[data-slot=drawer-content] [data-slot=button]:not([data-size=icon])",
+        "dx": 0,
+        "dy": 300
+      }
+    ]
+  },
+  {
+    "label": "reopen-3",
+    "frames": false,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-trigger]"
+      },
+      {
+        "do": "wait",
+        "ms": 700
+      }
+    ]
+  },
+  {
+    "label": "drag-onto-overlay",
+    "steps": [
+      {
+        "do": "hover",
+        "target": "[data-slot=drawer-title]"
+      },
+      {
+        "do": "down"
+      },
+      {
+        "do": "mouse",
+        "x": 512,
+        "y": 60,
+        "steps": 6
+      },
+      {
+        "do": "up"
+      }
+    ]
+  },
+  {
+    "label": "drag-contextmenu",
+    "steps": [
+      {
+        "do": "hover",
+        "target": "[data-slot=drawer-title]"
+      },
+      {
+        "do": "down"
+      },
+      {
+        "do": "mouse",
+        "x": 512,
+        "y": 600,
+        "steps": 4
+      },
+      {
+        "do": "down",
+        "button": "right"
+      },
+      {
+        "do": "up",
+        "button": "right"
+      },
+      {
+        "do": "up"
+      }
+    ]
+  },
+  {
+    "label": "after-contextmenu",
+    "frames": false,
+    "steps": [
+      {
+        "do": "wait",
+        "ms": 700
+      }
+    ]
+  },
+  {
+    "label": "escape-close",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Escape"
+      }
+    ]
+  }
+]

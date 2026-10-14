@@ -1,0 +1,124 @@
+[
+ {
+  "label": "form-data-initial",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form', new URLSearchParams(new FormData(document.getElementById('switch-form'))).toString())"
+   },
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form-2', new URLSearchParams(new FormData(document.querySelectorAll('form')[1])).toString())"
+   }
+  ]
+ },
+ {
+  "label": "click-remote-off",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=switch]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "click-remote-off-label-on",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "form-data",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form', new URLSearchParams(new FormData(document.getElementById('switch-form'))).toString())"
+   }
+  ]
+ },
+ {
+  "label": "enter-remote-on",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=switch]",
+    "nth": 0
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "space-remote-off",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "reset-inputs-only",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=reset]"
+   }
+  ]
+ },
+ {
+  "label": "form-data-after-reset",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form', new URLSearchParams(new FormData(document.getElementById('switch-form'))).toString())"
+   }
+  ]
+ },
+ {
+  "label": "click-locked-ignored",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=switch]",
+    "nth": 2,
+    "force": true
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=label]",
+    "nth": 2,
+    "force": true
+   },
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form-2', new URLSearchParams(new FormData(document.querySelectorAll('form')[1])).toString())"
+   }
+  ]
+ },
+ {
+  "label": "tab-order",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ }
+]

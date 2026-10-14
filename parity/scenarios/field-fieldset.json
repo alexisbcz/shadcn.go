@@ -1,0 +1,65 @@
+[
+ {
+  "label": "click-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-label]"
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "123 Main St"
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "type-city",
+  "steps": [
+   {
+    "do": "type",
+    "text": "Paris"
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "type-zip",
+  "steps": [
+   {
+    "do": "type",
+    "text": "75001"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ }
+]

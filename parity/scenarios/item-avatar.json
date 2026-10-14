@@ -1,0 +1,50 @@
+[
+ {
+  "label": "tab-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-invite",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "hover-item",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=item]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "click-invite",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]",
+    "nth": 1
+   }
+  ]
+ }
+]

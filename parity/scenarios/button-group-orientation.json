@@ -1,0 +1,68 @@
+[
+ {
+  "label": "tab-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-1",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "hover-2",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "press-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "click-last",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]",
+    "nth": 1
+   }
+  ]
+ }
+]

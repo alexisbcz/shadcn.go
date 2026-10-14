@@ -1,0 +1,162 @@
+[
+ {
+  "label": "tab-thumb",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "arrow-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "arrow-up",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "arrow-left",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "arrow-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "shift-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "page-up",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "page-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageDown"
+   }
+  ]
+ },
+ {
+  "label": "home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "tab-second",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "arrow-left-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "push-past",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "drag-thumb",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[data-slot=slider-thumb]",
+    "nth": 0,
+    "dx": 80,
+    "dy": 0
+   }
+  ]
+ },
+ {
+  "label": "click-track",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=slider-track]"
+   }
+  ]
+ },
+ {
+  "label": "drag-second",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[data-slot=slider-thumb]",
+    "nth": 1,
+    "dx": -120,
+    "dy": 0
+   }
+  ]
+ },
+ {
+  "label": "hover-thumb",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=slider-thumb]",
+    "nth": 0
+   }
+  ]
+ }
+]

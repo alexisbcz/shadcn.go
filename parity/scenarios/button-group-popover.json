@@ -1,0 +1,104 @@
+[
+ {
+  "label": "open-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "Fix the flaky test"
+   }
+  ]
+ },
+ {
+  "label": "tab-out",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "reopen",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "click-trigger-closes",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "open-keyboard",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "escape-key",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "open-space",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "outside-click",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 20,
+    "y": 20
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "hover-copilot",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]",
+    "nth": 0,
+    "force": true
+   }
+  ]
+ }
+]

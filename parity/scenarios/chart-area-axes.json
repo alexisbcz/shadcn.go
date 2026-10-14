@@ -1,0 +1,162 @@
+[
+ {
+  "label": "pointer-enter",
+  "reset": true,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "mouse",
+    "x": 471,
+    "y": 204,
+    "steps": 4
+   }
+  ]
+ },
+ {
+  "label": "pointer-move",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 581,
+    "y": 204,
+    "steps": 4
+   }
+  ]
+ },
+ {
+  "label": "pointer-move-last",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 617,
+    "y": 204,
+    "steps": 2
+   }
+  ]
+ },
+ {
+  "label": "pointer-leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   }
+  ]
+ },
+ {
+  "label": "keyboard-focus",
+  "reset": true,
+  "steps": [
+   {
+    "do": "focus",
+    "target": ".recharts-surface"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-arrow-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-arrow-left",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-arrow-left-edge",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-enter-off",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-enter-on",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "escape-dismiss",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-after-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "blur",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.blur()"
+   }
+  ]
+ },
+ {
+  "label": "pointer-over-tooltip-position",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 617,
+    "y": 204,
+    "steps": 3
+   },
+   {
+    "do": "mouse",
+    "x": 471,
+    "y": 204,
+    "steps": 3
+   }
+  ]
+ }
+]

@@ -1,0 +1,223 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-modal",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "tab-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-loop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-loop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "focus-outside-trapped",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.querySelectorAll('[data-slot=popover-trigger]')[1].focus()"
+   }
+  ]
+ },
+ {
+  "label": "wheel-locked",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "scroll",
+    "y": 300
+   }
+  ]
+ },
+ {
+  "label": "outside-right-click",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(1000, 700); const o = { bubbles: true, cancelable: true, composed: true, clientX: 1000, clientY: 700, button: 2, buttons: 2, ctrlKey: false, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('contextmenu', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "outside-right-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "reopen",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "outside-click",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(1000, 700); const o = { bubbles: true, cancelable: true, composed: true, clientX: 1000, clientY: 700, button: 0, buttons: 1, ctrlKey: false, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('click', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "outside-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "reopen-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "close-button",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-content] [data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "close-button-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-enter",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=popover-trigger]",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "second-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "second-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "second-outside",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(1000, 700); const o = { bubbles: true, cancelable: true, composed: true, clientX: 1000, clientY: 700, button: 0, buttons: 1, ctrlKey: false, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('click', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "second-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ }
+]

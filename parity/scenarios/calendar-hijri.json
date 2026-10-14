@@ -1,0 +1,295 @@
+[
+ {
+  "label": "hover-day",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 10
+   }
+  ]
+ },
+ {
+  "label": "click-day",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 10
+   }
+  ]
+ },
+ {
+  "label": "click-same-day-deselects",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 10
+   }
+  ]
+ },
+ {
+  "label": "click-outside-day",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "focus-day",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 15
+   }
+  ]
+ },
+ {
+  "label": "arrow-right-rtl",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "arrow-left-rtl",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "key-arrowdown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "key-arrowup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "key-home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "key-end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "key-pagedown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageDown"
+   }
+  ]
+ },
+ {
+  "label": "key-pageup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-arrowright",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-arrowleft",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-arrowdown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-arrowup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "arrows-across-month",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "enter-selects",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "tab-out",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "next-month",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_next"
+   }
+  ]
+ },
+ {
+  "label": "next-month-esfand",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_next"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_next"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_next"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_next"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_next"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_next"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_next"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_next"
+   }
+  ]
+ },
+ {
+  "label": "previous-month",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_previous"
+   }
+  ]
+ },
+ {
+  "label": "previous-hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=calendar] .rdp-button_previous"
+   }
+  ]
+ }
+]

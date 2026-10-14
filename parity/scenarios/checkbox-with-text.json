@@ -1,0 +1,52 @@
+[
+ {
+  "label": "click-check",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]"
+   }
+  ]
+ },
+ {
+  "label": "click-label-unchecks",
+  "steps": [
+   {
+    "do": "click",
+    "target": "label"
+   }
+  ]
+ },
+ {
+  "label": "space-checks",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=checkbox]"
+   },
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "enter-ignored",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "mouse-away",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   }
+  ]
+ }
+]

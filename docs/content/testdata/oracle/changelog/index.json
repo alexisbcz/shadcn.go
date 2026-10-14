@@ -1,0 +1,9 @@
+{
+ "path": "changelog/index.mdx",
+ "frontmatter": {
+  "title": "Changelog",
+  "description": "Latest updates and announcements."
+ },
+ "toc": [],
+ "hast": "\n<p>Latest updates and announcements for shadcn/ui.</p>"
+}

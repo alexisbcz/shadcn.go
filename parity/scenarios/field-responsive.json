@@ -1,0 +1,85 @@
+[
+ {
+  "label": "click-name",
+  "steps": [
+   {
+    "do": "click",
+    "target": "#name"
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "Evil Rabbit"
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "type-message",
+  "steps": [
+   {
+    "do": "type",
+    "text": "Hello there, this is a message that wraps over several lines in the textarea."
+   }
+  ]
+ },
+ {
+  "label": "tab-submit",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-cancel",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-submit",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "hover-cancel",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "click-cancel",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]",
+    "nth": 1
+   }
+  ]
+ }
+]

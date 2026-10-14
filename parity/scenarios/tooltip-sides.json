@@ -1,0 +1,194 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "reset": true,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1,
+    "y": 760
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement && document.activeElement.blur()"
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "tab-0",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-3",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-4",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-5",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-6",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-7",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-right",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=tooltip-trigger]",
+    "nth": 1
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "hover-bottom",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=tooltip-trigger]",
+    "nth": 2
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "hover-bottom-2",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=tooltip-trigger]",
+    "nth": 2,
+    "force": true
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1,
+    "y": 760
+   },
+   {
+    "do": "mouse",
+    "x": 3,
+    "y": 758
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "leave-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ }
+]

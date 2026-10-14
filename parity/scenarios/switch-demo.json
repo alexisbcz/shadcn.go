@@ -1,0 +1,74 @@
+[
+ {
+  "label": "click-on",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=switch]"
+   }
+  ]
+ },
+ {
+  "label": "click-off",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=switch]"
+   }
+  ]
+ },
+ {
+  "label": "click-label-on",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]"
+   }
+  ]
+ },
+ {
+  "label": "space-off",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=switch]"
+   },
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "enter-on",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "mouse-away",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   }
+  ]
+ },
+ {
+  "label": "keyboard-focus",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ }
+]

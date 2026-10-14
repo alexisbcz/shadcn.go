@@ -1,0 +1,56 @@
+[
+ {
+  "label": "click-input",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input]"
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "shadcn"
+   }
+  ]
+ },
+ {
+  "label": "tab-to-button",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-button",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "click-button",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ }
+]

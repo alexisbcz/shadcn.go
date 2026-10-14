@@ -1,0 +1,67 @@
+{
+ "path": "components/radix/kbd.mdx",
+ "frontmatter": {
+  "title": "Kbd",
+  "description": "Used to display textual user input from keyboard.",
+  "base": "radix",
+  "component": true
+ },
+ "toc": [
+  {
+   "depth": 2,
+   "url": "#installation",
+   "title": "Installation"
+  },
+  {
+   "depth": 2,
+   "url": "#usage",
+   "title": "Usage"
+  },
+  {
+   "depth": 2,
+   "url": "#composition",
+   "title": "Composition"
+  },
+  {
+   "depth": 2,
+   "url": "#group",
+   "title": "Group"
+  },
+  {
+   "depth": 2,
+   "url": "#button",
+   "title": "Button"
+  },
+  {
+   "depth": 2,
+   "url": "#tooltip",
+   "title": "Tooltip"
+  },
+  {
+   "depth": 2,
+   "url": "#input-group",
+   "title": "Input Group"
+  },
+  {
+   "depth": 2,
+   "url": "#rtl",
+   "title": "RTL"
+  },
+  {
+   "depth": 2,
+   "url": "#api-reference",
+   "title": "API Reference"
+  },
+  {
+   "depth": 3,
+   "url": "#kbd",
+   "title": "Kbd"
+  },
+  {
+   "depth": 3,
+   "url": "#kbdgroup",
+   "title": "KbdGroup"
+  }
+ ],
+ "hast": "\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;kbd-demo&#x22;}]\"></mdx-jsx>\n<h2 id=\"installation\">Installation</h2>\n<mdx-jsx data-name=\"CodeTabs\" data-flow=\"true\" data-attrs=\"[]\"><mdx-jsx data-name=\"TabsList\" data-flow=\"true\" data-attrs=\"[]\"><mdx-jsx data-name=\"TabsTrigger\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;cli&#x22;}]\">Command</mdx-jsx><mdx-jsx data-name=\"TabsTrigger\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;manual&#x22;}]\">Manual</mdx-jsx></mdx-jsx><mdx-jsx data-name=\"TabsContent\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;cli&#x22;}]\"><figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"bash\" data-theme=\"vesper github-light-default\"><code __raw__=\"npx shadcn@latest add kbd\" __npm__=\"npx shadcn@latest add kbd\" __yarn__=\"yarn dlx shadcn@latest add kbd\" __pnpm__=\"pnpm dlx shadcn@latest add kbd\" __bun__=\"bunx --bun shadcn@latest add kbd\" data-language=\"bash\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#FFC799;--shiki-light:#953800\">npx</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> shadcn@latest</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> add</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> kbd</span></span></code></pre></figure></mdx-jsx><mdx-jsx data-name=\"TabsContent\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;manual&#x22;}]\"><mdx-jsx data-name=\"Steps\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;className&#x22;,&#x22;value&#x22;:&#x22;mb-0 pt-2&#x22;}]\"><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Copy and paste the following code into your project.</mdx-jsx><mdx-jsx data-name=\"ComponentSource\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;kbd&#x22;},{&#x22;name&#x22;:&#x22;title&#x22;,&#x22;value&#x22;:&#x22;components/ui/kbd.tsx&#x22;},{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;}]\"></mdx-jsx><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Update the import paths to match your project setup.</mdx-jsx></mdx-jsx></mdx-jsx></mdx-jsx>\n<h2 id=\"usage\">Usage</h2>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"import { Kbd } from &#x22;@/components/ui/kbd&#x22;\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">import</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\"> { Kbd } </span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">from</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> \"@/components/ui/kbd\"</span></span></code></pre></figure>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"<Kbd>Ctrl</Kbd>\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Kbd</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">Ctrl</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;/</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Kbd</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span></code></pre></figure>\n<h2 id=\"composition\">Composition</h2>\n<p>Use the following composition to build <code>Kbd</code> and <code>KbdGroup</code>:</p>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"text\" data-theme=\"vesper github-light-default\"><code __raw__=\"Kbd\nKbdGroup\n├── Kbd\n└── Kbd\" data-language=\"text\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span>Kbd</span></span>\n<span data-line=\"\"><span>KbdGroup</span></span>\n<span data-line=\"\"><span>├── Kbd</span></span>\n<span data-line=\"\"><span>└── Kbd</span></span></code></pre></figure>\n<h2 id=\"group\">Group</h2>\n<p>Use the <code>KbdGroup</code> component to group keyboard keys together.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;kbd-group&#x22;}]\"></mdx-jsx>\n<h2 id=\"button\">Button</h2>\n<p>Use the <code>Kbd</code> component inside a <code>Button</code> component to display a keyboard key inside a button.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;kbd-button&#x22;}]\"></mdx-jsx>\n<h2 id=\"tooltip\">Tooltip</h2>\n<p>You can use the <code>Kbd</code> component inside a <code>Tooltip</code> component to display a tooltip with a keyboard key.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;kbd-tooltip&#x22;}]\"></mdx-jsx>\n<h2 id=\"input-group\">Input Group</h2>\n<p>You can use the <code>Kbd</code> component inside a <code>InputGroupAddon</code> component to display a keyboard key inside an input group.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;kbd-input-group&#x22;}]\"></mdx-jsx>\n<h2 id=\"rtl\">RTL</h2>\n<p>To enable RTL support in shadcn/ui, see the <a href=\"/docs/rtl\">RTL configuration guide</a>.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;kbd-rtl&#x22;},{&#x22;name&#x22;:&#x22;direction&#x22;,&#x22;value&#x22;:&#x22;rtl&#x22;}]\"></mdx-jsx>\n<h2 id=\"api-reference\">API Reference</h2>\n<h3 id=\"kbd\">Kbd</h3>\n<p>Use the <code>Kbd</code> component to display a keyboard key.</p>\n<table>\n<thead>\n<tr>\n<th>Prop</th>\n<th>Type</th>\n<th>Default</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>className</code></td>\n<td><code>string</code></td>\n<td>``</td>\n</tr>\n</tbody>\n</table>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"<Kbd>Ctrl</Kbd>\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Kbd</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">Ctrl</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;/</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Kbd</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span></code></pre></figure>\n<h3 id=\"kbdgroup\">KbdGroup</h3>\n<p>Use the <code>KbdGroup</code> component to group <code>Kbd</code> components together.</p>\n<table>\n<thead>\n<tr>\n<th>Prop</th>\n<th>Type</th>\n<th>Default</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>className</code></td>\n<td><code>string</code></td>\n<td>``</td>\n</tr>\n</tbody>\n</table>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"<KbdGroup>\n  <Kbd>Ctrl</Kbd>\n  <Kbd>B</Kbd>\n</KbdGroup>\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">KbdGroup</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">  &#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Kbd</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">Ctrl</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;/</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Kbd</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">  &#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Kbd</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">B</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;/</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Kbd</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;/</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">KbdGroup</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span></code></pre></figure>"
+}

@@ -1,0 +1,205 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "reset": true,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1,
+    "y": 760
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement && document.activeElement.blur()"
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "tab-0",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "tab-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "tab-3",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "tab-4",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "blur",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement && document.activeElement.blur()"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "blur-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "hover-right",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=hover-card-trigger]",
+    "nth": 1
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "to-content",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=hover-card-content] p",
+    "force": true
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "content-link-hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=hover-card-content] a",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1,
+    "y": 760
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "leave-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "hover-link",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=hover-card-trigger]",
+    "nth": 4
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ }
+]

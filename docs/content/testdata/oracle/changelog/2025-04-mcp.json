@@ -1,0 +1,10 @@
+{
+ "path": "changelog/2025-04-mcp.mdx",
+ "frontmatter": {
+  "title": "April 2025 - MCP",
+  "description": "Zero-config MCP support for shadcn/ui registry.",
+  "date": "2025-04-30T00:00:00.000Z"
+ },
+ "toc": [],
+ "hast": "\n<p>We're working on zero-config MCP support for shadcn/ui registry. One command <code>npx shadcn registry:mcp</code> to make any registry mcp-compatible.</p>\n<mdx-jsx data-name=\"Image\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;src&#x22;,&#x22;value&#x22;:&#x22;/images/mcp.jpeg&#x22;},{&#x22;name&#x22;:&#x22;width&#x22;,&#x22;value&#x22;:&#x22;1432&#x22;},{&#x22;name&#x22;:&#x22;height&#x22;,&#x22;value&#x22;:&#x22;1050&#x22;},{&#x22;name&#x22;:&#x22;alt&#x22;,&#x22;value&#x22;:&#x22;MCP Server&#x22;},{&#x22;name&#x22;:&#x22;className&#x22;,&#x22;value&#x22;:&#x22;mt-6 w-full overflow-hidden rounded-2xl border&#x22;}]\"></mdx-jsx>\n<p>Learn more in the <a href=\"https://x.com/shadcn/status/1917597228513853603\">thread here</a>.</p>"
+}

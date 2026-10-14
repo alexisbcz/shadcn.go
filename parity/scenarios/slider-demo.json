@@ -1,0 +1,230 @@
+[
+ {
+  "label": "focus-thumb",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "focus",
+    "target": "[role=slider]"
+   }
+  ]
+ },
+ {
+  "label": "key-ArrowRight",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "key-ArrowUp",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "key-ArrowLeft",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "key-ArrowDown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "key-Shift-ArrowRight",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "key-Shift-ArrowUp",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "key-Shift-ArrowLeft",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "key-Shift-ArrowDown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "key-PageUp",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "key-PageDown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageDown"
+   }
+  ]
+ },
+ {
+  "label": "key-Home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "key-ArrowLeft-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "key-End",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "key-ArrowRight-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "key-Enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "key-Space",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "click-track-center",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=slider-track]"
+   }
+  ]
+ },
+ {
+  "label": "drag-thumb-left",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[role=slider]",
+    "dx": -120,
+    "steps": 6
+   }
+  ]
+ },
+ {
+  "label": "drag-track-right",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[data-slot=slider-track]",
+    "dx": 90,
+    "steps": 5
+   }
+  ]
+ },
+ {
+  "label": "drag-past-end",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[role=slider]",
+    "dx": 900,
+    "steps": 4
+   }
+  ]
+ },
+ {
+  "label": "blur-hover-thumb",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.blur()"
+   },
+   {
+    "do": "hover",
+    "target": "[role=slider]"
+   }
+  ]
+ },
+ {
+  "label": "mouse-away",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   }
+  ]
+ }
+]

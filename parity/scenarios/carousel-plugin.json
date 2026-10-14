@@ -1,0 +1,135 @@
+[
+ {
+  "label": "autoplay-advances",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "wait",
+    "ms": 2500
+   },
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 224
+   },
+   {
+    "do": "wait",
+    "ms": 1500
+   }
+  ]
+ },
+ {
+  "label": "hover-keeps-stopped",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 224
+   },
+   {
+    "do": "wait",
+    "ms": 2600
+   }
+  ]
+ },
+ {
+  "label": "leave-after-stop-stays",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "wait",
+    "ms": 2600
+   }
+  ]
+ },
+ {
+  "label": "next-click",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=carousel-next]"
+   },
+   {
+    "do": "wait",
+    "ms": 2000
+   }
+  ]
+ },
+ {
+  "label": "arrow-left",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 2000
+   }
+  ]
+ },
+ {
+  "label": "reset-then-drag-stops-for-good",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   },
+   {
+    "do": "mouse",
+    "x": 600,
+    "y": 224
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 380,
+    "y": 224,
+    "steps": 12
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "up"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "wait",
+    "ms": 3000
+   }
+  ]
+ }
+]

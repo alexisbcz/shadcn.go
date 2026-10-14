@@ -1,0 +1,11 @@
+[
+ { "label": "click-close-animated", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=collapsible-trigger]" }] },
+ { "label": "click-open-animated", "steps": [{ "do": "click", "target": "[data-slot=collapsible-trigger]" }] },
+ { "label": "reopen-during-exit", "steps": [
+   { "do": "click", "target": "[data-slot=collapsible-trigger]" },
+   { "do": "click", "target": "[data-slot=collapsible-trigger]" }
+ ] },
+ { "label": "enter-close", "steps": [{ "do": "press", "key": "Enter", "target": "[data-slot=collapsible-trigger]" }] },
+ { "label": "click-disabled", "steps": [{ "do": "click", "target": "[data-slot=collapsible-trigger]", "nth": 1, "force": true }] },
+ { "label": "tab-skips-disabled", "reset": true, "steps": [{ "do": "mouse", "x": 1000, "y": 700 }, { "do": "press", "key": "Tab" }, { "do": "press", "key": "Tab" }] }
+]

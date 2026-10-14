@@ -1,0 +1,10 @@
+{
+ "path": "changelog/2026-07-toast.mdx",
+ "frontmatter": {
+  "title": "July 2026 - Toast",
+  "description": "A new Toast component built on Base UI primitives.",
+  "date": "2026-07-23T00:00:00.000Z"
+ },
+ "toc": [],
+ "hast": "\n<p>A new <a href=\"/docs/components/base/toast\">Toast</a> component is now available for Base\nUI projects. It supports actions, status types, promises, stacking, and swipe\ndismissal.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;base-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;toast-demo&#x22;}]\"></mdx-jsx>\n<p>Add it to your project with the CLI:</p>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"bash\" data-theme=\"vesper github-light-default\"><code __raw__=\"npx shadcn@latest add toast\" __npm__=\"npx shadcn@latest add toast\" __yarn__=\"yarn dlx shadcn@latest add toast\" __pnpm__=\"pnpm dlx shadcn@latest add toast\" __bun__=\"bunx --bun shadcn@latest add toast\" data-language=\"bash\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#FFC799;--shiki-light:#953800\">npx</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> shadcn@latest</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> add</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> toast</span></span></code></pre></figure>"
+}

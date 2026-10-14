@@ -1,0 +1,10 @@
+[
+ { "label": "click-open", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=collapsible-trigger]" }] },
+ { "label": "click-close", "steps": [{ "do": "click", "target": "[data-slot=collapsible-trigger]" }] },
+ { "label": "enter-open", "steps": [{ "do": "press", "key": "Enter", "target": "[data-slot=collapsible-trigger]" }] },
+ { "label": "space-close", "steps": [{ "do": "press", "key": "Space", "target": "[data-slot=collapsible-trigger]" }] },
+ { "label": "tab-focus", "reset": true, "steps": [{ "do": "mouse", "x": 1000, "y": 700 }, { "do": "press", "key": "Tab" }] },
+ { "label": "space-open", "steps": [{ "do": "press", "key": "Space" }] },
+ { "label": "hover-trigger", "steps": [{ "do": "hover", "target": "[data-slot=collapsible-trigger]" }] },
+ { "label": "mouse-away", "steps": [{ "do": "mouse", "x": 1000, "y": 700 }] }
+]

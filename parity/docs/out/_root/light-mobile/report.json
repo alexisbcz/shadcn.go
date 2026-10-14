@@ -1,0 +1,162 @@
+{
+  "path": "/",
+  "group": "app",
+  "theme": "light",
+  "viewport": "mobile",
+  "ref": "http://localhost:4000",
+  "target": "http://localhost:4000",
+  "pass": false,
+  "captures": [
+    {
+      "label": "initial",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 355
+    },
+    {
+      "label": "theme-toggle",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          0,
+          0
+        ]
+      },
+      "frames": [],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 322,
+      "stepsMs": 361
+    },
+    {
+      "label": "theme-shortcut-d",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          0,
+          0
+        ]
+      },
+      "frames": [],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 774,
+      "stepsMs": 1898
+    },
+    {
+      "label": "mobile-menu-open",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          14,
+          14
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 1669,
+      "stepsMs": 2493
+    },
+    {
+      "label": "mobile-menu-close",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          5,
+          5
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 25,
+          "pixels": 0
+        },
+        {
+          "t": 50,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 2587,
+      "stepsMs": 1459
+    }
+  ],
+  "errors": {
+    "run": "page.goto: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:4000/\", waiting until \"load\"\u001b[22m\n\n    at Side.open (/Users/alex/Work/shadcn.go/parity/docs/run.mjs:527:33)\n    at async runJob (/Users/alex/Work/shadcn.go/parity/docs/run.mjs:860:11)\n    at async file:///Users/alex/Work/shadcn.go/parity/docs/run.mjs:964:13\n    at async main (/Users/alex/Work/shadcn.go/parity/docs/run.mjs:959:3)",
+    "ref": [],
+    "target": []
+  },
+  "openMs": 36178
+}

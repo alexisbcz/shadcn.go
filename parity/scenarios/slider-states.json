@@ -1,0 +1,529 @@
+[
+ {
+  "label": "range-focus-min",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[role=slider]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "range-pageup-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "range-pageup-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "range-pageup-3",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "range-pageup-4",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "range-min-steps-rejects",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "range-end-moves-last",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "range-home-moves-first",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "three-focus-first",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[role=slider]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "three-pageup-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "three-pageup-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "three-pageup-3",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "three-cross-moves-focus",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "three-arrowdown-after-cross",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "three-home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "three-end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "fraction-focus",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[role=slider]",
+    "nth": 5
+   }
+  ]
+ },
+ {
+  "label": "fraction-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "fraction-shift-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "fraction-end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "fraction-left",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "fraction-home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "fraction-up",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "coarse-focus",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[role=slider]",
+    "nth": 6
+   }
+  ]
+ },
+ {
+  "label": "coarse-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "coarse-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "coarse-pagedown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageDown"
+   }
+  ]
+ },
+ {
+  "label": "inverted-focus",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[role=slider]",
+    "nth": 7
+   }
+  ]
+ },
+ {
+  "label": "inverted-right-decreases",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "inverted-left-increases",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "inverted-up-increases",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "inverted-down-decreases",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "inverted-pageup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "rtl-focus",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[role=slider]",
+    "nth": 8
+   }
+  ]
+ },
+ {
+  "label": "rtl-right-decreases",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "rtl-left-increases",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "rtl-shift-left",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "disabled-keys-ignored",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "for (const key of ['ArrowRight','Home','End','PageUp']) document.querySelectorAll('[role=slider]')[9].dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "disabled-drag-ignored",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[data-slot=slider-track]",
+    "nth": 6,
+    "dx": 60,
+    "steps": 3
+   }
+  ]
+ },
+ {
+  "label": "tab-skips-disabled",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "nodefault-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "nodefault-end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "nodefault-tab-skips-hidden",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "form-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "form-data",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form', new URLSearchParams(new FormData(document.querySelector('form'))).toString())"
+   }
+  ]
+ },
+ {
+  "label": "form-tab-max",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "form-max-left",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "form-data-2",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form', new URLSearchParams(new FormData(document.querySelector('form'))).toString())"
+   }
+  ]
+ },
+ {
+  "label": "click-track-closest-thumb",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=slider-track]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "click-coarse-track",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=slider-track]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "click-inverted-track",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=slider-track]",
+    "nth": 4
+   }
+  ]
+ },
+ {
+  "label": "drag-rtl-thumb",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[role=slider]",
+    "nth": 8,
+    "dx": -70,
+    "steps": 5
+   }
+  ]
+ },
+ {
+  "label": "drag-fraction-track",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[data-slot=slider-track]",
+    "nth": 2,
+    "dx": -80,
+    "steps": 5
+   }
+  ]
+ },
+ {
+  "label": "drag-range-thumb-across",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[role=slider]",
+    "nth": 0,
+    "dx": 400,
+    "steps": 8
+   }
+  ]
+ },
+ {
+  "label": "hover-three-thumb",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[role=slider]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "mouse-away",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   }
+  ]
+ }
+]

@@ -1,0 +1,144 @@
+[
+ {
+  "label": "click-check-first",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "click-uncheck-first",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "click-label-checks",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "space-unchecks",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=checkbox]",
+    "nth": 0
+   },
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "enter-ignored",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "tab-next",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "space-uncheck-second",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "tab-skips-disabled",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "click-disabled-ignored",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 2,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "click-disabled-label-ignored",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]",
+    "nth": 2,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "hover-card",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=label]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "click-card-unchecks",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "click-card-checks",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "mouse-away",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   }
+  ]
+ }
+]

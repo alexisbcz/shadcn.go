@@ -1,0 +1,132 @@
+[
+ {
+  "label": "click-vm-card",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-label]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "arrow-up",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "arrow-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "click-title",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-description]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "space",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-card",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=field-label]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "focus-radio",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[role=radio]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "page-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageDown"
+   }
+  ]
+ },
+ {
+  "label": "page-up",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "enter-noop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ }
+]

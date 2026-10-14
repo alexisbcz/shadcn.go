@@ -1,0 +1,19 @@
+[
+  { "label": "rich", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 0 }] },
+  { "label": "rich-hover-close", "steps": [{ "do": "hover", "target": "[data-sonner-toast] [data-close-button]" }] },
+  { "label": "rich-close", "steps": [{ "do": "click", "target": "[data-sonner-toast] [data-close-button]" }] },
+  { "label": "rich-gone", "frames": false, "steps": [{ "do": "wait", "ms": 400 }] },
+  { "label": "confirm", "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 1 }] },
+  { "label": "confirm-stays", "frames": false, "steps": [{ "do": "mouse", "x": 10, "y": 10 }, { "do": "wait", "ms": 4500 }] },
+  { "label": "confirm-cancel", "steps": [{ "do": "click", "target": "[data-sonner-toast] [data-cancel]" }] },
+  { "label": "confirm-gone", "frames": false, "steps": [{ "do": "wait", "ms": 400 }] },
+  { "label": "top", "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 2 }] },
+  { "label": "top-and-bottom", "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 1 }] },
+  { "label": "top-swipe-up", "steps": [{ "do": "drag", "target": "[data-y-position=top] [data-sonner-toast] [data-title]", "dx": 0, "dy": -80 }] },
+  { "label": "dismiss-all", "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 3 }] },
+  { "label": "dismiss-all-gone", "frames": false, "steps": [{ "do": "wait", "ms": 500 }] },
+  { "label": "reject-loading", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 4 }] },
+  { "label": "reject-error", "steps": [{ "do": "wait", "ms": 1300 }] },
+  { "label": "sticky", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 5 }] },
+  { "label": "sticky-swipe", "steps": [{ "do": "drag", "target": "[data-sonner-toast] [data-title]", "dx": 120, "dy": 0 }] }
+]

@@ -1,0 +1,31 @@
+[
+ {
+  "label": "click-disabled-ignored",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "click-label-ignored",
+  "steps": [
+   {
+    "do": "click",
+    "target": "label",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "hover-label",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "label"
+   }
+  ]
+ }
+]

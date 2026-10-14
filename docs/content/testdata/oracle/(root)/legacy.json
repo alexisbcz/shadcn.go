@@ -1,0 +1,9 @@
+{
+ "path": "(root)/legacy.mdx",
+ "frontmatter": {
+  "title": "Legacy Docs",
+  "description": "View the legacy docs for shadcn/ui and Tailwind v3."
+ },
+ "toc": [],
+ "hast": "\n<p>You're looking at the docs for shadcn/ui + Tailwind v4. If you're looking for the docs for shadcn/ui + Tailwind v3, you can find them <a href=\"https://v3.shadcn.com\">here</a>.</p>\n<mdx-jsx data-name=\"Button\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;asChild&#x22;},{&#x22;name&#x22;:&#x22;className&#x22;,&#x22;value&#x22;:&#x22;mt-6 no-underline&#x22;},{&#x22;name&#x22;:&#x22;size&#x22;,&#x22;value&#x22;:&#x22;sm&#x22;}]\"><mdx-jsx data-name=\"Link\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;href&#x22;,&#x22;value&#x22;:&#x22;https://v3.shadcn.com&#x22;},{&#x22;name&#x22;:&#x22;target&#x22;,&#x22;value&#x22;:&#x22;_blank&#x22;}]\"><p>View the legacy docs</p></mdx-jsx></mdx-jsx>"
+}

@@ -1,0 +1,11 @@
+[
+ { "label": "open-outer", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=collapsible-trigger]", "nth": 0 }] },
+ { "label": "close-inner", "steps": [{ "do": "click", "target": "[data-slot=collapsible-trigger]", "nth": 2 }] },
+ { "label": "reopen-inner", "steps": [{ "do": "click", "target": "[data-slot=collapsible-trigger]", "nth": 2 }] },
+ { "label": "close-inner-again", "steps": [{ "do": "click", "target": "[data-slot=collapsible-trigger]", "nth": 2 }] },
+ { "label": "close-outer-with-second-trigger", "steps": [{ "do": "click", "target": "[data-slot=collapsible-trigger]", "nth": 1 }] },
+ { "label": "reopen-outer-resets-inner", "steps": [{ "do": "click", "target": "[data-slot=collapsible-trigger]", "nth": 1 }] },
+ { "label": "tab-to-inner", "frames": false, "steps": [{ "do": "focus", "target": "[data-slot=collapsible-trigger]", "nth": 1 }, { "do": "press", "key": "Tab" }] },
+ { "label": "space-closes-inner", "steps": [{ "do": "press", "key": "Space" }] },
+ { "label": "enter-opens-inner", "steps": [{ "do": "press", "key": "Enter" }] }
+]

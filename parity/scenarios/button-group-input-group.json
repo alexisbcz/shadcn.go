@@ -1,0 +1,120 @@
+[
+ {
+  "label": "hover-voice",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=tooltip-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "click-voice",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=tooltip-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "click-voice-off",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=tooltip-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "focus-input",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-control]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "hello"
+   }
+  ]
+ },
+ {
+  "label": "tab-to-voice",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "enter-toggles",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "escape-closes-tip",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "space-toggles",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-plus",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]",
+    "nth": 0
+   }
+  ]
+ }
+]

@@ -1,0 +1,342 @@
+[
+  {
+    "label": "open-top",
+    "reset": true,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-trigger]",
+        "nth": 0
+      }
+    ]
+  },
+  {
+    "label": "top-settle",
+    "frames": false,
+    "steps": [
+      {
+        "do": "wait",
+        "ms": 600
+      }
+    ]
+  },
+  {
+    "label": "top-drag-close",
+    "steps": [
+      {
+        "do": "drag",
+        "target": "[data-slot=drawer-title]",
+        "dx": 0,
+        "dy": -200
+      }
+    ]
+  },
+  {
+    "label": "open-right",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-trigger]",
+        "nth": 1
+      }
+    ]
+  },
+  {
+    "label": "right-settle",
+    "frames": false,
+    "steps": [
+      {
+        "do": "wait",
+        "ms": 600
+      }
+    ]
+  },
+  {
+    "label": "right-drag-back",
+    "steps": [
+      {
+        "do": "hover",
+        "target": "[data-slot=drawer-title]"
+      },
+      {
+        "do": "down"
+      },
+      {
+        "do": "mouse",
+        "x": 900,
+        "y": 30,
+        "steps": 3
+      },
+      {
+        "do": "wait",
+        "ms": 1000
+      },
+      {
+        "do": "up"
+      }
+    ]
+  },
+  {
+    "label": "right-drag-close",
+    "steps": [
+      {
+        "do": "drag",
+        "target": "[data-slot=drawer-title]",
+        "dx": 300,
+        "dy": 0
+      }
+    ]
+  },
+  {
+    "label": "open-left",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-trigger]",
+        "nth": 3
+      }
+    ]
+  },
+  {
+    "label": "left-settle",
+    "frames": false,
+    "steps": [
+      {
+        "do": "wait",
+        "ms": 600
+      }
+    ]
+  },
+  {
+    "label": "left-cancel",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-close]"
+      }
+    ]
+  },
+  {
+    "label": "open-bottom",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-trigger]",
+        "nth": 2
+      }
+    ]
+  },
+  {
+    "label": "bottom-escape",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Escape"
+      }
+    ]
+  },
+  {
+    "label": "open-non-modal",
+    "steps": [
+      {
+        "do": "mouse",
+        "x": 600,
+        "y": 300
+      },
+      {
+        "do": "focus",
+        "target": "[data-slot=drawer-trigger]",
+        "nth": 4
+      },
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  },
+  {
+    "label": "non-modal-outside",
+    "steps": [
+      {
+        "do": "mouse",
+        "x": 30,
+        "y": 30
+      },
+      {
+        "do": "down"
+      },
+      {
+        "do": "up"
+      }
+    ]
+  },
+  {
+    "label": "non-modal-hover-page",
+    "steps": [
+      {
+        "do": "hover",
+        "target": "[data-slot=drawer-trigger]",
+        "nth": 0
+      }
+    ]
+  },
+  {
+    "label": "non-modal-tab",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "non-modal-escape",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Escape"
+      }
+    ]
+  },
+  {
+    "label": "left-drag-close",
+    "reset": true,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-trigger]",
+        "nth": 3
+      },
+      {
+        "do": "wait",
+        "ms": 600
+      },
+      {
+        "do": "drag",
+        "target": "[data-slot=drawer-title]",
+        "dx": -300,
+        "dy": 0
+      }
+    ]
+  },
+  {
+    "label": "top-open-2",
+    "frames": false,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-trigger]",
+        "nth": 0
+      },
+      {
+        "do": "wait",
+        "ms": 600
+      }
+    ]
+  },
+  {
+    "label": "top-drag-reverse",
+    "steps": [
+      {
+        "do": "drag",
+        "target": "[data-slot=drawer-title]",
+        "dx": 0,
+        "dy": 120
+      }
+    ]
+  },
+  {
+    "label": "top-drag-small",
+    "steps": [
+      {
+        "do": "hover",
+        "target": "[data-slot=drawer-title]"
+      },
+      {
+        "do": "down"
+      },
+      {
+        "do": "mouse",
+        "x": 512,
+        "y": 20,
+        "steps": 3
+      },
+      {
+        "do": "wait",
+        "ms": 800
+      },
+      {
+        "do": "up"
+      }
+    ]
+  },
+  {
+    "label": "top-outside-click",
+    "steps": [
+      {
+        "do": "mouse",
+        "x": 500,
+        "y": 700
+      },
+      {
+        "do": "down"
+      },
+      {
+        "do": "up"
+      }
+    ]
+  },
+  {
+    "label": "right-open-2",
+    "frames": false,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=drawer-trigger]",
+        "nth": 1
+      },
+      {
+        "do": "wait",
+        "ms": 600
+      }
+    ]
+  },
+  {
+    "label": "right-drag-vertical",
+    "steps": [
+      {
+        "do": "drag",
+        "target": "[data-slot=drawer-title]",
+        "dx": 0,
+        "dy": 200
+      }
+    ]
+  },
+  {
+    "label": "right-tab",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "right-tab-2",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "right-enter-cancel",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  }
+]

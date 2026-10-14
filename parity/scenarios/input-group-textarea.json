@@ -1,0 +1,97 @@
+[
+ {
+  "label": "click-textarea",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-control]"
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "console.log(1)\nconsole.log(2)"
+   }
+  ]
+ },
+ {
+  "label": "click-text-addon",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-addon] > span",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-3",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-run",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "hover-refresh",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "hover-copy",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "click-copy",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]",
+    "nth": 2
+   }
+  ]
+ }
+]

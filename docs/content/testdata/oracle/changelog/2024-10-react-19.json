@@ -1,0 +1,10 @@
+{
+ "path": "changelog/2024-10-react-19.mdx",
+ "frontmatter": {
+  "title": "October 2024 - React 19",
+  "description": "shadcn/ui is now compatible with React 19 and Next.js 15.",
+  "date": "2024-10-29T00:00:00.000Z"
+ },
+ "toc": [],
+ "hast": "\n<p>shadcn/ui is now compatible with React 19 and Next.js 15.</p>\n<p>We published a guide to help you upgrade your project to React 19.</p>\n<p>Read more <a href=\"/docs/react-19\">here</a>.</p>"
+}

@@ -1,0 +1,149 @@
+[
+ {
+  "label": "tab-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-3",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-4",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-5",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-1",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=pagination-link]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "hover-2",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=pagination-link]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "hover-3",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=pagination-link]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "hover-4",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=pagination-link]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "hover-5",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=pagination-link]",
+    "nth": 4
+   }
+  ]
+ },
+ {
+  "label": "click-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=pagination-link]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "hover-ellipsis",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=pagination-ellipsis]"
+   }
+  ]
+ },
+ {
+  "label": "focus-next-enter",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=pagination-link]",
+    "nth": 4
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "click-previous",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=pagination-link]",
+    "nth": 0
+   }
+  ]
+ }
+]

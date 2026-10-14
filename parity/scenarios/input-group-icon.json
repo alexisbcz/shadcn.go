@@ -1,0 +1,74 @@
+[
+ {
+  "label": "click-addon",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-addon]"
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "query"
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "type-email",
+  "steps": [
+   {
+    "do": "type",
+    "text": "me@example.com"
+   }
+  ]
+ },
+ {
+  "label": "click-end-addon",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-addon]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "click-input-4",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-control]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "click-outside",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ }
+]

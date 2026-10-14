@@ -1,0 +1,293 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "50"
+   }
+  ]
+ },
+ {
+  "label": "tab-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-3",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-loop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-loop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-input",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "#height"
+   }
+  ]
+ },
+ {
+  "label": "click-inside",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-content] h4"
+   }
+  ]
+ },
+ {
+  "label": "trigger-click-close",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "trigger-close-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-enter",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=popover-trigger]",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-space",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=popover-trigger]",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "outside-right-click",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(10, 10); const o = { bubbles: true, cancelable: true, composed: true, clientX: 10, clientY: 10, button: 2, buttons: 2, ctrlKey: false, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('contextmenu', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "outside-right-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "reopen",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "outside-click",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(10, 10); const o = { bubbles: true, cancelable: true, composed: true, clientX: 10, clientY: 10, button: 0, buttons: 1, ctrlKey: false, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('click', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "outside-click-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "reopen-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "focus-outside",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.focus(); document.querySelector('[data-slot=popover-trigger]').focus()"
+   }
+  ]
+ },
+ {
+  "label": "focus-outside-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "v-open",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "v-reopen-during-exit",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   },
+   {
+    "do": "eval",
+    "js": "document.querySelector('[data-slot=popover-trigger]').click()"
+   }
+  ]
+ },
+ {
+  "label": "v-reopen-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "v-resize",
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.querySelector('#preview').style.paddingTop = '200px'"
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   }
+  ]
+ },
+ {
+  "label": "v-close",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "v-close-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ }
+]

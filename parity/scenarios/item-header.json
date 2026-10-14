@@ -1,0 +1,7 @@
+[
+  { "label": "hover-item-1", "steps": [{ "do": "hover", "target": "[data-slot=item]", "nth": 0 }] },
+  { "label": "hover-item-3", "steps": [{ "do": "hover", "target": "[data-slot=item]", "nth": 2 }] },
+  { "label": "click-title", "steps": [{ "do": "click", "target": "[data-slot=item-title]", "nth": 1 }] },
+  { "label": "dblclick-description", "frames": false, "steps": [{ "do": "dblclick", "target": "[data-slot=item-description]", "nth": 0 }] },
+  { "label": "tab", "steps": [{ "do": "press", "key": "Tab" }] }
+]

@@ -1,0 +1,65 @@
+[
+ {
+  "label": "click-switch",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=switch]"
+   }
+  ]
+ },
+ {
+  "label": "click-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-label]"
+   }
+  ]
+ },
+ {
+  "label": "space",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-switch",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=switch]"
+   }
+  ]
+ }
+]

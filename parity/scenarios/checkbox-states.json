@@ -1,0 +1,165 @@
+[
+ {
+  "label": "click-indeterminate-checks",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "click-unchecks",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "click-checks-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "form-uncheck-news",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "form-partial-checks",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "form-offers-space",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=checkbox]",
+    "nth": 3
+   },
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "form-offers-enter-ignored",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "form-data",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form', new URLSearchParams(new FormData(document.querySelector('form'))).toString())"
+   }
+  ]
+ },
+ {
+  "label": "form-reset",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=reset]"
+   }
+  ]
+ },
+ {
+  "label": "form-data-after-reset",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form', new URLSearchParams(new FormData(document.querySelector('form'))).toString())"
+   }
+  ]
+ },
+ {
+  "label": "tab-order",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "click-locked-ignored",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 4,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "click-invalid-checks",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 5
+   }
+  ]
+ },
+ {
+  "label": "focus-invalid-keyboard",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-unchecked",
+  "reset": true,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=checkbox]",
+    "nth": 3
+   }
+  ]
+ }
+]

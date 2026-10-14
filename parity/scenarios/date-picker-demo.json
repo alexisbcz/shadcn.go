@@ -1,0 +1,194 @@
+[
+ {
+  "label": "open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "hover-day",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 12
+   }
+  ]
+ },
+ {
+  "label": "select-day",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 12
+   }
+  ]
+ },
+ {
+  "label": "key-arrowright",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "key-arrowdown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "key-pagedown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageDown"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-arrowleft",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "key-home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "key-end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "enter-selects",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "tab-to-nav",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "next-month",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "close-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-before-reopen-shows-selection",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "reopen-shows-selection",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "deselect",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] td[data-selected] button",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "close-outside",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 900,
+    "y": 700
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "idle-before-reopen-empty",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "reopen-empty",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "close-trigger",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ }
+]

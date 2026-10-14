@@ -1,0 +1,372 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-0",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "close-0",
+  "frames": true,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-0-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-1",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "close-1",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-1-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "close-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-2-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-3",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "close-3",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-3-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-4",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 4
+   }
+  ]
+ },
+ {
+  "label": "close-4",
+  "frames": true,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-4-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-5",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 5
+   }
+  ]
+ },
+ {
+  "label": "close-5",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-5-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-6",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 6
+   }
+  ]
+ },
+ {
+  "label": "close-6",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-6-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-7",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 7
+   }
+  ]
+ },
+ {
+  "label": "close-7",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-7-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-8",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 8
+   }
+  ]
+ },
+ {
+  "label": "close-8",
+  "frames": true,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-8-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-9",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 9
+   }
+  ]
+ },
+ {
+  "label": "close-9",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-9-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-10",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 10
+   }
+  ]
+ },
+ {
+  "label": "close-10",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-10-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-11",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 11
+   }
+  ]
+ },
+ {
+  "label": "close-11",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-11-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ }
+]

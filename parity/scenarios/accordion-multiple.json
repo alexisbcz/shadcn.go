@@ -1,0 +1,14 @@
+[
+ { "label": "open-b-keeps-others", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 1 }] },
+ { "label": "close-a", "steps": [{ "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 0 }] },
+ { "label": "click-disabled", "steps": [{ "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 3, "force": true }] },
+ { "label": "open-e", "steps": [{ "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 4 }] },
+ { "label": "focus-c", "frames": false, "steps": [{ "do": "focus", "target": "[data-slot=accordion-trigger]", "nth": 2 }] },
+ { "label": "arrow-down-skips-disabled", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }] },
+ { "label": "arrow-up-skips-disabled", "frames": false, "steps": [{ "do": "press", "key": "ArrowUp" }] },
+ { "label": "end", "frames": false, "steps": [{ "do": "press", "key": "End" }] },
+ { "label": "space-closes-e", "steps": [{ "do": "press", "key": "Space" }] },
+ { "label": "home", "frames": false, "steps": [{ "do": "press", "key": "Home" }] },
+ { "label": "enter-opens-a", "steps": [{ "do": "press", "key": "Enter" }] },
+ { "label": "tab-cycle", "frames": false, "steps": [{ "do": "press", "key": "Tab" }, { "do": "press", "key": "Tab" }] }
+]

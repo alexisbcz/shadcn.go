@@ -1,0 +1,152 @@
+[
+ {
+  "label": "click-small-on",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=switch]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "click-small-off",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=switch]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "click-on-off",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "click-disabled-ignored",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=switch]",
+    "nth": 3,
+    "force": true
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=switch]",
+    "nth": 4,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "click-invalid",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=switch]",
+    "nth": 5
+   }
+  ]
+ },
+ {
+  "label": "form-wifi-off",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=switch]",
+    "nth": 6
+   }
+  ]
+ },
+ {
+  "label": "form-bt-on",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=switch]",
+    "nth": 7
+   },
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "form-data",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form', new URLSearchParams(new FormData(document.querySelector('form'))).toString())"
+   }
+  ]
+ },
+ {
+  "label": "form-reset",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=reset]"
+   }
+  ]
+ },
+ {
+  "label": "form-data-after-reset",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form', new URLSearchParams(new FormData(document.querySelector('form'))).toString())"
+   }
+  ]
+ },
+ {
+  "label": "tab-from-start",
+  "reset": true,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-skips-disabled",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-small",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=switch]",
+    "nth": 0
+   }
+  ]
+ }
+]

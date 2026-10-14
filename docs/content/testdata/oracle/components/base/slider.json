@@ -1,0 +1,61 @@
+{
+ "path": "components/base/slider.mdx",
+ "frontmatter": {
+  "title": "Slider",
+  "description": "An input where the user selects a value from within a given range.",
+  "base": "base",
+  "component": true,
+  "links": {
+   "doc": "https://base-ui.com/react/components/slider",
+   "api": "https://base-ui.com/react/components/slider#api-reference"
+  }
+ },
+ "toc": [
+  {
+   "depth": 2,
+   "url": "#installation",
+   "title": "Installation"
+  },
+  {
+   "depth": 2,
+   "url": "#usage",
+   "title": "Usage"
+  },
+  {
+   "depth": 2,
+   "url": "#range",
+   "title": "Range"
+  },
+  {
+   "depth": 2,
+   "url": "#multiple-thumbs",
+   "title": "Multiple Thumbs"
+  },
+  {
+   "depth": 2,
+   "url": "#vertical",
+   "title": "Vertical"
+  },
+  {
+   "depth": 2,
+   "url": "#controlled",
+   "title": "Controlled"
+  },
+  {
+   "depth": 2,
+   "url": "#disabled",
+   "title": "Disabled"
+  },
+  {
+   "depth": 2,
+   "url": "#rtl",
+   "title": "RTL"
+  },
+  {
+   "depth": 2,
+   "url": "#api-reference",
+   "title": "API Reference"
+  }
+ ],
+ "hast": "\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;base-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;slider-demo&#x22;}]\"></mdx-jsx>\n<h2 id=\"installation\">Installation</h2>\n<mdx-jsx data-name=\"CodeTabs\" data-flow=\"true\" data-attrs=\"[]\"><mdx-jsx data-name=\"TabsList\" data-flow=\"true\" data-attrs=\"[]\"><mdx-jsx data-name=\"TabsTrigger\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;cli&#x22;}]\">Command</mdx-jsx><mdx-jsx data-name=\"TabsTrigger\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;manual&#x22;}]\">Manual</mdx-jsx></mdx-jsx><mdx-jsx data-name=\"TabsContent\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;cli&#x22;}]\"><figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"bash\" data-theme=\"vesper github-light-default\"><code __raw__=\"npx shadcn@latest add slider\" __npm__=\"npx shadcn@latest add slider\" __yarn__=\"yarn dlx shadcn@latest add slider\" __pnpm__=\"pnpm dlx shadcn@latest add slider\" __bun__=\"bunx --bun shadcn@latest add slider\" data-language=\"bash\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#FFC799;--shiki-light:#953800\">npx</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> shadcn@latest</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> add</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> slider</span></span></code></pre></figure></mdx-jsx><mdx-jsx data-name=\"TabsContent\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;manual&#x22;}]\"><mdx-jsx data-name=\"Steps\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;className&#x22;,&#x22;value&#x22;:&#x22;mb-0 pt-2&#x22;}]\"><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Install the following dependencies:</mdx-jsx><figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"bash\" data-theme=\"vesper github-light-default\"><code __raw__=\"npm install @base-ui/react\" __npm__=\"npm install @base-ui/react\" __yarn__=\"yarn add @base-ui/react\" __pnpm__=\"pnpm add @base-ui/react\" __bun__=\"bun add @base-ui/react\" data-language=\"bash\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#FFC799;--shiki-light:#953800\">npm</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> install</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> @base-ui/react</span></span></code></pre></figure><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Copy and paste the following code into your project.</mdx-jsx><mdx-jsx data-name=\"ComponentSource\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;slider&#x22;},{&#x22;name&#x22;:&#x22;title&#x22;,&#x22;value&#x22;:&#x22;components/ui/slider.tsx&#x22;},{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;base-nova&#x22;}]\"></mdx-jsx><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Update the import paths to match your project setup.</mdx-jsx></mdx-jsx></mdx-jsx></mdx-jsx>\n<h2 id=\"usage\">Usage</h2>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"import { Slider } from &#x22;@/components/ui/slider&#x22;\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">import</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\"> { Slider } </span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">from</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> \"@/components/ui/slider\"</span></span></code></pre></figure>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"<Slider defaultValue={[33]} max={100} step={1} />\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Slider</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\"> defaultValue</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">={</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">[</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#0550AE\">33</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">]</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">}</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\"> max</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">={</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#0550AE\">100</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">}</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\"> step</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">={</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#0550AE\">1</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">}</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\"> /></span></span></code></pre></figure>\n<h2 id=\"range\">Range</h2>\n<p>Use an array with two values for a range slider.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;base-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;slider-range&#x22;}]\"></mdx-jsx>\n<h2 id=\"multiple-thumbs\">Multiple Thumbs</h2>\n<p>Use an array with multiple values for multiple thumbs.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;base-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;slider-multiple&#x22;}]\"></mdx-jsx>\n<h2 id=\"vertical\">Vertical</h2>\n<p>Use <code>orientation=\"vertical\"</code> for a vertical slider.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;base-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;slider-vertical&#x22;}]\"></mdx-jsx>\n<h2 id=\"controlled\">Controlled</h2>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;base-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;slider-controlled&#x22;}]\"></mdx-jsx>\n<h2 id=\"disabled\">Disabled</h2>\n<p>Use the <code>disabled</code> prop to disable the slider.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;base-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;slider-disabled&#x22;}]\"></mdx-jsx>\n<h2 id=\"rtl\">RTL</h2>\n<p>To enable RTL support in shadcn/ui, see the <a href=\"/docs/rtl\">RTL configuration guide</a>.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;base-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;slider-rtl&#x22;},{&#x22;name&#x22;:&#x22;direction&#x22;,&#x22;value&#x22;:&#x22;rtl&#x22;}]\"></mdx-jsx>\n<h2 id=\"api-reference\">API Reference</h2>\n<p>See the <a href=\"https://base-ui.com/react/components/slider#api-reference\">Base UI Slider</a> documentation.</p>"
+}

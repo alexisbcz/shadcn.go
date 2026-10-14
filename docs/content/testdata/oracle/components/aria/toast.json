@@ -1,0 +1,11 @@
+{
+ "path": "components/aria/toast.mdx",
+ "frontmatter": {
+  "title": "Toast",
+  "description": "A succinct message that is displayed temporarily.",
+  "base": "aria",
+  "component": true
+ },
+ "toc": [],
+ "hast": "\n<p>The toast component has been deprecated. Use the <a href=\"/docs/components/aria/sonner\">sonner</a> component instead.</p>"
+}

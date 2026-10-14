@@ -1,0 +1,111 @@
+{
+ "path": "components/radix/avatar.mdx",
+ "frontmatter": {
+  "title": "Avatar",
+  "description": "An image element with a fallback for representing the user.",
+  "base": "radix",
+  "component": true,
+  "links": {
+   "doc": "https://www.radix-ui.com/primitives/docs/components/avatar",
+   "api": "https://www.radix-ui.com/primitives/docs/components/avatar#api-reference"
+  }
+ },
+ "toc": [
+  {
+   "depth": 2,
+   "url": "#installation",
+   "title": "Installation"
+  },
+  {
+   "depth": 2,
+   "url": "#usage",
+   "title": "Usage"
+  },
+  {
+   "depth": 2,
+   "url": "#composition",
+   "title": "Composition"
+  },
+  {
+   "depth": 2,
+   "url": "#basic",
+   "title": "Basic"
+  },
+  {
+   "depth": 2,
+   "url": "#badge",
+   "title": "Badge"
+  },
+  {
+   "depth": 2,
+   "url": "#badge-with-icon",
+   "title": "Badge with Icon"
+  },
+  {
+   "depth": 2,
+   "url": "#avatar-group",
+   "title": "Avatar Group"
+  },
+  {
+   "depth": 2,
+   "url": "#avatar-group-count",
+   "title": "Avatar Group Count"
+  },
+  {
+   "depth": 2,
+   "url": "#avatar-group-with-icon",
+   "title": "Avatar Group with Icon"
+  },
+  {
+   "depth": 2,
+   "url": "#sizes",
+   "title": "Sizes"
+  },
+  {
+   "depth": 2,
+   "url": "#dropdown",
+   "title": "Dropdown"
+  },
+  {
+   "depth": 2,
+   "url": "#rtl",
+   "title": "RTL"
+  },
+  {
+   "depth": 2,
+   "url": "#api-reference",
+   "title": "API Reference"
+  },
+  {
+   "depth": 3,
+   "url": "#avatar",
+   "title": "Avatar"
+  },
+  {
+   "depth": 3,
+   "url": "#avatarimage",
+   "title": "AvatarImage"
+  },
+  {
+   "depth": 3,
+   "url": "#avatarfallback",
+   "title": "AvatarFallback"
+  },
+  {
+   "depth": 3,
+   "url": "#avatarbadge",
+   "title": "AvatarBadge"
+  },
+  {
+   "depth": 3,
+   "url": "#avatargroup",
+   "title": "AvatarGroup"
+  },
+  {
+   "depth": 3,
+   "url": "#avatargroupcount",
+   "title": "AvatarGroupCount"
+  }
+ ],
+ "hast": "\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;avatar-demo&#x22;}]\"></mdx-jsx>\n<h2 id=\"installation\">Installation</h2>\n<mdx-jsx data-name=\"CodeTabs\" data-flow=\"true\" data-attrs=\"[]\"><mdx-jsx data-name=\"TabsList\" data-flow=\"true\" data-attrs=\"[]\"><mdx-jsx data-name=\"TabsTrigger\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;cli&#x22;}]\">Command</mdx-jsx><mdx-jsx data-name=\"TabsTrigger\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;manual&#x22;}]\">Manual</mdx-jsx></mdx-jsx><mdx-jsx data-name=\"TabsContent\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;cli&#x22;}]\"><figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"bash\" data-theme=\"vesper github-light-default\"><code __raw__=\"npx shadcn@latest add avatar\" __npm__=\"npx shadcn@latest add avatar\" __yarn__=\"yarn dlx shadcn@latest add avatar\" __pnpm__=\"pnpm dlx shadcn@latest add avatar\" __bun__=\"bunx --bun shadcn@latest add avatar\" data-language=\"bash\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#FFC799;--shiki-light:#953800\">npx</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> shadcn@latest</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> add</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> avatar</span></span></code></pre></figure></mdx-jsx><mdx-jsx data-name=\"TabsContent\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;manual&#x22;}]\"><mdx-jsx data-name=\"Steps\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;className&#x22;,&#x22;value&#x22;:&#x22;mb-0 pt-2&#x22;}]\"><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Install the following dependencies:</mdx-jsx><figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"bash\" data-theme=\"vesper github-light-default\"><code __raw__=\"npm install radix-ui\" __npm__=\"npm install radix-ui\" __yarn__=\"yarn add radix-ui\" __pnpm__=\"pnpm add radix-ui\" __bun__=\"bun add radix-ui\" data-language=\"bash\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#FFC799;--shiki-light:#953800\">npm</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> install</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> radix-ui</span></span></code></pre></figure><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Copy and paste the following code into your project.</mdx-jsx><mdx-jsx data-name=\"ComponentSource\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;avatar&#x22;},{&#x22;name&#x22;:&#x22;title&#x22;,&#x22;value&#x22;:&#x22;components/ui/avatar.tsx&#x22;}]\"></mdx-jsx><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Update the import paths to match your project setup.</mdx-jsx></mdx-jsx></mdx-jsx></mdx-jsx>\n<h2 id=\"usage\">Usage</h2>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"import { Avatar, AvatarFallback, AvatarImage } from &#x22;@/components/ui/avatar&#x22;\" data-line-numbers=\"\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\" data-line-numbers-max-digits=\"1\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">import</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\"> { Avatar, AvatarFallback, AvatarImage } </span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">from</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> \"@/components/ui/avatar\"</span></span></code></pre></figure>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"<Avatar>\n  <AvatarImage src=&#x22;https://github.com/shadcn.png&#x22; />\n  <AvatarFallback>CN</AvatarFallback>\n</Avatar>\" data-line-numbers=\"\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\" data-line-numbers-max-digits=\"1\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Avatar</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">  &#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">AvatarImage</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\"> src</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">=</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\">\"https://github.com/shadcn.png\"</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\"> /></span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">  &#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">AvatarFallback</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">CN</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;/</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">AvatarFallback</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;/</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Avatar</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span></code></pre></figure>\n<h2 id=\"composition\">Composition</h2>\n<p>Use the following composition to build an <code>Avatar</code>:</p>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"text\" data-theme=\"vesper github-light-default\"><code __raw__=\"Avatar\n├── AvatarImage\n├── AvatarFallback\n└── AvatarBadge\" data-language=\"text\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span>Avatar</span></span>\n<span data-line=\"\"><span>├── AvatarImage</span></span>\n<span data-line=\"\"><span>├── AvatarFallback</span></span>\n<span data-line=\"\"><span>└── AvatarBadge</span></span></code></pre></figure>\n<p>Use the following composition to build an <code>AvatarGroup</code>:</p>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"text\" data-theme=\"vesper github-light-default\"><code __raw__=\"AvatarGroup\n├── Avatar\n│   ├── AvatarImage\n│   ├── AvatarFallback\n│   └── AvatarBadge\n├── Avatar\n│   ├── AvatarImage\n│   ├── AvatarFallback\n│   └── AvatarBadge\n└── AvatarGroupCount\" data-language=\"text\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span>AvatarGroup</span></span>\n<span data-line=\"\"><span>├── Avatar</span></span>\n<span data-line=\"\"><span>│   ├── AvatarImage</span></span>\n<span data-line=\"\"><span>│   ├── AvatarFallback</span></span>\n<span data-line=\"\"><span>│   └── AvatarBadge</span></span>\n<span data-line=\"\"><span>├── Avatar</span></span>\n<span data-line=\"\"><span>│   ├── AvatarImage</span></span>\n<span data-line=\"\"><span>│   ├── AvatarFallback</span></span>\n<span data-line=\"\"><span>│   └── AvatarBadge</span></span>\n<span data-line=\"\"><span>└── AvatarGroupCount</span></span></code></pre></figure>\n<h2 id=\"basic\">Basic</h2>\n<p>A basic avatar component with an image and a fallback.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;avatar-basic&#x22;}]\"></mdx-jsx>\n<h2 id=\"badge\">Badge</h2>\n<p>Use the <code>AvatarBadge</code> component to add a badge to the avatar. The badge is positioned at the bottom right of the avatar.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;avatar-badge&#x22;}]\"></mdx-jsx>\n<p>Use the <code>className</code> prop to add custom styles to the badge such as custom colors, sizes, etc.</p>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"<Avatar>\n  <AvatarImage src=&#x22;https://github.com/shadcn.png&#x22; alt=&#x22;@shadcn&#x22; />\n  <AvatarFallback>CN</AvatarFallback>\n  <AvatarBadge className=&#x22;bg-green-600 dark:bg-green-800&#x22; />\n</Avatar>\" data-line-numbers=\"\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\" data-line-numbers-max-digits=\"1\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Avatar</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">  &#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">AvatarImage</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\"> src</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">=</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\">\"https://github.com/shadcn.png\"</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\"> alt</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">=</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\">\"@shadcn\"</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\"> /></span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">  &#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">AvatarFallback</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">CN</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;/</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">AvatarFallback</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">  &#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">AvatarBadge</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\"> className</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">=</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\">\"bg-green-600 dark:bg-green-800\"</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\"> /></span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;/</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Avatar</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span></code></pre></figure>\n<h2 id=\"badge-with-icon\">Badge with Icon</h2>\n<p>You can also use an icon inside <code>&#x3C;AvatarBadge></code>.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;avatar-badge-icon&#x22;},{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;}]\"></mdx-jsx>\n<h2 id=\"avatar-group\">Avatar Group</h2>\n<p>Use the <code>AvatarGroup</code> component to add a group of avatars.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;avatar-group&#x22;},{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;}]\"></mdx-jsx>\n<h2 id=\"avatar-group-count\">Avatar Group Count</h2>\n<p>Use <code>&#x3C;AvatarGroupCount></code> to add a count to the group.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;avatar-group-count&#x22;},{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;}]\"></mdx-jsx>\n<h2 id=\"avatar-group-with-icon\">Avatar Group with Icon</h2>\n<p>You can also use an icon inside <code>&#x3C;AvatarGroupCount></code>.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;avatar-group-count-icon&#x22;},{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;}]\"></mdx-jsx>\n<h2 id=\"sizes\">Sizes</h2>\n<p>Use the <code>size</code> prop to change the size of the avatar.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;avatar-size&#x22;},{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;}]\"></mdx-jsx>\n<h2 id=\"dropdown\">Dropdown</h2>\n<p>You can use the <code>Avatar</code> component as a trigger for a dropdown menu.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;avatar-dropdown&#x22;}]\"></mdx-jsx>\n<h2 id=\"rtl\">RTL</h2>\n<p>To enable RTL support in shadcn/ui, see the <a href=\"/docs/rtl\">RTL configuration guide</a>.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;avatar-rtl&#x22;},{&#x22;name&#x22;:&#x22;direction&#x22;,&#x22;value&#x22;:&#x22;rtl&#x22;},{&#x22;name&#x22;:&#x22;previewClassName&#x22;,&#x22;value&#x22;:&#x22;h-72&#x22;}]\"></mdx-jsx>\n<h2 id=\"api-reference\">API Reference</h2>\n<h3 id=\"avatar\">Avatar</h3>\n<p>The <code>Avatar</code> component is the root component that wraps the avatar image and fallback.</p>\n<table>\n<thead>\n<tr>\n<th>Prop</th>\n<th>Type</th>\n<th>Default</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>size</code></td>\n<td><code>\"default\" | \"sm\" | \"lg\"</code></td>\n<td><code>\"default\"</code></td>\n</tr>\n<tr>\n<td><code>className</code></td>\n<td><code>string</code></td>\n<td>-</td>\n</tr>\n</tbody>\n</table>\n<h3 id=\"avatarimage\">AvatarImage</h3>\n<p>The <code>AvatarImage</code> component displays the avatar image. It accepts all Radix UI Avatar Image props.</p>\n<table>\n<thead>\n<tr>\n<th>Prop</th>\n<th>Type</th>\n<th>Default</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>src</code></td>\n<td><code>string</code></td>\n<td>-</td>\n</tr>\n<tr>\n<td><code>alt</code></td>\n<td><code>string</code></td>\n<td>-</td>\n</tr>\n<tr>\n<td><code>className</code></td>\n<td><code>string</code></td>\n<td>-</td>\n</tr>\n</tbody>\n</table>\n<h3 id=\"avatarfallback\">AvatarFallback</h3>\n<p>The <code>AvatarFallback</code> component displays a fallback when the image fails to load. It accepts all Radix UI Avatar Fallback props.</p>\n<table>\n<thead>\n<tr>\n<th>Prop</th>\n<th>Type</th>\n<th>Default</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>className</code></td>\n<td><code>string</code></td>\n<td>-</td>\n</tr>\n</tbody>\n</table>\n<h3 id=\"avatarbadge\">AvatarBadge</h3>\n<p>The <code>AvatarBadge</code> component displays a badge indicator on the avatar, typically positioned at the bottom right.</p>\n<table>\n<thead>\n<tr>\n<th>Prop</th>\n<th>Type</th>\n<th>Default</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>className</code></td>\n<td><code>string</code></td>\n<td>-</td>\n</tr>\n</tbody>\n</table>\n<h3 id=\"avatargroup\">AvatarGroup</h3>\n<p>The <code>AvatarGroup</code> component displays a group of avatars with overlapping styling.</p>\n<table>\n<thead>\n<tr>\n<th>Prop</th>\n<th>Type</th>\n<th>Default</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>className</code></td>\n<td><code>string</code></td>\n<td>-</td>\n</tr>\n</tbody>\n</table>\n<h3 id=\"avatargroupcount\">AvatarGroupCount</h3>\n<p>The <code>AvatarGroupCount</code> component displays a count indicator in an avatar group, typically showing the number of additional avatars.</p>\n<table>\n<thead>\n<tr>\n<th>Prop</th>\n<th>Type</th>\n<th>Default</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>className</code></td>\n<td><code>string</code></td>\n<td>-</td>\n</tr>\n</tbody>\n</table>\n<p>For more information about Radix UI Avatar props, see the <a href=\"https://www.radix-ui.com/primitives/docs/components/avatar#api-reference\">Radix UI documentation</a>.</p>"
+}

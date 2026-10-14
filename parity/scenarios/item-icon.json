@@ -1,0 +1,30 @@
+[
+ {
+  "label": "tab-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-item-1",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=item]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "hover-button",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]"
+   }
+  ]
+ }
+]

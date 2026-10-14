@@ -1,0 +1,820 @@
+[
+ {
+  "label": "open-meta-j",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+j"
+   }
+  ]
+ },
+ {
+  "label": "open-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "d-arrow-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "d-arrow-down-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "d-arrow-down-3",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "d-arrow-down-4",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "d-arrow-down-5",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "d-arrow-down-6",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "d-home",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "d-end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "d-alt-up",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Alt+ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "d-alt-up-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Alt+ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "d-alt-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Alt+ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "d-meta-up",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "d-scroll-list",
+  "frames": false,
+  "steps": [
+   {
+    "do": "scroll",
+    "y": 200,
+    "target": "[data-slot=command-list]"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "d-hover-item",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=command-item]",
+    "nth": 4
+   }
+  ]
+ },
+ {
+  "label": "d-click-item",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=command-item]",
+    "nth": 5
+   }
+  ]
+ },
+ {
+  "label": "d-click-input",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=command-input]"
+   }
+  ]
+ },
+ {
+  "label": "d-type-cal",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "cal"
+   }
+  ]
+ },
+ {
+  "label": "d-cal-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "d-type-x",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "x"
+   }
+  ]
+ },
+ {
+  "label": "d-clear",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ControlOrMeta+a"
+   },
+   {
+    "do": "press",
+    "key": "Backspace"
+   }
+  ]
+ },
+ {
+  "label": "d-tab",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "d-tab-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "d-shift-tab",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "d-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "d-escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-ctrl-j",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+j"
+   }
+  ]
+ },
+ {
+  "label": "ctrl-j-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "d-type-set",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "set"
+   }
+  ]
+ },
+ {
+  "label": "close-ctrl-j",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+j"
+   }
+  ]
+ },
+ {
+  "label": "close-ctrl-j-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "reopen",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+j"
+   }
+  ]
+ },
+ {
+  "label": "reopen-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "close-x",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-content] > [data-slot=dialog-close]"
+   }
+  ]
+ },
+ {
+  "label": "close-x-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "reopen-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+j"
+   }
+  ]
+ },
+ {
+  "label": "reopen-2-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "outside-click",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 10,
+    "y": 10
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "outside-click-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "reopen-during-exit",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+j"
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   },
+   {
+    "do": "press",
+    "key": "Escape"
+   },
+   {
+    "do": "press",
+    "key": "Meta+j"
+   }
+  ]
+ },
+ {
+  "label": "reopen-during-exit-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "enter-select",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "final-close",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+j"
+   }
+  ]
+ },
+ {
+  "label": "final-close-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "y-open",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+j"
+   }
+  ]
+ },
+ {
+  "label": "y-open-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "y-ctrl-n",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+n"
+   }
+  ]
+ },
+ {
+  "label": "y-ctrl-n-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+n"
+   }
+  ]
+ },
+ {
+  "label": "y-ctrl-p",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+p"
+   }
+  ]
+ },
+ {
+  "label": "y-ctrl-k",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+k"
+   }
+  ]
+ },
+ {
+  "label": "y-meta-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "y-up",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "y-alt-up-heading",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Alt+ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "y-shift-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "y-type-s",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "s"
+   }
+  ]
+ },
+ {
+  "label": "y-s-end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "y-s-home",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "y-s-hover",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=command-item]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "y-s-scroll",
+  "frames": false,
+  "steps": [
+   {
+    "do": "scroll",
+    "y": 300,
+    "target": "[data-slot=command-list]"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "y-s-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "y-type-zz-empty",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "zz"
+   }
+  ]
+ },
+ {
+  "label": "y-empty-enter",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "y-clear",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ControlOrMeta+a"
+   },
+   {
+    "do": "press",
+    "key": "Backspace"
+   }
+  ]
+ },
+ {
+  "label": "y-drag-out",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=command-input]"
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 10,
+    "y": 10,
+    "steps": 5
+   },
+   {
+    "do": "up"
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "y-click-heading",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[cmdk-group-heading]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "y-heading-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "y-shift-tab-from-input",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=command-input]"
+   },
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "y-shift-tab-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "y-close-escape-typed",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=command-input]"
+   },
+   {
+    "do": "type",
+    "text": "bil"
+   },
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "y-close-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "y-reopen-fresh",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+j"
+   }
+  ]
+ },
+ {
+  "label": "y-reopen-fresh-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "y-click-select-close",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=command-item]",
+    "nth": 1
+   },
+   {
+    "do": "press",
+    "key": "Meta+j"
+   }
+  ]
+ },
+ {
+  "label": "y-final-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ }
+]

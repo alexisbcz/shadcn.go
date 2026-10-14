@@ -1,0 +1,88 @@
+[
+ {
+  "label": "click-at-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "shadcn"
+   }
+  ]
+ },
+ {
+  "label": "click-email-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "hover-help",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=tooltip-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "tab-to-help",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-control]",
+    "nth": 1
+   },
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "click-help",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=tooltip-trigger]",
+    "nth": 0
+   }
+  ]
+ }
+]

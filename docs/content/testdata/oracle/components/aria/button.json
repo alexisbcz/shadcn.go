@@ -1,0 +1,112 @@
+{
+ "path": "components/aria/button.mdx",
+ "frontmatter": {
+  "title": "Button",
+  "description": "Displays a button or a component that looks like a button.",
+  "featured": true,
+  "base": "aria",
+  "component": true,
+  "links": {
+   "doc": "https://react-aria.adobe.com/Button",
+   "api": "https://react-aria.adobe.com/Button#api"
+  }
+ },
+ "toc": [
+  {
+   "depth": 2,
+   "url": "#installation",
+   "title": "Installation"
+  },
+  {
+   "depth": 2,
+   "url": "#usage",
+   "title": "Usage"
+  },
+  {
+   "depth": 2,
+   "url": "#cursor",
+   "title": "Cursor"
+  },
+  {
+   "depth": 2,
+   "url": "#size",
+   "title": "Size"
+  },
+  {
+   "depth": 2,
+   "url": "#default",
+   "title": "Default"
+  },
+  {
+   "depth": 2,
+   "url": "#outline",
+   "title": "Outline"
+  },
+  {
+   "depth": 2,
+   "url": "#secondary",
+   "title": "Secondary"
+  },
+  {
+   "depth": 2,
+   "url": "#ghost",
+   "title": "Ghost"
+  },
+  {
+   "depth": 2,
+   "url": "#destructive",
+   "title": "Destructive"
+  },
+  {
+   "depth": 2,
+   "url": "#link",
+   "title": "Link"
+  },
+  {
+   "depth": 2,
+   "url": "#icon",
+   "title": "Icon"
+  },
+  {
+   "depth": 2,
+   "url": "#with-icon",
+   "title": "With Icon"
+  },
+  {
+   "depth": 2,
+   "url": "#rounded",
+   "title": "Rounded"
+  },
+  {
+   "depth": 2,
+   "url": "#spinner",
+   "title": "Spinner"
+  },
+  {
+   "depth": 2,
+   "url": "#button-group",
+   "title": "Button Group"
+  },
+  {
+   "depth": 2,
+   "url": "#as-link",
+   "title": "As Link"
+  },
+  {
+   "depth": 2,
+   "url": "#rtl",
+   "title": "RTL"
+  },
+  {
+   "depth": 2,
+   "url": "#api-reference",
+   "title": "API Reference"
+  },
+  {
+   "depth": 3,
+   "url": "#button",
+   "title": "Button"
+  }
+ ],
+ "hast": "\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-demo&#x22;}]\"></mdx-jsx>\n<h2 id=\"installation\">Installation</h2>\n<mdx-jsx data-name=\"CodeTabs\" data-flow=\"true\" data-attrs=\"[]\"><mdx-jsx data-name=\"TabsList\" data-flow=\"true\" data-attrs=\"[]\"><mdx-jsx data-name=\"TabsTrigger\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;cli&#x22;}]\">Command</mdx-jsx><mdx-jsx data-name=\"TabsTrigger\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;manual&#x22;}]\">Manual</mdx-jsx></mdx-jsx><mdx-jsx data-name=\"TabsContent\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;cli&#x22;}]\"><figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"bash\" data-theme=\"vesper github-light-default\"><code __raw__=\"npx shadcn@latest add button\" __npm__=\"npx shadcn@latest add button\" __yarn__=\"yarn dlx shadcn@latest add button\" __pnpm__=\"pnpm dlx shadcn@latest add button\" __bun__=\"bunx --bun shadcn@latest add button\" data-language=\"bash\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#FFC799;--shiki-light:#953800\">npx</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> shadcn@latest</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> add</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> button</span></span></code></pre></figure></mdx-jsx><mdx-jsx data-name=\"TabsContent\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;manual&#x22;}]\"><mdx-jsx data-name=\"Steps\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;className&#x22;,&#x22;value&#x22;:&#x22;mb-0 pt-2&#x22;}]\"><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Install the following dependencies:</mdx-jsx><figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"bash\" data-theme=\"vesper github-light-default\"><code __raw__=\"npm install react-aria-components\" __npm__=\"npm install react-aria-components\" __yarn__=\"yarn add react-aria-components\" __pnpm__=\"pnpm add react-aria-components\" __bun__=\"bun add react-aria-components\" data-language=\"bash\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#FFC799;--shiki-light:#953800\">npm</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> install</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> react-aria-components</span></span></code></pre></figure><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Copy and paste the following code into your project.</mdx-jsx><mdx-jsx data-name=\"ComponentSource\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button&#x22;},{&#x22;name&#x22;:&#x22;title&#x22;,&#x22;value&#x22;:&#x22;components/ui/button.tsx&#x22;},{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;}]\"></mdx-jsx><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Update the import paths to match your project setup.</mdx-jsx></mdx-jsx></mdx-jsx></mdx-jsx>\n<h2 id=\"usage\">Usage</h2>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"import { Button } from &#x22;@/components/ui/button&#x22;\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">import</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\"> { Button } </span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">from</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> \"@/components/ui/button\"</span></span></code></pre></figure>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"<Button variant=&#x22;outline&#x22;>Button</Button>\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Button</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\"> variant</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">=</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\">\"outline\"</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">Button</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;/</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Button</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span></code></pre></figure>\n<h2 id=\"cursor\">Cursor</h2>\n<p>Tailwind v4 <a href=\"https://tailwindcss.com/docs/upgrade-guide#buttons-use-the-default-cursor\">switched</a> from <code>cursor: pointer</code> to <code>cursor: default</code> for the button component.</p>\n<p>If you want to keep the <code>cursor: pointer</code> behavior, add the following code to your CSS file:</p>\n<p>You can also enable this during project setup with <code>npx shadcn@latest init --pointer</code>.</p>\n<figure data-rehype-pretty-code-figure=\"\"><figcaption data-rehype-pretty-code-title=\"\" data-language=\"css\" data-theme=\"vesper github-light-default\">globals.css</figcaption><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"css\" data-theme=\"vesper github-light-default\"><code __raw__=\"@layer base {\n  button:not(:disabled),\n  [role=&#x22;button&#x22;]:not(:disabled) {\n    cursor: pointer;\n  }\n}\" data-line-numbers=\"\" data-language=\"css\" data-theme=\"vesper github-light-default\" style=\"display: grid;\" data-line-numbers-max-digits=\"1\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">@layer</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\"> base {</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">  button</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\">:not</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">(</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\">:disabled</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">),</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">  [</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\">role</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">=</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\">\"button\"</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">]</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\">:not</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">(</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\">:disabled</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">)</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\"> {</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#FFF;--shiki-light:#0550AE\">    cursor</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">:</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#0550AE\"> pointer</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">;</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">  }</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">}</span></span></code></pre></figure>\n<h2 id=\"size\">Size</h2>\n<p>Use the <code>size</code> prop to change the size of the button.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-size&#x22;}]\"></mdx-jsx>\n<h2 id=\"default\">Default</h2>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-default&#x22;}]\"></mdx-jsx>\n<h2 id=\"outline\">Outline</h2>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-outline&#x22;}]\"></mdx-jsx>\n<h2 id=\"secondary\">Secondary</h2>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-secondary&#x22;}]\"></mdx-jsx>\n<h2 id=\"ghost\">Ghost</h2>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-ghost&#x22;}]\"></mdx-jsx>\n<h2 id=\"destructive\">Destructive</h2>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-destructive&#x22;}]\"></mdx-jsx>\n<h2 id=\"link\">Link</h2>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-link&#x22;}]\"></mdx-jsx>\n<h2 id=\"icon\">Icon</h2>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-icon&#x22;}]\"></mdx-jsx>\n<h2 id=\"with-icon\">With Icon</h2>\n<p>Remember to add the <code>data-icon=\"inline-start\"</code> or <code>data-icon=\"inline-end\"</code> attribute to the icon for the correct spacing.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-with-icon&#x22;}]\"></mdx-jsx>\n<h2 id=\"rounded\">Rounded</h2>\n<p>Use the <code>rounded-full</code> class to make the button rounded.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-rounded&#x22;}]\"></mdx-jsx>\n<h2 id=\"spinner\">Spinner</h2>\n<p>Render a <code>&#x3C;Spinner /></code> component inside the button to show a loading state. Remember to add the <code>data-icon=\"inline-start\"</code> or <code>data-icon=\"inline-end\"</code> attribute to the spinner for the correct spacing.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-spinner&#x22;}]\"></mdx-jsx>\n<h2 id=\"button-group\">Button Group</h2>\n<p>To create a button group, use the <code>ButtonGroup</code> component. See the <a href=\"/docs/components/aria/button-group\">Button Group</a> documentation for more details.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-group-demo&#x22;}]\"></mdx-jsx>\n<h2 id=\"as-link\">As Link</h2>\n<p>You can use the <code>buttonVariants</code> helper to make a link look like a button.</p>\n<p><strong>Do not use <code>&#x3C;Button></code> for links.</strong> The React Aria <code>Button</code> component always applies <code>role=\"button\"</code>, which overrides the semantic link role on <code>&#x3C;a></code> elements. Use <code>buttonVariants</code> with a plain <code>&#x3C;a></code> tag instead.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-render&#x22;}]\"></mdx-jsx>\n<h2 id=\"rtl\">RTL</h2>\n<p>To enable RTL support in shadcn/ui, see the <a href=\"/docs/rtl\">RTL configuration guide</a>.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;button-rtl&#x22;},{&#x22;name&#x22;:&#x22;direction&#x22;,&#x22;value&#x22;:&#x22;rtl&#x22;}]\"></mdx-jsx>\n<h2 id=\"api-reference\">API Reference</h2>\n<h3 id=\"button\">Button</h3>\n<p>The <code>Button</code> component is a wrapper around the <code>button</code> element that adds a variety of styles and functionality.</p>\n<table>\n<thead>\n<tr>\n<th>Prop</th>\n<th>Type</th>\n<th>Default</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>variant</code></td>\n<td><code>\"default\" | \"outline\" | \"ghost\" | \"destructive\" | \"secondary\" | \"link\"</code></td>\n<td><code>\"default\"</code></td>\n</tr>\n<tr>\n<td><code>size</code></td>\n<td><code>\"default\" | \"xs\" | \"sm\" | \"lg\" | \"icon\" | \"icon-xs\" | \"icon-sm\" | \"icon-lg\"</code></td>\n<td><code>\"default\"</code></td>\n</tr>\n</tbody>\n</table>\n<p>See the <a href=\"https://react-aria.adobe.com/Button#api\">React Aria</a> documentation for more information.</p>"
+}

@@ -1,0 +1,166 @@
+[
+ {
+  "label": "click-copy",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[aria-label=Copy]"
+   }
+  ]
+ },
+ {
+  "label": "copy-reverts",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 2100
+   }
+  ]
+ },
+ {
+  "label": "click-star",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "click-star-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "click-star-3",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "open-popover",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "escape-key",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "open-addon-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-addon]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "outside-click",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 20,
+    "y": 20
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "click-https-addon",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-addon]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "example.com"
+   }
+  ]
+ },
+ {
+  "label": "click-search-input",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-control]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "type-search",
+  "steps": [
+   {
+    "do": "type",
+    "text": "query"
+   }
+  ]
+ },
+ {
+  "label": "hover-search",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "click-search",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "tab-cycle",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ }
+]

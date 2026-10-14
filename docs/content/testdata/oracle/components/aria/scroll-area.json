@@ -1,0 +1,32 @@
+{
+ "path": "components/aria/scroll-area.mdx",
+ "frontmatter": {
+  "title": "Scroll Area",
+  "description": "Augments native scroll functionality for custom, cross-browser styling.",
+  "base": "aria",
+  "component": true
+ },
+ "toc": [
+  {
+   "depth": 2,
+   "url": "#installation",
+   "title": "Installation"
+  },
+  {
+   "depth": 2,
+   "url": "#usage",
+   "title": "Usage"
+  },
+  {
+   "depth": 2,
+   "url": "#horizontal",
+   "title": "Horizontal"
+  },
+  {
+   "depth": 2,
+   "url": "#rtl",
+   "title": "RTL"
+  }
+ ],
+ "hast": "\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;scroll-area-demo&#x22;},{&#x22;name&#x22;:&#x22;previewClassName&#x22;,&#x22;value&#x22;:&#x22;h-96&#x22;}]\"></mdx-jsx>\n<h2 id=\"installation\">Installation</h2>\n<mdx-jsx data-name=\"CodeTabs\" data-flow=\"true\" data-attrs=\"[]\"><mdx-jsx data-name=\"TabsList\" data-flow=\"true\" data-attrs=\"[]\"><mdx-jsx data-name=\"TabsTrigger\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;cli&#x22;}]\">Command</mdx-jsx><mdx-jsx data-name=\"TabsTrigger\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;manual&#x22;}]\">Manual</mdx-jsx></mdx-jsx><mdx-jsx data-name=\"TabsContent\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;cli&#x22;}]\"><figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"bash\" data-theme=\"vesper github-light-default\"><code __raw__=\"npx shadcn@latest add scroll-area\" __npm__=\"npx shadcn@latest add scroll-area\" __yarn__=\"yarn dlx shadcn@latest add scroll-area\" __pnpm__=\"pnpm dlx shadcn@latest add scroll-area\" __bun__=\"bunx --bun shadcn@latest add scroll-area\" data-language=\"bash\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#FFC799;--shiki-light:#953800\">npx</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> shadcn@latest</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> add</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> scroll-area</span></span></code></pre></figure></mdx-jsx><mdx-jsx data-name=\"TabsContent\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;manual&#x22;}]\"><mdx-jsx data-name=\"Steps\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;className&#x22;,&#x22;value&#x22;:&#x22;mb-0 pt-2&#x22;}]\"><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Copy and paste the following code into your project.</mdx-jsx><mdx-jsx data-name=\"ComponentSource\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;scroll-area&#x22;},{&#x22;name&#x22;:&#x22;title&#x22;,&#x22;value&#x22;:&#x22;components/ui/scroll-area.tsx&#x22;},{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;}]\"></mdx-jsx><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Update the import paths to match your project setup.</mdx-jsx></mdx-jsx></mdx-jsx></mdx-jsx>\n<h2 id=\"usage\">Usage</h2>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"import { ScrollArea } from &#x22;@/components/ui/scroll-area&#x22;\" data-line-numbers=\"\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\" data-line-numbers-max-digits=\"1\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">import</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\"> { ScrollArea } </span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">from</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> \"@/components/ui/scroll-area\"</span></span></code></pre></figure>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"<ScrollArea className=&#x22;h-[200px] w-[350px] rounded-md border p-4&#x22;>\n  Your scrollable content here.\n</ScrollArea>\" data-line-numbers=\"\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\" data-line-numbers-max-digits=\"1\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">ScrollArea</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\"> className</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">=</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\">\"h-[200px] w-[350px] rounded-md border p-4\"</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">  Your scrollable content here.</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;/</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">ScrollArea</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">></span></span></code></pre></figure>\n<h2 id=\"horizontal\">Horizontal</h2>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;scroll-area-horizontal-demo&#x22;}]\"></mdx-jsx>\n<h2 id=\"rtl\">RTL</h2>\n<p>To enable RTL support in shadcn/ui, see the <a href=\"/docs/rtl\">RTL configuration guide</a>.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;aria-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;scroll-area-rtl&#x22;},{&#x22;name&#x22;:&#x22;direction&#x22;,&#x22;value&#x22;:&#x22;rtl&#x22;},{&#x22;name&#x22;:&#x22;previewClassName&#x22;,&#x22;value&#x22;:&#x22;h-auto&#x22;}]\"></mdx-jsx>"
+}

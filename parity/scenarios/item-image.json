@@ -1,0 +1,59 @@
+[
+ {
+  "label": "tab-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-3",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-1",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=item]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "hover-2",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=item]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "hover-3",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=item]",
+    "nth": 2
+   }
+  ]
+ }
+]

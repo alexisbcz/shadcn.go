@@ -1,0 +1,212 @@
+[
+ {
+  "label": "open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "hover-range-day",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 25
+   }
+  ]
+ },
+ {
+  "label": "click-inside-range",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 25
+   }
+  ]
+ },
+ {
+  "label": "click-before-range",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 10
+   }
+  ]
+ },
+ {
+  "label": "click-start-clears-to",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 10
+   }
+  ]
+ },
+ {
+  "label": "click-start-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 10
+   }
+  ]
+ },
+ {
+  "label": "click-second-month",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 50
+   }
+  ]
+ },
+ {
+  "label": "key-arrowleft",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "key-arrowup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "key-pageup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-pagedown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+PageDown"
+   }
+  ]
+ },
+ {
+  "label": "space-selects",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "previous-month",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_previous"
+   }
+  ]
+ },
+ {
+  "label": "next-month",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_next"
+   }
+  ]
+ },
+ {
+  "label": "close-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-before-reopen",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "reopen",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "clear-range",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] td[data-selected] button",
+    "force": true
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] td[data-selected] button",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "close-outside",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 900,
+    "y": 700
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "idle-before-reopen-cleared",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "reopen-cleared",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ }
+]

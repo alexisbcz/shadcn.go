@@ -1,0 +1,72 @@
+[
+ {
+  "label": "click-disabled",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 0,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "click-push-tasks",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 1,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "click-email-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-label]",
+    "nth": 4,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "space",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-link",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=field-description] a",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "tab-to-link",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ }
+]

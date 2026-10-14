@@ -1,0 +1,238 @@
+[
+ {
+  "label": "next-click",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=carousel-next]"
+   },
+   {
+    "do": "wait",
+    "ms": 2000
+   }
+  ]
+ },
+ {
+  "label": "next-click-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=carousel-next]"
+   },
+   {
+    "do": "wait",
+    "ms": 2000
+   }
+  ]
+ },
+ {
+  "label": "arrow-right",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 2000
+   }
+  ]
+ },
+ {
+  "label": "arrow-right-to-end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 2000
+   }
+  ]
+ },
+ {
+  "label": "arrow-right-at-end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "arrow-left",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 2000
+   }
+  ]
+ },
+ {
+  "label": "prev-click",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=carousel-previous]"
+   },
+   {
+    "do": "wait",
+    "ms": 2000
+   }
+  ]
+ },
+ {
+  "label": "other-keys-ignored",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "drag-next",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 600,
+    "y": 175
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 450,
+    "y": 175,
+    "steps": 12
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "up"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "drag-prev",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 450,
+    "y": 175
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 600,
+    "y": 175,
+    "steps": 12
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "up"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "drag-small-snaps-back",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 600,
+    "y": 175
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 570,
+    "y": 175,
+    "steps": 12
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "up"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "tab-focus",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-prev",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=carousel-previous]"
+   }
+  ]
+ }
+]

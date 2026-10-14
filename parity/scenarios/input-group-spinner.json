@@ -1,0 +1,6 @@
+[
+ {"label": "click-addon", "steps": [{"do": "click", "target": "[data-slot=input-group-addon]", "force": true}]},
+ {"label": "click-text", "steps": [{"do": "click", "target": "[data-slot=input-group-addon]", "nth": 2, "force": true}]},
+ {"label": "hover-input", "steps": [{"do": "hover", "target": "[data-slot=input-group-control]", "force": true}]},
+ {"label": "tab", "steps": [{"do": "press", "key": "Tab"}]}
+]

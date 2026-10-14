@@ -1,0 +1,11 @@
+[
+ {
+  "label": "after-timer",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 700
+   }
+  ]
+ }
+]

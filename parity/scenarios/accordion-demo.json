@@ -1,0 +1,24 @@
+[
+ { "label": "click-second", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 1 }] },
+ { "label": "click-second-collapses", "steps": [{ "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 1 }] },
+ { "label": "click-third", "steps": [{ "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 2 }] },
+ { "label": "switch-during-animation", "steps": [
+   { "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 0 },
+   { "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 2 }
+ ] },
+ { "label": "tab-focus", "reset": true, "steps": [{ "do": "mouse", "x": 1000, "y": 700 }, { "do": "press", "key": "Tab" }] },
+ { "label": "arrow-down", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }] },
+ { "label": "arrow-down-2", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }] },
+ { "label": "arrow-down-wraps", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }] },
+ { "label": "arrow-up-wraps", "frames": false, "steps": [{ "do": "press", "key": "ArrowUp" }] },
+ { "label": "arrow-up", "frames": false, "steps": [{ "do": "press", "key": "ArrowUp" }] },
+ { "label": "arrow-right-ignored", "frames": false, "steps": [{ "do": "press", "key": "ArrowRight" }] },
+ { "label": "arrow-left-ignored", "frames": false, "steps": [{ "do": "press", "key": "ArrowLeft" }] },
+ { "label": "home", "frames": false, "steps": [{ "do": "press", "key": "Home" }] },
+ { "label": "end", "frames": false, "steps": [{ "do": "press", "key": "End" }] },
+ { "label": "enter-opens", "steps": [{ "do": "press", "key": "Enter" }] },
+ { "label": "space-closes", "steps": [{ "do": "press", "key": "Space" }] },
+ { "label": "shift-tab-back", "frames": false, "steps": [{ "do": "press", "key": "Shift+Tab" }] },
+ { "label": "hover-trigger", "steps": [{ "do": "hover", "target": "[data-slot=accordion-trigger]", "nth": 2 }] },
+ { "label": "mouse-away", "steps": [{ "do": "mouse", "x": 1000, "y": 700 }] }
+]

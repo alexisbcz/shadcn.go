@@ -1,0 +1,10 @@
+[
+ {"label": "start-idle", "frames": false, "steps": [{"do": "wait", "ms": 500}]},
+ {"label": "v-escape", "reset": true, "steps": [{"do": "press", "key": "Escape"}]},
+ {"label": "v-escape-idle", "frames": false, "steps": [{"do": "wait", "ms": 500}]},
+ {"label": "v-escape-2", "steps": [{"do": "press", "key": "Escape"}]},
+ {"label": "v-escape-2-idle", "frames": false, "steps": [{"do": "wait", "ms": 500}]},
+ {"label": "w-hover-tooltip", "reset": true, "steps": [{"do": "hover", "target": "[data-slot=tooltip-trigger]"}, {"do": "wait", "ms": 50}]},
+ {"label": "w-leave", "steps": [{"do": "mouse", "x": 5, "y": 5}, {"do": "mouse", "x": 8, "y": 8}, {"do": "wait", "ms": 400}]},
+ {"label": "w-leave-idle", "frames": false, "steps": [{"do": "wait", "ms": 500}]}
+]

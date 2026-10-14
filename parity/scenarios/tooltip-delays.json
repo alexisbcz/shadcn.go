@@ -1,0 +1,248 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "reset": true,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement && document.activeElement.blur()"
+   },
+   {
+    "do": "wait",
+    "ms": 800
+   }
+  ]
+ },
+ {
+  "label": "a-before-delay",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 264,
+    "y": 218
+   },
+   {
+    "do": "wait",
+    "ms": 150
+   }
+  ]
+ },
+ {
+  "label": "a-delayed-open",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 600
+   }
+  ]
+ },
+ {
+  "label": "jump-to-b-stays",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 424,
+    "y": 218
+   }
+  ]
+ },
+ {
+  "label": "b-instant",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 430,
+    "y": 220
+   },
+   {
+    "do": "wait",
+    "ms": 20
+   },
+   {
+    "do": "mouse",
+    "x": 436,
+    "y": 222
+   },
+   {
+    "do": "wait",
+    "ms": 30
+   }
+  ]
+ },
+ {
+  "label": "b-to-content",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 436,
+    "y": 250
+   },
+   {
+    "do": "wait",
+    "ms": 30
+   }
+  ]
+ },
+ {
+  "label": "b-leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "mouse",
+    "x": 8,
+    "y": 8
+   },
+   {
+    "do": "wait",
+    "ms": 30
+   }
+  ]
+ },
+ {
+  "label": "b-leave-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 800
+   }
+  ]
+ },
+ {
+  "label": "c-no-delay",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 584,
+    "y": 218
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "d-instant",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 744,
+    "y": 218
+   },
+   {
+    "do": "mouse",
+    "x": 750,
+    "y": 220
+   },
+   {
+    "do": "wait",
+    "ms": 20
+   },
+   {
+    "do": "mouse",
+    "x": 756,
+    "y": 222
+   },
+   {
+    "do": "wait",
+    "ms": 30
+   }
+  ]
+ },
+ {
+  "label": "d-leave-up-closes",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 756,
+    "y": 190
+   },
+   {
+    "do": "wait",
+    "ms": 30
+   }
+  ]
+ },
+ {
+  "label": "d-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 800
+   }
+  ]
+ },
+ {
+  "label": "a-cancel",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 264,
+    "y": 218
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   },
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "wait",
+    "ms": 700
+   }
+  ]
+ },
+ {
+  "label": "a-focus-instant",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=tooltip-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "tab-to-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ }
+]

@@ -1,0 +1,19 @@
+[
+  { "label": "default", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 0 }] },
+  { "label": "success", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 1 }] },
+  { "label": "info", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 2 }] },
+  { "label": "warning", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 3 }] },
+  { "label": "error", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 4 }] },
+  { "label": "promise-loading", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 5 }] },
+  { "label": "promise-resolved", "steps": [{ "do": "wait", "ms": 2300 }] },
+  { "label": "mixed-stack", "reset": true, "frames": false, "steps": [
+    { "do": "click", "target": "[data-slot=button]", "nth": 1 },
+    { "do": "click", "target": "[data-slot=button]", "nth": 4 },
+    { "do": "click", "target": "[data-slot=button]", "nth": 5 }
+  ] },
+  { "label": "mixed-new", "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 2 }] },
+  { "label": "mixed-expand", "steps": [{ "do": "hover", "target": "[data-sonner-toast]", "nth": 0 }] },
+  { "label": "mixed-resolve", "steps": [{ "do": "wait", "ms": 2300 }] },
+  { "label": "mixed-collapse", "steps": [{ "do": "mouse", "x": 10, "y": 10 }] },
+  { "label": "mixed-dismissed", "frames": false, "steps": [{ "do": "wait", "ms": 4800 }] }
+]

@@ -1,0 +1,329 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement && document.activeElement.blur()"
+   },
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "wait",
+    "ms": 1500
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "hover-cancel",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=hover-card-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   },
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "wait",
+    "ms": 900
+   }
+  ]
+ },
+ {
+  "label": "hover-before-delay",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=hover-card-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "hover-open",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 600
+   }
+  ]
+ },
+ {
+  "label": "image-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1500
+   }
+  ]
+ },
+ {
+  "label": "to-content",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=hover-card-content] h4",
+    "force": true
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "leave-closed",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "leave-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "focus-open",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=hover-card-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 900
+   }
+  ]
+ },
+ {
+  "label": "blur-close",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement && document.activeElement.blur()"
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "blur-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "reopen-hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=hover-card-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 900
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "reopen-2",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "hover",
+    "target": "[data-slot=hover-card-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 900
+   }
+  ]
+ },
+ {
+  "label": "outside-pointerdown",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(5, 5); const o = { bubbles: true, cancelable: true, composed: true, clientX: 5, clientY: 5, button: 0, buttons: 1, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('click', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "outside-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "reopen-3",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "hover",
+    "target": "[data-slot=hover-card-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 900
+   }
+  ]
+ },
+ {
+  "label": "reopen-3-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 800
+   }
+  ]
+ },
+ {
+  "label": "press-content",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=hover-card-content] p",
+    "force": true
+   },
+   {
+    "do": "down"
+   }
+  ]
+ },
+ {
+  "label": "select-text",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5,
+    "steps": 5
+   }
+  ]
+ },
+ {
+  "label": "release",
+  "steps": [
+   {
+    "do": "up"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "selection-keeps-open",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 8,
+    "y": 8
+   },
+   {
+    "do": "wait",
+    "ms": 600
+   }
+  ]
+ },
+ {
+  "label": "dismiss-outside",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(5, 5); const o = { bubbles: true, cancelable: true, composed: true, clientX: 5, clientY: 5, button: 0, buttons: 1, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('click', o)); })()"
+   },
+   {
+    "do": "eval",
+    "js": "getSelection().removeAllRanges()"
+   }
+  ]
+ },
+ {
+  "label": "dismiss-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ }
+]

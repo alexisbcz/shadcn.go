@@ -1,0 +1,9 @@
+[
+ { "label": "scroll-both-ltr", "frames": false, "steps": [{ "do": "eval", "js": "const v=document.querySelectorAll('[data-slot=scroll-area-viewport]')[0]; v.scrollTop=150; v.scrollLeft=120" }, { "do": "wait", "ms": 200 }] },
+ { "label": "scroll-both-rtl", "frames": false, "steps": [{ "do": "eval", "js": "const v=document.querySelectorAll('[data-slot=scroll-area-viewport]')[1]; v.scrollTop=150; v.scrollLeft=-120" }, { "do": "wait", "ms": 200 }] },
+ { "label": "drag-horizontal-ltr", "frames": false, "steps": [{ "do": "drag", "target": "[data-slot=scroll-area-scrollbar][data-orientation=horizontal] [data-slot=scroll-area-thumb]", "dx": 40 }, { "do": "wait", "ms": 200 }] },
+ { "label": "drag-horizontal-rtl", "frames": false, "steps": [{ "do": "drag", "target": "[data-slot=scroll-area-scrollbar][data-orientation=horizontal] [data-slot=scroll-area-thumb]", "nth": 1, "dx": -40 }, { "do": "wait", "ms": 200 }] },
+ { "label": "drag-vertical-rtl", "frames": false, "steps": [{ "do": "drag", "target": "[data-slot=scroll-area-scrollbar][data-orientation=vertical] [data-slot=scroll-area-thumb]", "nth": 1, "dy": 40 }, { "do": "wait", "ms": 200 }] },
+ { "label": "click-horizontal-track-rtl", "frames": false, "steps": [{ "do": "click", "target": "[data-slot=scroll-area-scrollbar][data-orientation=horizontal]", "nth": 1 }, { "do": "wait", "ms": 200 }] },
+ { "label": "wheel-vertical-scrollbar", "frames": false, "steps": [{ "do": "hover", "target": "[data-slot=scroll-area-scrollbar][data-orientation=vertical]" }, { "do": "scroll", "y": 80 }, { "do": "wait", "ms": 600 }] }
+]

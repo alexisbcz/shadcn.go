@@ -1,0 +1,231 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-0",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "close-0",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-0-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-1",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "close-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-1-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "close-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-2-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-3",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "close-3",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-3-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-4",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 4
+   }
+  ]
+ },
+ {
+  "label": "close-4",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "close-4-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "detached-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "nth": 5
+   }
+  ]
+ },
+ {
+  "label": "detached-scroll-partial",
+  "frames": false,
+  "steps": [
+   {
+    "do": "scroll",
+    "target": "[data-testid=scroller]",
+    "y": 40
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   }
+  ]
+ },
+ {
+  "label": "detached-scroll-hidden",
+  "frames": false,
+  "steps": [
+   {
+    "do": "scroll",
+    "target": "[data-testid=scroller]",
+    "y": 200
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   }
+  ]
+ },
+ {
+  "label": "detached-scroll-back",
+  "frames": false,
+  "steps": [
+   {
+    "do": "scroll",
+    "target": "[data-testid=scroller]",
+    "y": 0
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   }
+  ]
+ },
+ {
+  "label": "detached-close",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "detached-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ }
+]

@@ -1,0 +1,69 @@
+[
+ {
+  "label": "click-textarea",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-control]"
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "one\ntwo\nthree\nfour\nfive"
+   }
+  ]
+ },
+ {
+  "label": "type-long",
+  "steps": [
+   {
+    "do": "type",
+    "text": " and a much longer line that will wrap around the width of the autosize textarea"
+   }
+  ]
+ },
+ {
+  "label": "delete",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+a"
+   },
+   {
+    "do": "press",
+    "key": "Backspace"
+   }
+  ]
+ },
+ {
+  "label": "tab-submit",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-submit",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "click-addon",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-addon]"
+   }
+  ]
+ }
+]

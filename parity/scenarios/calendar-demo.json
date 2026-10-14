@@ -1,0 +1,377 @@
+[
+ {
+  "label": "hover-day",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 10
+   }
+  ]
+ },
+ {
+  "label": "click-day",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 10
+   }
+  ]
+ },
+ {
+  "label": "click-same-day-deselects",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 10
+   }
+  ]
+ },
+ {
+  "label": "click-other-day",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 17
+   }
+  ]
+ },
+ {
+  "label": "click-outside-day",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "focus-day",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 15
+   }
+  ]
+ },
+ {
+  "label": "key-arrowright",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "key-arrowleft",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "key-arrowdown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "key-arrowup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "key-home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "key-end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "key-pagedown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageDown"
+   }
+  ]
+ },
+ {
+  "label": "key-pageup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-arrowright",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-arrowleft",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-arrowdown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-arrowup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-pagedown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+PageDown"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-pageup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+PageUp"
+   }
+  ]
+ },
+ {
+  "label": "arrows-across-month",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "enter-selects",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "space-toggles",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "tab-out",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-back",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "next-month",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_next"
+   }
+  ]
+ },
+ {
+  "label": "next-month-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_next"
+   }
+  ]
+ },
+ {
+  "label": "previous-month",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_previous"
+   }
+  ]
+ },
+ {
+  "label": "month-dropdown",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelector('[data-slot=calendar] .rdp-months_dropdown'); s.value = '2'; s.dispatchEvent(new Event('change', { bubbles: true })) })()"
+   }
+  ]
+ },
+ {
+  "label": "year-dropdown",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelector('[data-slot=calendar] .rdp-years_dropdown'); s.value = '1990'; s.dispatchEvent(new Event('change', { bubbles: true })) })()"
+   }
+  ]
+ },
+ {
+  "label": "focus-month-select",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=calendar] .rdp-months_dropdown"
+   }
+  ]
+ },
+ {
+  "label": "year-start-of-range",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelector('[data-slot=calendar] .rdp-years_dropdown'); s.value = '1926'; s.dispatchEvent(new Event('change', { bubbles: true })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelector('[data-slot=calendar] .rdp-months_dropdown'); s.value = '0'; s.dispatchEvent(new Event('change', { bubbles: true })) })()"
+   }
+  ]
+ },
+ {
+  "label": "previous-disabled-hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=calendar] .rdp-button_previous",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "previous-disabled-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_previous",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "year-end-of-range",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelector('[data-slot=calendar] .rdp-years_dropdown'); s.value = '2026'; s.dispatchEvent(new Event('change', { bubbles: true })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelector('[data-slot=calendar] .rdp-months_dropdown'); s.value = '11'; s.dispatchEvent(new Event('change', { bubbles: true })) })()"
+   }
+  ]
+ },
+ {
+  "label": "next-disabled-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] .rdp-button_next",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "keyboard-past-end",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 20
+   },
+   {
+    "do": "press",
+    "key": "PageDown"
+   },
+   {
+    "do": "press",
+    "key": "Shift+ArrowDown"
+   }
+  ]
+ }
+]

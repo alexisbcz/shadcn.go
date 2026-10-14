@@ -1,0 +1,161 @@
+[
+ {
+  "label": "next-click",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=carousel-next]"
+   },
+   {
+    "do": "wait",
+    "ms": 2000
+   }
+  ]
+ },
+ {
+  "label": "arrow-right",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 2000
+   }
+  ]
+ },
+ {
+  "label": "arrow-right-to-end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 2000
+   }
+  ]
+ },
+ {
+  "label": "arrow-left",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 2000
+   }
+  ]
+ },
+ {
+  "label": "arrow-down-ignored",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "prev-click",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=carousel-previous]"
+   },
+   {
+    "do": "wait",
+    "ms": 2000
+   }
+  ]
+ },
+ {
+  "label": "drag-up",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 220
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 110,
+    "steps": 12
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "up"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "drag-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 110
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 220,
+    "steps": 12
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "up"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "hover-next",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=carousel-next]"
+   }
+  ]
+ }
+]

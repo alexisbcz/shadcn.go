@@ -1,0 +1,10 @@
+{
+ "path": "changelog/2025-02-tailwind-v4.mdx",
+ "frontmatter": {
+  "title": "February 2025 - Tailwind v4",
+  "description": "First preview of Tailwind v4 and React 19 support.",
+  "date": "2025-02-19T00:00:00.000Z"
+ },
+ "toc": [],
+ "hast": "\n<p>We shipped the first preview of Tailwind v4 and React 19. Ready for you to try out. You can start using it today.</p>\n<p>What's New:</p>\n<ul>\n<li>The CLI can now initialize projects with Tailwind v4.</li>\n<li>Full support for the new @theme directive and @theme inline option.</li>\n<li>All components are updated for Tailwind v4 and React 19.</li>\n<li>We've removed the forwardRefs and adjusted the types.</li>\n<li>Every primitive now has a data-slot attribute for styling.</li>\n<li>We've fixed and cleaned up the style of the components.</li>\n<li>We're deprecating the toast component in favor of sonner.</li>\n<li>Buttons now use the default cursor.</li>\n<li>We're deprecating the default style. New projects will use new-york.</li>\n<li>HSL colors are now converted to OKLCH.</li>\n</ul>\n<p>Read more in the <a href=\"/docs/tailwind-v4\">docs</a>.</p>"
+}

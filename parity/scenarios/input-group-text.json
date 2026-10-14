@@ -1,0 +1,77 @@
+[
+ {
+  "label": "click-addon",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-addon]"
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "12.50"
+   }
+  ]
+ },
+ {
+  "label": "click-end-addon",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-addon]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "type-url",
+  "steps": [
+   {
+    "do": "type",
+    "text": "shadcn"
+   }
+  ]
+ },
+ {
+  "label": "click-textarea",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-control]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "type-message",
+  "steps": [
+   {
+    "do": "type",
+    "text": "Hello\nworld"
+   }
+  ]
+ },
+ {
+  "label": "click-textarea-addon",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-addon]",
+    "nth": 5
+   }
+  ]
+ }
+]

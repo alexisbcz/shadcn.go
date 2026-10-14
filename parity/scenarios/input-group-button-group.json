@@ -1,0 +1,56 @@
+[
+ {
+  "label": "click-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]"
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "example"
+   }
+  ]
+ },
+ {
+  "label": "click-addon",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-addon]"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-text",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=label]"
+   }
+  ]
+ }
+]

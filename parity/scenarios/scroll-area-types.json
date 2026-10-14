@@ -1,0 +1,17 @@
+[
+ {"label": "scroll-type-scrolling", "frames": false, "steps": [{"do": "scroll", "target": "[data-slot=scroll-area-viewport]", "y": 120}, {"do": "wait", "ms": 50}]},
+ {"label": "scroll-type-idle-then-hidden", "frames": false, "steps": [{"do": "wait", "ms": 600}]},
+ {"label": "scroll-type-wheel", "frames": false, "steps": [{"do": "mouse", "x": 300, "y": 120}, {"do": "hover", "target": "[data-slot=scroll-area]"}, {"do": "scroll", "y": 100}, {"do": "wait", "ms": 150}]},
+ {"label": "scroll-type-interacting", "frames": false, "steps": [{"do": "hover", "target": "[data-slot=scroll-area-scrollbar]", "force": true}, {"do": "wait", "ms": 600}]},
+ {"label": "scroll-type-drag", "frames": false, "steps": [{"do": "drag", "target": "[data-slot=scroll-area-thumb]", "dy": 30}, {"do": "wait", "ms": 100}]},
+ {"label": "scroll-type-leave", "frames": false, "steps": [{"do": "mouse", "x": 1000, "y": 700}, {"do": "wait", "ms": 200}]},
+ {"label": "scroll-type-hidden", "frames": false, "steps": [{"do": "wait", "ms": 500}]},
+ {"label": "auto-scroll", "frames": false, "steps": [{"do": "scroll", "target": "[data-slot=scroll-area-viewport]", "nth": 1, "y": 200}, {"do": "wait", "ms": 200}]},
+ {"label": "always-scroll", "frames": false, "steps": [{"do": "scroll", "target": "[data-slot=scroll-area-viewport]", "nth": 3, "y": 300}, {"do": "wait", "ms": 200}]},
+ {"label": "always-drag", "frames": false, "steps": [{"do": "drag", "target": "[data-slot=scroll-area-thumb]", "nth": 1, "dy": -40}, {"do": "wait", "ms": 200}]},
+ {"label": "hover-always-scrollbar", "steps": [{"do": "hover", "target": "[data-slot=scroll-area-scrollbar]", "nth": 1}]},
+ {"label": "auto-content-grows", "frames": false, "steps": [{"do": "eval", "js": "const c=document.querySelectorAll('[data-slot=scroll-area-viewport]')[2].firstElementChild.firstElementChild; for (let i=0;i<10;i++){const d=document.createElement('div'); d.className='text-sm extra'; d.textContent='v0.0.'+i; c.appendChild(d)}"}, {"do": "wait", "ms": 200}]},
+ {"label": "auto-grown-scroll", "frames": false, "steps": [{"do": "scroll", "target": "[data-slot=scroll-area-viewport]", "nth": 2, "y": 80}, {"do": "wait", "ms": 200}]},
+ {"label": "auto-content-shrinks", "frames": false, "steps": [{"do": "eval", "js": "document.querySelectorAll('.extra').forEach((e)=>e.remove())"}, {"do": "wait", "ms": 200}]},
+ {"label": "auto-overflowing-shrinks", "frames": false, "steps": [{"do": "eval", "js": "const c=document.querySelectorAll('[data-slot=scroll-area-viewport]')[1].firstElementChild.firstElementChild; while (c.children.length>3) c.lastElementChild.remove()"}, {"do": "wait", "ms": 200}]}
+]

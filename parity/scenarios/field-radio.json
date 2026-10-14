@@ -1,0 +1,150 @@
+[
+ {
+  "label": "click-yearly",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=radio-group-item]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "arrow-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "arrow-up",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "arrow-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "arrow-left",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "space",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "click-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-label]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "tab-out",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-in",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-label",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=field-label]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "focus-radio",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[role=radio]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "page-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageDown"
+   }
+  ]
+ },
+ {
+  "label": "page-up",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "enter-noop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ }
+]

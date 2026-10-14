@@ -1,0 +1,57 @@
+[
+ {
+  "label": "click-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-label]"
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "maxleiter"
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "type-password",
+  "steps": [
+   {
+    "do": "type",
+    "text": "hunter22"
+   }
+  ]
+ },
+ {
+  "label": "click-label-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-label]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "dblclick-label",
+  "steps": [
+   {
+    "do": "dblclick",
+    "target": "[data-slot=field-label]"
+   }
+  ]
+ }
+]

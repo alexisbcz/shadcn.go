@@ -1,0 +1,21 @@
+[
+ { "label": "click-open-noncollapsible", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 0, "force": true }] },
+ { "label": "click-disabled-item", "steps": [{ "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 1, "force": true }] },
+ { "label": "click-three", "steps": [{ "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 2 }] },
+ { "label": "arrow-down-wraps-skipping-disabled", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }] },
+ { "label": "arrow-down-skips-disabled", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }] },
+ { "label": "enter-three", "steps": [{ "do": "press", "key": "Enter" }] },
+ { "label": "focus-x", "frames": false, "steps": [{ "do": "focus", "target": "[data-slot=accordion-trigger]", "nth": 3 }] },
+ { "label": "rtl-arrow-left-next", "frames": false, "steps": [{ "do": "press", "key": "ArrowLeft" }] },
+ { "label": "rtl-arrow-left-next-2", "frames": false, "steps": [{ "do": "press", "key": "ArrowLeft" }] },
+ { "label": "rtl-arrow-left-wraps", "frames": false, "steps": [{ "do": "press", "key": "ArrowLeft" }] },
+ { "label": "rtl-arrow-right-prev-wraps", "frames": false, "steps": [{ "do": "press", "key": "ArrowRight" }] },
+ { "label": "horizontal-arrow-down-ignored", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }] },
+ { "label": "horizontal-arrow-up-ignored", "frames": false, "steps": [{ "do": "press", "key": "ArrowUp" }] },
+ { "label": "horizontal-home", "frames": false, "steps": [{ "do": "press", "key": "Home" }] },
+ { "label": "horizontal-end", "frames": false, "steps": [{ "do": "press", "key": "End" }] },
+ { "label": "space-opens-z", "steps": [{ "do": "press", "key": "Space" }] },
+ { "label": "click-x", "steps": [{ "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 3 }] },
+ { "label": "tab-past-disabled-accordion", "frames": false, "steps": [{ "do": "press", "key": "Tab" }, { "do": "press", "key": "Tab" }, { "do": "press", "key": "Tab" }] },
+ { "label": "click-disabled-accordion", "steps": [{ "do": "click", "target": "[data-slot=accordion-trigger]", "nth": 5, "force": true }] }
+]

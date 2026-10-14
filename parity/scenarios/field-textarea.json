@@ -1,0 +1,86 @@
+[
+ {
+  "label": "click-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-label]"
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "Great service.\nLine two\nLine three\nLine four\nLine five"
+   }
+  ]
+ },
+ {
+  "label": "tab-out",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-back",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "select-all-delete",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ControlOrMeta+a"
+   },
+   {
+    "do": "press",
+    "key": "Backspace"
+   }
+  ]
+ },
+ {
+  "label": "hover-label",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=field-label]"
+   }
+  ]
+ },
+ {
+  "label": "hover-description",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=field-description]"
+   }
+  ]
+ },
+ {
+  "label": "click-outside",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ }
+]

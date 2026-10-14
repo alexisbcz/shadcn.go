@@ -1,0 +1,10 @@
+{
+ "path": "changelog/2024-04-lift-mode.mdx",
+ "frontmatter": {
+  "title": "April 2024 - Lift Mode",
+  "description": "A new mode for Blocks to lift smaller components for copy and paste.",
+  "date": "2024-04-05T00:00:00.000Z"
+ },
+ "toc": [],
+ "hast": "\n<p>We're introducing a new mode for <a href=\"/blocks\">Blocks</a> called <strong>Lift Mode</strong>.</p>\n<p>Enable Lift Mode to automatically \"lift\" smaller components from a block template for copy and paste.</p>\n<mdx-jsx data-name=\"a\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;href&#x22;,&#x22;value&#x22;:&#x22;/blocks&#x22;}]\"><mdx-jsx data-name=\"Image\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;src&#x22;,&#x22;value&#x22;:&#x22;/images/lift-mode-light.png&#x22;},{&#x22;name&#x22;:&#x22;width&#x22;,&#x22;value&#x22;:&#x22;1432&#x22;},{&#x22;name&#x22;:&#x22;height&#x22;,&#x22;value&#x22;:&#x22;1050&#x22;},{&#x22;name&#x22;:&#x22;alt&#x22;,&#x22;value&#x22;:&#x22;Lift Mode&#x22;},{&#x22;name&#x22;:&#x22;className&#x22;,&#x22;value&#x22;:&#x22;mt-6 w-full overflow-hidden rounded-2xl border dark:hidden&#x22;}]\"></mdx-jsx><mdx-jsx data-name=\"Image\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;src&#x22;,&#x22;value&#x22;:&#x22;/images/lift-mode-dark.png&#x22;},{&#x22;name&#x22;:&#x22;width&#x22;,&#x22;value&#x22;:&#x22;1432&#x22;},{&#x22;name&#x22;:&#x22;height&#x22;,&#x22;value&#x22;:&#x22;1069&#x22;},{&#x22;name&#x22;:&#x22;alt&#x22;,&#x22;value&#x22;:&#x22;Lift Mode&#x22;},{&#x22;name&#x22;:&#x22;className&#x22;,&#x22;value&#x22;:&#x22;mt-6 hidden w-full overflow-hidden rounded-2xl border shadow-sm dark:block&#x22;}]\"></mdx-jsx><mdx-jsx data-name=\"span\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;className&#x22;,&#x22;value&#x22;:&#x22;sr-only&#x22;}]\">View the blocks library</mdx-jsx></mdx-jsx>\n<p>With Lift Mode, you'll be able to copy the smaller components that make up a block template, like cards, buttons, and forms, and paste them directly into your project.</p>\n<p>Visit the <a href=\"/blocks\">Blocks</a> page to try it out.</p>"
+}

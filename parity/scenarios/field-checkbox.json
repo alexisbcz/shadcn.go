@@ -1,0 +1,101 @@
+[
+ {
+  "label": "click-checkbox",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "click-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-label]",
+    "nth": 2,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "space",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "space-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "uncheck-sync",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 4,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "click-sync-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-label]",
+    "nth": 4,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "hover-label",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=field-label]",
+    "nth": 3,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ }
+]

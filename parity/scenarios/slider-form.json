@@ -1,0 +1,311 @@
+[
+ {
+  "label": "form-data-initial",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form', new URLSearchParams(new FormData(document.getElementById('slider-form'))).toString())"
+   }
+  ]
+ },
+ {
+  "label": "volume-focus",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "focus",
+    "target": "[role=slider]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "volume-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "volume-pageup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "price-focus-min",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[role=slider]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "price-home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "price-end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "form-data",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form', new URLSearchParams(new FormData(document.getElementById('slider-form'))).toString())"
+   }
+  ]
+ },
+ {
+  "label": "rtlinv-focus",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[role=slider]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "rtlinv-right-increases",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "rtlinv-left-decreases",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "rtlinv-shift-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "rtlinv-pagedown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageDown"
+   }
+  ]
+ },
+ {
+  "label": "rtlinv-up",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "rtlrange-focus-min",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[role=slider]",
+    "nth": 4
+   }
+  ]
+ },
+ {
+  "label": "rtlrange-left-increases",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "rtlrange-right-decreases",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "rtlrange-pageup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "rtlrange-tab-max",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "rtlrange-shift-left",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "rtlrange-home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "rtlrange-end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "rtlrange-shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "click-price-track-closest",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=slider-track]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "click-rtlinv-track",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=slider-track]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "drag-rtlinv-thumb",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[role=slider]",
+    "nth": 3,
+    "dx": 80,
+    "steps": 5
+   }
+  ]
+ },
+ {
+  "label": "drag-rtlrange-track",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[data-slot=slider-track]",
+    "nth": 3,
+    "dx": -60,
+    "steps": 5
+   }
+  ]
+ },
+ {
+  "label": "drag-price-thumb",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[role=slider]",
+    "nth": 2,
+    "dx": -200,
+    "steps": 6
+   }
+  ]
+ },
+ {
+  "label": "form-data-after-drag",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-form', new URLSearchParams(new FormData(document.getElementById('slider-form'))).toString())"
+   }
+  ]
+ },
+ {
+  "label": "right-button-moves-too",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=slider-track]",
+    "nth": 2
+   },
+   {
+    "do": "down",
+    "button": "right"
+   },
+   {
+    "do": "up",
+    "button": "right"
+   }
+  ]
+ },
+ {
+  "label": "mouse-away",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   }
+  ]
+ }
+]

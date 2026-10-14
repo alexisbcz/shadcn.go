@@ -1,0 +1,105 @@
+[
+ {
+  "label": "hover-info",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=tooltip-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "hover-help",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=tooltip-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "hover-api",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=tooltip-trigger]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "click-api-addon",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-control]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "sk-123"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "tab-cycle",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "type-password",
+  "steps": [
+   {
+    "do": "type",
+    "text": "hunter22"
+   }
+  ]
+ }
+]

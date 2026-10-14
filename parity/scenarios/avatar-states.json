@@ -1,0 +1,12 @@
+[
+ {
+  "label": "after-delay",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 900
+   }
+  ]
+ }
+]

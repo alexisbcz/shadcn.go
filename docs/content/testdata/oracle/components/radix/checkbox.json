@@ -1,0 +1,71 @@
+{
+ "path": "components/radix/checkbox.mdx",
+ "frontmatter": {
+  "title": "Checkbox",
+  "description": "A control that allows the user to toggle between checked and not checked.",
+  "base": "radix",
+  "component": true,
+  "links": {
+   "doc": "https://www.radix-ui.com/docs/primitives/components/checkbox",
+   "api": "https://www.radix-ui.com/docs/primitives/components/checkbox#api-reference"
+  }
+ },
+ "toc": [
+  {
+   "depth": 2,
+   "url": "#installation",
+   "title": "Installation"
+  },
+  {
+   "depth": 2,
+   "url": "#usage",
+   "title": "Usage"
+  },
+  {
+   "depth": 2,
+   "url": "#checked-state",
+   "title": "Checked State"
+  },
+  {
+   "depth": 2,
+   "url": "#invalid-state",
+   "title": "Invalid State"
+  },
+  {
+   "depth": 2,
+   "url": "#basic",
+   "title": "Basic"
+  },
+  {
+   "depth": 2,
+   "url": "#description",
+   "title": "Description"
+  },
+  {
+   "depth": 2,
+   "url": "#disabled",
+   "title": "Disabled"
+  },
+  {
+   "depth": 2,
+   "url": "#group",
+   "title": "Group"
+  },
+  {
+   "depth": 2,
+   "url": "#table",
+   "title": "Table"
+  },
+  {
+   "depth": 2,
+   "url": "#rtl",
+   "title": "RTL"
+  },
+  {
+   "depth": 2,
+   "url": "#api-reference",
+   "title": "API Reference"
+  }
+ ],
+ "hast": "\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;checkbox-demo&#x22;},{&#x22;name&#x22;:&#x22;previewClassName&#x22;,&#x22;value&#x22;:&#x22;h-80&#x22;}]\"></mdx-jsx>\n<h2 id=\"installation\">Installation</h2>\n<mdx-jsx data-name=\"CodeTabs\" data-flow=\"true\" data-attrs=\"[]\"><mdx-jsx data-name=\"TabsList\" data-flow=\"true\" data-attrs=\"[]\"><mdx-jsx data-name=\"TabsTrigger\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;cli&#x22;}]\">Command</mdx-jsx><mdx-jsx data-name=\"TabsTrigger\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;manual&#x22;}]\">Manual</mdx-jsx></mdx-jsx><mdx-jsx data-name=\"TabsContent\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;cli&#x22;}]\"><figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"bash\" data-theme=\"vesper github-light-default\"><code __raw__=\"npx shadcn@latest add checkbox\" __npm__=\"npx shadcn@latest add checkbox\" __yarn__=\"yarn dlx shadcn@latest add checkbox\" __pnpm__=\"pnpm dlx shadcn@latest add checkbox\" __bun__=\"bunx --bun shadcn@latest add checkbox\" data-language=\"bash\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#FFC799;--shiki-light:#953800\">npx</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> shadcn@latest</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> add</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> checkbox</span></span></code></pre></figure></mdx-jsx><mdx-jsx data-name=\"TabsContent\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;value&#x22;,&#x22;value&#x22;:&#x22;manual&#x22;}]\"><mdx-jsx data-name=\"Steps\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;className&#x22;,&#x22;value&#x22;:&#x22;mb-0 pt-2&#x22;}]\"><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Install the following dependencies:</mdx-jsx><figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"bash\" data-theme=\"vesper github-light-default\"><code __raw__=\"npm install radix-ui\" __npm__=\"npm install radix-ui\" __yarn__=\"yarn add radix-ui\" __pnpm__=\"pnpm add radix-ui\" __bun__=\"bun add radix-ui\" data-language=\"bash\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#FFC799;--shiki-light:#953800\">npm</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> install</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> radix-ui</span></span></code></pre></figure><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Copy and paste the following code into your project.</mdx-jsx><mdx-jsx data-name=\"ComponentSource\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;checkbox&#x22;},{&#x22;name&#x22;:&#x22;title&#x22;,&#x22;value&#x22;:&#x22;components/ui/checkbox.tsx&#x22;},{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;}]\"></mdx-jsx><mdx-jsx data-name=\"Step\" data-flow=\"true\" data-attrs=\"[]\">Update the import paths to match your project setup.</mdx-jsx></mdx-jsx></mdx-jsx></mdx-jsx>\n<h2 id=\"usage\">Usage</h2>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"import { Checkbox } from &#x22;@/components/ui/checkbox&#x22;\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">import</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\"> { Checkbox } </span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">from</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> \"@/components/ui/checkbox\"</span></span></code></pre></figure>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"<Checkbox />\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\">&#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Checkbox</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\"> /></span></span></code></pre></figure>\n<h2 id=\"checked-state\">Checked State</h2>\n<p>Use <code>defaultChecked</code> for uncontrolled checkboxes, or <code>checked</code> and\n<code>onCheckedChange</code> to control the state.</p>\n<figure data-rehype-pretty-code-figure=\"\"><pre style=\"--shiki-dark:#FFF;--shiki-light:#1f2328;--shiki-dark-bg:#101010;--shiki-light-bg:#ffffff\" tabindex=\"0\" data-language=\"tsx\" data-theme=\"vesper github-light-default\"><code __raw__=\"import * as React from &#x22;react&#x22;\n\nexport function Example() {\n  const [checked, setChecked] = React.useState(false)\n\n  return <Checkbox checked={checked} onCheckedChange={setChecked} />\n}\" data-line-numbers=\"\" data-language=\"tsx\" data-theme=\"vesper github-light-default\" style=\"display: grid;\" data-line-numbers-max-digits=\"1\"><span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">import</span><span style=\"--shiki-dark:#FFF;--shiki-light:#0550AE\"> *</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\"> as</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\"> React </span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">from</span><span style=\"--shiki-dark:#99FFE4;--shiki-light:#0A3069\"> \"react\"</span></span>\n<span data-line=\"\"> </span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">export</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\"> function</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#8250DF\"> Example</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">() {</span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">  const</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\"> [</span><span style=\"--shiki-dark:#FFF;--shiki-light:#0550AE\">checked</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">, </span><span style=\"--shiki-dark:#FFF;--shiki-light:#0550AE\">setChecked</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">] </span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">=</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\"> React.</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#8250DF\">useState</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">(</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#0550AE\">false</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">)</span></span>\n<span data-line=\"\"> </span>\n<span data-line=\"\"><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">  return</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\"> &#x3C;</span><span style=\"--shiki-dark:#FFC799;--shiki-light:#116329\">Checkbox</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\"> checked</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">={</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">checked</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">}</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#0550AE\"> onCheckedChange</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">={</span><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">setChecked</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#CF222E\">}</span><span style=\"--shiki-dark:#A0A0A0;--shiki-light:#1F2328\"> /></span></span>\n<span data-line=\"\"><span style=\"--shiki-dark:#FFF;--shiki-light:#1F2328\">}</span></span></code></pre></figure>\n<h2 id=\"invalid-state\">Invalid State</h2>\n<p>Set <code>aria-invalid</code> on the checkbox and <code>data-invalid</code> on the field wrapper to\nshow the invalid styles.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;checkbox-invalid&#x22;}]\"></mdx-jsx>\n<h2 id=\"basic\">Basic</h2>\n<p>Pair the checkbox with <code>Field</code> and <code>FieldLabel</code> for proper layout and labeling.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;checkbox-basic&#x22;}]\"></mdx-jsx>\n<h2 id=\"description\">Description</h2>\n<p>Use <code>FieldContent</code> and <code>FieldDescription</code> for helper text.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;checkbox-description&#x22;}]\"></mdx-jsx>\n<h2 id=\"disabled\">Disabled</h2>\n<p>Use the <code>disabled</code> prop to prevent interaction and add the <code>data-disabled</code> attribute to the <code>&#x3C;Field></code> component for disabled styles.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;checkbox-disabled&#x22;}]\"></mdx-jsx>\n<h2 id=\"group\">Group</h2>\n<p>Use multiple fields to create a checkbox list.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;checkbox-group&#x22;}]\"></mdx-jsx>\n<h2 id=\"table\">Table</h2>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;checkbox-table&#x22;},{&#x22;name&#x22;:&#x22;previewClassName&#x22;,&#x22;value&#x22;:&#x22;p-4 md:p-8&#x22;}]\"></mdx-jsx>\n<h2 id=\"rtl\">RTL</h2>\n<p>To enable RTL support in shadcn/ui, see the <a href=\"/docs/rtl\">RTL configuration guide</a>.</p>\n<mdx-jsx data-name=\"ComponentPreview\" data-flow=\"true\" data-attrs=\"[{&#x22;name&#x22;:&#x22;styleName&#x22;,&#x22;value&#x22;:&#x22;radix-nova&#x22;},{&#x22;name&#x22;:&#x22;name&#x22;,&#x22;value&#x22;:&#x22;checkbox-rtl&#x22;},{&#x22;name&#x22;:&#x22;direction&#x22;,&#x22;value&#x22;:&#x22;rtl&#x22;},{&#x22;name&#x22;:&#x22;previewClassName&#x22;,&#x22;value&#x22;:&#x22;h-80&#x22;}]\"></mdx-jsx>\n<h2 id=\"api-reference\">API Reference</h2>\n<p>See the <a href=\"https://www.radix-ui.com/docs/primitives/components/checkbox#api-reference\">Radix UI</a> documentation for more information.</p>"
+}
