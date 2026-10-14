@@ -358,20 +358,21 @@ class Side {
     return (await this.page.locator(selector).count()) > 0
   }
 
-  // Full-page PNG through the DevTools protocol with optimizeForSpeed, which
-  // only changes the PNG compression, never the pixels; several times faster
-  // than page.screenshot's default encoding.
+  // Full-page PNG. When the page fits the viewport (almost always), it goes
+  // through the DevTools protocol with optimizeForSpeed, which only changes
+  // the PNG compression, never the pixels, and is several times faster.
+  // captureBeyondViewport must stay false there: it fires a window "resize"
+  // event, which closes components that listen for it (Radix Select).
+  // Taller pages use Playwright's full-page screenshot, as before.
   async raw() {
-    const { w, h } = await this.page.evaluate(() => ({
-      w: Math.max(document.documentElement.scrollWidth, innerWidth),
-      h: Math.max(document.documentElement.scrollHeight, innerHeight),
+    const { w, h, vw, vh } = await this.page.evaluate(() => ({
+      w: document.documentElement.scrollWidth,
+      h: document.documentElement.scrollHeight,
+      vw: innerWidth,
+      vh: innerHeight,
     }))
-    const { data } = await this.cdp.send("Page.captureScreenshot", {
-      format: "png",
-      optimizeForSpeed: true,
-      captureBeyondViewport: true,
-      clip: { x: 0, y: 0, width: w, height: h, scale: 1 },
-    })
+    if (w > vw || h > vh) return this.page.screenshot({ fullPage: true, animations: "allow" })
+    const { data } = await this.cdp.send("Page.captureScreenshot", { format: "png", optimizeForSpeed: true, captureBeyondViewport: false })
     return Buffer.from(data, "base64")
   }
 
