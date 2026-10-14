@@ -29,6 +29,7 @@ import (
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/uid"
@@ -228,9 +229,31 @@ func (b *ViewportBuilder) AcceptChild(c any) bool {
 
 const viewportClass = "size-full min-h-0 min-w-0 scroll-fade-b scrollbar-thin scrollbar-gutter-stable overflow-y-auto overscroll-contain contain-content data-autoscrolling:scrollbar-none data-pending-scroll:invisible"
 
+// novaViewportClass and novaContentClass are the radix bases' classes
+// (styles/radix-nova/ui/message-scroller.tsx), used inside a style.Scope.
+const (
+	novaViewportClass = "size-full min-h-0 min-w-0 scroll-fade-b scrollbar-thin scrollbar-gutter-stable overflow-y-auto overscroll-contain contain-content data-autoscrolling:scrollbar-thumb-transparent data-autoscrolling:scrollbar-track-transparent data-pending-scroll:invisible"
+	novaContentClass  = "flex h-max min-h-full flex-col gap-6"
+)
+
+func inStyle(w io.Writer) bool {
+	if w == nil {
+		return false
+	}
+	_, ok := style.FromWriter(w)
+	return ok
+}
+
 // Element resolves the viewport.
-func (b *ViewportBuilder) Element() *h.Element {
-	base := h.Div(h.Role("region"), h.Aria("label", "Messages"), h.TabIndex(0), h.Data("slot", "message-scroller-viewport"), h.Class(lib.Cn(viewportClass)))
+func (b *ViewportBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the viewport as it renders inside w.
+func (b *ViewportBuilder) ElementIn(w io.Writer) *h.Element {
+	class := viewportClass
+	if inStyle(w) {
+		class = novaViewportClass
+	}
+	base := h.Div(h.Role("region"), h.Aria("label", "Messages"), h.TabIndex(0), h.Data("slot", "message-scroller-viewport"), h.Class(lib.Cn(class)))
 	el := h.Spread(base, b.Elem(), lib.Cn)
 	cfg := b.config()
 	if cfg.pending() {
@@ -247,7 +270,7 @@ func (b *ViewportBuilder) Element() *h.Element {
 }
 
 // Render renders the viewport.
-func (b *ViewportBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ViewportBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // --- Content -----------------------------------------------------------------------------------
 
@@ -277,8 +300,15 @@ func (b *ContentBuilder) AcceptChild(c any) bool {
 }
 
 // Element resolves the content.
-func (b *ContentBuilder) Element() *h.Element {
-	base := h.Div(h.Role("log"), h.Aria("relevant", "additions"), h.Data("slot", "message-scroller-content"), h.Class(lib.Cn("flex h-max min-h-full flex-col gap-8")))
+func (b *ContentBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the content as it renders inside w.
+func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element {
+	class := "flex h-max min-h-full flex-col gap-8"
+	if inStyle(w) {
+		class = novaContentClass
+	}
+	base := h.Div(h.Role("log"), h.Aria("relevant", "additions"), h.Data("slot", "message-scroller-content"), h.Class(lib.Cn(class)))
 	el := h.Spread(base, b.Elem(), lib.Cn)
 	spacer := h.Div(h.Aria("hidden", "true"), h.Data("message-scroller-spacer", ""), h.Hidden())
 	if b.spacerClass != "" {
@@ -290,7 +320,7 @@ func (b *ContentBuilder) Element() *h.Element {
 }
 
 // Render renders the content.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ContentBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // --- Item --------------------------------------------------------------------------------------
 
