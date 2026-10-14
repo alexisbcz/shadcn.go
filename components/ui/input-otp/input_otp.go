@@ -26,6 +26,7 @@ import (
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/runtime"
 	h "shadcn.go/libhtml"
 )
@@ -67,7 +68,19 @@ type Builder struct {
 	containerClass string
 	inputMode      string
 	textAlign      string
+	st             style.Style // the enclosing style.Scope, "" for new-york-v4
 }
+
+// The classes of registry/bases/radix/ui/input-otp.tsx, used inside a
+// style.Scope (see package style).
+var (
+	file        = style.NewFile("ui/input-otp.tsx")
+	stContainer = file.Cn("cn-input-otp flex items-center has-disabled:opacity-50", style.Arg)
+	stInput     = file.Cn("cn-input-otp-input disabled:cursor-not-allowed", style.Arg)
+	stGroup     = file.Cn("cn-input-otp-group flex items-center", style.Arg)
+	stSlot      = file.Cn("cn-input-otp-slot relative flex items-center justify-center data-[active=true]:z-10", style.Arg)
+	stSeparator = file.Attr("cn-input-otp-separator flex items-center")
+)
 
 // InputOTP returns the input. Children may include MaxLength, Pattern,
 // ContainerClass, InputMode and TextAlign
@@ -124,7 +137,14 @@ func (b *Builder) Element() *h.Element {
 	inputProps := props.Clone().SetChildren()
 	input := h.Spread(h.Input(h.AutoComplete("one-time-code")), inputProps, nil)
 	input.Data("slot", "input-otp")
-	input.SetClass(lib.Cn("disabled:cursor-not-allowed", props.ClassName()))
+	if b.st != "" {
+		input.SetClass(lib.Cn(stInput.Class(b.st, ""), props.ClassName()))
+		if _, ok := input.GetAttr("spellcheck"); !ok {
+			input.Attr("spellcheck", "false")
+		}
+	} else {
+		input.SetClass(lib.Cn("disabled:cursor-not-allowed", props.ClassName()))
+	}
 	input.Data("input-otp", "true")
 	if value == "" {
 		input.Data("input-otp-placeholder-shown", "true")
@@ -143,9 +163,15 @@ func (b *Builder) Element() *h.Element {
 	}
 	kids := props.ChildNodes()
 	fill(kids, &slotContext{value: runes})
+	containerClass := lib.Cn("flex items-center gap-2 has-disabled:opacity-50", b.containerClass)
+	if b.st != "" {
+		// Upstream's transform leaves containerClassName alone: the token
+		// stays and the style's gap never applies.
+		containerClass = lib.Cn("cn-input-otp flex items-center has-disabled:opacity-50", b.containerClass)
+	}
 	return h.Div(
 		h.Data("input-otp-container", "true"),
-		h.Class(lib.Cn("flex items-center gap-2 has-disabled:opacity-50", b.containerClass)),
+		h.Class(containerClass),
 		h.Style("position: relative; cursor: "+cursor+"; user-select: none; pointer-events: none;"),
 		h.Group(kids...),
 		h.Div(h.Style("position: absolute; inset: 0px; pointer-events: none;"), input),
@@ -153,7 +179,13 @@ func (b *Builder) Element() *h.Element {
 }
 
 // Fragment returns the <noscript> input-otp emits, then the container.
-func (b *Builder) Fragment() h.Fragment { return h.Group(h.El("noscript"), b.Element()) }
+// The container resolves when rendered, in the enclosing style.Scope.
+func (b *Builder) Fragment() h.Fragment {
+	return h.Group(h.El("noscript"), h.NodeFunc(func(w io.Writer) error {
+		b.st, _ = style.FromWriter(w)
+		return b.Element().Render(w)
+	}))
+}
 
 // Render renders Fragment.
 func (b *Builder) Render(w io.Writer) error { return b.Fragment().Render(w) }
@@ -182,6 +214,7 @@ func fill(nodes []any, ctx *slotContext) {
 type GroupBuilder struct {
 	h.Builder[GroupBuilder]
 	separator bool
+	st        style.Style
 }
 
 // Group groups slots visually.
@@ -201,19 +234,34 @@ func Separator(children ...any) *GroupBuilder {
 // Element resolves the group or separator.
 func (b *GroupBuilder) Element() *h.Element {
 	if b.separator {
+		if b.st != "" {
+			user := b.Elem().Clone().SetChildren()
+			el := h.Spread(h.Div(h.Data("slot", "input-otp-separator"), h.Class(stSeparator.Class(b.st)), h.Role("separator"), lucide.Minus()), user, nil)
+			if c := user.ClassName(); c != "" {
+				el.SetClass(c) // {...props} replaces className
+			}
+			return el
+		}
 		return h.Spread(h.Div(h.Data("slot", "input-otp-separator"), h.Role("separator"), lucide.Minus()), b.Elem().Clone().SetChildren(), lib.Cn)
+	}
+	if b.st != "" {
+		return h.Spread(h.Div(h.Data("slot", "input-otp-group"), h.Class(stGroup.Class(b.st, ""))), b.Elem(), lib.Cn)
 	}
 	return h.Spread(h.Div(h.Data("slot", "input-otp-group"), h.Class("flex items-center")), b.Elem(), lib.Cn)
 }
 
 // Render renders the group or separator.
-func (b *GroupBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *GroupBuilder) Render(w io.Writer) error {
+	b.st, _ = style.FromWriter(w)
+	return b.Element().Render(w)
+}
 
 // SlotBuilder is returned by Slot.
 type SlotBuilder struct {
 	h.Builder[SlotBuilder]
 	index int
 	ctx   *slotContext
+	st    style.Style
 }
 
 // Slot shows the character at index.
@@ -228,7 +276,11 @@ const slotClass = "relative flex h-9 w-9 items-center justify-center border-y bo
 // Element resolves the slot. Server-side it is never active (the input is
 // not focused before scripts run).
 func (b *SlotBuilder) Element() *h.Element {
-	el := h.Spread(h.Div(h.Data("slot", "input-otp-slot"), h.Data("active", "false"), h.Class(slotClass)), b.Elem().Clone().SetChildren(), lib.Cn)
+	cls := slotClass
+	if b.st != "" {
+		cls = stSlot.Class(b.st, "")
+	}
+	el := h.Spread(h.Div(h.Data("slot", "input-otp-slot"), h.Data("active", "false"), h.Class(cls)), b.Elem().Clone().SetChildren(), lib.Cn)
 	if b.ctx != nil && b.index >= 0 && b.index < len(b.ctx.value) {
 		el.Children(string(b.ctx.value[b.index]))
 	}
@@ -236,4 +288,7 @@ func (b *SlotBuilder) Element() *h.Element {
 }
 
 // Render renders the slot.
-func (b *SlotBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *SlotBuilder) Render(w io.Writer) error {
+	b.st, _ = style.FromWriter(w)
+	return b.Element().Render(w)
+}
