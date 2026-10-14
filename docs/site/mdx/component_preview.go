@@ -56,7 +56,7 @@ func ComponentPreview(env *Env, _ *content.Context, props content.Props, _ []h.N
 		if ex, ok := registry.Get(name); ok {
 			preview = ex.Render(env.Request)
 		}
-	} else if ex, ok := LookupExample(name); ok {
+	} else if ex, ok := LookupExampleStyle(name, styleName); ok {
 		preview = nextPreview(env, name, ex(env))
 	}
 	if preview == nil {
@@ -195,6 +195,20 @@ func LookupExample(name string) (func(env *Env) h.Node, bool) {
 		return nil, false
 	}
 	return func(env *Env) h.Node { return style.Scope(style.Nova, ex.Render(env.Request)) }, true
+}
+
+// LookupExampleStyle is LookupExample for a docs style: a base whose
+// example differs visibly from the radix one (ui/apps/v4/examples/base or
+// aria) registers its own port as "base--<name>" or "aria--<name>"
+// (rendered as is: the port picks its style), used before the radix one.
+func LookupExampleStyle(name, styleName string) (func(env *Env) h.Node, bool) {
+	prefix := map[string]string{"base-nova": "base--", "aria-nova": "aria--"}[styleName]
+	if prefix != "" {
+		if ex, ok := registry.Get(prefix + name); ok {
+			return func(env *Env) h.Node { return ex.Render(env.Request) }, true
+		}
+	}
+	return LookupExample(name)
 }
 
 func init() { Register("ComponentPreview", ComponentPreview) }

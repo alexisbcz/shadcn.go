@@ -33,7 +33,7 @@ func (s *Site) View(r *http.Request) (h.Node, error) {
 			preview = ex.Render(r)
 		}
 	case styleName == "radix-nova" || styleName == "base-nova" || styleName == "aria-nova":
-		if ex, ok := mdx.LookupExample(name); ok {
+		if ex, ok := mdx.LookupExampleStyle(name, styleName); ok {
 			preview = ex(s.Env(r))
 		}
 	}
