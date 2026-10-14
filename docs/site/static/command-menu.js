@@ -62,9 +62,31 @@ function runCommand(fn) {
   fn()
 }
 
+// router.push keeps the header, and Radix gives the trigger focus back when
+// the dialog closes. A Go navigation reloads the page: the trigger gets the
+// focus back on the next page, visibly so after a keyboard interaction.
+const REFOCUS = "shadcn-command-menu-refocus"
+let lastKeyboard = false
+addEventListener("keydown", () => (lastKeyboard = true), true)
+addEventListener("pointerdown", () => (lastKeyboard = false), true)
+
 function navigate(href) {
+  try {
+    sessionStorage.setItem(REFOCUS, lastKeyboard ? "keyboard" : "pointer")
+  } catch {}
   location.assign(href)
 }
+
+try {
+  const how = sessionStorage.getItem(REFOCUS)
+  if (how) {
+    sessionStorage.removeItem(REFOCUS)
+    // After load: scrolling to the URL fragment would reset the focus.
+    const refocus = () => setTimeout(() => trigger()?.focus({ preventScroll: true, focusVisible: how === "keyboard" }))
+    if (document.readyState === "complete") refocus()
+    else addEventListener("load", refocus, { once: true })
+  }
+} catch {}
 
 document.addEventListener("keydown", (e) => {
   if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || e.key === "/") {

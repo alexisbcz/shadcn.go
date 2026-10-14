@@ -89,4 +89,13 @@ export const scenarios = [
 
   // Base tabs (Base UI / React Aria / Radix UI): navigate to the next base.
   { label: "base-tab", when: S.baseTab, reset: true, steps: [{ do: "click", target: S.baseTab, nav: true }, { do: "settle" }] },
+
+  // Search, continued (last: it navigates): open with "/", type a query
+  // answered by the full-text results, End/Home/arrows, pointer, then Enter.
+  { label: "search-slash", when: S.searchTrigger, reset: true, steps: [{ do: "mouse", x: 1, y: 1 }, { do: "press", key: "/" }, { do: "settle" }] },
+  { label: "search-results", when: S.searchTrigger, frames: false, steps: [{ do: "type", text: "composition" }, { do: "wait", ms: 1500 }, { do: "settle" }] },
+  { label: "search-end", when: S.searchTrigger, frames: false, steps: [{ do: "press", key: "End" }, { do: "settle" }] },
+  { label: "search-home", when: S.searchTrigger, frames: false, steps: [{ do: "press", key: "Home" }, { do: "press", key: "ArrowDown" }, { do: "press", key: "ArrowDown" }, { do: "settle" }] },
+  { label: "search-hover", when: S.searchTrigger, frames: false, steps: [{ do: "hover", target: '[role="dialog"] [cmdk-item]', nth: 4 }, { do: "settle" }] },
+  { label: "search-enter", when: S.searchTrigger, frames: false, steps: [{ do: "press", key: "Enter" }, { do: "wait", ms: 1500 }, { do: "settle" }] },
 ]

@@ -131,7 +131,9 @@ func folder(fsys fs.FS, root, dir string, pages map[string]PageInfo) *Node {
 			n.Children = append(n.Children, e)
 		}
 	}
-	if len(m.Pages) == 0 {
+	// No "pages" lists everything; an empty list (changelog/meta.json)
+	// lists nothing, as in fumadocs.
+	if m.Pages == nil {
 		m.Pages = []string{"..."}
 	}
 	for _, item := range m.Pages {
