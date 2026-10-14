@@ -34,6 +34,7 @@ import (
 	_ "shadcn.go/examples/date-picker"
 	_ "shadcn.go/examples/dialog"
 	_ "shadcn.go/examples/direction"
+	_ "shadcn.go/examples/docs-misc"
 	_ "shadcn.go/examples/drawer"
 	_ "shadcn.go/examples/dropdown-menu"
 	_ "shadcn.go/examples/empty"
