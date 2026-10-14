@@ -31,6 +31,18 @@ for (const f of files) {
     for (const x of widths(Number(w[1] ?? w[2]))) want.set(`${x}${s}`, { src: s, w: x })
   }
 }
+// Plus every local image the reference's app pages request (block
+// screenshots built from data, not literal <Image> tags).
+const { execFileSync } = await import("node:child_process")
+const appPages = execFileSync("node", [path.join(root, "parity/docs/pages.mjs"), "--group", "app"], { encoding: "utf8" })
+  .split("\n").filter((p) => p.startsWith("/"))
+for (const p of appPages) {
+  const html = await (await fetch(ref + p)).text()
+  for (const [, u, w] of html.matchAll(/\/_next\/image\?url=(%2F[^&"]+)&(?:amp;)?w=(\d+)/g)) {
+    const src = decodeURIComponent(u)
+    want.set(`${w}${src}`, { src, w: Number(w) })
+  }
+}
 // remote/ belongs to next-image-remote.mjs.
 for (const d of fs.existsSync(out) ? fs.readdirSync(out) : []) {
   if (d !== "remote") fs.rmSync(path.join(out, d), { recursive: true, force: true })
@@ -38,7 +50,12 @@ for (const d of fs.existsSync(out) ? fs.readdirSync(out) : []) {
 for (const { src, w } of want.values()) {
   const url = `${ref}/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`
   const res = await fetch(url, { headers: { accept: "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8" } })
-  if (!res.ok) throw new Error(`${url}: ${res.status}`)
+  if (!res.ok) {
+    // Missing upstream (e.g. a block without screenshots): the Go server
+    // answers 400 as well.
+    console.warn(`skip ${url}: ${res.status}`)
+    continue
+  }
   const ext = res.headers.get("content-type") === "image/webp" ? ".webp" : ""
   const file = path.join(out, String(w), src + ext)
   fs.mkdirSync(path.dirname(file), { recursive: true })
