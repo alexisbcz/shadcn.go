@@ -11,6 +11,7 @@ import (
 	_ "shadcn.go/examples/attachment"
 	_ "shadcn.go/examples/avatar"
 	_ "shadcn.go/examples/badge"
+	_ "shadcn.go/examples/blocks"
 	_ "shadcn.go/examples/breadcrumb"
 	_ "shadcn.go/examples/bubble"
 	_ "shadcn.go/examples/button"
