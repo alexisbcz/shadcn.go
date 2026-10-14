@@ -1,0 +1,30 @@
+[
+ {
+  "label": "collapse",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "expand",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "calendar-group-toggle",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[data-sidebar=group-label]",
+    "nth": 1
+   }
+  ]
+ }
+]

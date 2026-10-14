@@ -1,0 +1,54 @@
+[
+ {
+  "label": "collapse",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "expand",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "favorite-menu",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sidebar=menu-action]",
+    "force": true
+   },
+   {
+    "do": "click",
+    "target": "[data-sidebar=menu-action]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "favorite-menu-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "workspace-expand",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=collapsible-trigger]",
+    "force": true
+   }
+  ]
+ }
+]

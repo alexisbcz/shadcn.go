@@ -65,9 +65,11 @@ type Builder struct {
 	h.Builder[Builder]
 	open     bool
 	disabled bool
+	asChild  bool
 }
 
-// Collapsible returns the root <div>.
+// Collapsible returns the root <div>. It accepts lib.AsChild: the root's
+// props are then merged into its single child.
 func Collapsible(children ...any) *Builder {
 	b := &Builder{}
 	b.Builder = h.NewBuilder(b, "div")
@@ -81,6 +83,8 @@ func (b *Builder) AcceptChild(c any) bool {
 		b.open = bool(v)
 	case Disabled:
 		b.disabled = bool(v)
+	case lib.AsChildFlag:
+		b.asChild = true
 	default:
 		return false
 	}
@@ -112,6 +116,13 @@ func (b *Builder) Element() *h.Element {
 		base.Data("disabled", "")
 	}
 	base.Data("slot", "collapsible")
+	if b.asChild {
+		// The child is typically a component spreading its props last
+		// (e.g. SidebarMenuItem): the root's data-slot wins, as in React.
+		out := aschild.Resolve("collapsible", h.Spread(base, b.Elem(), nil))
+		out.Data("slot", "collapsible")
+		return out
+	}
 	return h.Spread(base, b.Elem(), nil)
 }
 

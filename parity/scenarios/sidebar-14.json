@@ -1,0 +1,20 @@
+[
+ {
+  "label": "collapse",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "expand",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]"
+   }
+  ]
+ }
+]

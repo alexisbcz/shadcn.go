@@ -1,0 +1,30 @@
+[
+ {
+  "label": "collapse",
+  "steps": [
+   {
+    "do": "click",
+    "target": "header [data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "expand",
+  "steps": [
+   {
+    "do": "click",
+    "target": "header [data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "nav-toggle",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=collapsible-trigger]",
+    "nth": 1
+   }
+  ]
+ }
+]

@@ -648,6 +648,11 @@ type TooltipOption struct{ children []any }
 //	sidebar.MenuButton(sidebar.Tooltip(tooltip.SideBottom, h.Class("..."), "Home"), ...)
 func Tooltip(children ...any) TooltipOption { return TooltipOption{children: children} }
 
+// TooltipHidden, passed to Tooltip, overrides when the tooltip is hidden
+// (upstream's tooltip={{ hidden: false }}): TooltipHidden(false) shows it
+// whatever the sidebar's state.
+type TooltipHidden bool
+
 // MenuButtonBuilder is returned by MenuButton.
 type MenuButtonBuilder struct {
 	h.Builder[MenuButtonBuilder]
@@ -728,17 +733,28 @@ func (b *MenuButtonBuilder) Element() *h.Element {
 func (b *MenuButtonBuilder) withTooltip(btn *h.Element, fn func(trigger, content *h.Element)) {
 	ctx := b.context()
 	hidden := ctx.open
+	fixed := false
+	var kids []any
+	for _, c := range b.tooltip.children {
+		if v, ok := c.(TooltipHidden); ok {
+			hidden, fixed = bool(v), true
+			continue
+		}
+		kids = append(kids, c)
+	}
 	trigger := tooltip.Trigger(lib.AsChild, btn)
 	content := tooltip.Content(append([]any{
 		tooltip.SideRight,
 		tooltip.AlignCenter,
 		h.If(hidden, h.Bool("hidden")),
-	}, b.tooltip.children...)...)
+	}, kids...)...)
 	root := tooltip.Tooltip(trigger, content)
 	// Rendering the root hands the scope to its parts.
 	_ = root.Render(io.Discard)
 	tpl := content.Element()
-	tpl.Attr(tooltipTemplateAt, "")
+	if !fixed {
+		tpl.Attr(tooltipTemplateAt, "")
+	}
 	fn(trigger.Element(), tpl)
 }
 

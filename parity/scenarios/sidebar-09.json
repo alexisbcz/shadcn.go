@@ -1,0 +1,57 @@
+[
+ {
+  "label": "collapse",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "expand",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "collapsed-tooltip",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]"
+   },
+   {
+    "do": "hover",
+    "target": "[data-slot=sidebar-menu-button][data-active=true]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "user-menu",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 600,
+    "y": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-footer] [data-slot=dropdown-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "user-menu-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ }
+]
