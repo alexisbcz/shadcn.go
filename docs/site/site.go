@@ -176,6 +176,7 @@ func (s *Site) Handler() http.Handler {
 	mux.HandleFunc("GET "+searchIndexPath, s.serveSearchIndex)
 	mux.HandleFunc("GET "+nextImagePath, s.serveNextImage)
 	mux.HandleFunc("GET /rss.xml", s.serveRSS)
+	mux.HandleFunc("GET /view/{style}/{name}", s.page(s.View))
 	// Everything else: the app's public directory (favicons, images, /r/
 	// registry files, llms.txt, ...), as Next.js serves it.
 	public := http.FileServer(http.Dir(filepath.Join(s.App, "public")))
