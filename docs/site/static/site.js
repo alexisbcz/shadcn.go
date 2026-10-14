@@ -159,6 +159,7 @@ document.addEventListener("click", (e) => {
       const c = read()
       c.lastCopied = JSON.parse(b.dataset.colorValues)[c.format]
       navigator.clipboard?.writeText(c.lastCopied)
+      import("/_shadcn/sonner.js").then(({ toast }) => toast.success(`Copied ${c.lastCopied} to clipboard.`))
       write(c)
       sync(c)
       const check = '<path d="M20 6 9 17l-5-5"></path>'

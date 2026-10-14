@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"shadcn.go/components/ui/sonner"
 	"strings"
 
 	"shadcn.go/components/ui/runtime"
@@ -179,6 +180,11 @@ func (s *Site) Document(r *http.Request, m Meta, body ...any) h.Node {
 			h.Class("group/body overscroll-none antialiased theme-default [--footer-height:calc(var(--spacing)*14)] xl:[--footer-height:calc(var(--spacing)*24)]"),
 			h.Script(themeScript),
 			h.Group(body...),
+			// <Toaster position="top-center" /> (registry/bases/radix/ui/sonner):
+			// next-themes reports "light" with system themes disabled, so
+			// sonner's own theme stays light; colors follow the page through
+			// shadcn's --normal-* variables.
+			sonner.Toaster(sonner.ThemeLight, sonner.PositionTopCenter),
 		),
 	))
 }
