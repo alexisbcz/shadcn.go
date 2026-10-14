@@ -124,12 +124,14 @@ func NovaScrollable() h.Node {
 
 // NovaRtl is examples/radix/select-rtl.tsx in its default language (Arabic).
 func NovaRtl() h.Node {
-	return selectui.Select(selectui.Dir("rtl"),
+	// Only the trigger and the content get dir="rtl" (the root's direction
+	// stays ltr, so the item-aligned position uses left).
+	return style.ScopeRTL(selectui.Select(
 		selectui.Trigger(h.Class("w-32"), h.Dir("rtl"), selectui.Value(selectui.Placeholder("اختر فاكهة"))),
-		selectui.Content(h.Data("lang", "ar"),
+		selectui.Content(h.Dir("rtl"), h.Data("lang", "ar"),
 			group("الفواكه", opt{"apple", "تفاح"}, opt{"banana", "موز"}, opt{"blueberry", "توت أزرق"}, opt{"grapes", "عنب"}, opt{"pineapple", "أناناس"}),
 			selectui.Separator(),
 			group("الخضروات", opt{"carrot", "جزر"}, opt{"broccoli", "بروكلي"}, opt{"spinach", "سبانخ"}),
 		),
-	)
+	))
 }

@@ -125,7 +125,12 @@ function createSelect(tpl) {
 
   const esc = CSS.escape(contentId)
   const trigger = () => document.querySelector(`[role="combobox"][aria-controls="${esc}"]`)
-  const dir = () => (trigger()?.getAttribute("dir") === "rtl" ? "rtl" : "ltr")
+  // The Select's direction (Radix context.dir), not the trigger's own dir
+  // attribute, which a dir prop on SelectTrigger overrides.
+  const dir = () => {
+    const d = tpl.getAttribute("data-dir") ?? trigger()?.getAttribute("dir")
+    return d === "rtl" ? "rtl" : "ltr"
+  }
 
   // SelectValue
   const valueNode = takeMarked([...document.querySelectorAll(`[data-radix-select-value="${esc}"]`)], "data-radix-select-value")[0]?.el ?? null

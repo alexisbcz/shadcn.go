@@ -378,9 +378,22 @@ type part struct {
 	Scoped
 	asChild bool
 	st      style.Style // the enclosing style.Scope, "" for new-york-v4
+	rtl     bool        // inside style.ScopeRTL: the ui-rtl classes
 }
 
-func (p *part) setStyle(w io.Writer) { p.st, _ = style.FromWriter(w) }
+func (p *part) setStyle(w io.Writer) {
+	p.st, _ = style.FromWriter(w)
+	p.rtl = p.st != "" && style.RTLFromWriter(w)
+}
+
+// dir maps a style's classes to their ui-rtl variant inside
+// style.ScopeRTL.
+func (p *part) dir(class string) string {
+	if p.rtl {
+		return style.RTLClass(class)
+	}
+	return class
+}
 
 func (p *part) accept(c any) bool {
 	switch v := c.(type) {
@@ -479,7 +492,7 @@ func (b *TriggerBuilder) Element() *h.Element {
 		h.Class(lib.Cn(triggerClass)),
 	)
 	if b.st != "" {
-		d.Attr("class", stTrigger.Class(b.st, ""))
+		d.Attr("class", b.dir(stTrigger.Class(b.st, "")))
 		user.Children(lucide.ChevronDown(h.Class(stTriggerIcon.Class(b.st)), h.Aria("hidden", "true")))
 	} else {
 		user.Children(lucide.ChevronDown(h.Class("size-4 opacity-50"), h.Aria("hidden", "true")))
@@ -620,7 +633,7 @@ func (b *ContentBuilder) Element() *h.Element {
 	)
 	if b.st != "" {
 		d.Attr("data-align-trigger", fmt.Sprint(!isPopper))
-		d.Attr("class", stContent.Class(b.st, h.IfElse(isPopper, contentPopper, ""), ""))
+		d.Attr("class", b.dir(stContent.Class(b.st, h.IfElse(isPopper, contentPopper, ""), "")))
 	}
 	content := h.Spread(d, user, lib.Cn)
 	if !strings.HasSuffix(strings.TrimSpace(style), ";") {
@@ -661,6 +674,7 @@ func (b *ContentBuilder) Element() *h.Element {
 		h.Data("radix-select", ""),
 		h.Data("content-id", sc.ContentID),
 		h.Data("position", string(b.position)),
+		h.Data("dir", sc.dir()),
 		h.If(sc.HasValue, h.Data("value", sc.Value)),
 		h.If(sc.DefaultOpen, h.Data("default-open", "")),
 		h.If(sc.Disabled, h.Data("disabled", "")),
@@ -830,12 +844,12 @@ func (b *ItemBuilder) Element() *h.Element {
 		h.Data("radix-collection-item", ""),
 	)
 	if b.st != "" {
-		d.Attr("class", stItem.Class(b.st, ""))
+		d.Attr("class", b.dir(stItem.Class(b.st, "")))
 	}
 	el := b.resolve("Item", d, user)
 	if b.st != "" {
 		el.Children(
-			h.Span(h.Class(stItemIndicator.Class(b.st)),
+			h.Span(h.Class(b.dir(stItemIndicator.Class(b.st))),
 				h.Span(h.Attr(markerIndicator, ""), h.Aria("hidden", "true"), lucide.Check(h.Class(stIndicatorIcon.Class(b.st)))),
 			),
 			h.Span(h.ID(textID), h.Group(kids...)),
