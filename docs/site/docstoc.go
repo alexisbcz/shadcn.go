@@ -70,13 +70,14 @@ func (s *Site) DocsBaseSwitcher(r *http.Request, base, component string) h.Node 
 }
 
 // OpenInV0Cta is components/open-in-v0-cta.tsx (the Vercel card under the
-// TOC). Its button is base-nova's, the same markup as radix-nova's.
+// TOC). Its button is base-nova's (Base UI adds type and tabindex).
 func (s *Site) OpenInV0Cta(r *http.Request) h.Node {
 	return h.Div(h.Class("group relative flex flex-col gap-2 rounded-2xl bg-surface p-6 text-sm text-surface-foreground"),
 		h.Div(h.Class("text-base leading-tight font-semibold text-balance group-hover:underline"), "Deploy your shadcn/ui app on Vercel"),
 		h.Div(h.Class("text-muted-foreground"), "Trusted by OpenAI, Sonos, Adobe, and more."),
 		h.Div(h.Class("text-muted-foreground"), "Vercel provides tools and infrastructure to deploy apps and features at scale."),
-		style.Scope(style.Nova, button.Button(button.Variant("outline"), button.Size("sm"), h.Class("mt-2 w-fit"), "Deploy Now")),
+		style.Scope(style.Nova, button.Button(button.Variant("outline"), button.Size("sm"), h.Class("mt-2 w-fit"),
+			h.Type("button"), h.Attr("tabindex", "0"), "Deploy Now")),
 		h.A(h.Href("https://vercel.com/new?utm_source=shadcn_site&utm_medium=web&utm_campaign=docs_cta_deploy_now_callout"),
 			h.Target("_blank"), h.Rel("noreferrer"), h.Class("absolute inset-0"),
 			h.Span(h.Class("sr-only"), "Deploy to Vercel")),
