@@ -180,6 +180,7 @@ func (s *Site) Handler() http.Handler {
 	mux.HandleFunc("GET /blocks", s.page(s.Blocks))
 	mux.HandleFunc("GET /blocks/{categories...}", s.page(s.BlocksCategory))
 	mux.HandleFunc("GET /charts/{type}", s.page(s.Charts))
+	mux.HandleFunc("GET /colors", s.page(s.Colors))
 	// Everything else: the app's public directory (favicons, images, /r/
 	// registry files, llms.txt, ...), as Next.js serves it.
 	public := http.FileServer(http.Dir(filepath.Join(s.App, "public")))

@@ -128,3 +128,46 @@ document.addEventListener("click", (e) => {
   const b = e.target instanceof Element ? e.target.closest("[data-copy-text]") : null
   if (b) navigator.clipboard?.writeText(b.dataset.copyText)
 })
+
+// Colors page (hooks/use-colors.ts, components/color.tsx): one format shared
+// by every palette's selector, persisted like jotai's atomWithStorage; a
+// swatch click copies the swatch in that format and marks it last copied.
+{
+  const read = () => {
+    try { return { format: "hsl", lastCopied: "", ...JSON.parse(localStorage.getItem("colors") ?? "{}") } } catch { return { format: "hsl", lastCopied: "" } }
+  }
+  const write = (c) => { try { localStorage.setItem("colors", JSON.stringify(c)) } catch {} }
+  const sync = (c) => {
+    for (const s of document.querySelectorAll("[data-color-format-value]")) s.textContent = c.format
+    for (const b of document.querySelectorAll("[data-color-values]")) {
+      b.dataset.lastCopied = String(JSON.parse(b.dataset.colorValues)[c.format] === c.lastCopied)
+    }
+  }
+  if (document.querySelector("[data-color-values]")) {
+    const c = read()
+    if (c.format !== "hsl" || c.lastCopied) sync(c)
+    document.addEventListener("shadcn:value-change", (e) => {
+      if (!(e.target instanceof Element) || !e.target.closest("[data-color-format]")) return
+      const c = read()
+      c.format = e.detail.value
+      write(c)
+      sync(c)
+    })
+    document.addEventListener("click", (e) => {
+      const b = e.target instanceof Element ? e.target.closest("[data-color-values]") : null
+      if (!b) return
+      const c = read()
+      c.lastCopied = JSON.parse(b.dataset.colorValues)[c.format]
+      navigator.clipboard?.writeText(c.lastCopied)
+      write(c)
+      sync(c)
+      const check = '<path d="M20 6 9 17l-5-5"></path>'
+      const svg = b.querySelector(":scope > svg")
+      if (svg && !svg.dataset.copied) {
+        svg.dataset.copied = "1"
+        svg.innerHTML = check
+        svg.setAttribute("class", svg.getAttribute("class").replace("lucide-clipboard", "lucide-check") + " group-data-[last-copied=true]:opacity-100")
+      }
+    })
+  }
+}
