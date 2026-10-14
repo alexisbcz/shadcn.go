@@ -153,7 +153,7 @@ func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	props.SetClass("")
-	base.Class(groupClass(st, b.orientation, className))
+	base.Class(groupClass(w, st, b.orientation, className))
 	return h.Spread(base, props, lib.Cn)
 }
 

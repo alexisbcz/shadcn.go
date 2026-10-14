@@ -1,6 +1,8 @@
 package field
 
 import (
+	"fmt"
+
 	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/checkbox"
@@ -242,6 +244,91 @@ func NovaTextarea() h.Node {
 				field.Label(h.For("feedback"), "Feedback"),
 				textarea.Textarea(h.ID("feedback"), h.Placeholder("Your feedback helps us improve..."), h.Attr("rows", "4")),
 				field.Description("Share your thoughts about our service."),
+			),
+		),
+	)
+}
+
+func init() {
+	registry.Register(registry.Example{Name: "nova--field-rtl", Component: "field", Render: registry.Static(func() h.Node {
+		return style.Scope(style.Nova, style.ScopeRTL(NovaRtl()))
+	})})
+}
+
+// NovaRtl is field-rtl in Arabic (the docs' default language for it).
+func NovaRtl() h.Node {
+	items := func(labels ...string) []any {
+		out := make([]any, len(labels))
+		for i, l := range labels {
+			out[i] = selectui.Item(selectui.ItemValue(l), l)
+		}
+		return out
+	}
+	months := []any{selectui.Item(selectui.ItemValue("MM"), "ش.ش")}
+	for i, ar := range []string{"٠١", "٠٢", "٠٣", "٠٤", "٠٥", "٠٦", "٠٧", "٠٨", "٠٩", "١٠", "١١", "١٢"} {
+		months = append(months, selectui.Item(selectui.ItemValue(fmt.Sprintf("%02d", i+1)), ar))
+	}
+	return h.Div(h.Class("w-full max-w-md py-6"), h.Dir("rtl"),
+		h.Form(
+			field.Group(
+				field.Set(
+					field.Legend("طريقة الدفع"),
+					field.Description("جميع المعاملات آمنة ومشفرة"),
+					field.Group(
+						field.Field(
+							field.Label(h.For("checkout-7j9-card-name-43j-rtl"), "الاسم على البطاقة"),
+							input.Input(h.ID("checkout-7j9-card-name-43j-rtl"), h.Placeholder("Evil Rabbit"), h.Required()),
+						),
+						field.Field(
+							field.Label(h.For("checkout-7j9-card-number-uw1-rtl"), "رقم البطاقة"),
+							input.Input(h.ID("checkout-7j9-card-number-uw1-rtl"), h.Placeholder("1234 5678 9012 3456"), h.Required()),
+							field.Description("أدخل رقم البطاقة المكون من 16 رقمًا"),
+						),
+						h.Div(h.Class("grid grid-cols-3 gap-4"),
+							field.Field(
+								field.Label(h.For("checkout-exp-month-ts6-rtl"), "الشهر"),
+								selectui.Select(
+									selectui.Trigger(h.ID("checkout-exp-month-ts6-rtl"), selectui.Value()),
+									selectui.Content(h.Dir("rtl"), selectui.Group(months...)),
+								),
+							),
+							field.Field(
+								field.Label(h.For("checkout-7j9-exp-year-f59-rtl"), "السنة"),
+								selectui.Select(
+									selectui.Trigger(h.ID("checkout-7j9-exp-year-f59-rtl"), selectui.Value()),
+									selectui.Content(h.Dir("rtl"), selectui.Group(items("YYYY", "2024", "2025", "2026", "2027", "2028", "2029")...)),
+								),
+							),
+							field.Field(
+								field.Label(h.For("checkout-7j9-cvv-rtl"), "CVV"),
+								input.Input(h.ID("checkout-7j9-cvv-rtl"), h.Placeholder("123"), h.Required()),
+							),
+						),
+					),
+				),
+				field.Separator(),
+				field.Set(
+					field.Legend("عنوان الفوترة"),
+					field.Description("عنوان الفوترة المرتبط بطريقة الدفع الخاصة بك"),
+					field.Group(
+						field.Field(field.Horizontal,
+							checkbox.Checkbox(h.ID("checkout-7j9-same-as-shipping-wgm-rtl"), checkbox.Checked(true)),
+							field.Label(h.For("checkout-7j9-same-as-shipping-wgm-rtl"), h.Class("font-normal"), "نفس عنوان الشحن"),
+						),
+					),
+				),
+				field.Set(
+					field.Group(
+						field.Field(
+							field.Label(h.For("checkout-7j9-optional-comments-rtl"), "تعليقات"),
+							textarea.Textarea(h.ID("checkout-7j9-optional-comments-rtl"), h.Placeholder("أضف أي تعليقات إضافية"), h.Class("resize-none")),
+						),
+					),
+				),
+				field.Field(field.Horizontal,
+					button.Button(h.Type("submit"), "إرسال"),
+					button.Button(button.VariantOutline, h.Type("button"), "إلغاء"),
+				),
 			),
 		),
 	)

@@ -235,10 +235,10 @@ func (b *Builder) Element() *h.Element { return b.ElementIn(nil) }
 // (in the style of an enclosing style.Scope).
 func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
-	return h.ResolveIn(w, b.node(st))
+	return h.ResolveIn(w, b.node(w, st))
 }
 
-func (b *Builder) node(st style.Style) h.Node {
+func (b *Builder) node(w io.Writer, st style.Style) h.Node {
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	if b.isButton {
@@ -246,14 +246,14 @@ func (b *Builder) node(st style.Style) h.Node {
 		return button.Button(b.variant, h.Type("button"), h.Data("size", string(b.size)), spreadProp(props))
 	}
 	props.SetClass("")
-	base := h.Div(h.Role("group"), h.Data("slot", "input-group-addon"), h.Data("align", string(b.align)), h.Class(addonClass(st, b.align, className)))
+	base := h.Div(h.Role("group"), h.Data("slot", "input-group-addon"), h.Data("align", string(b.align)), h.Class(addonClass(w, st, b.align, className)))
 	return h.Spread(base, props, lib.Cn)
 }
 
 // Render renders the component.
 func (b *Builder) Render(w io.Writer) error {
 	if st, ok := style.FromWriter(w); ok {
-		return b.node(st).Render(w)
+		return b.node(w, st).Render(w)
 	}
 	return b.Element().Render(w)
 }

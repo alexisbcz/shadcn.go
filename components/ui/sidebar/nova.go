@@ -5,6 +5,7 @@ import (
 
 	"shadcn.go/components/lib"
 	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/styled"
 	"shadcn.go/cva"
 )
 
@@ -88,10 +89,9 @@ func styleOf(w io.Writer) style.Style {
 	return st
 }
 
-
-func menuButtonClass(st style.Style, v ButtonVariant, s ButtonSize, className string) string {
+func menuButtonClass(w io.Writer, st style.Style, v ButtonVariant, s ButtonSize, className string) string {
 	if st == "" {
 		return MenuButtonVariants(v, s, className)
 	}
-	return lib.Cn(sMenuButton.Classes(st, cva.Selection{"variant": string(v), "size": string(s)}), className)
+	return lib.Cn(styled.RTL(w, lib.Cn(sMenuButton.Classes(st, cva.Selection{"variant": string(v), "size": string(s)}))), className)
 }

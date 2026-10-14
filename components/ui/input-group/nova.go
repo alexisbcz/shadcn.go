@@ -1,8 +1,11 @@
 package inputgroup
 
 import (
+	"io"
+
 	"shadcn.go/components/lib"
 	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/styled"
 	"shadcn.go/cva"
 )
 
@@ -34,11 +37,11 @@ var (
 	sTextarea = file.Cn("cn-input-group-textarea flex-1 resize-none", style.Arg)
 )
 
-func addonClass(st style.Style, a Align, className string) string {
+func addonClass(w io.Writer, st style.Style, a Align, className string) string {
 	if st == "" {
 		return lib.Cn(AddonVariants(a), className)
 	}
-	return lib.Cn(sAddon.Classes(st, cva.Selection{"align": string(a)}), className)
+	return lib.Cn(styled.RTL(w, lib.Cn(sAddon.Classes(st, cva.Selection{"align": string(a)}))), className)
 }
 
 func buttonClass(st style.Style, s ButtonSize, className string) string {

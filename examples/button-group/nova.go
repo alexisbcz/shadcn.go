@@ -6,6 +6,7 @@ import (
 	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/button-group"
+	dm "shadcn.go/components/ui/dropdown-menu"
 	"shadcn.go/components/ui/field"
 	ig "shadcn.go/components/ui/input-group"
 	"shadcn.go/components/ui/popover"
@@ -67,6 +68,58 @@ func NovaPopover() h.Node {
 			),
 			popover.Trigger(lib.AsChild,
 				button.Button(button.VariantOutline, button.SizeIcon, h.Aria("label", "Open Popover"), lucide.ChevronDown()),
+			),
+		),
+	)
+}
+
+func init() {
+	registry.Register(registry.Example{Name: "nova--button-group-rtl", Component: "button-group", Render: registry.Static(func() h.Node {
+		return style.Scope(style.Nova, style.ScopeRTL(NovaRtl()))
+	})})
+}
+
+// NovaRtl is button-group-rtl in Arabic (the docs' default language for
+// it).
+func NovaRtl() h.Node {
+	return h.Div(h.Dir("rtl"),
+		buttongroup.ButtonGroup(
+			buttongroup.ButtonGroup(h.Class("hidden sm:flex"),
+				button.Button(button.VariantOutline, button.SizeIcon, h.Aria("label", "Go Back"), lucide.ArrowLeft(h.Class("rtl:rotate-180"))),
+			),
+			buttongroup.ButtonGroup(
+				button.Button(button.VariantOutline, "أرشفة"),
+				button.Button(button.VariantOutline, "تقرير"),
+			),
+			buttongroup.ButtonGroup(
+				button.Button(button.VariantOutline, "تأجيل"),
+				dm.DropdownMenu(
+					dm.Trigger(lib.AsChild, button.Button(button.VariantOutline, button.SizeIcon, h.Aria("label", "More Options"), lucide.Ellipsis())),
+					dm.Content(dm.AlignEnd, h.Data("lang", "ar"), h.Class("w-40"),
+						dm.Group(
+							dm.Item(lucide.MailCheck(), "وضع علامة كمقروء"),
+							dm.Item(lucide.Archive(), "أرشفة"),
+						),
+						dm.Separator(),
+						dm.Group(
+							dm.Item(lucide.Clock(), "تأجيل"),
+							dm.Item(lucide.CalendarPlus(), "إضافة إلى التقويم"),
+							dm.Item(lucide.ListFilter(), "إضافة إلى القائمة"),
+							dm.Sub(
+								dm.SubTrigger(lucide.Tag(), "تصنيف كـ..."),
+								dm.SubContent(h.Data("lang", "ar"),
+									dm.RadioGroup(dm.Value("personal"),
+										dm.RadioItem(dm.Value("personal"), "شخصي"),
+										dm.RadioItem(dm.Value("work"), "عمل"),
+										dm.RadioItem(dm.Value("other"), "آخر"),
+									),
+								),
+							),
+						),
+						dm.Separator(),
+						dm.Group(dm.Item(dm.VariantDestructive, lucide.Trash2(), "سلة المهملات")),
+					),
+				),
 			),
 		),
 	)

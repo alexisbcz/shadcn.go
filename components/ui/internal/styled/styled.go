@@ -19,8 +19,9 @@ import (
 // style.Scope(st, ...). Both are computed at render time, so props (the
 // caller's attributes and children) can still be changed until then.
 type Node struct {
-	props *h.Element
-	def   func(props *h.Element) h.Node
+	props  *h.Element
+	spread bool // a Spread node: alt(st, nil) is its RTL rendering
+	def    func(props *h.Element) h.Node
 	alt   func(st style.Style, props *h.Element) h.Node
 }
 
@@ -44,14 +45,31 @@ func Lazy(props *h.Element, def func(props *h.Element) h.Node, alt func(st style
 // h.Spread(base, props) and, in a style, h.Spread(alt(st), props) (classes
 // merged with lib.Cn). alt may return nil to fall back to base.
 func Spread(base, props *h.Element, alt func(style.Style) *h.Element) *Node {
-	return Lazy(props,
+	n := Lazy(props,
 		func(p *h.Element) h.Node { return h.Spread(base, p, lib.Cn) },
-		func(st style.Style, p *h.Element) h.Node {
-			if a := alt(st); a != nil {
-				return h.Spread(a, p, lib.Cn)
-			}
+		nil)
+	n.spread = true
+	n.alt = func(st style.Style, p *h.Element) h.Node {
+		a := alt(st)
+		if a == nil {
 			return nil
-		})
+		}
+		if p == nil { // RTL
+			a = a.Clone().SetClass(style.RTLClass(a.ClassName()))
+			p = n.props
+		}
+		return h.Spread(a, p, lib.Cn)
+	}
+	return n
+}
+
+// RTL returns class mapped to its ui-rtl variant (style.RTLClass) when
+// rendering to w inside style.ScopeRTL, class otherwise.
+func RTL(w io.Writer, class string) string {
+	if w != nil && style.RTLFromWriter(w) {
+		return style.RTLClass(class)
+	}
+	return class
 }
 
 // Props returns the caller's props element (nil for New nodes), to add
@@ -68,9 +86,13 @@ func (n *Node) Children(children ...any) *Node {
 
 func (n *Node) defNode() h.Node { return n.def(n.props) }
 
-func (n *Node) altNode(st style.Style) h.Node {
+func (n *Node) altNode(w io.Writer, st style.Style) h.Node {
 	if n.alt == nil {
 		return nil
+	}
+	if n.spread && style.RTLFromWriter(w) {
+		// The ui-rtl variant maps the component's own classes.
+		return n.alt(st, nil)
 	}
 	return n.alt(st, n.props)
 }
@@ -89,7 +111,7 @@ func (n *Node) Render(w io.Writer) error {
 		return nil
 	}
 	if st, ok := style.FromWriter(w); ok {
-		if a := n.altNode(st); a != nil {
+		if a := n.altNode(w, st); a != nil {
 			return a.Render(w)
 		}
 	}
@@ -100,7 +122,7 @@ func (n *Node) Render(w io.Writer) error {
 // (h.ElementerIn), for components slotting it as an asChild child.
 func (n *Node) ElementIn(w io.Writer) *h.Element {
 	if st, ok := style.FromWriter(w); ok {
-		if a := n.altNode(st); a != nil {
+		if a := n.altNode(w, st); a != nil {
 			if e := h.ResolveIn(w, a); e != nil {
 				return e
 			}

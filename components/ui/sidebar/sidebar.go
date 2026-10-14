@@ -327,9 +327,9 @@ func (b *Builder) ElementIn(w io.Writer) *h.Element {
 			pad = "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
 			icon = "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]"
 		}
-		containerClass = sContainer.Class(st, pad, user.ClassName())
+		containerClass = lib.Cn(styled.RTL(w, sContainer.Class(st, pad, "")), user.ClassName())
 		inner = sInner.Class(st)
-		gapClass = sGap.Class(st, icon)
+		gapClass = styled.RTL(w, sGap.Class(st, icon))
 	}
 
 	props := user.Clone().SetChildren()
@@ -614,7 +614,7 @@ func (b *GroupLabelBuilder) ElementIn(w io.Writer) *h.Element {
 		"group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
 	)
 	if st := styleOf(w); st != "" {
-		class = sGroupLabel.Class(st, "")
+		class = styled.RTL(w, sGroupLabel.Class(st, ""))
 	}
 	base := h.Div(h.Data("slot", "sidebar-group-label"), h.Data("sidebar", "group-label"), h.Class(class))
 	return b.resolve(w, "GroupLabel", h.Spread(base, b.Elem(), lib.Cn))
@@ -653,7 +653,7 @@ func (b *GroupActionBuilder) ElementIn(w io.Writer) *h.Element {
 		"group-data-[collapsible=icon]:hidden",
 	)
 	if st := styleOf(w); st != "" {
-		class = sGroupAction.Class(st, "")
+		class = styled.RTL(w, sGroupAction.Class(st, ""))
 	}
 	base := h.Button(h.Data("slot", "sidebar-group-action"), h.Data("sidebar", "group-action"), h.Class(class))
 	return b.resolve(w, "GroupAction", h.Spread(base, b.Elem(), lib.Cn))
@@ -785,7 +785,7 @@ func (b *MenuButtonBuilder) button(w io.Writer) *h.Element {
 		h.Data("active", strconv.FormatBool(b.active)),
 	)
 	props := h.Spread(base, b.Elem(), nil)
-	props.SetClass(menuButtonClass(styleOf(w), v, s, b.Elem().ClassName()))
+	props.SetClass(menuButtonClass(w, styleOf(w), v, s, b.Elem().ClassName()))
 	return b.resolve(w, "MenuButton", props)
 }
 
@@ -901,7 +901,7 @@ func (b *MenuActionBuilder) ElementIn(w io.Writer) *h.Element {
 		if b.showOnHover {
 			hover = menuActionHoverClass
 		}
-		class = sMenuAction.Class(st, hover, "")
+		class = styled.RTL(w, sMenuAction.Class(st, hover, ""))
 	}
 	base := h.Button(h.Data("slot", "sidebar-menu-action"), h.Data("sidebar", "menu-action"), h.Class(class))
 	return b.resolve(w, "MenuAction", h.Spread(base, b.Elem(), lib.Cn))
@@ -1024,7 +1024,7 @@ func (b *MenuSubButtonBuilder) ElementIn(w io.Writer) *h.Element {
 		h.Class(lib.Cn(classes...)),
 	)
 	if st := styleOf(w); st != "" {
-		base.SetClass(sMenuSubButton.Class(st, ""))
+		base.SetClass(styled.RTL(w, sMenuSubButton.Class(st, "")))
 	}
 	return b.resolve(w, "MenuSubButton", h.Spread(base, b.Elem(), lib.Cn))
 }
