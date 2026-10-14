@@ -50,6 +50,7 @@ import (
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/uid"
 	"shadcn.go/components/ui/runtime"
+	"shadcn.go/components/ui/internal/rtl"
 	h "shadcn.go/libhtml"
 )
 
@@ -90,6 +91,32 @@ var (
 	baseItemIndicator = baseFile.Attr("cn-command-item-indicator ml-auto opacity-0 group-has-data-[slot=command-shortcut]/command-item:hidden group-data-[checked=true]/command-item:opacity-100")
 	baseShortcut      = baseFile.Cn("cn-command-shortcut", style.Arg)
 )
+
+// rtlKey marks the subtree of a Command rendered with dir="rtl": its parts
+// use the logical classes of upstream's ui-rtl build.
+type rtlKey struct{}
+
+func rtlIn(w io.Writer) bool {
+	v, _ := h.Lookup(w, rtlKey{})
+	on, _ := v.(bool)
+	return on
+}
+
+// rtlAddonClass is what the ui-rtl InputGroupAddon has in place of its
+// physical start paddings (pl-2, and the group's [&>input]:pl-1.5): the
+// input-group package has no RTL mapping.
+const (
+	rtlAddonClass = "pl-0 ps-2"
+	rtlGroupClass = "has-[>[data-align=inline-start]]:[&>input]:pl-0 has-[>[data-align=inline-start]]:[&>input]:ps-1.5"
+)
+
+// logical maps class to logical classes inside a right-to-left Command.
+func logical(on bool, class string) string {
+	if on {
+		return rtl.Classes(class)
+	}
+	return class
+}
 
 func styleOf(w io.Writer) style.Style {
 	st, _ := style.FromWriter(w)
@@ -282,6 +309,9 @@ func (b *RootBuilder) element(st style.Style) *h.Element {
 	if b.label != "" {
 		label.Children(b.label)
 	}
+	if d, ok := el.GetAttr("dir"); ok && d == "rtl" && st != "" {
+		return el.SetChildren(label, h.WithValue(rtlKey{}, true, kids...))
+	}
 	return el.SetChildren(append([]any{label}, kids...)...)
 }
 
@@ -361,6 +391,7 @@ func (b *DialogBuilder) Render(w io.Writer) error {
 type InputBuilder struct {
 	h.Builder[InputBuilder]
 	scoped
+	rtl bool // inside a right-to-left Command (set by Render)
 }
 
 // Input is the search field, with a search icon.
@@ -393,9 +424,9 @@ func (b *InputBuilder) element(st style.Style) *h.Element {
 	in.Attr("value", "")
 	if st != "" {
 		return h.Div(h.Data("slot", "command-input-wrapper"), h.Class(baseInputWrapper.Class(st)),
-			inputgroup.InputGroup(h.Class(baseInputGroup.Class(st)),
+			inputgroup.InputGroup(h.Class(logical(b.rtl, baseInputGroup.Class(st))), h.If(b.rtl, h.Class(rtlGroupClass)),
 				in,
-				inputgroup.Addon(lucide.Search(h.Class(baseInputIcon.Class(st)))),
+				inputgroup.Addon(h.If(b.rtl, h.Class(rtlAddonClass)), lucide.Search(h.Class(baseInputIcon.Class(st)))),
 			),
 		)
 	}
@@ -406,7 +437,10 @@ func (b *InputBuilder) element(st style.Style) *h.Element {
 }
 
 // Render renders the input.
-func (b *InputBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
+func (b *InputBuilder) Render(w io.Writer) error {
+	b.rtl = rtlIn(w)
+	return b.element(styleOf(w)).Render(w)
+}
 
 // --- List --------------------------------------------------------------------------------------
 
@@ -611,6 +645,7 @@ type ItemBuilder struct {
 	keywords   []string
 	disabled   bool
 	forceMount bool
+	rtl        bool // inside a right-to-left Command (set by Render)
 }
 
 // Item is a selectable option. Accepts Value, Keywords, Disabled and
@@ -675,20 +710,23 @@ func (b *ItemBuilder) element(st style.Style) *h.Element {
 		el.Attr("data-cmdk-force-mount", "")
 	}
 	if st != "" {
-		el.Children(lucide.Check(h.Class(baseItemIndicator.Class(st))))
+		el.Children(lucide.Check(h.Class(logical(b.rtl, baseItemIndicator.Class(st)))))
 	}
 	return el
 }
 
 // Render renders the item.
-func (b *ItemBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
+func (b *ItemBuilder) Render(w io.Writer) error {
+	b.rtl = rtlIn(w)
+	return b.element(styleOf(w)).Render(w)
+}
 
 // --- Shortcut ----------------------------------------------------------------------------------
 
 // Shortcut shows an item's keyboard shortcut.
 func Shortcut(children ...any) h.Node {
 	return h.NodeFunc(func(w io.Writer) error {
-		return h.Spread(h.Span(h.Data("slot", "command-shortcut"), h.Class(classFor(styleOf(w), shortcutClass, baseShortcut))), h.Span(children...), lib.Cn).Render(w)
+		return h.Spread(h.Span(h.Data("slot", "command-shortcut"), h.Class(logical(rtlIn(w), classFor(styleOf(w), shortcutClass, baseShortcut)))), h.Span(children...), lib.Cn).Render(w)
 	})
 }
 

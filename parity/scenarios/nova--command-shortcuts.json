@@ -1,0 +1,6 @@
+[
+  { "label": "open-menu", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=button]" }] },
+  { "label": "arrow-down", "steps": [{ "do": "press", "key": "ArrowDown" }] },
+  { "label": "type", "steps": [{ "do": "type", "text": "s" }] },
+  { "label": "close-escape", "steps": [{ "do": "press", "key": "Escape" }] }
+]
