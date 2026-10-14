@@ -206,6 +206,7 @@ function describeAnimations() {
     const target = a.effect?.target
     return {
       type: a.constructor.name,
+      timeline: a.timeline && a.timeline !== document.timeline ? a.timeline.constructor.name : "document",
       name: a.animationName ?? a.transitionProperty ?? "",
       target: target ? `${target.tagName.toLowerCase()}[data-slot=${target.getAttribute("data-slot") ?? ""}]` : "",
       duration: t.duration,
@@ -244,8 +245,13 @@ function settleLoadTransitions() {
 
 // Finishes finite animations and parks infinite ones at 0, so a capture
 // shows the settled state on both sides.
+// Scroll-driven animations (animation-timeline: scroll()/view()) have no
+// absolute time: their state follows the scroll position, which the
+// screenshots already compare. Seeking them throws, so they are skipped by
+// settle/seek/end and compared only by their definition.
 function settleAnimations() {
   for (const a of document.getAnimations()) {
+    if (a.timeline && a.timeline !== document.timeline) continue
     const end = a.effect?.getComputedTiming?.().endTime
     if (Number.isFinite(end)) a.finish()
     else {
@@ -257,6 +263,7 @@ function settleAnimations() {
 
 function seekAnimations(t) {
   for (const a of document.getAnimations()) {
+    if (a.timeline && a.timeline !== document.timeline) continue
     a.pause()
     a.currentTime = t
   }
@@ -265,6 +272,7 @@ function seekAnimations(t) {
 function maxAnimationEnd() {
   let max = 0
   for (const a of document.getAnimations()) {
+    if (a.timeline && a.timeline !== document.timeline) continue
     const end = a.effect?.getComputedTiming?.().endTime
     if (Number.isFinite(end)) max = Math.max(max, end)
   }
