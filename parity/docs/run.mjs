@@ -1355,7 +1355,7 @@ async function main() {
     failures: failed.map((r) => ({ path: r.path, theme: r.theme, viewport: r.viewport, captures: r.captures.filter((c) => !c.pass).map((c) => c.label), error: r.errors?.run?.split("\n")[0] })),
   }
   fs.writeFileSync(path.join(outRoot, "summary.json"), JSON.stringify(summary, null, 2))
-  console.log(`\n${reports.length - failed.length}/${reports.length} jobs identical (${captures} captures, ${summary.seconds}s). Reports: ${path.relative(process.cwd(), outRoot) || "."}/`)
+  console.log(`\n${reports.length - failed.length}/${reports.length} jobs ${EXACT ? "identical" : `within ${TOLERANCE * 100}% of the reference`} (${captures} captures, ${summary.seconds}s). Reports: ${path.relative(process.cwd(), outRoot) || "."}/`)
   return failed.length ? 1 : 0
 }
 
