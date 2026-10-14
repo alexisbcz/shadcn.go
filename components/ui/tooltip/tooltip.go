@@ -288,7 +288,11 @@ func (b *TriggerBuilder) AcceptChild(c any) bool {
 func (b *TriggerBuilder) AsChild() *TriggerBuilder { b.asChild = true; return b }
 
 // Element resolves the trigger.
-func (b *TriggerBuilder) Element() *h.Element {
+func (b *TriggerBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the trigger as it renders inside w (an asChild child
+// keeps the style in scope).
+func (b *TriggerBuilder) ElementIn(w io.Writer) *h.Element {
 	sc := b.Scope()
 	st := "closed"
 	if sc.DefaultOpen {
@@ -308,7 +312,7 @@ func (b *TriggerBuilder) Element() *h.Element {
 	if len(kids) != 1 {
 		return h.Errored(fmt.Errorf("tooltip Trigger: AsChild needs exactly one element child, got %d children", len(kids)))
 	}
-	out, err := primitive.Slot(props.Clone().SetChildren(), kids[0])
+	out, err := primitive.SlotIn(w, props.Clone().SetChildren(), kids[0])
 	if err != nil {
 		return h.Errored(fmt.Errorf("tooltip Trigger: AsChild: %w", err))
 	}
@@ -316,7 +320,7 @@ func (b *TriggerBuilder) Element() *h.Element {
 }
 
 // Render renders the trigger.
-func (b *TriggerBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TriggerBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // --- Content -------------------------------------------------------------------------------
 
@@ -388,7 +392,7 @@ func (b *ContentBuilder) element(class string) *h.Element {
 		h.Data("skip-delay-duration", strconv.Itoa(sc.provider.skipDelayDuration)),
 		h.If(sc.disableHoverableContent(), h.Data("disable-hoverable-content", "")),
 		h.If(sc.DefaultOpen, h.Data("default-open", "")),
-		popper.Wrap(b.opts, el),
+		popper.Wrap(withDir(b.opts, el), el),
 	)
 }
 
@@ -407,3 +411,12 @@ var (
 	baseFile    = style.NewFile("ui/tooltip.tsx")
 	baseContent = baseFile.Cn("cn-tooltip-content z-50 w-fit max-w-xs origin-(--radix-tooltip-content-transform-origin) bg-foreground text-background", style.Arg)
 )
+
+// withDir is o with the content's dir: Radix's popper wrapper repeats the
+// content's dir prop.
+func withDir(o popper.Options, el *h.Element) popper.Options {
+	if d, ok := el.GetAttr("dir"); ok {
+		o.Dir = d
+	}
+	return o
+}

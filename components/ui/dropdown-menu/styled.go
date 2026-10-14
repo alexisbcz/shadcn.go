@@ -26,26 +26,26 @@ var (
 )
 
 // styledKind is DropdownMenu in style st: the markup of the bases source.
-var styledKind = menu.Cached(func(st style.Style) *menu.Kind {
+var styledKind = menu.Cached(func(st style.Style, cls func(string) string) *menu.Kind {
 	ind := func(slot string) func() h.Node {
 		return func() h.Node {
-			return h.Span(h.Class(baseIndicator.Class(st)), h.Data("slot", slot), menu.Indicator(lucide.Check()))
+			return h.Span(h.Class(cls(baseIndicator.Class(st))), h.Data("slot", slot), menu.Indicator(lucide.Check()))
 		}
 	}
 	return &menu.Kind{
 		Name:              "dropdown-menu",
-		Content:           baseContent.Class(st, ""),
-		SubContent:        baseSubContent.Class(st, ""),
-		Item:              baseItem.Class(st, ""),
-		CheckboxItem:      baseCheckboxItem.Class(st, ""),
-		RadioItem:         baseRadioItem.Class(st, ""),
-		Label:             baseLabel.Class(st, ""),
-		Separator:         baseSeparator.Class(st, ""),
-		Shortcut:          baseShortcut.Class(st, ""),
-		SubTrigger:        baseSubTrigger.Class(st, ""),
+		Content:           cls(baseContent.Class(st, "")),
+		SubContent:        cls(baseSubContent.Class(st, "")),
+		Item:              cls(baseItem.Class(st, "")),
+		CheckboxItem:      cls(baseCheckboxItem.Class(st, "")),
+		RadioItem:         cls(baseRadioItem.Class(st, "")),
+		Label:             cls(baseLabel.Class(st, "")),
+		Separator:         cls(baseSeparator.Class(st, "")),
+		Shortcut:          cls(baseShortcut.Class(st, "")),
+		SubTrigger:        cls(baseSubTrigger.Class(st, "")),
 		CheckboxIndicator: ind("dropdown-menu-checkbox-item-indicator"),
 		RadioIndicator:    ind("dropdown-menu-radio-item-indicator"),
-		SubTriggerChevron: func() h.Node { return lucide.ChevronRight(h.Class(baseChevron.Class(st))) },
+		SubTriggerChevron: func() h.Node { return lucide.ChevronRight(h.Class(cls(baseChevron.Class(st)))) },
 		ContentDefaults: func(o *popper.Options) {
 			o.Align = popper.AlignStart
 			o.SideOffset = 4

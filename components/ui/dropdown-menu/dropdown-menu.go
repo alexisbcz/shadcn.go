@@ -168,11 +168,12 @@ func (b *RootBuilder) AcceptChild(c any) bool {
 
 // Render renders the children.
 func (b *RootBuilder) Render(w io.Writer) error {
-	sc := menu.NewScope(Kind.For(w))
+	sc := menu.NewScope(Kind)
 	sc.Template = []h.Prop{h.Data("radix-dropdown-menu", "")}
 	for _, o := range b.opts {
 		o(sc)
 	}
+	sc.Kind = Kind.For(w, sc.Direction() == "rtl")
 	kids := b.Elem().ChildNodes()
 	menu.Share(kids, sc)
 	return h.Group(kids...).Render(w)
@@ -184,6 +185,7 @@ func (b *RootBuilder) Render(w io.Writer) error {
 type TriggerBuilder struct {
 	h.Builder[TriggerBuilder]
 	menu.Scoped
+	w        io.Writer // set by Render: an asChild child resolves in it
 	asChild  bool
 	disabled bool
 }
@@ -226,13 +228,16 @@ func (b *TriggerBuilder) Element() *h.Element {
 	)
 	el := h.Spread(d, b.Elem(), lib.Cn)
 	if b.asChild {
-		return aschild.Resolve("dropdown-menu Trigger", el)
+		return aschild.ResolveIn(b.w, "dropdown-menu Trigger", el)
 	}
 	return el
 }
 
 // Render renders the trigger.
-func (b *TriggerBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TriggerBuilder) Render(w io.Writer) error {
+	b.w = w
+	return b.Element().Render(w)
+}
 
 // --- parts ---------------------------------------------------------------------------------
 

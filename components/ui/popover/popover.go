@@ -218,7 +218,7 @@ func (p *part) accept(c any) bool {
 	return true
 }
 
-func (p *part) resolve(name string, defaults, user *h.Element) *h.Element {
+func (p *part) resolve(w io.Writer, name string, defaults, user *h.Element) *h.Element {
 	props := h.Spread(defaults, user, lib.Cn)
 	if !p.asChild {
 		return props
@@ -227,7 +227,7 @@ func (p *part) resolve(name string, defaults, user *h.Element) *h.Element {
 	if len(kids) != 1 {
 		return h.Errored(fmt.Errorf("popover %s: AsChild needs exactly one element child, got %d children", name, len(kids)))
 	}
-	out, err := primitive.Slot(props.Clone().SetChildren(), kids[0])
+	out, err := primitive.SlotIn(w, props.Clone().SetChildren(), kids[0])
 	if err != nil {
 		return h.Errored(fmt.Errorf("popover %s: AsChild: %w", name, err))
 	}
@@ -256,7 +256,10 @@ func (b *TriggerBuilder) AcceptChild(c any) bool { return b.accept(c) }
 func (b *TriggerBuilder) AsChild() *TriggerBuilder { b.asChild = true; return b }
 
 // Element resolves the trigger.
-func (b *TriggerBuilder) Element() *h.Element {
+func (b *TriggerBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the part as it renders inside w.
+func (b *TriggerBuilder) ElementIn(w io.Writer) *h.Element {
 	sc := b.Scope()
 	d := h.Button(
 		h.Type("button"),
@@ -266,11 +269,11 @@ func (b *TriggerBuilder) Element() *h.Element {
 		h.Data("state", state(sc.DefaultOpen)),
 		h.Data("slot", "popover-trigger"),
 	)
-	return b.resolve("Trigger", d, b.Elem())
+	return b.resolve(w, "Trigger", d, b.Elem())
 }
 
 // Render renders the trigger.
-func (b *TriggerBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TriggerBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // --- Anchor --------------------------------------------------------------------------------
 
@@ -292,13 +295,16 @@ func Anchor(children ...any) *AnchorBuilder {
 func (b *AnchorBuilder) AcceptChild(c any) bool { return b.accept(c) }
 
 // Element resolves the anchor.
-func (b *AnchorBuilder) Element() *h.Element {
+func (b *AnchorBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the part as it renders inside w.
+func (b *AnchorBuilder) ElementIn(w io.Writer) *h.Element {
 	d := h.Div(h.Data("slot", "popover-anchor"), h.Attr(markerAnchor, b.Scope().ContentID))
-	return b.resolve("Anchor", d, b.Elem())
+	return b.resolve(w, "Anchor", d, b.Elem())
 }
 
 // Render renders the anchor.
-func (b *AnchorBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *AnchorBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // --- Content -------------------------------------------------------------------------------
 
@@ -331,9 +337,9 @@ func (b *ContentBuilder) AcceptChild(c any) bool {
 func (b *ContentBuilder) Options() *popper.Options { return &b.opts }
 
 // Element resolves the template holding the content as it is when open.
-func (b *ContentBuilder) Element() *h.Element { return b.element(contentClass) }
+func (b *ContentBuilder) Element() *h.Element { return b.element(nil, contentClass) }
 
-func (b *ContentBuilder) element(class string) *h.Element {
+func (b *ContentBuilder) element(w io.Writer, class string) *h.Element {
 	sc := b.Scope()
 	tree.Walk(b.Elem().ChildNodes(), func(n any) bool {
 		switch c := n.(type) {
@@ -352,7 +358,7 @@ func (b *ContentBuilder) element(class string) *h.Element {
 		h.Class(class),
 		h.TabIndex(-1),
 	)
-	el := b.resolve("Content", d, b.Elem())
+	el := b.resolve(w, "Content", d, b.Elem())
 	popper.AppendStyle(el, popper.ContentVars("popover"))
 	return h.Template(
 		h.Data("parity-ignore", ""),
@@ -360,13 +366,13 @@ func (b *ContentBuilder) element(class string) *h.Element {
 		h.Data("content-id", sc.ContentID),
 		h.If(sc.Modal, h.Data("modal", "")),
 		h.If(sc.DefaultOpen, h.Data("default-open", "")),
-		popper.Wrap(b.opts, el),
+		popper.Wrap(withDir(b.opts, el), el),
 	)
 }
 
 // Render renders the template.
 func (b *ContentBuilder) Render(w io.Writer) error {
-	return b.element(classFor(w, contentClass, baseContent)).Render(w)
+	return b.element(w, classFor(w, contentClass, baseContent)).Render(w)
 }
 
 // --- Close ---------------------------------------------------------------------------------
@@ -389,13 +395,16 @@ func Close(children ...any) *CloseBuilder {
 func (b *CloseBuilder) AcceptChild(c any) bool { return b.accept(c) }
 
 // Element resolves the button.
-func (b *CloseBuilder) Element() *h.Element {
+func (b *CloseBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the part as it renders inside w.
+func (b *CloseBuilder) ElementIn(w io.Writer) *h.Element {
 	d := h.Button(h.Type("button"), h.Attr(markerClose, b.Scope().ContentID))
-	return b.resolve("Close", d, b.Elem())
+	return b.resolve(w, "Close", d, b.Elem())
 }
 
 // Render renders the button.
-func (b *CloseBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *CloseBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // --- Arrow ---------------------------------------------------------------------------------
 
@@ -440,4 +449,13 @@ func Description(children ...any) h.Node {
 	return h.NodeFunc(func(w io.Writer) error {
 		return h.Spread(h.P(h.Data("slot", "popover-description"), h.Class(classFor(w, descriptionClass, baseDescription))), h.P(children...), lib.Cn).Render(w)
 	})
+}
+
+// withDir is o with the content's dir: Radix's popper wrapper repeats the
+// content's dir prop.
+func withDir(o popper.Options, el *h.Element) popper.Options {
+	if d, ok := el.GetAttr("dir"); ok {
+		o.Dir = d
+	}
+	return o
 }

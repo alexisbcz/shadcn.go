@@ -36,6 +36,7 @@ import (
 	"shadcn.go/components/style"
 	"shadcn.go/components/ui/internal/aschild"
 	"shadcn.go/components/ui/internal/tree"
+	"shadcn.go/components/ui/internal/rtl"
 	"shadcn.go/components/ui/internal/uid"
 	"shadcn.go/components/ui/menu"
 	"shadcn.go/components/ui/popper"
@@ -209,6 +210,9 @@ func (b *RootBuilder) Render(w io.Writer) error {
 	class := rootClass
 	if st, ok := style.FromWriter(w); ok {
 		class = baseRoot.Class(st, "")
+		if b.dir == "rtl" {
+			class = rtl.Classes(class)
+		}
 	}
 	return b.element(class).Render(w)
 }
@@ -244,7 +248,7 @@ func (b *MenuBuilder) AcceptChild(c any) bool {
 
 // Render renders the children.
 func (b *MenuBuilder) Render(w io.Writer) error {
-	sc := menu.NewScope(Kind.For(w))
+	sc := menu.NewScope(Kind)
 	sc.Modal = false
 	value := b.value
 	if value == "" {
@@ -255,6 +259,7 @@ func (b *MenuBuilder) Render(w io.Writer) error {
 		sc.DefaultOpen = b.bar.defaultValue != "" && b.bar.defaultValue == value
 	}
 	sc.Template = []h.Prop{h.Data("radix-menubar-menu", ""), h.Data("value", value)}
+	sc.Kind = Kind.For(w, sc.Direction() == "rtl")
 	kids := b.Elem().ChildNodes()
 	menu.Share(kids, sc)
 	return h.Group(kids...).Render(w)
@@ -266,6 +271,7 @@ func (b *MenuBuilder) Render(w io.Writer) error {
 type TriggerBuilder struct {
 	h.Builder[TriggerBuilder]
 	menu.Scoped
+	w        io.Writer // set by Render: an asChild child resolves in it
 	asChild  bool
 	disabled bool
 }
@@ -315,16 +321,20 @@ func (b *TriggerBuilder) element(class string) *h.Element {
 	)
 	el := h.Spread(d, b.Elem(), lib.Cn)
 	if b.asChild {
-		return aschild.Resolve("menubar Trigger", el)
+		return aschild.ResolveIn(b.w, "menubar Trigger", el)
 	}
 	return el
 }
 
 // Render renders the trigger, in the style in scope (style.Scope) if any.
 func (b *TriggerBuilder) Render(w io.Writer) error {
+	b.w = w
 	class := triggerClass
 	if st, ok := style.FromWriter(w); ok {
 		class = baseTrigger.Class(st, "")
+		if b.MenuScope().Direction() == "rtl" {
+			class = rtl.Classes(class)
+		}
 	}
 	return b.element(class).Render(w)
 }

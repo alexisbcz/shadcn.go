@@ -35,6 +35,7 @@ import (
 	"shadcn.go/components/style"
 	"shadcn.go/components/ui/internal/aschild"
 	"shadcn.go/components/ui/internal/tree"
+	"shadcn.go/components/ui/internal/rtl"
 	"shadcn.go/components/ui/internal/uid"
 	"shadcn.go/components/ui/popper"
 	h "shadcn.go/libhtml"
@@ -79,33 +80,45 @@ type Kind struct {
 	// trigger's children.
 	CheckboxIndicator, RadioIndicator, SubTriggerChevron func() h.Node
 	// Styled, when set, returns the kind to use when style st is in scope
-	// (style.Scope): the markup and classes of registry/bases/radix.
-	Styled func(st style.Style) *Kind
+	// (style.Scope): the markup and classes of registry/bases/radix, made
+	// direction-aware (upstream's ui-rtl build) when rtl is set.
+	Styled func(st style.Style, rtl bool) *Kind
 }
 
 // For returns the kind to render with: k, or its styled variant when a
 // style is in scope of w (the writer libhtml passes to Render).
-func (k *Kind) For(w io.Writer) *Kind {
+func (k *Kind) For(w io.Writer, rtl bool) *Kind {
 	if k.Styled == nil {
 		return k
 	}
 	if st, ok := style.FromWriter(w); ok {
-		if sk := k.Styled(st); sk != nil {
+		if sk := k.Styled(st, rtl); sk != nil {
 			return sk
 		}
 	}
 	return k
 }
 
-// Cached returns build, memoized per style: use it for Kind.Styled.
-func Cached(build func(st style.Style) *Kind) func(st style.Style) *Kind {
-	var m sync.Map // style.Style -> *Kind
-	return func(st style.Style) *Kind {
-		if k, ok := m.Load(st); ok {
-			return k.(*Kind)
+// Cached returns build, memoized per style and direction: use it for
+// Kind.Styled. build passes every class through cls (identity, or
+// rtl.Classes for right-to-left menus).
+func Cached(build func(st style.Style, cls func(string) string) *Kind) func(st style.Style, rtl bool) *Kind {
+	type key struct {
+		st  style.Style
+		rtl bool
+	}
+	var m sync.Map // key -> *Kind
+	return func(st style.Style, isRTL bool) *Kind {
+		k := key{st, isRTL}
+		if v, ok := m.Load(k); ok {
+			return v.(*Kind)
 		}
-		k, _ := m.LoadOrStore(st, build(st))
-		return k.(*Kind)
+		cls := func(s string) string { return s }
+		if isRTL {
+			cls = rtl.Classes
+		}
+		v, _ := m.LoadOrStore(k, build(st, cls))
+		return v.(*Kind)
 	}
 }
 
@@ -441,6 +454,7 @@ func (b *ShortcutBuilder) Render(w io.Writer) error { return b.Element().Render(
 // itemBase holds what every item shares (MenuItemImpl).
 type itemBase struct {
 	Scoped
+	w         io.Writer // set by Render: an asChild child resolves in it
 	disabled  bool
 	textValue *string
 	asChild   bool
@@ -485,7 +499,7 @@ func (p *itemBase) resolve(name string, el *h.Element) *h.Element {
 	if !p.asChild {
 		return el
 	}
-	return aschild.Resolve(name, el)
+	return aschild.ResolveIn(p.w, name, el)
 }
 
 // ItemBuilder is returned by Item.
@@ -533,7 +547,10 @@ func (b *ItemBuilder) Element() *h.Element {
 }
 
 // Render renders the item.
-func (b *ItemBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ItemBuilder) Render(w io.Writer) error {
+	b.w = w
+	return b.Element().Render(w)
+}
 
 // CheckedState is a checkbox item's state.
 type CheckedState string
@@ -612,7 +629,10 @@ func (b *CheckboxItemBuilder) Element() *h.Element {
 }
 
 // Render renders the checkbox item.
-func (b *CheckboxItemBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *CheckboxItemBuilder) Render(w io.Writer) error {
+	b.w = w
+	return b.Element().Render(w)
+}
 
 // RadioGroupBuilder is returned by RadioGroup.
 type RadioGroupBuilder struct {
@@ -714,7 +734,10 @@ func (b *RadioItemBuilder) Element() *h.Element {
 }
 
 // Render renders the radio item.
-func (b *RadioItemBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *RadioItemBuilder) Render(w io.Writer) error {
+	b.w = w
+	return b.Element().Render(w)
+}
 
 // shareIndicator hands the item's state to the indicators among children
 // (not crossing nested items).
@@ -870,7 +893,10 @@ func (b *SubTriggerBuilder) Element() *h.Element {
 }
 
 // Render renders the sub trigger.
-func (b *SubTriggerBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *SubTriggerBuilder) Render(w io.Writer) error {
+	b.w = w
+	return b.Element().Render(w)
+}
 
 func state(open bool) string {
 	if open {

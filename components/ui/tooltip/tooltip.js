@@ -183,10 +183,12 @@ function createTooltip(tpl) {
       isPointerDown = true
       document.addEventListener("pointerup", handlePointerUp, { once: true })
     },
-    focus() {
+    // React's onFocus/onBlur are focusin/focusout: focus moving into a
+    // child of the trigger (a button inside an addon) opens it too.
+    focusin() {
       if (!isPointerDown) handleOpen()
     },
-    blur() {
+    focusout() {
       handleClose()
     },
     click() {

@@ -27,24 +27,24 @@ var (
 )
 
 // styledKind is ContextMenu in style st: the markup of the bases source.
-var styledKind = menu.Cached(func(st style.Style) *menu.Kind {
+var styledKind = menu.Cached(func(st style.Style, cls func(string) string) *menu.Kind {
 	ind := func() h.Node {
-		return h.Span(h.Class(baseIndicator.Class(st)), menu.Indicator(lucide.Check()))
+		return h.Span(h.Class(cls(baseIndicator.Class(st))), menu.Indicator(lucide.Check()))
 	}
 	return &menu.Kind{
 		Name:              "context-menu",
-		Content:           baseContent.Class(st, ""),
-		SubContent:        baseSubContent.Class(st, ""),
-		Item:              baseItem.Class(st, ""),
-		CheckboxItem:      baseCheckboxItem.Class(st, ""),
-		RadioItem:         baseRadioItem.Class(st, ""),
-		Label:             baseLabel.Class(st, ""),
-		Separator:         baseSeparator.Class(st, ""),
-		Shortcut:          baseShortcut.Class(st, ""),
-		SubTrigger:        baseSubTrigger.Class(st, ""),
+		Content:           cls(baseContent.Class(st, "")),
+		SubContent:        cls(baseSubContent.Class(st, "")),
+		Item:              cls(baseItem.Class(st, "")),
+		CheckboxItem:      cls(baseCheckboxItem.Class(st, "")),
+		RadioItem:         cls(baseRadioItem.Class(st, "")),
+		Label:             cls(baseLabel.Class(st, "")),
+		Separator:         cls(baseSeparator.Class(st, "")),
+		Shortcut:          cls(baseShortcut.Class(st, "")),
+		SubTrigger:        cls(baseSubTrigger.Class(st, "")),
 		CheckboxIndicator: ind,
 		RadioIndicator:    ind,
-		SubTriggerChevron: func() h.Node { return lucide.ChevronRight(h.Class(baseChevron.Class(st))) },
+		SubTriggerChevron: func() h.Node { return lucide.ChevronRight(h.Class(cls(baseChevron.Class(st)))) },
 		ContentForced: func(o *popper.Options) {
 			o.Side = popper.SideRight
 			o.SideOffset = 2
