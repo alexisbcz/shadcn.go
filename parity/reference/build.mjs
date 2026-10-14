@@ -14,25 +14,51 @@ const here = import.meta.dirname
 const repo = path.resolve(here, "../..")
 const app = path.join(repo, "ui/apps/v4")
 const examplesDir = path.join(app, "registry/new-york-v4/examples")
-const outdir = path.join(here, "dist")
+// Builds land in builds/<id> and dist is a symlink swapped atomically, so
+// a rebuild never breaks a parity server that is running meanwhile.
+const buildsDir = path.join(here, "builds")
+const buildId = `${Date.now()}-${process.pid}`
+const outdir = path.join(buildsDir, buildId)
+const distLink = path.join(here, "dist")
 
 if (!fs.existsSync(path.join(app, "node_modules/react"))) {
   console.error("upstream dependencies missing: run the pnpm install described in build.mjs")
   process.exit(1)
 }
 
-const names = fs.readdirSync(examplesDir).filter((f) => f.endsWith(".tsx")).map((f) => f.slice(0, -4)).sort()
+// Every upstream reference, with its kind:
+//   example   registry/new-york-v4/examples/<name>.tsx
+//   internal  registry/new-york-v4/internal/<name>.tsx (sidebar demos)
+//   chart     registry/new-york-v4/charts/<name>.tsx
+//   block     registry/new-york-v4/blocks/<name>/page.tsx (full pages)
+//   fixture   parity/fixtures/<name>.tsx: demos written for this port for
+//             components upstream ships without examples; they must use the
+//             upstream components unmodified.
+const registryDir = path.join(app, "registry/new-york-v4")
+const fixturesDir = path.join(repo, "parity/fixtures")
+const tsxIn = (dir) => (fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => f.endsWith(".tsx")).map((f) => f.slice(0, -4)) : [])
+const refs = [
+  ...tsxIn(examplesDir).map((n) => ({ name: n, kind: "example", file: path.join(examplesDir, n + ".tsx") })),
+  ...tsxIn(path.join(registryDir, "internal")).map((n) => ({ name: n, kind: "internal", file: path.join(registryDir, "internal", n + ".tsx") })),
+  ...tsxIn(path.join(registryDir, "charts")).map((n) => ({ name: n, kind: "chart", file: path.join(registryDir, "charts", n + ".tsx") })),
+  ...fs.readdirSync(path.join(registryDir, "blocks"), { withFileTypes: true }).filter((d) => d.isDirectory() && fs.existsSync(path.join(registryDir, "blocks", d.name, "page.tsx"))).map((d) => ({ name: d.name, kind: "block", file: path.join(registryDir, "blocks", d.name, "page.tsx") })),
+  ...tsxIn(fixturesDir).map((n) => ({ name: n, kind: "fixture", file: path.join(fixturesDir, n + ".tsx") })),
+].sort((a, b) => a.name.localeCompare(b.name))
+const dupes = refs.map((r) => r.name).filter((n, i, a) => a.indexOf(n) !== i)
+if (dupes.length) throw new Error("duplicate reference names: " + dupes.join(", "))
+const names = refs.map((r) => r.name)
+const fileOf = Object.fromEntries(refs.map((r) => [r.name, r.file]))
 
 // Examples that toast need sonner's <Toaster />, which the upstream docs
 // mount once in their layout.
-const usesSonner = names.filter((n) => /from "sonner"/.test(fs.readFileSync(path.join(examplesDir, n + ".tsx"), "utf8")))
+const usesSonner = names.filter((n) => /from "sonner"/.test(fs.readFileSync(fileOf[n], "utf8")))
 
 const entry = `
 import * as React from "react"
 import { createRoot } from "react-dom/client"
 import { ThemeProvider } from "next-themes"
 const examples = {
-${names.map((n) => `  ${JSON.stringify(n)}: () => import(${JSON.stringify(path.join(examplesDir, n + ".tsx"))}),`).join("\n")}
+${names.map((n) => `  ${JSON.stringify(n)}: () => import(${JSON.stringify(fileOf[n])}),`).join("\n")}
 }
 const sonner = new Set(${JSON.stringify(usesSonner)})
 
@@ -80,7 +106,7 @@ export default React.forwardRef(function Image({ src, alt, width, height, fill, 
 export default React.forwardRef(function Form({ action, ...props }, ref) { return React.createElement("form", { ref, action: typeof action === "string" ? action : undefined, ...props }) })`,
   // Every Google font an example imports becomes a no-op font loader; the
   // harness renders both sides with the same system fonts.
-  "next/font/google": [...new Set(names.flatMap((n) => [...fs.readFileSync(path.join(examplesDir, n + ".tsx"), "utf8").matchAll(/import\s*\{([^}]*)\}\s*from\s*"next\/font\/google"/g)].flatMap((m) => m[1].split(",").map((x) => x.trim()).filter(Boolean))))]
+  "next/font/google": [...new Set(names.flatMap((n) => [...fs.readFileSync(fileOf[n], "utf8").matchAll(/import\s*\{([^}]*)\}\s*from\s*"next\/font\/google"/g)].flatMap((m) => m[1].split(",").map((x) => x.trim()).filter(Boolean))))]
     .map((f) => `export function ${f}() { return { className: "", style: {}, variable: "" } }`).join("\n"),
   "next/navigation": `export const useRouter = () => ({ push() {}, replace() {}, refresh() {}, back() {}, prefetch() {} })
 export const usePathname = () => location.pathname
@@ -97,7 +123,7 @@ const aliasPlugin = {
   },
 }
 
-fs.rmSync(outdir, { recursive: true, force: true })
+fs.mkdirSync(outdir, { recursive: true })
 const result = await esbuild.build({
   stdin: { contents: entry, loader: "jsx", resolveDir: app, sourcefile: "parity-entry.jsx" },
   bundle: true,
@@ -115,6 +141,13 @@ const result = await esbuild.build({
   logLevel: "warning",
   metafile: true,
 })
-fs.writeFileSync(path.join(outdir, "examples.json"), JSON.stringify(names))
+fs.writeFileSync(path.join(outdir, "references.json"), JSON.stringify(refs.map(({ name, kind, file }) => ({ name, kind, file: path.relative(repo, file) })), null, 1))
+const tmpLink = path.join(here, `.dist-${buildId}`)
+fs.symlinkSync(path.join("builds", buildId), tmpLink)
+if (fs.existsSync(distLink) && !fs.lstatSync(distLink).isSymbolicLink()) fs.rmSync(distLink, { recursive: true, force: true })
+fs.renameSync(tmpLink, distLink)
+// Keep the three newest builds: servers started from older ones may still read them.
+for (const old of fs.readdirSync(buildsDir).sort().slice(0, -3)) fs.rmSync(path.join(buildsDir, old), { recursive: true, force: true })
 const bytes = Object.values(result.metafile.outputs).reduce((n, o) => n + o.bytes, 0)
-console.log(`reference: ${names.length} examples, ${(bytes / 1e6).toFixed(1)} MB in ${Object.keys(result.metafile.outputs).length} files`)
+const kinds = Object.entries(refs.reduce((m, r) => ((m[r.kind] = (m[r.kind] ?? 0) + 1), m), {})).map(([k, n]) => `${n} ${k}`).join(", ")
+console.log(`reference: ${kinds}; ${(bytes / 1e6).toFixed(1)} MB in ${Object.keys(result.metafile.outputs).length} files`)

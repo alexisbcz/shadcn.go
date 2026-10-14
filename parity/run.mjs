@@ -21,8 +21,9 @@
 // Captures: "initial" (after load, animations settled), then the automatic
 // interactions (hover, keyboard focus, open a trigger, Escape) unless
 // --no-auto, then the steps in parity/scenarios/<example>.json if present.
-// Results go to parity/out/<example>/ and parity/out/summary.json; the exit
-// status is non-zero if anything differs.
+// Results go to parity/out/<example>/report.json (plus images and DOM dumps
+// of every capture that differs); the exit status is non-zero if anything
+// differs. node parity/status.mjs summarizes all reports.
 import fs from "node:fs"
 import os from "node:os"
 import path from "node:path"
@@ -51,9 +52,33 @@ const positional = args.filter((a, i) => !a.startsWith("--") && !["--themes", "-
 
 // --- server ----------------------------------------------------------------------
 
+// Several agents may run the harness at once: regenerating the example
+// index and building happen under a lock directory.
+function withLock(fn) {
+  const lock = path.join(repo, "parity/.lock")
+  const deadline = Date.now() + 120000
+  for (;;) {
+    try {
+      fs.mkdirSync(lock)
+      break
+    } catch {
+      if (Date.now() > deadline) fs.rmSync(lock, { recursive: true, force: true })
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 200)
+    }
+  }
+  try {
+    return fn()
+  } finally {
+    fs.rmSync(lock, { recursive: true, force: true })
+  }
+}
+
 async function startServer() {
   const bin = path.join(os.tmpdir(), `shadcn-parity-${process.pid}`)
-  execFileSync("go", ["build", "-o", bin, "./cmd/parity"], { cwd: repo, stdio: "inherit" })
+  withLock(() => {
+    execFileSync("go", ["generate", "./examples/all"], { cwd: repo, stdio: "inherit" })
+    execFileSync("go", ["build", "-o", bin, "./cmd/parity"], { cwd: repo, stdio: "inherit" })
+  })
   const proc = spawn(bin, ["-addr", "127.0.0.1:0", "-root", repo], { cwd: repo, stdio: ["ignore", "pipe", "pipe"] })
   let stderr = ""
   proc.stderr.on("data", (d) => (stderr += d))
@@ -382,6 +407,10 @@ async function checkExample(browser, base, name) {
 
       const scenarios = [...(auto ? await autoScenario(react) : []), ...(scenarioFile(name) ?? [])]
       for (const sc of scenarios) {
+        if (sc.reset) {
+          await Promise.all([react.close(), go.close()])
+          await Promise.all([react.open(), go.open()])
+        }
         const frames = sc.frames !== false
         if (frames) await Promise.all([react.freeze(true), go.freeze(true)])
         for (const s of sc.steps) {
@@ -450,10 +479,6 @@ try {
   }))
   await browser.close()
 
-  const summaryPath = path.join(outRoot, "summary.json")
-  const previous = fs.existsSync(summaryPath) ? JSON.parse(fs.readFileSync(summaryPath, "utf8")) : {}
-  for (const r of reports) previous[r.name] = { pass: r.pass, at: new Date().toISOString() }
-  fs.writeFileSync(summaryPath, JSON.stringify(previous, null, 2))
   const failed = reports.filter((r) => !r.pass)
   console.log(`\n${reports.length - failed.length}/${reports.length} examples pixel-, DOM- and animation-identical. Reports: parity/out/`)
   if (failed.length) exitCode = 1

@@ -21,7 +21,6 @@ import (
 	"os"
 	"path/filepath"
 	"slices"
-	"strings"
 	"time"
 
 	"shadcn.go/components/ui/runtime"
@@ -35,11 +34,22 @@ import (
 func main() {
 	addr := flag.String("addr", "127.0.0.1:4600", "listen address (port 0 picks a free one)")
 	root := flag.String("root", ".", "repository root")
+	list := flag.Bool("list", false, "print the references as JSON (name, kind, file, component, ported) and exit")
 	flag.Parse()
 
 	rootAbs, err := filepath.Abs(*root)
 	if err != nil {
 		log.Fatal(err)
+	}
+	if *list {
+		refs := loadReferences(filepath.Join(rootAbs, "parity/reference/dist"))
+		out := make([]map[string]any, 0, len(refs))
+		for _, r := range refs {
+			ex, ok := registry.Get(r.Name)
+			out = append(out, map[string]any{"name": r.Name, "kind": r.Kind, "file": r.File, "component": ex.Component, "ported": ok})
+		}
+		_ = json.NewEncoder(os.Stdout).Encode(out)
+		return
 	}
 	start := time.Now()
 	css, err := tailwind.Build(tailwind.Options{Input: filepath.Join(rootAbs, "parity/styles.css"), Dir: rootAbs})
@@ -49,7 +59,19 @@ func main() {
 	log.Printf("css: %d bytes from %d files in %s", len(css.CSS), len(css.Files), time.Since(start).Round(time.Millisecond))
 
 	reference := filepath.Join(rootAbs, "parity/reference/dist")
-	upstream := upstreamExamples(rootAbs)
+	refs := loadReferences(reference)
+	upstream := make([]string, 0, len(refs))
+	for _, r := range refs {
+		upstream = append(upstream, r.Name)
+	}
+	kindOf := func(name string) string {
+		for _, r := range refs {
+			if r.Name == name {
+				return r.Kind
+			}
+		}
+		return ""
+	}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /assets/app.css", func(w http.ResponseWriter, r *http.Request) {
@@ -74,7 +96,7 @@ func main() {
 		if ex.Extra != nil {
 			extra = ex.Extra(r)
 		}
-		page := shell(r, ex.Name+" · go", h.Group(runtime.Scripts(r)), ex.Render(r), extra)
+		page := shell(r, kindOf(ex.Name), ex.Name+" · go", h.Group(runtime.Scripts(r)), ex.Render(r), extra)
 		if err := h.WriteHTTP(w, http.StatusOK, page); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
@@ -86,7 +108,7 @@ func main() {
 			return
 		}
 		head := h.Script(h.Type("module"), h.Src("/reference/app.js"))
-		page := shell(r, name+" · react", head, nil, nil)
+		page := shell(r, kindOf(name), name+" · react", head, nil, nil)
 		if err := h.WriteHTTP(w, http.StatusOK, page); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
@@ -94,13 +116,15 @@ func main() {
 	mux.HandleFunc("GET /api/examples", func(w http.ResponseWriter, r *http.Request) {
 		type item struct {
 			Name      string `json:"name"`
+			Kind      string `json:"kind"`
+			File      string `json:"file"`
 			Component string `json:"component,omitempty"`
 			Ported    bool   `json:"ported"`
 		}
 		var list []item
-		for _, n := range upstream {
-			ex, ok := registry.Get(n)
-			list = append(list, item{Name: n, Component: ex.Component, Ported: ok})
+		for _, ref := range refs {
+			ex, ok := registry.Get(ref.Name)
+			list = append(list, item{Name: ref.Name, Kind: ref.Kind, File: ref.File, Component: ex.Component, Ported: ok})
 		}
 		w.Header().Set("Content-Type", "application/json")
 		_ = json.NewEncoder(w).Encode(list)
@@ -119,9 +143,9 @@ func main() {
 }
 
 // shell is the page both sides render into. #preview mirrors the preview
-// box of the upstream docs; #parity-extra holds page-level companions such
-// as sonner's <Toaster />.
-func shell(r *http.Request, title string, head, preview, extra h.Node) h.Node {
+// box of the upstream docs (blocks are full pages and get no box);
+// #parity-extra holds page-level companions such as sonner's <Toaster />.
+func shell(r *http.Request, kind, title string, head, preview, extra h.Node) h.Node {
 	theme := "light"
 	if r.URL.Query().Get("theme") == "dark" {
 		theme = "dark"
@@ -136,7 +160,7 @@ func shell(r *http.Request, title string, head, preview, extra h.Node) h.Node {
 		),
 		h.Body(h.Class("bg-background text-foreground antialiased"),
 			h.Div(h.ID("preview"), h.Data("parity-root", ""),
-				h.Class("flex min-h-[350px] w-full items-center justify-center p-10"),
+				h.If(kind != "block", h.Class("flex min-h-[350px] w-full items-center justify-center p-10")),
 				preview,
 			),
 			h.Div(h.ID("parity-extra"), extra),
@@ -151,7 +175,7 @@ func index(r *http.Request, upstream []string) h.Node {
 			ported++
 		}
 	}
-	return shell(r, "parity", nil, h.Div(h.Class("w-full max-w-3xl"),
+	return shell(r, "", "parity", nil, h.Div(h.Class("w-full max-w-3xl"),
 		h.H1(h.Class("mb-4 text-2xl font-semibold"), fmt.Sprintf("Examples: %d/%d ported", ported, len(upstream))),
 		h.Ul(h.Class("grid grid-cols-2 gap-1 text-sm"), h.Map(upstream, func(n string) h.Node {
 			_, ok := registry.Get(n)
@@ -164,18 +188,22 @@ func index(r *http.Request, upstream []string) h.Node {
 	), nil)
 }
 
-// upstreamExamples lists the upstream new-york-v4 example names.
-func upstreamExamples(root string) []string {
-	dir := filepath.Join(root, "ui/apps/v4/registry/new-york-v4/examples")
-	entries, err := os.ReadDir(dir)
+// reference is one upstream example, chart, block, internal demo or
+// fixture, as listed by the reference build.
+type reference struct {
+	Name string `json:"name"`
+	Kind string `json:"kind"`
+	File string `json:"file"`
+}
+
+func loadReferences(dist string) []reference {
+	b, err := os.ReadFile(filepath.Join(dist, "references.json"))
 	if err != nil {
-		log.Fatalf("upstream examples: %v (clone shadcn-ui/ui into ./ui)", err)
+		log.Fatalf("%v: build the React reference first (node parity/reference/build.mjs)", err)
 	}
-	var names []string
-	for _, e := range entries {
-		if n, ok := strings.CutSuffix(e.Name(), ".tsx"); ok {
-			names = append(names, n)
-		}
+	var refs []reference
+	if err := json.Unmarshal(b, &refs); err != nil {
+		log.Fatal(err)
 	}
-	return names
+	return refs
 }

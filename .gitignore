@@ -3,4 +3,7 @@
 
 node_modules/
 /parity/out/
-/parity/reference/dist/
+/parity/reference/builds/
+/parity/reference/dist
+/parity/reference/.dist-*
+/parity/.lock

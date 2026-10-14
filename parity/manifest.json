@@ -1,0 +1,744 @@
+{
+ "upstream": {
+  "repo": "https://github.com/shadcn-ui/ui",
+  "style": "new-york-v4",
+  "react": "19.2.3",
+  "radix_ui": "1.4.3",
+  "tailwindcss": "4.3.0"
+ },
+ "groups": [
+  {
+   "id": "w0-done",
+   "wave": 0,
+   "components": [
+    "button",
+    "spinner"
+   ],
+   "title": "Done in wave 0",
+   "references": [
+    "button-as-child",
+    "button-default",
+    "button-demo",
+    "button-destructive",
+    "button-ghost",
+    "button-icon",
+    "button-link",
+    "button-loading",
+    "button-outline",
+    "button-rounded",
+    "button-secondary",
+    "button-size",
+    "button-with-icon",
+    "spinner-badge",
+    "spinner-basic",
+    "spinner-button",
+    "spinner-color",
+    "spinner-custom",
+    "spinner-demo",
+    "spinner-empty",
+    "spinner-input-group",
+    "spinner-item",
+    "spinner-size"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w1-cn",
+   "wave": 1,
+   "components": [],
+   "title": "Exact port of the cn class merger",
+   "task": "Port the `cn` npm package (v0.2.2, ui/apps/v4/node_modules/cn, shadcn's compiled replacement for clsx+tailwind-merge that every upstream component calls) to Go as package shadcn.go/cn, byte-for-byte equivalent: same engine algorithm and the same generated tables (generate the Go tables from dist/tables.js with a script and commit the generator). Then make lib.Cn use it. Prove equivalence with a differential test: extract every class string and className combination from the upstream registry (ui/apps/v4/registry/new-york-v4 and its examples/blocks/charts) plus a randomized corpus, compute the JS results with node (commit them as testdata), and require identical Go output; add a Go fuzz test against a recorded corpus. Keep twmerge as is (it stays available). Run button's tests and the button/spinner parity references afterwards; they must still pass.",
+   "references": [],
+   "uiDependencies": []
+  },
+  {
+   "id": "w1-overlay",
+   "wave": 1,
+   "components": [
+    "dialog",
+    "alert-dialog",
+    "sheet"
+   ],
+   "title": "Overlay primitives + Dialog, AlertDialog, Sheet",
+   "primitives": [
+    "presence (Radix Presence: mount/unmount with exit animations; also used by checkbox, accordion, collapsible...)",
+    "portal",
+    "dismissable-layer",
+    "focus-scope",
+    "focus-guards",
+    "scroll-lock (react-remove-scroll behavior)",
+    "hide-others (aria-hidden)"
+   ],
+   "task": "Port Radix's overlay internals as shared runtime primitives (one file each in components/ui/runtime/js/, documented API at the top of each file; later waves build popovers, menus, selects, drawers and checkboxes on them, so make them general, faithful to Radix and well documented), then Dialog, AlertDialog and Sheet on top of them.",
+   "references": [
+    "dialog-close-button",
+    "dialog-demo",
+    "alert-dialog-demo",
+    "sheet-demo",
+    "sheet-side"
+   ],
+   "uiDependencies": [
+    "button"
+   ]
+  },
+  {
+   "id": "w1-roving",
+   "wave": 1,
+   "components": [
+    "tabs",
+    "toggle",
+    "toggle-group",
+    "radio-group"
+   ],
+   "title": "Roving focus + Tabs, Toggle, ToggleGroup, RadioGroup",
+   "primitives": [
+    "roving-focus",
+    "collection",
+    "direction"
+   ],
+   "references": [
+    "tabs-demo",
+    "toggle-demo",
+    "toggle-disabled",
+    "toggle-lg",
+    "toggle-outline",
+    "toggle-sm",
+    "toggle-with-text",
+    "toggle-group-demo",
+    "toggle-group-disabled",
+    "toggle-group-lg",
+    "toggle-group-outline",
+    "toggle-group-single",
+    "toggle-group-sm",
+    "toggle-group-spacing",
+    "radio-group-demo"
+   ],
+   "uiDependencies": [],
+   "task": "Port Radix's roving-focus group, collection and direction as shared runtime primitives (later waves build menus, selects, toolbars on them: make them general, faithful to Radix and documented), then the four components."
+  },
+  {
+   "id": "w1-standalone",
+   "wave": 1,
+   "components": [
+    "input-otp",
+    "resizable",
+    "native-select",
+    "empty",
+    "breadcrumb"
+   ],
+   "title": "InputOTP, Resizable, NativeSelect, Empty, Breadcrumb",
+   "references": [
+    "input-otp-controlled",
+    "input-otp-demo",
+    "input-otp-pattern",
+    "input-otp-separator",
+    "resizable-demo",
+    "resizable-demo-with-handle",
+    "resizable-handle",
+    "resizable-vertical",
+    "native-select-demo",
+    "native-select-disabled",
+    "native-select-groups",
+    "native-select-invalid",
+    "empty-avatar",
+    "empty-avatar-group",
+    "empty-background",
+    "empty-demo",
+    "empty-icon",
+    "empty-input-group",
+    "empty-outline",
+    "breadcrumb-demo",
+    "breadcrumb-dropdown",
+    "breadcrumb-ellipsis",
+    "breadcrumb-link",
+    "breadcrumb-responsive",
+    "breadcrumb-separator"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w1-static",
+   "wave": 1,
+   "components": [
+    "alert",
+    "badge",
+    "card",
+    "separator",
+    "skeleton",
+    "kbd",
+    "label",
+    "input",
+    "textarea",
+    "aspect-ratio",
+    "table"
+   ],
+   "title": "Static components",
+   "task": "Static (or nearly static) components. typography-* references are plain markup with classes: port them in examples/typography.",
+   "references": [
+    "alert-demo",
+    "alert-destructive",
+    "badge-demo",
+    "badge-destructive",
+    "badge-outline",
+    "badge-secondary",
+    "card-demo",
+    "card-with-form",
+    "separator-demo",
+    "skeleton-card",
+    "skeleton-demo",
+    "kbd-button",
+    "kbd-demo",
+    "kbd-group",
+    "kbd-input-group",
+    "kbd-tooltip",
+    "label-demo",
+    "input-demo",
+    "input-disabled",
+    "input-file",
+    "input-with-button",
+    "input-with-label",
+    "input-with-text",
+    "textarea-demo",
+    "textarea-disabled",
+    "textarea-with-button",
+    "textarea-with-label",
+    "textarea-with-text",
+    "aspect-ratio-demo",
+    "table-demo",
+    "typography-blockquote",
+    "typography-demo",
+    "typography-h1",
+    "typography-h2",
+    "typography-h3",
+    "typography-h4",
+    "typography-inline-code",
+    "typography-large",
+    "typography-lead",
+    "typography-list",
+    "typography-muted",
+    "typography-p",
+    "typography-small",
+    "typography-table"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w2-carousel-calendar",
+   "wave": 2,
+   "components": [
+    "carousel",
+    "calendar"
+   ],
+   "title": "Carousel (embla), Calendar (react-day-picker), date pickers",
+   "references": [
+    "carousel-api",
+    "carousel-demo",
+    "carousel-orientation",
+    "carousel-plugin",
+    "carousel-size",
+    "carousel-spacing",
+    "calendar-demo",
+    "calendar-hijri",
+    "date-picker-demo",
+    "date-picker-with-presets",
+    "date-picker-with-range"
+   ],
+   "uiDependencies": [
+    "button"
+   ]
+  },
+  {
+   "id": "w2-chart-core",
+   "wave": 2,
+   "components": [
+    "chart"
+   ],
+   "title": "Chart core + area, bar, line charts (recharts)",
+   "task": "recharts renders SVG from data: produce the identical SVG in Go (scales, ticks, paths, curves, labels, legends, tooltips, animations) for the configurations the references use. Structure the Go chart package so w3-chart-more can add pie/radar/radial charts and tooltip variants on top.",
+   "references": [
+    "chart-bar-demo",
+    "chart-bar-demo-axis",
+    "chart-bar-demo-grid",
+    "chart-bar-demo-legend",
+    "chart-bar-demo-tooltip",
+    "chart-tooltip-demo",
+    "chart-area-axes",
+    "chart-area-default",
+    "chart-area-gradient",
+    "chart-area-icons",
+    "chart-area-interactive",
+    "chart-area-legend",
+    "chart-area-linear",
+    "chart-area-stacked",
+    "chart-area-stacked-expand",
+    "chart-area-step",
+    "chart-bar-active",
+    "chart-bar-default",
+    "chart-bar-horizontal",
+    "chart-bar-interactive",
+    "chart-bar-label",
+    "chart-bar-label-custom",
+    "chart-bar-mixed",
+    "chart-bar-multiple",
+    "chart-bar-negative",
+    "chart-bar-stacked",
+    "chart-line-default",
+    "chart-line-dots",
+    "chart-line-dots-colors",
+    "chart-line-dots-custom",
+    "chart-line-interactive",
+    "chart-line-label",
+    "chart-line-label-custom",
+    "chart-line-linear",
+    "chart-line-multiple",
+    "chart-line-step"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w2-command",
+   "wave": 2,
+   "components": [
+    "command"
+   ],
+   "title": "Command (cmdk)",
+   "references": [
+    "command-demo",
+    "command-dialog"
+   ],
+   "uiDependencies": [
+    "dialog"
+   ]
+  },
+  {
+   "id": "w2-composite",
+   "wave": 2,
+   "components": [
+    "button-group",
+    "field",
+    "item",
+    "input-group",
+    "pagination"
+   ],
+   "title": "ButtonGroup, Field, Item, InputGroup, Pagination",
+   "references": [
+    "button-group-demo",
+    "button-group-dropdown",
+    "button-group-input",
+    "button-group-input-group",
+    "button-group-nested",
+    "button-group-orientation",
+    "button-group-popover",
+    "button-group-select",
+    "button-group-separator",
+    "button-group-size",
+    "button-group-split",
+    "field-checkbox",
+    "field-choice-card",
+    "field-demo",
+    "field-fieldset",
+    "field-group",
+    "field-input",
+    "field-radio",
+    "field-responsive",
+    "field-select",
+    "field-slider",
+    "field-switch",
+    "field-textarea",
+    "item-avatar",
+    "item-demo",
+    "item-dropdown",
+    "item-group",
+    "item-header",
+    "item-icon",
+    "item-image",
+    "item-link",
+    "item-size",
+    "item-variant",
+    "input-group-button",
+    "input-group-button-group",
+    "input-group-custom",
+    "input-group-demo",
+    "input-group-dropdown",
+    "input-group-icon",
+    "input-group-label",
+    "input-group-spinner",
+    "input-group-text",
+    "input-group-textarea",
+    "input-group-tooltip",
+    "pagination-demo"
+   ],
+   "uiDependencies": [
+    "button",
+    "input",
+    "label",
+    "separator",
+    "textarea"
+   ]
+  },
+  {
+   "id": "w2-controls",
+   "wave": 2,
+   "components": [
+    "checkbox",
+    "switch",
+    "slider",
+    "progress",
+    "avatar"
+   ],
+   "title": "Form controls: Checkbox, Switch, Slider, Progress, Avatar",
+   "references": [
+    "checkbox-demo",
+    "checkbox-disabled",
+    "checkbox-with-text",
+    "switch-demo",
+    "slider-demo",
+    "progress-demo",
+    "avatar-demo"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w2-disclosure",
+   "wave": 2,
+   "components": [
+    "accordion",
+    "collapsible",
+    "scroll-area"
+   ],
+   "title": "Accordion, Collapsible, ScrollArea",
+   "references": [
+    "accordion-demo",
+    "collapsible-demo",
+    "scroll-area-demo",
+    "scroll-area-horizontal-demo"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w2-drawer-sonner",
+   "wave": 2,
+   "components": [
+    "drawer",
+    "sonner"
+   ],
+   "title": "Drawer (vaul), Sonner",
+   "references": [
+    "drawer-demo",
+    "drawer-dialog",
+    "sonner-demo",
+    "sonner-types"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w2-popper",
+   "wave": 2,
+   "components": [
+    "popover",
+    "tooltip",
+    "hover-card"
+   ],
+   "title": "Popper primitive + Popover, Tooltip, HoverCard",
+   "primitives": [
+    "popper (Radix PopperContent/Anchor/Arrow on the vendored floating-ui.js: identical middleware, CSS variables, data-side/data-align)"
+   ],
+   "task": "Port Radix's popper as a shared primitive (runtime/js/popper.js) and the three popper-based overlays, reusing the overlay primitives from wave 1 (presence, portal, dismissable-layer, focus-scope...).",
+   "references": [
+    "popover-demo",
+    "tooltip-demo",
+    "hover-card-demo"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w3-chart-more",
+   "wave": 3,
+   "components": [],
+   "title": "Pie, radar, radial charts and tooltip variants",
+   "depends": [
+    "w2-chart-core"
+   ],
+   "references": [
+    "chart-pie-donut",
+    "chart-pie-donut-active",
+    "chart-pie-donut-text",
+    "chart-pie-interactive",
+    "chart-pie-label",
+    "chart-pie-label-custom",
+    "chart-pie-label-list",
+    "chart-pie-legend",
+    "chart-pie-separator-none",
+    "chart-pie-simple",
+    "chart-pie-stacked",
+    "chart-radar-default",
+    "chart-radar-dots",
+    "chart-radar-grid-circle",
+    "chart-radar-grid-circle-fill",
+    "chart-radar-grid-circle-no-lines",
+    "chart-radar-grid-custom",
+    "chart-radar-grid-fill",
+    "chart-radar-grid-none",
+    "chart-radar-icons",
+    "chart-radar-label-custom",
+    "chart-radar-legend",
+    "chart-radar-lines-only",
+    "chart-radar-multiple",
+    "chart-radar-radius",
+    "chart-radial-grid",
+    "chart-radial-label",
+    "chart-radial-shape",
+    "chart-radial-simple",
+    "chart-radial-stacked",
+    "chart-radial-text",
+    "chart-tooltip-advanced",
+    "chart-tooltip-default",
+    "chart-tooltip-formatter",
+    "chart-tooltip-icons",
+    "chart-tooltip-indicator-line",
+    "chart-tooltip-indicator-none",
+    "chart-tooltip-label-custom",
+    "chart-tooltip-label-formatter",
+    "chart-tooltip-label-none"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w3-combobox-messages",
+   "wave": 3,
+   "components": [
+    "combobox",
+    "message",
+    "message-scroller",
+    "bubble",
+    "attachment",
+    "marker",
+    "direction"
+   ],
+   "title": "Combobox (base-ui), Message, MessageScroller, Bubble, Attachment, Marker, Direction",
+   "task": "Components without upstream examples (message, message-scroller, bubble, attachment, marker, direction): write fixtures in parity/fixtures that exercise every variant and prop through the upstream components, then port.",
+   "references": [
+    "combobox-demo",
+    "combobox-dropdown-menu",
+    "combobox-popover",
+    "combobox-responsive"
+   ],
+   "uiDependencies": [
+    "button",
+    "input-group"
+   ]
+  },
+  {
+   "id": "w3-forms",
+   "wave": 3,
+   "components": [
+    "form"
+   ],
+   "title": "Form (react-hook-form, TanStack Form, Formisch, Next forms) and data table",
+   "task": "The form-* references validate on the client with zod/valibot schemas and show messages: reproduce the exact markup and states (aria-invalid, data-invalid, messages) for every interaction, with the validation implemented in vanilla JS (and on the server where the example posts).",
+   "references": [
+    "form-formisch-array",
+    "form-formisch-checkbox",
+    "form-formisch-complex",
+    "form-formisch-demo",
+    "form-formisch-input",
+    "form-formisch-radiogroup",
+    "form-formisch-select",
+    "form-formisch-switch",
+    "form-formisch-textarea",
+    "form-next-complex",
+    "form-next-demo",
+    "form-rhf-array",
+    "form-rhf-checkbox",
+    "form-rhf-complex",
+    "form-rhf-demo",
+    "form-rhf-input",
+    "form-rhf-password",
+    "form-rhf-radiogroup",
+    "form-rhf-select",
+    "form-rhf-switch",
+    "form-rhf-textarea",
+    "form-tanstack-array",
+    "form-tanstack-checkbox",
+    "form-tanstack-complex",
+    "form-tanstack-demo",
+    "form-tanstack-input",
+    "form-tanstack-radiogroup",
+    "form-tanstack-select",
+    "form-tanstack-switch",
+    "form-tanstack-textarea",
+    "data-table-demo"
+   ],
+   "uiDependencies": [
+    "label"
+   ]
+  },
+  {
+   "id": "w3-menus",
+   "wave": 3,
+   "components": [
+    "dropdown-menu",
+    "context-menu",
+    "menubar"
+   ],
+   "title": "Menu primitive + DropdownMenu, ContextMenu, Menubar",
+   "primitives": [
+    "menu (Radix Menu: typeahead, submenus with pointer grace area, checkbox/radio items)"
+   ],
+   "references": [
+    "dropdown-menu-checkboxes",
+    "dropdown-menu-demo",
+    "dropdown-menu-dialog",
+    "dropdown-menu-radio-group",
+    "context-menu-demo",
+    "menubar-demo",
+    "mode-toggle"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w3-select-nav",
+   "wave": 3,
+   "components": [
+    "select",
+    "navigation-menu"
+   ],
+   "title": "Select, NavigationMenu",
+   "references": [
+    "select-demo",
+    "select-scrollable",
+    "navigation-menu-demo"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w3-sidebar",
+   "wave": 3,
+   "components": [
+    "sidebar"
+   ],
+   "title": "Sidebar",
+   "references": [
+    "sidebar-controlled",
+    "sidebar-demo",
+    "sidebar-footer",
+    "sidebar-group",
+    "sidebar-group-action",
+    "sidebar-group-collapsible",
+    "sidebar-header",
+    "sidebar-menu",
+    "sidebar-menu-action",
+    "sidebar-menu-badge",
+    "sidebar-menu-collapsible",
+    "sidebar-menu-sub",
+    "sidebar-rsc"
+   ],
+   "uiDependencies": [
+    "button",
+    "input",
+    "separator",
+    "sheet",
+    "skeleton",
+    "tooltip"
+   ]
+  },
+  {
+   "id": "w4-blocks-auth",
+   "wave": 4,
+   "components": [],
+   "title": "Blocks: login and signup pages",
+   "references": [
+    "login-01",
+    "login-02",
+    "login-03",
+    "login-04",
+    "login-05",
+    "signup-01",
+    "signup-02",
+    "signup-03",
+    "signup-04",
+    "signup-05"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w4-blocks-dashboard",
+   "wave": 4,
+   "components": [],
+   "title": "Block: dashboard-01",
+   "references": [
+    "dashboard-01"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w4-blocks-sidebar-a",
+   "wave": 4,
+   "components": [],
+   "title": "Blocks: sidebar-01..08",
+   "references": [
+    "sidebar-01",
+    "sidebar-02",
+    "sidebar-03",
+    "sidebar-04",
+    "sidebar-05",
+    "sidebar-06",
+    "sidebar-07",
+    "sidebar-08"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w4-blocks-sidebar-b",
+   "wave": 4,
+   "components": [],
+   "title": "Blocks: sidebar-09..16",
+   "references": [
+    "sidebar-09",
+    "sidebar-10",
+    "sidebar-11",
+    "sidebar-12",
+    "sidebar-13",
+    "sidebar-14",
+    "sidebar-15",
+    "sidebar-16"
+   ],
+   "uiDependencies": []
+  },
+  {
+   "id": "w4-sweep-a",
+   "wave": 4,
+   "components": [],
+   "title": "Examples sweep (wave 1 components)",
+   "sweep": [
+    "w1-overlay",
+    "w2-popper",
+    "w1-roving",
+    "w1-static",
+    "w2-controls",
+    "w2-disclosure",
+    "w1-standalone"
+   ],
+   "references": [],
+   "uiDependencies": []
+  },
+  {
+   "id": "w4-sweep-b",
+   "wave": 4,
+   "components": [],
+   "title": "Examples sweep (wave 2-3 components)",
+   "sweep": [
+    "w3-menus",
+    "w3-select-nav",
+    "w2-composite",
+    "w2-command",
+    "w2-drawer-sonner",
+    "w2-carousel-calendar",
+    "w3-sidebar",
+    "w3-combobox-messages"
+   ],
+   "references": [],
+   "uiDependencies": []
+  }
+ ]
+}
