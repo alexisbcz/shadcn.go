@@ -1,0 +1,6 @@
+# Upstream shadcn/ui checkout, kept for reference while porting.
+/ui/
+
+node_modules/
+/parity/out/
+/parity/reference/dist/

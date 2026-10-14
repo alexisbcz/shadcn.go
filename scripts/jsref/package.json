@@ -1,0 +1,11 @@
+{
+  "name": "shadcn-go-jsref",
+  "private": true,
+  "description": "Generates reference outputs from the real JavaScript libraries. Run: npm install && node button.mjs ../../ui/apps/v4/registry/new-york-v4/ui/button.tsx > ../../components/ui/testdata/button_ref.json",
+  "type": "module",
+  "dependencies": {
+    "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1",
+    "tailwind-merge": "3.3.1"
+  }
+}
