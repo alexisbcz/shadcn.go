@@ -358,9 +358,26 @@ class Side {
     return (await this.page.locator(selector).count()) > 0
   }
 
+  // Full-page PNG through the DevTools protocol with optimizeForSpeed, which
+  // only changes the PNG compression, never the pixels; several times faster
+  // than page.screenshot's default encoding.
+  async raw() {
+    const { w, h } = await this.page.evaluate(() => ({
+      w: Math.max(document.documentElement.scrollWidth, innerWidth),
+      h: Math.max(document.documentElement.scrollHeight, innerHeight),
+    }))
+    const { data } = await this.cdp.send("Page.captureScreenshot", {
+      format: "png",
+      optimizeForSpeed: true,
+      captureBeyondViewport: true,
+      clip: { x: 0, y: 0, width: w, height: h, scale: 1 },
+    })
+    return Buffer.from(data, "base64")
+  }
+
   async shot() {
     await this.page.evaluate(forceRepaint)
-    return this.page.screenshot({ fullPage: true, animations: "allow" })
+    return this.raw()
   }
 
   async capture() {
@@ -378,6 +395,10 @@ class Side {
 // --- comparison ------------------------------------------------------------------------
 
 function comparePNG(a, b) {
+  // Fast path: both sides are encoded by the same Chromium, so identical
+  // pixels give identical bytes. Decoding and diffing is only needed when
+  // they differ.
+  if (a.equals(b)) return { pixels: 0, diff: null }
   const A = PNG.sync.read(a)
   const B = PNG.sync.read(b)
   if (A.width !== B.width || A.height !== B.height) {
@@ -443,7 +464,9 @@ async function checkExample(browser, base, name) {
   fs.mkdirSync(dir, { recursive: true })
   const report = { name, pass: true, themes: {} }
 
-  for (const theme of themes) {
+  // Themes run concurrently: they are independent pages.
+  for (const theme of themes) report.themes[theme] = null
+  await Promise.all(themes.map(async (theme) => {
     const tdir = path.join(dir, theme)
     fs.mkdirSync(tdir, { recursive: true })
     const react = new Side(browser, base, "react", name, theme, tdir)
@@ -474,8 +497,8 @@ async function checkExample(browser, base, name) {
               // compositor's frame nondeterministic. Two frames let it commit.
               await Promise.all([react.idle(), go.idle()])
               ;[r, g] = await Promise.all([
-                react.page.screenshot({ fullPage: true, animations: "allow" }),
-                go.page.screenshot({ fullPage: true, animations: "allow" }),
+                react.raw(),
+                go.raw(),
               ])
               cmp = comparePNG(r, g)
               if (cmp.pixels === 0) break
@@ -550,7 +573,7 @@ async function checkExample(browser, base, name) {
       if (go.errors?.length) report.pass = false
       await Promise.allSettled([react.close?.(), go.close?.()])
     }
-  }
+  }))
   fs.writeFileSync(path.join(dir, "report.json"), JSON.stringify(report, null, 2))
   return report
 }
