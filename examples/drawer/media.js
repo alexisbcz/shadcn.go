@@ -28,7 +28,10 @@ define("example-drawer-dialog", {
     }
     const onChange = (e) => show(e.matches)
     query.addEventListener("change", onChange)
-    show(query.matches)
+    // Swap in a microtask: mounts run during the runtime's first scan,
+    // before it observes the document, and the swapped-in drawer must be
+    // seen (and mounted) like any element added later.
+    queueMicrotask(() => show(query.matches))
     return () => query.removeEventListener("change", onChange)
   },
 })

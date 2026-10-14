@@ -48,6 +48,13 @@ const jobs = Number(opt("--jobs", "4"))
 const video = flag("--video")
 const auto = !flag("--no-auto")
 const keep = flag("--keep")
+// Default bar: visually close. A capture passes when at most --tolerance
+// (default 1%) of its pixels differ; DOM differences are reported but do not
+// fail; animation frames are not sampled (animations are settled before each
+// capture). --exact restores the strict bar: 0 differing pixels, identical
+// DOM, identical animation definitions and frames.
+const exact = flag("--exact")
+const tolerance = exact ? 0 : Number(opt("--tolerance", "0.01"))
 const positional = args.filter((a, i) => !a.startsWith("--") && !["--themes", "--jobs", "--component"].includes(args[i - 1]))
 
 // --- machine-wide slots ---------------------------------------------------------------
@@ -395,6 +402,10 @@ class Side {
 
 // --- comparison ------------------------------------------------------------------------
 
+function tooDifferent(cmp) {
+  return cmp.pixels > Math.floor(tolerance * (cmp.total ?? Infinity))
+}
+
 function comparePNG(a, b) {
   // Fast path: both sides are encoded by the same Chromium, so identical
   // pixels give identical bytes. Decoding and diffing is only needed when
@@ -403,11 +414,11 @@ function comparePNG(a, b) {
   const A = PNG.sync.read(a)
   const B = PNG.sync.read(b)
   if (A.width !== B.width || A.height !== B.height) {
-    return { pixels: Math.max(A.width * A.height, B.width * B.height), size: `${A.width}x${A.height} vs ${B.width}x${B.height}`, diff: null }
+    return { pixels: Math.max(A.width * A.height, B.width * B.height), total: Math.max(A.width * A.height, B.width * B.height), size: `${A.width}x${A.height} vs ${B.width}x${B.height}`, diff: null }
   }
   const diff = new PNG({ width: A.width, height: A.height })
   const pixels = pixelmatch(A.data, B.data, diff.data, A.width, A.height, { threshold: 0, includeAA: true })
-  return { pixels, diff: PNG.sync.write(diff) }
+  return { pixels, total: A.width * A.height, diff: PNG.sync.write(diff) }
 }
 
 function diffLines(a, b, max = 40) {
@@ -482,7 +493,7 @@ async function checkExample(browser, base, name) {
         if (frames) {
           const [ra, ga] = await Promise.all([react.page.evaluate(describeAnimations), go.page.evaluate(describeAnimations)])
           cap.animations = { react: ra, go: ga, equal: JSON.stringify(ra) === JSON.stringify(ga) }
-          if (!cap.animations.equal) cap.pass = false
+          if (!cap.animations.equal && exact) cap.pass = false
           const end = Math.max(await react.page.evaluate(maxAnimationEnd), await go.page.evaluate(maxAnimationEnd))
           const times = end > 0 ? [0, 0.25, 0.5, 0.75].map((f) => Math.round(f * end)) : []
           cap.frames = []
@@ -502,7 +513,7 @@ async function checkExample(browser, base, name) {
                 go.raw(),
               ])
               cmp = comparePNG(r, g)
-              if (cmp.pixels === 0) break
+              if (!tooDifferent(cmp)) break
             }
             cap.frames.push({ t, pixels: cmp.pixels })
             if (cmp.pixels > 0 || keep) {
@@ -510,7 +521,7 @@ async function checkExample(browser, base, name) {
               fs.writeFileSync(path.join(tdir, `${label}@${t}ms-go.png`), g)
               if (cmp.diff) fs.writeFileSync(path.join(tdir, `${label}@${t}ms-diff.png`), cmp.diff)
             }
-            if (cmp.pixels > 0) cap.pass = false
+            if (tooDifferent(cmp)) cap.pass = false
           }
         }
         await Promise.all([react.page.evaluate(settleAnimations), go.page.evaluate(settleAnimations)])
@@ -519,12 +530,12 @@ async function checkExample(browser, base, name) {
         for (let attempt = 0; attempt < 3; attempt++) {
           ;[r, g] = await Promise.all([react.capture(), go.capture()])
           cmp = comparePNG(r.png, g.png)
-          if (cmp.pixels === 0) break
+          if (!tooDifferent(cmp)) break
         }
         cap.pixels = cmp.pixels
         if (cmp.size) cap.size = cmp.size
         cap.dom = diffLines(r.dom, g.dom)
-        if (cmp.pixels > 0 || cap.dom.length > 0) cap.pass = false
+        if (tooDifferent(cmp) || (exact && cap.dom.length > 0)) cap.pass = false
         if (!cap.pass || keep) {
           fs.writeFileSync(path.join(tdir, `${label}-react.png`), r.png)
           fs.writeFileSync(path.join(tdir, `${label}-go.png`), g.png)
@@ -544,7 +555,7 @@ async function checkExample(browser, base, name) {
           await Promise.all([react.close(), go.close()])
           await Promise.all([react.open(), go.open()])
         }
-        const frames = sc.frames !== false
+        const frames = exact && sc.frames !== false
         if (frames) await Promise.all([react.freeze(true), go.freeze(true)])
         for (const s of sc.steps) {
           await Promise.all([react.step(s), go.step(s)])
@@ -614,7 +625,7 @@ try {
   await browser.close()
 
   const failed = reports.filter((r) => !r.pass)
-  console.log(`\n${reports.length - failed.length}/${reports.length} examples pixel-, DOM- and animation-identical. Reports: parity/out/`)
+  console.log(`\n${reports.length - failed.length}/${reports.length} examples ${exact ? "pixel-, DOM- and animation-identical" : `within ${tolerance * 100}% of the reference`}. Reports: parity/out/`)
   if (failed.length) exitCode = 1
 } catch (e) {
   console.error(e.message ?? e)

@@ -1,0 +1,6 @@
+[
+  { "label": "arrow-down", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }, { "do": "wait", "ms": 50 }] },
+  { "label": "escape", "steps": [{ "do": "press", "key": "Escape" }] },
+  { "label": "reopen", "steps": [{ "do": "click", "target": "[data-slot=select-trigger]" }] },
+  { "label": "select", "steps": [{ "do": "click", "target": "[data-slot=select-item]", "nth": 2 }] }
+]

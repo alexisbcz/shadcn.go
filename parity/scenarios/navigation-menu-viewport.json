@@ -1,0 +1,202 @@
+[
+ {
+  "label": "hover-open",
+  "reset": true,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "settled-size",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "move-to-next",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 1
+   },
+   {
+    "do": "wait",
+    "ms": 30
+   }
+  ]
+ },
+ {
+  "label": "next-settled",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "into-viewport",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-viewport]"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "hover-disabled",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 2,
+    "force": true
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "leave-close",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700,
+    "steps": 3
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   }
+  ]
+ },
+ {
+  "label": "kb-open",
+  "reset": true,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "kb-proxy-entry",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-link-arrows",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-tab-out",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-tab-next-trigger",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-open-second",
+  "steps": [
+   {
+    "do": "press",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "kb-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "link-click",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=navigation-menu-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=navigation-menu-link]",
+    "nth": 1
+   }
+  ]
+ }
+]

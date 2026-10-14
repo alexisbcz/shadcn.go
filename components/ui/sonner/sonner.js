@@ -428,6 +428,7 @@ class Toaster {
     this.comps = new Map() // toast id -> Toast
     this.lists = new Map() // position -> { ol, styleRef }
     this.listRef = null
+    this.effectListRef = null
     this.lastFocusedElement = null
     this.isFocusWithin = false
     this.isDocumentHidden = document.hidden
@@ -560,7 +561,16 @@ class Toaster {
       const updates = take(current)
       if (!updates.length) break
       for (const u of updates) u.fn()
-      const effects = this.commit()
+      // ReactDOM turns its event system off while it mutates the DOM
+      // (prepareForCommit): the blur Chromium fires when a focused node is
+      // removed never reaches sonner's handlers.
+      this.inCommit = true
+      let effects
+      try {
+        effects = this.commit()
+      } finally {
+        this.inCommit = false
+      }
       // Layout effects run during the commit; their updates are sync and
       // render before the browser paints (the loop below).
       withLane("sync", () => effects.layout.forEach((f) => f()))
@@ -587,7 +597,17 @@ class Toaster {
     const filteredToasts = p.id ? s.toasts.filter((t) => t.toasterId === p.id) : s.toasts.filter((t) => !t.toasterId)
     const possiblePositions = Array.from(new Set([p.position].concat(filteredToasts.filter((t) => t.position).map((t) => t.position))))
     const alive = new Set()
+    // Elements of toasts that leave in this commit. React commits deletions
+    // before placements, so they never count as a sibling to insert before:
+    // moving a remaining toast's <li> would cancel its CSS transitions.
+    const rendered = new Set(filteredToasts.map((t) => t.id))
+    const leaving = new Set()
+    for (const [id, comp] of this.comps) if (!rendered.has(id)) leaving.add(comp.el)
 
+    // listRef is one object ref shared by every <ol>: React sets it when an
+    // <ol> mounts (layout phase) and clears it when any <ol> unmounts
+    // (mutation phase, unconditionally); it is not set again on updates.
+    let attachedList = null
     possiblePositions.forEach((position, index) => {
       if (!filteredToasts.length) return
       const [y, x] = position.split("-")
@@ -598,9 +618,9 @@ class Toaster {
         this.lists.set(position, list)
         this.bindList(ol)
         this.section.appendChild(ol)
+        attachedList = ol
       }
       const ol = list.ol
-      this.listRef = ol
       setAttr(ol, "dir", p.dir === "auto" || !p.dir ? getDocumentDirection() : p.dir)
       setAttr(ol, "tabindex", "-1")
       if (p.className !== undefined) setAttr(ol, "class", p.className)
@@ -641,7 +661,8 @@ class Toaster {
         }
         comp.render(props, effects)
         // React inserts new items before their next sibling.
-        const ref = prevEl ? prevEl.nextSibling : ol.firstChild
+        let ref = prevEl ? prevEl.nextSibling : ol.firstChild
+        while (ref && leaving.has(ref)) ref = ref.nextSibling
         if (comp.el !== ref) ol.insertBefore(comp.el, ref)
         prevEl = comp.el
       })
@@ -660,17 +681,24 @@ class Toaster {
       if (!filteredToasts.length || !possiblePositions.includes(position)) {
         list.ol.remove()
         this.lists.delete(position)
-        if (this.listRef === list.ol) {
-          this.listRef = null
-          // The listRef effect cleanup gives focus back.
-          effects.passive.unshift(() => {
-            if (this.lastFocusedElement) {
-              this.lastFocusedElement.focus({ preventScroll: true })
-              this.lastFocusedElement = null
-              this.isFocusWithin = false
-            }
-          })
-        }
+        this.listRef = null
+      }
+    }
+    if (attachedList) this.listRef = attachedList
+    // The Toaster effect on [listRef.current]: its cleanup (registered while
+    // listRef.current was set) gives focus back to where it was before the
+    // toasts took it.
+    if (this.listRef !== this.effectListRef) {
+      const hadCleanup = !!this.effectListRef
+      this.effectListRef = this.listRef
+      if (hadCleanup) {
+        effects.passive.unshift(() => {
+          if (this.lastFocusedElement) {
+            this.lastFocusedElement.focus({ preventScroll: true })
+            this.lastFocusedElement = null
+            this.isFocusWithin = false
+          }
+        })
       }
     }
 
@@ -688,6 +716,7 @@ class Toaster {
   bindList(ol) {
     const discreteTarget = (event) => event.target instanceof HTMLElement && event.target.dataset.dismissible === "false"
     ol.addEventListener("focusout", (event) => {
+      if (this.inCommit) return
       if (this.isFocusWithin && !event.currentTarget.contains(event.relatedTarget)) {
         this.isFocusWithin = false
         if (this.lastFocusedElement) {
@@ -697,6 +726,7 @@ class Toaster {
       }
     })
     ol.addEventListener("focusin", (event) => {
+      if (this.inCommit) return
       if (discreteTarget(event)) return
       if (!this.isFocusWithin) {
         this.isFocusWithin = true
@@ -705,7 +735,11 @@ class Toaster {
     })
     ol.addEventListener("mouseenter", () => this.setExpanded(true))
     ol.addEventListener("mousemove", () => this.setExpanded(true))
-    ol.addEventListener("mouseleave", () => {
+    // React's onMouseLeave comes from mouseout events (a native mouseleave
+    // also fires when a hovered toast is removed under the pointer, which
+    // React never sees).
+    ol.addEventListener("mouseout", (event) => {
+      if (ol.contains(event.relatedTarget)) return
       if (!this.state.interacting) this.setExpanded(false)
     })
     ol.addEventListener("dragend", () => this.setExpanded(false))

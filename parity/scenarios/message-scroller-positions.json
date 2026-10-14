@@ -1,0 +1,50 @@
+[
+ {
+  "label": "latest-button-auto",
+  "steps": [
+   { "do": "click", "target": "[data-slot=message-scroller-button]", "nth": 0 },
+   { "do": "wait", "ms": 400 }
+  ]
+ },
+ {
+  "label": "last-anchor-start-button",
+  "steps": [
+   { "do": "click", "target": "[data-slot=message-scroller-button]", "nth": 1, "force": true },
+   { "do": "wait", "ms": 1000 }
+  ]
+ },
+ {
+  "label": "last-anchor-end-button",
+  "steps": [
+   { "do": "click", "target": "[data-slot=message-scroller-button]", "nth": 2, "force": true },
+   { "do": "wait", "ms": 1000 }
+  ]
+ },
+ {
+  "label": "autoscroll-wheel-up",
+  "frames": false,
+  "steps": [
+   { "do": "mouse", "x": 260, "y": 520 },
+   { "do": "scroll", "y": -120 },
+   { "do": "wait", "ms": 800 }
+  ]
+ },
+ {
+  "label": "autoscroll-button",
+  "steps": [
+   { "do": "click", "target": "[data-slot=message-scroller-button]", "nth": 3, "force": true },
+   { "do": "wait", "ms": 1000 }
+  ]
+ },
+ {
+  "label": "tab-order",
+  "frames": false,
+  "steps": [
+   { "do": "mouse", "x": 1000, "y": 750 },
+   { "do": "press", "key": "Tab" },
+   { "do": "press", "key": "Tab" },
+   { "do": "press", "key": "Tab" },
+   { "do": "press", "key": "Tab" }
+  ]
+ }
+]

@@ -1,8 +1,276 @@
 [
- { "label": "select-mobile", "steps": [{ "do": "click", "target": "[data-slot=card-header] button", "nth": 1 }] },
- { "label": "select-mobile-again", "steps": [{ "do": "click", "target": "[data-slot=card-header] button", "nth": 1 }] },
- { "label": "select-desktop", "steps": [{ "do": "click", "target": "[data-slot=card-header] button", "nth": 0 }] },
- { "label": "keyboard-tab-buttons", "steps": [{ "do": "press", "key": "Shift+Tab" }, { "do": "press", "key": "Tab" }, { "do": "press", "key": "Tab" }] },
- { "label": "keyboard-select-mobile", "steps": [{ "do": "press", "key": "Enter" }] },
- { "label": "keyboard-select-desktop", "steps": [{ "do": "press", "key": "Shift+Tab" }, { "do": "press", "key": "Space" }] }
+ {
+  "label": "select-mobile",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=card-header] button",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "select-mobile-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=card-header] button",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "select-desktop",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=card-header] button",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "keyboard-tab-buttons",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-select-mobile",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-select-desktop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "wide-settle",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.querySelector('[data-slot=card]').style.width = '900px'"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "wide-pointer-enter",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0,
+    "steps": 1
+   },
+   {
+    "do": "mouse",
+    "x": 200,
+    "y": 300,
+    "steps": 4
+   }
+  ]
+ },
+ {
+  "label": "wide-pointer-move",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 500,
+    "y": 300,
+    "steps": 4
+   }
+  ]
+ },
+ {
+  "label": "wide-pointer-move-right-edge",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 925,
+    "y": 300,
+    "steps": 2
+   }
+  ]
+ },
+ {
+  "label": "wide-pointer-leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0,
+    "steps": 1
+   }
+  ]
+ },
+ {
+  "label": "wide-keyboard-focus",
+  "steps": [
+   {
+    "do": "focus",
+    "target": ".recharts-surface"
+   }
+  ]
+ },
+ {
+  "label": "wide-keyboard-arrows",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "wide-keyboard-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "wide-keyboard-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "wide-blur",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.blur()"
+   }
+  ]
+ },
+ {
+  "label": "wide-series-mobile",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=card-header] button",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "wide-series-mobile-settle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "wide-series-mobile-hover",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0,
+    "steps": 1
+   },
+   {
+    "do": "mouse",
+    "x": 500,
+    "y": 300,
+    "steps": 4
+   }
+  ]
+ },
+ {
+  "label": "wide-series-desktop-keyboard",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0,
+    "steps": 1
+   },
+   {
+    "do": "focus",
+    "target": "[data-slot=card-header] button"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "wide-series-desktop-keyboard-settle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "wide-series-desktop-hover",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 300,
+    "steps": 4
+   }
+  ]
+ }
 ]

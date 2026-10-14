@@ -1,0 +1,144 @@
+[
+  {
+    "label": "submit-empty",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "type-invalid",
+    "steps": [
+      {
+        "do": "type",
+        "target": "textarea",
+        "text": "short"
+      }
+    ]
+  },
+  {
+    "label": "blur",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "submit-invalid",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "type-more",
+    "steps": [
+      {
+        "do": "press",
+        "target": "textarea",
+        "key": "ControlOrMeta+a"
+      },
+      {
+        "do": "type",
+        "target": "textarea",
+        "text": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      }
+    ]
+  },
+  {
+    "label": "submit-again",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "reset",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=card-footer] button[type=button]"
+      }
+    ]
+  },
+  {
+    "label": "type-valid",
+    "reset": true,
+    "steps": [
+      {
+        "do": "type",
+        "target": "textarea",
+        "text": "I am a software engineer."
+      }
+    ]
+  },
+  {
+    "label": "submit-valid",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "reset-after-submit",
+    "frames": false,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=card-footer] button[type=button]"
+      }
+    ]
+  },
+  {
+    "label": "submit-then-blur",
+    "reset": true,
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "blur-after-submit",
+    "steps": [
+      {
+        "do": "focus",
+        "target": "textarea"
+      },
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "enter-newline",
+    "steps": [
+      {
+        "do": "type",
+        "target": "textarea",
+        "text": "line"
+      },
+      {
+        "do": "press",
+        "key": "Enter"
+      },
+      {
+        "do": "type",
+        "target": "textarea",
+        "text": "two"
+      }
+    ]
+  }
+]

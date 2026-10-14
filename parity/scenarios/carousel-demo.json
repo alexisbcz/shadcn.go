@@ -234,5 +234,124 @@
     "target": "[data-slot=carousel-previous]"
    }
   ]
+ },
+ {
+  "label": "flick-next",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 600,
+    "y": 224
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 560,
+    "y": 224,
+    "steps": 2
+   },
+   {
+    "do": "up"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "flick-prev",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 400,
+    "y": 224
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 440,
+    "y": 224,
+    "steps": 2
+   },
+   {
+    "do": "up"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "focus-next-enter",
+  "frames": false,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=carousel-next]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "space-on-next",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "focus-prev-enter",
+  "frames": false,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=carousel-previous]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-from-prev",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
  }
 ]

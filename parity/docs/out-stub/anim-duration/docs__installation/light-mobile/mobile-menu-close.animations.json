@@ -1,0 +1,284 @@
+{
+  "ref": [
+    {
+      "frame": 0,
+      "type": "CSSAnimation",
+      "name": "exit",
+      "target": "html > body > div > div[data-slot=popover-content]",
+      "timeline": "document",
+      "duration": 100,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease",
+          "composite": "replace",
+          "filter": "none",
+          "opacity": "1",
+          "transform": "none"
+        },
+        {
+          "offset": 1,
+          "easing": "ease",
+          "composite": "auto",
+          "filter": "blur(0px)",
+          "opacity": "0",
+          "transform": "translate3d(0px, 0px, 0px) scale3d(0.95, 0.95, 0.95) rotate(0deg)"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSTransition",
+      "name": "rotate",
+      "target": "button[data-slot=popover-trigger] > div > div > span",
+      "timeline": "document",
+      "duration": 100,
+      "delay": 0,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "backwards",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "rotate": "-45deg"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "rotate": "none"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSTransition",
+      "name": "rotate",
+      "target": "button[data-slot=popover-trigger] > div > div > span",
+      "timeline": "document",
+      "duration": 100,
+      "delay": 0,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "backwards",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "rotate": "45deg"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "rotate": "none"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSTransition",
+      "name": "top",
+      "target": "button[data-slot=popover-trigger] > div > div > span",
+      "timeline": "document",
+      "duration": 100,
+      "delay": 0,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "backwards",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "top": "6.4px"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "top": "10px"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSTransition",
+      "name": "top",
+      "target": "button[data-slot=popover-trigger] > div > div > span",
+      "timeline": "document",
+      "duration": 100,
+      "delay": 0,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "backwards",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "top": "6.4px"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "top": "4px"
+        }
+      ]
+    }
+  ],
+  "target": [
+    {
+      "frame": 0,
+      "type": "CSSAnimation",
+      "name": "exit",
+      "target": "html > body > div > div[data-slot=popover-content]",
+      "timeline": "document",
+      "duration": 250,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease",
+          "composite": "replace",
+          "filter": "none",
+          "opacity": "1",
+          "transform": "none"
+        },
+        {
+          "offset": 1,
+          "easing": "ease",
+          "composite": "auto",
+          "filter": "blur(0px)",
+          "opacity": "0",
+          "transform": "translate3d(0px, 0px, 0px) scale3d(0.95, 0.95, 0.95) rotate(0deg)"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSTransition",
+      "name": "rotate",
+      "target": "button[data-slot=popover-trigger] > div > div > span",
+      "timeline": "document",
+      "duration": 100,
+      "delay": 0,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "backwards",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "rotate": "-45deg"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "rotate": "none"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSTransition",
+      "name": "rotate",
+      "target": "button[data-slot=popover-trigger] > div > div > span",
+      "timeline": "document",
+      "duration": 100,
+      "delay": 0,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "backwards",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "rotate": "45deg"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "rotate": "none"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSTransition",
+      "name": "top",
+      "target": "button[data-slot=popover-trigger] > div > div > span",
+      "timeline": "document",
+      "duration": 100,
+      "delay": 0,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "backwards",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "top": "6.4px"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "top": "10px"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSTransition",
+      "name": "top",
+      "target": "button[data-slot=popover-trigger] > div > div > span",
+      "timeline": "document",
+      "duration": 100,
+      "delay": 0,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "backwards",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "top": "6.4px"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "top": "4px"
+        }
+      ]
+    }
+  ]
+}

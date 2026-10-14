@@ -1,0 +1,125 @@
+[
+ {
+  "label": "submit-empty",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "pick-pro",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=radio-group-item]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "pick-yearly",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "click",
+    "target": "[role=option]:has-text(\"Yearly\")"
+   }
+  ]
+ },
+ {
+  "label": "check-addon",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "check-more",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 1
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "uncheck-all",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 0
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 1
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "submit-no-addons",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "valid-flow",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "click",
+    "target": "[role=option]:has-text(\"Monthly\")"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "toggle-notifications",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=switch]"
+   }
+  ]
+ },
+ {
+  "label": "submit-valid",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ }
+]

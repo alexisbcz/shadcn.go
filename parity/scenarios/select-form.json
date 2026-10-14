@@ -1,0 +1,129 @@
+[
+ {
+  "label": "open",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "select-banana",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-item]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "trigger-typeahead",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "a"
+   }
+  ]
+ },
+ {
+  "label": "open-color",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "select-green",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "click-disabled",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]",
+    "nth": 1,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "v-formdata-initial",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(()=>{const f=document.getElementById('select-form');f.setAttribute('data-fd',JSON.stringify([...new FormData(f)]));f.setAttribute('data-valid',String(f.checkValidity()))})()"
+   }
+  ]
+ },
+ {
+  "label": "v-formdata-after-select",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=select-item]",
+    "nth": 1
+   },
+   {
+    "do": "eval",
+    "js": "(()=>{const f=document.getElementById('select-form');f.setAttribute('data-fd',JSON.stringify([...new FormData(f)]));f.setAttribute('data-valid',String(f.checkValidity()))})()"
+   }
+  ]
+ },
+ {
+  "label": "v-native-change-syncs",
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(()=>{const s=document.querySelector('select[name=fruit]');s.value='apple';s.dispatchEvent(new Event('change',{bubbles:true}))})()"
+   },
+   {
+    "do": "eval",
+    "js": "(()=>{const f=document.getElementById('select-form');f.setAttribute('data-fd',JSON.stringify([...new FormData(f)]));f.setAttribute('data-valid',String(f.checkValidity()))})()"
+   }
+  ]
+ },
+ {
+  "label": "v-form-reset",
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.getElementById('select-form').reset()"
+   },
+   {
+    "do": "eval",
+    "js": "(()=>{const f=document.getElementById('select-form');f.setAttribute('data-fd',JSON.stringify([...new FormData(f)]));f.setAttribute('data-valid',String(f.checkValidity()))})()"
+   }
+  ]
+ }
+]

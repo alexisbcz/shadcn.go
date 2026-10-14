@@ -1,0 +1,163 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "hover-top",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-radio-item]",
+    "nth": 0
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "select-top",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-radio-item]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "select-top-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "reopen",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "arrow-up",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "enter-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "enter-right-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "reopen-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "select-same",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-radio-item]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "select-same-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "reopen-3",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "outside",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 20,
+    "y": 20
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "outside-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ }
+]

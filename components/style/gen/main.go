@@ -35,6 +35,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -47,7 +48,20 @@ var styles = []string{"nova", "vega", "lyra", "maia", "mira", "luma", "sera", "r
 func main() {
 	root := flag.String("root", ".", "repository root")
 	scan := flag.String("scan", "components,examples", "comma-separated directories whose Go string literals add classes to the order table")
+	check := flag.Bool("check", false, "check the embedded files instead of writing them: the style files match upstream, the order table matches Tailwind and lists every class of the style files and the test data")
 	flag.Parse()
+	if _, err := os.Stat(filepath.Join(*root, "ui/apps/v4/registry/styles")); err != nil {
+		// go generate ./... must not fail where the upstream clone is absent.
+		fmt.Fprintln(os.Stderr, "style/gen: upstream clone not found in", filepath.Join(*root, "ui"), "- skipped")
+		return
+	}
+	if *check {
+		if err := runCheck(*root); err != nil {
+			fmt.Fprintln(os.Stderr, "style/gen -check:", err)
+			os.Exit(1)
+		}
+		return
+	}
 	if err := run(*root, strings.Split(*scan, ",")); err != nil {
 		fmt.Fprintln(os.Stderr, "style/gen:", err)
 		os.Exit(1)
@@ -128,6 +142,104 @@ func run(root string, scan []string) error {
 	}
 	fmt.Printf("style/gen: %d style files, %d classes ordered, %d unknown to Tailwind\n", len(styles), len(known), len(unknown))
 	return nil
+}
+
+// runCheck verifies the committed files without writing anything.
+func runCheck(root string) error {
+	root, err := filepath.Abs(root)
+	if err != nil {
+		return err
+	}
+	pkg := filepath.Join(root, "components/style")
+	upstream := filepath.Join(root, "ui/apps/v4")
+	need := map[string]bool{}
+	for _, s := range styles {
+		name := "style-" + s + ".css"
+		want, err := os.ReadFile(filepath.Join(upstream, "registry/styles", name))
+		if err != nil {
+			return err
+		}
+		got, err := os.ReadFile(filepath.Join(pkg, "css", name))
+		if err != nil {
+			return err
+		}
+		if !bytes.Equal(got, want) {
+			return fmt.Errorf("css/%s differs from upstream; run go generate ./components/style", name)
+		}
+		for _, m := range applyRe.FindAllStringSubmatch(string(want), -1) {
+			addClasses(need, m[1])
+		}
+	}
+	refs, _ := filepath.Glob(filepath.Join(pkg, "testdata/ref/*.json.gz"))
+	for _, f := range refs {
+		if err := refClasses(f, need); err != nil {
+			return err
+		}
+	}
+
+	known, unknown, err := readTable(filepath.Join(pkg, "order.txt.gz"))
+	if err != nil {
+		return err
+	}
+	in := map[string]bool{}
+	list := append(append([]string{}, known...), unknown...)
+	for _, c := range list {
+		in[c] = true
+	}
+	var missing []string
+	for c := range need {
+		if !in[c] {
+			missing = append(missing, c)
+		}
+	}
+	sort.Strings(missing)
+	if len(missing) > 0 {
+		return fmt.Errorf("order.txt.gz lacks %d classes (%q...); run go generate ./components/style", len(missing), missing[0])
+	}
+	sort.Strings(list)
+	k2, u2, err := classOrder(root, upstream, list)
+	if err != nil {
+		return err
+	}
+	if !slices.Equal(k2, known) {
+		return errors.New("order.txt.gz: the order of known classes differs from Tailwind's")
+	}
+	sort.Strings(u2)
+	u1 := append([]string{}, unknown...)
+	sort.Strings(u1)
+	if !slices.Equal(u1, u2) {
+		return errors.New("order.txt.gz: the unknown classes differ from Tailwind's")
+	}
+	fmt.Printf("style/gen -check: %d style files identical to upstream; %d ordered classes and %d unknown ones match Tailwind; %d required classes present\n",
+		len(styles), len(known), len(unknown), len(need))
+	return nil
+}
+
+func readTable(file string) (known, unknown []string, err error) {
+	b, err := os.ReadFile(file)
+	if err != nil {
+		return nil, nil, err
+	}
+	zr, err := gzip.NewReader(bytes.NewReader(b))
+	if err != nil {
+		return nil, nil, err
+	}
+	sc := bufio.NewScanner(zr)
+	sc.Buffer(make([]byte, 0, 64<<10), 1<<20)
+	inUnknown := false
+	for line := 0; sc.Scan(); line++ {
+		t := sc.Text()
+		switch {
+		case line == 0:
+		case t == "# unknown":
+			inUnknown = true
+		case inUnknown:
+			unknown = append(unknown, t)
+		default:
+			known = append(known, t)
+		}
+	}
+	return known, unknown, sc.Err()
 }
 
 var applyRe = regexp.MustCompile(`@apply\s+([^;]*);`)

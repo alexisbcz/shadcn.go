@@ -144,7 +144,8 @@ func compareTrees(got, want *node, path string, strings *int) string {
 		}
 		return compareLists(got.args, want.args, path+"."+got.callee+"()", strings)
 	case kProp:
-		if got.name != want.name || got.ident != want.ident {
+		// A string key is compared as a string (prettier sorts it), others by name.
+		if (got.key == nil && got.name != want.name) || got.ident != want.ident || (got.key == nil) != (want.key == nil) {
 			return fmt.Sprintf("%s: property %q, want %q", path, got.name, want.name)
 		}
 		if d := compareTrees(got.key, want.key, path+".key", strings); d != "" {

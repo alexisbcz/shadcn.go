@@ -1,0 +1,105 @@
+[
+ {
+  "label": "submit-empty",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "check-push",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "uncheck-push",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "submit-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "check-email-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "label[for$=-email]"
+   }
+  ]
+ },
+ {
+  "label": "check-push-space",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=checkbox]",
+    "nth": 1
+   },
+   {
+    "do": "press",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "reset",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=card-footer] button[type=button]"
+   }
+  ]
+ },
+ {
+  "label": "submit-after-reset",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "check-and-submit",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=checkbox]",
+    "nth": 2
+   },
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "reset-after-submit",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=card-footer] button[type=button]"
+   }
+  ]
+ }
+]

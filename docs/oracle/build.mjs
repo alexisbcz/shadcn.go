@@ -4,7 +4,8 @@
 // shiki transformer) and writes the expected outputs the Go packages are
 // tested against:
 //
-//   docs/content/testdata/oracle/<page>.json   frontmatter, TOC, hast (HTML)
+//   docs/content/testdata/oracle.json.gz       per page: slugs, frontmatter,
+//                                             TOC, hast (HTML)
 //   docs/highlight/testdata/blocks.json.gz     every code block: input and
 //                                             rehype-pretty-code's markup
 //
@@ -13,7 +14,7 @@
 import fs from "node:fs"
 import path from "node:path"
 import zlib from "node:zlib"
-import { repo, contentDir, listPages, fromMdx, fromPretty, mdxOptions, frontmatter, toHtml } from "./lib.mjs"
+import { repo, contentDir, listPages, fromMdx, fromCore, fromPretty, mdxOptions, frontmatter, toHtml } from "./lib.mjs"
 
 const { createProcessor } = await fromMdx("@mdx-js/mdx")
 const { VFile } = await fromMdx("vfile")
@@ -59,7 +60,7 @@ function mdxToElements(node) {
 }
 
 const blocks = new Map()
-let captured
+let captured = {}
 
 function capturePre() {
   return (tree) => {
@@ -79,14 +80,27 @@ function capturePre() {
       for (const c of n.children || []) visit(c)
     }
     visit(tree)
-    captured = { pres }
+    captured.pres = pres
   }
 }
 function captureFinal() {
   return (tree) => {
     // fumadocs-mdx exports (frontmatter, toc, structuredData) are ESM nodes
     // with an empty value; they carry no markup.
-    const root = mdxToElements({ ...tree, children: tree.children.filter((c) => !(c.type === "mdxjsEsm" && c.value === "")) })
+    // remarkPostprocess unshifts them before remark-rehype, so each is
+    // followed by the newline to-hast puts between root children; drop that
+    // too, so the tree is the page content alone.
+    const kids = []
+    for (let i = 0; i < tree.children.length; i++) {
+      const c = tree.children[i]
+      if (c.type === "mdxjsEsm" && c.value === "") {
+        const next = tree.children[i + 1]
+        if (next && next.type === "text" && next.value === "\n") i++
+        continue
+      }
+      kids.push(c)
+    }
+    const root = mdxToElements({ ...tree, children: kids })
     captured.hast = toHtml(root)
     for (const p of captured.pres) {
       const key = JSON.stringify([p.lang, p.meta, p.code])
@@ -95,7 +109,22 @@ function captureFinal() {
   }
 }
 
+// The TOC as fumadocs computes it (rehype-toc in data mode, on a copy of
+// the tree so the real plugin sees the tree unchanged), to compare titles
+// as hast.
+const { rehypeToc } = await fromCore("fumadocs-core/mdx-plugins")
+function captureToc() {
+  const run = rehypeToc({ exportToc: { as: "data" } })
+  return (tree, file) => {
+    const copy = structuredClone(tree)
+    const f = { data: {} }
+    run(copy, f)
+    captured.toc = f.data.rehypeToc.map((t) => ({ depth: t.depth, url: t.url, hast: toHtml({ type: "root", children: mdxToElements(t.title).children }) }))
+  }
+}
+
 const rehypePlugins = [...opts.rehypePlugins]
+rehypePlugins.unshift(captureToc)
 // opts.rehypePlugins is [rehypeToc, [rehypePrettyCode, ...]]: capture the
 // <pre> elements just before rehype-pretty-code rewrites them in place.
 const rpcIndex = rehypePlugins.findIndex((p) => Array.isArray(p) && p[0].name === "rehypePrettyCode")
@@ -113,31 +142,55 @@ const processor = createProcessor({
 })
 
 const { run } = await fromMdx("@mdx-js/mdx")
+const { getSlugs } = await fromCore("fumadocs-core/source")
 const runtime = await import(path.join(repo, "ui/apps/v4/node_modules/react/jsx-runtime.js"))
 const React = (await import(path.join(repo, "ui/apps/v4/node_modules/react/index.js"))).default
 const { renderToStaticMarkup } = await import(path.join(repo, "ui/apps/v4/node_modules/react-dom/server.node.js"))
 
-const outDir = path.join(repo, "docs/content/testdata/oracle")
+const outPages = []
 const pages = process.argv.slice(2).length ? process.argv.slice(2) : listPages()
+
+// Warm-up pass. shiki stops tokenizing a line after 500 ms
+// (tokenizeTimeLimit) and emits the rest as one token; the first lines a
+// grammar tokenizes compile its regexes and can hit that limit, which made
+// the output depend on page order (the reference site, built in a different
+// order, shows the full tokens). Highlighting every page once first makes
+// the recorded pass deterministic.
+for (const rel of pages) {
+  const source = fs.readFileSync(path.join(contentDir, rel), "utf8")
+  const fm = await frontmatter(source)
+  await processor.process(new VFile({ value: fm.content, path: path.join(contentDir, rel), data: { frontmatter: fm.data } }))
+}
+blocks.clear()
+
 for (const rel of pages) {
   const file = path.join(contentDir, rel)
   const source = fs.readFileSync(file, "utf8")
   const fm = await frontmatter(source)
   const vfile = new VFile({ value: fm.content, path: file, data: { frontmatter: fm.data } })
+  captured = {}
   const compiled = await processor.process(vfile)
   // The compiled module exports the TOC fumadocs computes (rehype-toc),
   // with JSX titles; render each title to HTML.
   const mod = await run(String(compiled), { ...runtime, baseUrl: "file://" + file })
-  const toc = (mod.toc ?? []).map((t) => ({ depth: t.depth, url: t.url, title: renderToStaticMarkup(React.createElement(React.Fragment, null, t.title)) }))
+  const toc = (mod.toc ?? []).map((t, i) => ({
+    depth: t.depth,
+    url: t.url,
+    title: renderToStaticMarkup(React.createElement(React.Fragment, null, t.title)),
+    hast: captured.toc[i]?.hast,
+  }))
+  if (captured.toc.length !== toc.length) throw new Error("TOC capture mismatch in " + rel)
   const out = {
     path: rel,
+    slugs: getSlugs(rel),
     frontmatter: JSON.parse(JSON.stringify(fm.data)),
     toc,
     hast: captured.hast,
   }
-  const dest = path.join(outDir, rel.replace(/\.mdx$/, ".json"))
-  fs.mkdirSync(path.dirname(dest), { recursive: true })
-  fs.writeFileSync(dest, JSON.stringify(out, null, 1) + "\n")
+  outPages.push(out)
+}
+if (process.argv.slice(2).length === 0) {
+  fs.writeFileSync(path.join(repo, "docs/content/testdata/oracle.json.gz"), zlib.gzipSync(JSON.stringify(outPages, null, 1) + "\n", { level: 9 }))
 }
 
 if (process.argv.slice(2).length === 0) {

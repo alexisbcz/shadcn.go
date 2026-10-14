@@ -1,0 +1,465 @@
+[
+ {
+  "label": "start-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-enter",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "arrow-up-loops",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-down-loops",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "typeahead-text-value",
+  "steps": [
+   {
+    "do": "press",
+    "key": "z"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "typeahead-reset",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1100
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "typeahead-l",
+  "steps": [
+   {
+    "do": "press",
+    "key": "l"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "level1-arrow-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "level1-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "level1-arrow-up-loops",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "level2-arrow-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "level2-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "level2-skip-disabled",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "level3-arrow-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "level3-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "level3-arrow-left",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "level3-close-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "escape-all",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-all-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "hover-level1",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-sub-trigger]:has-text('Level 1')"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "hover-level2",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-sub-trigger]:has-text('Level 2')"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "hover-level3",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-sub-trigger]:has-text('Level 3')"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "hover-deep-destructive",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]:has-text('Delete')"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "back-to-level2-radio",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-radio-item]:has-text('Small')"
+   }
+  ]
+ },
+ {
+  "label": "level3-closed-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "hover-disabled-radio",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-radio-item]:has-text('Large')",
+    "force": true
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "click-radio-small",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-radio-item]:has-text('Small')"
+   }
+  ]
+ },
+ {
+  "label": "radio-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "reopen",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "reopen-level2",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-sub-trigger]:has-text('Level 1')"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   },
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-sub-trigger]:has-text('Level 2')"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "leave-to-root-item",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-checkbox-item]:has-text('Italic')"
+   }
+  ]
+ },
+ {
+  "label": "leave-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "hover-disabled-sub",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-sub-trigger]:has-text('Disabled sub')",
+    "force": true
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "click-disabled-sub",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-sub-trigger]:has-text('Disabled sub')",
+    "force": true
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "click-indeterminate",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-checkbox-item]:has-text('Bold')"
+   }
+  ]
+ },
+ {
+  "label": "checkbox-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "reopen-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "grace-open",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-sub-trigger]:has-text('Level 1')"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "grace-diagonal",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 760,
+    "y": 400,
+    "steps": 6
+   }
+  ]
+ },
+ {
+  "label": "grace-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ }
+]

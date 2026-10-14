@@ -28,6 +28,7 @@ func init() {
 		ex("chart-area-default", AreaDefault),
 		ex("chart-area-gradient", AreaGradient),
 		ex("chart-area-icons", AreaIcons),
+		ex("chart-area-interactive", AreaInteractive),
 		ex("chart-area-legend", AreaLegend),
 		ex("chart-area-linear", AreaLinear),
 		ex("chart-area-stacked", AreaStacked),

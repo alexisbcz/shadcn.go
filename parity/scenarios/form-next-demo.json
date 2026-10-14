@@ -1,0 +1,46 @@
+[
+ {
+  "label": "type-title",
+  "steps": [
+   {
+    "do": "type",
+    "target": "input",
+    "text": "Bug"
+   }
+  ]
+ },
+ {
+  "label": "type-description",
+  "steps": [
+   {
+    "do": "type",
+    "target": "textarea",
+    "text": "Steps to reproduce"
+   }
+  ]
+ },
+ {
+  "label": "submit-native",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "type-after-reload",
+  "steps": [
+   {
+    "do": "type",
+    "target": "textarea",
+    "text": "Again"
+   }
+  ]
+ }
+]

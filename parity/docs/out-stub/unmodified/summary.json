@@ -1,0 +1,13 @@
+{
+  "ref": "http://localhost:4000",
+  "target": "http://127.0.0.1:60422",
+  "self": false,
+  "jobs": 18,
+  "captures": 262,
+  "failed": 0,
+  "seconds": 268,
+  "retriedCaptures": 1,
+  "retriedJobs": 0,
+  "skippedScenarios": 0,
+  "failures": []
+}

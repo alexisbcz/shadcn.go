@@ -1,0 +1,437 @@
+{
+  "path": "/docs/components/radix/button",
+  "group": "docs",
+  "theme": "dark",
+  "viewport": "mobile",
+  "ref": "http://localhost:4000",
+  "target": "http://127.0.0.1:60422",
+  "pass": true,
+  "captures": [
+    {
+      "label": "initial",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 699
+    },
+    {
+      "label": "theme-toggle",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          5,
+          5
+        ]
+      },
+      "frames": [],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 739,
+      "stepsMs": 737
+    },
+    {
+      "label": "theme-shortcut-d",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          5,
+          5
+        ]
+      },
+      "frames": [],
+      "retries": 1,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 2223,
+      "stepsMs": 447
+    },
+    {
+      "label": "mobile-menu-open",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          19,
+          19
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 588,
+      "stepsMs": 2541
+    },
+    {
+      "label": "mobile-menu-close",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          10,
+          10
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 25,
+          "pixels": 0
+        },
+        {
+          "t": 50,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 598,
+      "stepsMs": 295
+    },
+    {
+      "label": "pm-tab-npm",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          20,
+          20
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          382
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 561,
+      "stepsMs": 348
+    },
+    {
+      "label": "pm-tab-bun",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          17,
+          17
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          382
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 595,
+      "stepsMs": 366
+    },
+    {
+      "label": "code-tab-manual",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          17,
+          17
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          382
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 562,
+      "stepsMs": 347
+    },
+    {
+      "label": "code-tab-command",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          17,
+          17
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          382
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 601,
+      "stepsMs": 382
+    },
+    {
+      "label": "copy-button",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          8,
+          8
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          382
+        ],
+        "title": "Button - shadcn/ui",
+        "clipboard": "bunx --bun shadcn@latest add button"
+      },
+      "ms": 625,
+      "stepsMs": 411
+    },
+    {
+      "label": "view-code",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          8,
+          8
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          382
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 644,
+      "stepsMs": 406
+    },
+    {
+      "label": "base-tab",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          5,
+          5
+        ]
+      },
+      "frames": [],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/base/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 183,
+      "stepsMs": 734
+    }
+  ],
+  "errors": {
+    "ref": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "target": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  "openMs": 2571
+}

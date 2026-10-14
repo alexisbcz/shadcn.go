@@ -90,8 +90,8 @@ func (s Style) CSS() string {
 }
 
 var (
-	mapsOnce [8]sync.Once
-	maps     [8]map[string]string
+	mapsOnce  [8]sync.Once
+	styleMaps [8]map[string]string
 )
 
 // Map returns the style's token map, CreateStyleMap of its stylesheet. The
@@ -106,9 +106,9 @@ func (s Style) Map() map[string]string {
 		if err != nil {
 			panic(err)
 		}
-		maps[i] = m
+		styleMaps[i] = m
 	})
-	return maps[i]
+	return styleMaps[i]
 }
 
 // String returns the style's name. Components accept a Style as a child,

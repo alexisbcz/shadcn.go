@@ -1,0 +1,646 @@
+{
+  "path": "/charts/area",
+  "group": "app",
+  "theme": "dark",
+  "viewport": "mobile",
+  "ref": "http://localhost:4000",
+  "target": "http://localhost:4000",
+  "pass": false,
+  "captures": [
+    {
+      "label": "initial",
+      "pass": false,
+      "pixels": 489538,
+      "regions": [
+        {
+          "pixels": 137005,
+          "box": [
+            24,
+            482,
+            342,
+            401
+          ]
+        },
+        {
+          "pixels": 117511,
+          "box": [
+            24,
+            3202,
+            342,
+            344
+          ]
+        },
+        {
+          "pixels": 117511,
+          "box": [
+            24,
+            4290,
+            342,
+            344
+          ]
+        },
+        {
+          "pixels": 117511,
+          "box": [
+            24,
+            4834,
+            342,
+            344
+          ]
+        }
+      ],
+      "at": [
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10"
+      ],
+      "dom": [
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-interactive\" title=\"chart-area-interactive\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-interactive\" title=\"chart-area-interactive\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-stacked\" title=\"chart-area-stacked\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-stacked\" title=\"chart-area-stacked\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-icons\" title=\"chart-area-icons\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-icons\" title=\"chart-area-icons\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-gradient\" title=\"chart-area-gradient\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-gradient\" title=\"chart-area-gradient\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe"
+      ],
+      "stateEqual": {
+        "path": "/charts/area",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Area Charts"
+      },
+      "ms": 6415
+    },
+    {
+      "label": "theme-toggle",
+      "pass": false,
+      "animations": {
+        "equal": true,
+        "count": [
+          0,
+          0
+        ]
+      },
+      "frames": [],
+      "pixels": 124170,
+      "regions": [
+        {
+          "pixels": 33119,
+          "box": [
+            24,
+            482,
+            342,
+            401
+          ]
+        },
+        {
+          "pixels": 26353,
+          "box": [
+            24,
+            3202,
+            342,
+            344
+          ]
+        },
+        {
+          "pixels": 25978,
+          "box": [
+            24,
+            4834,
+            342,
+            344
+          ]
+        },
+        {
+          "pixels": 22522,
+          "box": [
+            24,
+            4290,
+            342,
+            344
+          ]
+        },
+        {
+          "pixels": 4211,
+          "box": [
+            122,
+            3850,
+            149,
+            123
+          ]
+        },
+        {
+          "pixels": 3032,
+          "box": [
+            277,
+            1154,
+            38,
+            99
+          ]
+        },
+        {
+          "pixels": 2696,
+          "box": [
+            276,
+            1707,
+            38,
+            90
+          ]
+        },
+        {
+          "pixels": 2695,
+          "box": [
+            284,
+            2250,
+            30,
+            91
+          ]
+        }
+      ],
+      "at": [
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10"
+      ],
+      "dom": [
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-interactive\" title=\"chart-area-interactive\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-interactive\" title=\"chart-area-interactive\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <rect height=\"188\" width=\"221.28022207700317\" x=\"5\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_9_ > rect",
+        "+ target: <rect height=\"188\" width=\"225.70804725100015\" x=\"5\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_9_ > rect",
+        "- ref:    <rect height=\"171\" width=\"221.28022207700317\" x=\"5\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_a_ > rect",
+        "+ target: <rect height=\"171\" width=\"234.07401147937847\" x=\"5\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_a_ > rect",
+        "- ref:    <rect height=\"135\" width=\"206.39541782038827\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_3_ > rect",
+        "+ target: <rect height=\"135\" width=\"225.85690216273755\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_3_ > rect",
+        "- ref:    <rect height=\"135\" width=\"206.39541782038827\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_3_ > rect",
+        "+ target: <rect height=\"135\" width=\"225.85690216273755\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_3_ > rect",
+        "- ref:    <rect height=\"135\" width=\"206.39541782038827\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_3_ > rect",
+        "+ target: <rect height=\"135\" width=\"225.85690216273755\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_3_ > rect",
+        "- ref:    <rect height=\"107\" width=\"184.93893971451263\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_6_ > rect",
+        "+ target: <rect height=\"107\" width=\"188.86337425680526\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_6_ > rect",
+        "- ref:    <rect height=\"92\" width=\"184.93893971451263\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_7_ > rect",
+        "+ target: <rect height=\"92\" width=\"192.64253714416571\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_7_ > rect",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-stacked\" title=\"chart-area-stacked\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-stacked\" title=\"chart-area-stacked\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <rect height=\"135\" width=\"180.8647948340418\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_6_ > rect",
+        "+ target: <rect height=\"135\" width=\"192.64253714416571\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_6_ > rect",
+        "- ref:    <rect height=\"117\" width=\"180.8647948340418\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_7_ > rect",
+        "+ target: <rect height=\"117\" width=\"192.64253714416571\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_7_ > rect",
+        "- ref:    <rect height=\"135\" width=\"153.05171170814597\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_9_ > rect",
+        "+ target: <rect height=\"135\" width=\"172.25017920906285\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_9_ > rect",
+        "- ref:    <rect height=\"117\" width=\"158.10495057006642\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_a_ > rect",
+        "+ target: <rect height=\"117\" width=\"172.25017920906285\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_a_ > rect",
+        "- ref:    <rect height=\"85\" width=\"158.10495057006642\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_b_ > rect",
+        "+ target: <rect height=\"85\" width=\"172.25017920906285\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_b_ > rect",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-icons\" title=\"chart-area-icons\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-icons\" title=\"chart-area-icons\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <rect height=\"107\" width=\"180.8647948340418\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_6_ > rect",
+        "+ target: <rect height=\"107\" width=\"184.93893971451263\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_6_ > rect",
+        "- ref:    <rect height=\"92\" width=\"180.8647948340418\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_7_ > rect",
+        "+ target: <rect height=\"92\" width=\"192.64253714416571\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_7_ > rect",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-gradient\" title=\"chart-area-gradient\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-gradient\" title=\"chart-area-gradient\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <rect height=\"135\" width=\"180.8647948340418\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_6_ > rect",
+        "+ target: <rect height=\"135\" width=\"188.86337425680526\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_6_ > rect",
+        "- ref:    <rect height=\"117\" width=\"180.8647948340418\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_7_ > rect",
+        "+ target: <rect height=\"117\" width=\"188.86337425680526\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_7_ > rect"
+      ],
+      "stateEqual": {
+        "path": "/charts/area",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Area Charts"
+      },
+      "ms": 3154,
+      "stepsMs": 3534
+    },
+    {
+      "label": "theme-shortcut-d",
+      "pass": false,
+      "animations": {
+        "equal": true,
+        "count": [
+          0,
+          0
+        ]
+      },
+      "frames": [],
+      "pixels": 490650,
+      "regions": [
+        {
+          "pixels": 137005,
+          "box": [
+            24,
+            482,
+            342,
+            401
+          ]
+        },
+        {
+          "pixels": 117511,
+          "box": [
+            24,
+            3202,
+            342,
+            344
+          ]
+        },
+        {
+          "pixels": 117511,
+          "box": [
+            24,
+            4290,
+            342,
+            344
+          ]
+        },
+        {
+          "pixels": 117511,
+          "box": [
+            24,
+            4834,
+            342,
+            344
+          ]
+        },
+        {
+          "pixels": 437,
+          "box": [
+            278,
+            1706,
+            49,
+            91
+          ]
+        },
+        {
+          "pixels": 206,
+          "box": [
+            278,
+            1155,
+            49,
+            98
+          ]
+        },
+        {
+          "pixels": 182,
+          "box": [
+            326,
+            2250,
+            2,
+            91
+          ]
+        },
+        {
+          "pixels": 176,
+          "box": [
+            294,
+            2793,
+            21,
+            64
+          ]
+        }
+      ],
+      "at": [
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10",
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10"
+      ],
+      "dom": [
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-interactive\" title=\"chart-area-interactive\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-interactive\" title=\"chart-area-interactive\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <rect height=\"188\" width=\"270.04834998047085\" x=\"5\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_b_ > rect",
+        "+ target: <rect height=\"188\" width=\"272.5984457625557\" x=\"5\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_b_ > rect",
+        "- ref:    <rect height=\"171\" width=\"270.04834998047085\" x=\"5\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_c_ > rect",
+        "+ target: <rect height=\"171\" width=\"275.0448567155959\" x=\"5\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_c_ > rect",
+        "- ref:    <rect height=\"135\" width=\"252.5954620749678\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_4_ > rect",
+        "+ target: <rect height=\"135\" width=\"253.80795276139366\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_4_ > rect",
+        "- ref:    <rect height=\"135\" width=\"247.10892205195194\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_4_ > rect",
+        "+ target: <rect height=\"135\" width=\"254.9602348833173\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_4_ > rect",
+        "- ref:    <rect height=\"135\" width=\"257.0905298781386\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_4_ > rect",
+        "+ target: <rect height=\"135\" width=\"254.9602348833173\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_4_ > rect",
+        "- ref:    <rect height=\"107\" width=\"234.75166114579525\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_8_ > rect",
+        "+ target: <rect height=\"107\" width=\"228.2192206871023\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_8_ > rect",
+        "- ref:    <rect height=\"92\" width=\"236.75396012765322\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_9_ > rect",
+        "+ target: <rect height=\"92\" width=\"232.66364160625773\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_9_ > rect",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-stacked\" title=\"chart-area-stacked\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-stacked\" title=\"chart-area-stacked\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <rect height=\"135\" width=\"236.75396012765322\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_8_ > rect",
+        "+ target: <rect height=\"135\" width=\"234.75166114579525\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_8_ > rect",
+        "- ref:    <rect height=\"117\" width=\"236.75396012765322\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_9_ > rect",
+        "+ target: <rect height=\"117\" width=\"234.75166114579525\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_9_ > rect",
+        "- ref:    <rect height=\"135\" width=\"215.39847448550753\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_c_ > rect",
+        "+ target: <rect height=\"135\" width=\"212.51413270722918\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_c_ > rect",
+        "- ref:    <rect height=\"85\" width=\"215.39847448550753\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_e_ > rect",
+        "+ target: <rect height=\"85\" width=\"209.51443636867398\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_e_ > rect",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-icons\" title=\"chart-area-icons\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-icons\" title=\"chart-area-icons\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <rect height=\"107\" width=\"232.66364160625773\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_8_ > rect",
+        "+ target: <rect height=\"107\" width=\"228.2192206871023\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_8_ > rect",
+        "- ref:    <rect height=\"92\" width=\"234.75166114579525\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_9_ > rect",
+        "+ target: <rect height=\"92\" width=\"230.48712673492417\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_9_ > rect",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-gradient\" title=\"chart-area-gradient\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-gradient\" title=\"chart-area-gradient\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <rect height=\"135\" width=\"234.75166114579525\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_8_ > rect",
+        "+ target: <rect height=\"135\" width=\"230.48712673492417\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_8_ > rect",
+        "- ref:    <rect height=\"117\" width=\"234.75166114579525\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_9_ > rect",
+        "+ target: <rect height=\"117\" width=\"230.48712673492417\" x=\"12\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_9_ > rect",
+        "- ref:    <rect height=\"135\" width=\"208.35549994590247\" x=\"40\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_8_ > rect",
+        "+ target: <rect height=\"135\" width=\"206.40638215067835\" x=\"40\" y=\"0\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe > html > body > div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=chart] > div > div > div > svg > g > g > g > defs > clippath#animationClipPath-recharts-area-_r_8_ > rect"
+      ],
+      "stateEqual": {
+        "path": "/charts/area",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Area Charts"
+      },
+      "ms": 2953,
+      "stepsMs": 2078
+    },
+    {
+      "label": "mobile-menu-open",
+      "pass": false,
+      "animations": {
+        "equal": true,
+        "count": [
+          14,
+          14
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 124538,
+          "regions": [
+            {
+              "pixels": 124538,
+              "box": [
+                20,
+                462,
+                350,
+                382
+              ]
+            }
+          ],
+          "at": [
+            "div > div[data-slot=popover-content] > div.flex.flex-col > div.flex.flex-col > div.flex.flex-col > a.flex.items-center \"Installation\""
+          ]
+        },
+        {
+          "t": 38,
+          "pixels": 124538,
+          "regions": [
+            {
+              "pixels": 124538,
+              "box": [
+                20,
+                462,
+                350,
+                382
+              ]
+            }
+          ],
+          "at": [
+            "div > div[data-slot=popover-content] > div.flex.flex-col > div.flex.flex-col > div.flex.flex-col > a.flex.items-center \"Installation\""
+          ]
+        },
+        {
+          "t": 75,
+          "pixels": 124538,
+          "regions": [
+            {
+              "pixels": 124538,
+              "box": [
+                20,
+                462,
+                350,
+                382
+              ]
+            }
+          ],
+          "at": [
+            "div > div[data-slot=popover-content] > div.flex.flex-col > div.flex.flex-col > div.flex.flex-col > a.flex.items-center \"Installation\""
+          ]
+        },
+        {
+          "t": 113,
+          "pixels": 124538,
+          "regions": [
+            {
+              "pixels": 124538,
+              "box": [
+                20,
+                462,
+                350,
+                382
+              ]
+            }
+          ],
+          "at": [
+            "div > div[data-slot=popover-content] > div.flex.flex-col > div.flex.flex-col > div.flex.flex-col > a.flex.items-center \"Installation\""
+          ]
+        }
+      ],
+      "pixels": 124538,
+      "regions": [
+        {
+          "pixels": 124538,
+          "box": [
+            20,
+            462,
+            350,
+            382
+          ]
+        }
+      ],
+      "at": [
+        "div > div[data-slot=popover-content] > div.flex.flex-col > div.flex.flex-col > div.flex.flex-col > a.flex.items-center \"Installation\""
+      ],
+      "dom": [
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-interactive\" title=\"chart-area-interactive\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-interactive\" title=\"chart-area-interactive\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-stacked\" title=\"chart-area-stacked\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-stacked\" title=\"chart-area-stacked\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-icons\" title=\"chart-area-icons\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-icons\" title=\"chart-area-icons\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-gradient\" title=\"chart-area-gradient\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-gradient\" title=\"chart-area-gradient\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe"
+      ],
+      "stateEqual": {
+        "path": "/charts/area",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Area Charts"
+      },
+      "ms": 7855,
+      "stepsMs": 2956
+    },
+    {
+      "label": "mobile-menu-close",
+      "pass": false,
+      "animations": {
+        "equal": true,
+        "count": [
+          5,
+          5
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 124538,
+          "regions": [
+            {
+              "pixels": 124538,
+              "box": [
+                20,
+                462,
+                350,
+                382
+              ]
+            }
+          ],
+          "at": [
+            "div > div[data-slot=popover-content] > div.flex.flex-col > div.flex.flex-col > div.flex.flex-col > a.flex.items-center \"Installation\""
+          ]
+        },
+        {
+          "t": 25,
+          "pixels": 135241,
+          "regions": [
+            {
+              "pixels": 135241,
+              "box": [
+                16,
+                462,
+                366,
+                382
+              ]
+            }
+          ],
+          "at": [
+            "div > div[data-slot=popover-content] > div.flex.flex-col > div.flex.flex-col > div.flex.flex-col \"IntroductionComponentsInstallationThemin\""
+          ]
+        },
+        {
+          "t": 50,
+          "pixels": 132240,
+          "regions": [
+            {
+              "pixels": 132240,
+              "box": [
+                16,
+                463,
+                359,
+                381
+              ]
+            }
+          ],
+          "at": [
+            "div > div[data-slot=popover-content] > div.flex.flex-col > div.flex.flex-col > div.flex.flex-col > a.flex.items-center \"Theming\""
+          ]
+        },
+        {
+          "t": 75,
+          "pixels": 130020,
+          "regions": [
+            {
+              "pixels": 130020,
+              "box": [
+                16,
+                466,
+                356,
+                378
+              ]
+            }
+          ],
+          "at": [
+            "div > div[data-slot=popover-content] > div.flex.flex-col > div.flex.flex-col > div.flex.flex-col > a.flex.items-center \"Theming\""
+          ]
+        }
+      ],
+      "pixels": 123735,
+      "regions": [
+        {
+          "pixels": 123735,
+          "box": [
+            24,
+            482,
+            342,
+            362
+          ]
+        }
+      ],
+      "at": [
+        "div.container-wrapper.flex-1 > div.container.pb-6 > section.theme-container > div.grid.flex-1 > div.grid.flex-1 > div.themes-wrapper.group > div.relative.z-10"
+      ],
+      "dom": [
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-interactive\" title=\"chart-area-interactive\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-interactive\" title=\"chart-area-interactive\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-stacked\" title=\"chart-area-stacked\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-stacked\" title=\"chart-area-stacked\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-icons\" title=\"chart-area-icons\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-icons\" title=\"chart-area-icons\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "- ref:    <iframe class=\"border-none duration-300 opacity-0 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-gradient\" title=\"chart-area-gradient\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe",
+        "+ target: <iframe class=\"border-none duration-300 opacity-100 transition-opacity w-full\" height=\"460\" loading=\"lazy\" src=\"/view/new-york-v4/chart-area-gradient\" title=\"chart-area-gradient\">   @  > html > body > div[data-slot=layout] > main > div > div > section > div > div > div > div > iframe"
+      ],
+      "stateEqual": {
+        "path": "/charts/area",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Area Charts"
+      },
+      "ms": 11841,
+      "stepsMs": 1900
+    }
+  ],
+  "errors": {
+    "ref": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "target": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  "openMs": 13432
+}

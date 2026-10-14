@@ -152,7 +152,8 @@
         "do": "press",
         "key": "Enter"
       }
-    ]
+    ],
+    "reset": true
   },
   {
     "label": "non-modal-outside",

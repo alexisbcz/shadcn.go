@@ -1,0 +1,181 @@
+[
+ {
+  "label": "focus-trigger",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=combobox-trigger]"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "typeahead-c",
+  "steps": [
+   {
+    "do": "press",
+    "key": "c"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "typeahead-c2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "c"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrowdown-open",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "arrowdown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "enter-open",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "tab-out",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "click-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=combobox-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "an"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "outside",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 10,
+    "y": 10
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "click-open-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=combobox-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "click-item",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[role=option]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "space-open",
+  "steps": [
+   {
+    "do": "press",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "reopen-type-enter",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=combobox-trigger]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   },
+   {
+    "do": "type",
+    "text": "fr"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ }
+]

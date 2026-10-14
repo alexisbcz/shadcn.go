@@ -1,0 +1,102 @@
+[
+ {
+  "label": "open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "input[role=combobox]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "type",
+    "text": "a"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[role=option]",
+    "nth": 4
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "reopen-arrow",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "arrowup-3",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-again",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ],
+  "frames": false
+ }
+]

@@ -1,0 +1,234 @@
+[
+ {
+  "label": "click-input",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=combobox-chip-input]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "arrowdown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "enter-add",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "enter-toggle-off",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "enter-toggle-on",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "type-r",
+  "steps": [
+   {
+    "do": "type",
+    "text": "r"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "enter-filtered-closes",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "arrowleft-chip",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrowleft-chip-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrowright-chip",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "chip-backspace",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Backspace"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "chip-arrowdown-opens",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "input-backspace",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Backspace"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "click-remove",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=combobox-chip-remove]",
+    "nth": 0
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "click-chips-box",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=combobox-chips]",
+    "nth": 0,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "click-item",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[role=option]",
+    "nth": 2
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "hover-remove",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=combobox-chip-remove]",
+    "nth": 0
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "outside-press",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 10,
+    "y": 10
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "escape-clears",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=combobox-chip-input]",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   },
+   {
+    "do": "press",
+    "key": "Escape"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ }
+]

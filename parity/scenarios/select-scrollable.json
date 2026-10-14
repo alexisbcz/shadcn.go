@@ -1,0 +1,254 @@
+[
+ {
+  "label": "open-click",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "wheel-scroll",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=select-item]",
+    "nth": 3
+   },
+   {
+    "do": "mouse",
+    "x": 520,
+    "y": 400
+   },
+   {
+    "do": "scroll",
+    "y": 200
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "home",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "typeahead",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "fiji"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "select-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "reopen-selected",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "hover-scroll-up",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=select-scroll-up-button]"
+   },
+   {
+    "do": "wait",
+    "ms": 3000
+   },
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 20
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "open-keyboard",
+  "reset": true,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "hover-scroll-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=select-scroll-down-button]"
+   },
+   {
+    "do": "wait",
+    "ms": 3000
+   },
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 20
+   }
+  ]
+ },
+ {
+  "label": "scroll-to-bottom",
+  "frames": false,
+  "steps": [
+   {
+    "do": "scroll",
+    "target": "[data-radix-select-viewport]",
+    "y": 5000
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   }
+  ]
+ },
+ {
+  "label": "select-last-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-item]",
+    "nth": 26
+   }
+  ]
+ },
+ {
+  "label": "reopen-last",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "v-open-typeahead-space",
+  "reset": true,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "v-typeahead-with-space",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "eastern e"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "v-select-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "v-trigger-typeahead-space",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1100
+   },
+   {
+    "do": "type",
+    "text": "central a"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ }
+]

@@ -62,3 +62,78 @@ func TestDifferential(t *testing.T) {
 		t.Errorf("classes missing from the order table: %v", u)
 	}
 }
+
+// TestDifferentialDetects checks that the differential data discriminates:
+// skipping the token transform, skipping prettier's sorting, or using
+// another style's map must each produce mismatches.
+func TestDifferentialDetects(t *testing.T) {
+	ref, err := loadRef("radix-nova")
+	if err != nil {
+		t.Fatal(err)
+	}
+	run := func(transform, sort bool, m map[string]string) (mismatches int) {
+		for _, f := range ref.Files {
+			base, gen := decodeRoots(f.Base), decodeRoots(f.Gen)
+			if transform {
+				transformStyleMap(base, m)
+			}
+			if sort {
+				sortTree(base)
+			}
+			for i := range base {
+				n := 0
+				if compareTrees(base[i], gen[i], "", &n) != "" {
+					mismatches++
+				}
+			}
+		}
+		return mismatches
+	}
+	if n := run(true, true, Nova.Map()); n != 0 {
+		t.Fatalf("baseline: %d mismatches", n)
+	}
+	for _, c := range []struct {
+		name            string
+		transform, sort bool
+		m               map[string]string
+	}{
+		{"no transform", false, true, Nova.Map()},
+		{"no sort", true, false, Nova.Map()},
+		{"vega map", true, true, Vega.Map()},
+	} {
+		n := run(c.transform, c.sort, c.m)
+		t.Logf("%s: %d mismatching roots", c.name, n)
+		if n == 0 {
+			t.Errorf("%s: no mismatches; the data does not test it", c.name)
+		}
+	}
+}
+
+// TestBaseSourcesSorted shows that upstream's base sources are already in
+// prettier's class order: sorting them changes no string. So a literal the
+// transform does not touch (one nested in a condition, say) is the same in
+// every generated style, and the API passes it through unchanged (Arg).
+func TestBaseSourcesSorted(t *testing.T) {
+	changed, total := 0, 0
+	for _, b := range bases {
+		ref, err := loadRef(b + "-nova")
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, f := range ref.Files {
+			roots, orig := decodeRoots(f.Base), decodeRoots(f.Base)
+			sortTree(roots)
+			for i := range roots {
+				n := 0
+				if d := compareTrees(roots[i], orig[i], "", &n); d != "" {
+					changed++
+					if changed <= 5 {
+						t.Errorf("%s/%s:%d: %s", b, f.Path, f.Base[i].Line, d)
+					}
+				}
+				total += n
+			}
+		}
+	}
+	t.Logf("%d strings of the 3 bases' sources: %d change when sorted", total, changed)
+}

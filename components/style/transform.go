@@ -91,8 +91,33 @@ func removeCnClasses(s string) string {
 	return trimJSSpace(collapseJSSpace(s))
 }
 
-// mergeClasses is upstream's mergeClasses: twMerge from the cn package.
-func mergeClasses(newClasses, existing string) string { return cn.Cn(newClasses, existing) }
+// mergeClasses is upstream's mergeClasses: twMerge of the cn package the
+// shadcn CLI bundles, cn 0.2.4. shadcn.go/cn ports cn 0.2.2 (what the docs
+// use at runtime). For merging, 0.2.4 differs only in its tokenizer: a UTF-16
+// code unit >= 160 that matches /\s/ also separates classes, and like the
+// ASCII whitespace 9-13 it forces the output to be rebuilt. Mapping those
+// characters to '\t' therefore gives 0.2.4's result with the 0.2.2 engine
+// (TestUpstreamUnitCases' fuzz cases cover it).
+func mergeClasses(newClasses, existing string) string {
+	return cn.Cn(asciiSpace(newClasses), asciiSpace(existing))
+}
+
+// asciiSpace replaces the non-ASCII JavaScript whitespace of s with '\t'.
+func asciiSpace(s string) string {
+	i := 0
+	for i < len(s) && s[i] < utf8.RuneSelf {
+		i++
+	}
+	if i == len(s) {
+		return s
+	}
+	return strings.Map(func(r rune) rune {
+		if r >= 0xa0 && isJSSpace(r) {
+			return '\t'
+		}
+		return r
+	}, s)
+}
 
 // transformer holds the state of one transformStyleMap run (one file).
 type transformer struct {

@@ -1,0 +1,129 @@
+[
+  {
+    "label": "submit-empty",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "open",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=select-trigger]"
+      }
+    ]
+  },
+  {
+    "label": "pick-auto",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[role=option]:has-text(\"Auto\")"
+      }
+    ]
+  },
+  {
+    "label": "submit-auto",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "open-keyboard",
+    "steps": [
+      {
+        "do": "focus",
+        "target": "[data-slot=select-trigger]"
+      },
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  },
+  {
+    "label": "arrow-down",
+    "steps": [
+      {
+        "do": "press",
+        "key": "ArrowDown"
+      },
+      {
+        "do": "press",
+        "key": "ArrowDown"
+      }
+    ]
+  },
+  {
+    "label": "select-enter",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  },
+  {
+    "label": "submit-valid",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "reset",
+    "frames": false,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=card-footer] button[type=button]"
+      }
+    ]
+  },
+  {
+    "label": "typeahead",
+    "reset": true,
+    "steps": [
+      {
+        "do": "focus",
+        "target": "[data-slot=select-trigger]"
+      },
+      {
+        "do": "press",
+        "key": "g"
+      }
+    ]
+  },
+  {
+    "label": "open-escape",
+    "reset": true,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=select-trigger]"
+      },
+      {
+        "do": "press",
+        "key": "Escape"
+      }
+    ]
+  },
+  {
+    "label": "submit-after-escape",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  }
+]

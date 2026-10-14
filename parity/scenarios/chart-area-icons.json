@@ -1,7 +1,17 @@
 [
  {
-  "label": "pointer-enter",
+  "label": "pointer-enter-settle",
   "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "pointer-enter",
   "steps": [
    {
     "do": "mouse",
@@ -49,8 +59,18 @@
   ]
  },
  {
-  "label": "keyboard-focus",
+  "label": "keyboard-focus-settle",
   "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "keyboard-focus",
   "steps": [
    {
     "do": "focus",
@@ -98,6 +118,80 @@
   ]
  },
  {
+  "label": "keyboard-arrow-right-edge",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-arrow-left-to-start",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
   "label": "keyboard-enter-off",
   "steps": [
    {
@@ -107,11 +201,45 @@
   ]
  },
  {
+  "label": "keyboard-arrow-while-off",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
   "label": "keyboard-enter-on",
   "steps": [
    {
     "do": "press",
     "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-ignored-keys",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "press",
+    "key": "Space"
    }
   ]
  },
@@ -143,6 +271,24 @@
   ]
  },
  {
+  "label": "refocus-after-blur",
+  "steps": [
+   {
+    "do": "focus",
+    "target": ".recharts-surface"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-after-refocus",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
   "label": "pointer-over-tooltip-position",
   "steps": [
    {
@@ -156,6 +302,126 @@
     "x": 449,
     "y": 190,
     "steps": 3
+   }
+  ]
+ },
+ {
+  "label": "pointer-escape-setup-settle",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "pointer-escape-setup",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "mouse",
+    "x": 575,
+    "y": 190,
+    "steps": 4
+   }
+  ]
+ },
+ {
+  "label": "escape-while-hovering",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "pointer-move-after-escape",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 617,
+    "y": 190,
+    "steps": 3
+   }
+  ]
+ },
+ {
+  "label": "pointer-down-focus",
+  "steps": [
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-while-hovering",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "pointer-leave-while-focused",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   }
+  ]
+ },
+ {
+  "label": "tab-focus-settle",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "tab-focus",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-arrow",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-away",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
    }
   ]
  }

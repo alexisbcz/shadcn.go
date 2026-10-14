@@ -1,5 +1,15 @@
 [
  {
+  "label": "settle-auto",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
   "label": "open-click",
   "steps": [
    {
@@ -28,6 +38,16 @@
   ]
  },
  {
+  "label": "settle-tab-out",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
   "label": "reopen",
   "steps": [
    {
@@ -48,6 +68,16 @@
   ]
  },
  {
+  "label": "settle-click-trigger-closes",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
   "label": "open-keyboard",
   "steps": [
    {
@@ -62,6 +92,16 @@
    {
     "do": "press",
     "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "settle-escape-key",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
    }
   ]
  },
@@ -87,6 +127,16 @@
    },
    {
     "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "settle-outside-click",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
    }
   ]
  },

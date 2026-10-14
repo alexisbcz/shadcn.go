@@ -71,3 +71,20 @@ export async function frontmatter(source) {
   const m = await fromCore("fumadocs-core/content/md/frontmatter")
   return m.frontmatter(source)
 }
+
+// fumadocs' remarkImage downloads external images at build time to read
+// their size, so the pipeline's output depends on the network (the v0
+// button now answers 403 to scripts). The oracles serve the remote images
+// the docs use from fixtures with the size the reference site was built
+// with (99x32, as served by http://localhost:4000/docs/rtl), and fail on
+// any other remote fetch.
+const fixtures = {
+  "https://v0.app/chat-static/button.svg": path.join(here, "fixtures/v0-button.svg"),
+}
+const realFetch = globalThis.fetch
+globalThis.fetch = async (input, init) => {
+  const url = String(input instanceof URL ? input.href : input?.url ?? input)
+  if (fixtures[url]) return new Response(fs.readFileSync(fixtures[url]), { status: 200, headers: { "content-type": "image/svg+xml" } })
+  if (/^https?:/.test(url)) throw new Error("docs oracle: unexpected network fetch " + url)
+  return realFetch(input, init)
+}

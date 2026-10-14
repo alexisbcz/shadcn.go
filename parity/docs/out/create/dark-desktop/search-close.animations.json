@@ -1,0 +1,847 @@
+{
+  "ref": [
+    {
+      "frame": 0,
+      "type": "CSSAnimation",
+      "name": "exit",
+      "target": "html > body > div[data-slot=dialog-portal] > div[data-slot=dialog-content]",
+      "timeline": "document",
+      "duration": 100,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease",
+          "composite": "replace",
+          "filter": "none",
+          "opacity": "1",
+          "transform": "none"
+        },
+        {
+          "offset": 1,
+          "easing": "ease",
+          "composite": "auto",
+          "filter": "blur(0px)",
+          "opacity": "0",
+          "transform": "translate3d(0px, 0px, 0px) scale3d(0.95, 0.95, 0.95) rotate(0deg)"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSAnimation",
+      "name": "exit",
+      "target": "html > body > div[data-slot=dialog-portal] > div[data-slot=dialog-overlay]",
+      "timeline": "document",
+      "duration": 100,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease",
+          "composite": "replace",
+          "filter": "none",
+          "opacity": "1",
+          "transform": "none"
+        },
+        {
+          "offset": 1,
+          "easing": "ease",
+          "composite": "auto",
+          "filter": "blur(0px)",
+          "opacity": "0",
+          "transform": "translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotate(0deg)"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div > div[data-slot=card] > div[data-slot=card-header] > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div > div[data-slot=card] > div[data-slot=card-header] > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div[data-slot=card] > div[data-slot=card-content] > div > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div[data-slot=card] > div[data-slot=card-content] > div > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div[data-slot=card] > div[data-slot=card-content] > div > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div[data-slot=card] > div[data-slot=card-content] > div > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div[data-slot=card] > div[data-slot=card-content] > div > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "spin",
+      "target": "div[data-slot=empty] > div[data-slot=empty-header] > div[data-slot=empty-icon] > svg[data-slot=spinner]",
+      "timeline": "document",
+      "duration": 1000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "replace",
+          "transform": "none"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "transform": "rotate(360deg)"
+        }
+      ]
+    }
+  ],
+  "target": [
+    {
+      "frame": 0,
+      "type": "CSSAnimation",
+      "name": "exit",
+      "target": "html > body > div[data-slot=dialog-portal] > div[data-slot=dialog-content]",
+      "timeline": "document",
+      "duration": 100,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease",
+          "composite": "replace",
+          "filter": "none",
+          "opacity": "1",
+          "transform": "none"
+        },
+        {
+          "offset": 1,
+          "easing": "ease",
+          "composite": "auto",
+          "filter": "blur(0px)",
+          "opacity": "0",
+          "transform": "translate3d(0px, 0px, 0px) scale3d(0.95, 0.95, 0.95) rotate(0deg)"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSAnimation",
+      "name": "exit",
+      "target": "html > body > div[data-slot=dialog-portal] > div[data-slot=dialog-overlay]",
+      "timeline": "document",
+      "duration": 100,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "ease",
+          "composite": "replace",
+          "filter": "none",
+          "opacity": "1",
+          "transform": "none"
+        },
+        {
+          "offset": 1,
+          "easing": "ease",
+          "composite": "auto",
+          "filter": "blur(0px)",
+          "opacity": "0",
+          "transform": "translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotate(0deg)"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSTransition",
+      "name": "border-bottom-color",
+      "target": "div > div[data-slot=field] > div[data-slot=field-content] > input[data-slot=input]",
+      "timeline": "document",
+      "duration": 150,
+      "delay": 0,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "backwards",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "borderBottomColor": "oklab(0.704006 0.176798 0.0722319 / 0.5)"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "borderBottomColor": "oklab(0.555999 -0.00000530481 0.000012964)"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSTransition",
+      "name": "border-left-color",
+      "target": "div > div[data-slot=field] > div[data-slot=field-content] > input[data-slot=input]",
+      "timeline": "document",
+      "duration": 150,
+      "delay": 0,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "backwards",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "borderLeftColor": "oklab(0.704006 0.176798 0.0722319 / 0.5)"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "borderLeftColor": "oklab(0.555999 -0.00000530481 0.000012964)"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSTransition",
+      "name": "border-right-color",
+      "target": "div > div[data-slot=field] > div[data-slot=field-content] > input[data-slot=input]",
+      "timeline": "document",
+      "duration": 150,
+      "delay": 0,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "backwards",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "borderRightColor": "oklab(0.704006 0.176798 0.0722319 / 0.5)"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "borderRightColor": "oklab(0.555999 -0.00000530481 0.000012964)"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSTransition",
+      "name": "border-top-color",
+      "target": "div > div[data-slot=field] > div[data-slot=field-content] > input[data-slot=input]",
+      "timeline": "document",
+      "duration": 150,
+      "delay": 0,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "backwards",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "borderTopColor": "oklab(0.704006 0.176798 0.0722319 / 0.5)"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "borderTopColor": "oklab(0.555999 -0.00000530481 0.000012964)"
+        }
+      ]
+    },
+    {
+      "frame": 0,
+      "type": "CSSTransition",
+      "name": "color",
+      "target": "div > div[data-slot=field] > div[data-slot=field-content] > input[data-slot=input]",
+      "timeline": "document",
+      "duration": 150,
+      "delay": 0,
+      "easing": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "iterations": 1,
+      "direction": "normal",
+      "fill": "backwards",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "auto",
+          "color": "oklab(0.704006 0.176798 0.0722319)"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "color": "oklab(0.984998 -0.00000956655 0.0000230074)"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div > div[data-slot=card] > div[data-slot=card-header] > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div > div[data-slot=card] > div[data-slot=card-header] > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div[data-slot=card] > div[data-slot=card-content] > div > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div[data-slot=card] > div[data-slot=card-content] > div > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div[data-slot=card] > div[data-slot=card-content] > div > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div[data-slot=card] > div[data-slot=card-content] > div > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "pulse",
+      "target": "div[data-slot=card] > div[data-slot=card-content] > div > div[data-slot=skeleton]",
+      "timeline": "document",
+      "duration": 2000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        },
+        {
+          "offset": 0.5,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "auto",
+          "opacity": "0.5"
+        },
+        {
+          "offset": 1,
+          "easing": "cubic-bezier(0.4, 0, 0.6, 1)",
+          "composite": "replace",
+          "opacity": "1"
+        }
+      ]
+    },
+    {
+      "frame": 1,
+      "type": "CSSAnimation",
+      "name": "spin",
+      "target": "div[data-slot=empty] > div[data-slot=empty-header] > div[data-slot=empty-icon] > svg[data-slot=spinner]",
+      "timeline": "document",
+      "duration": 1000,
+      "delay": 0,
+      "easing": "linear",
+      "iterations": null,
+      "direction": "normal",
+      "fill": "none",
+      "keyframes": [
+        {
+          "offset": 0,
+          "easing": "linear",
+          "composite": "replace",
+          "transform": "none"
+        },
+        {
+          "offset": 1,
+          "easing": "linear",
+          "composite": "auto",
+          "transform": "rotate(360deg)"
+        }
+      ]
+    }
+  ]
+}

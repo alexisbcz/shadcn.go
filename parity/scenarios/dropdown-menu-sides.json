@@ -1,0 +1,542 @@
+[
+ {
+  "label": "start-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-0",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "hover-0",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "close-0",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-0",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-1",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "hover-1",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "close-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-1",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "hover-2",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "close-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-2",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-3",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "hover-3",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "close-3",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-3",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-4",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 4
+   }
+  ]
+ },
+ {
+  "label": "hover-4",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "close-4",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-4",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-5",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 5
+   }
+  ]
+ },
+ {
+  "label": "hover-5",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "close-5",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-5",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-6",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 6
+   }
+  ]
+ },
+ {
+  "label": "hover-6",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "close-6",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-6",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-7",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 7
+   }
+  ]
+ },
+ {
+  "label": "hover-7",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "close-7",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-7",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-8",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 8
+   }
+  ]
+ },
+ {
+  "label": "hover-8",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "close-8",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-8",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-9",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 9
+   }
+  ]
+ },
+ {
+  "label": "hover-9",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "close-9",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-9",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-10",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 10
+   }
+  ]
+ },
+ {
+  "label": "hover-10",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "close-10",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-10",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-11",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 11
+   }
+  ]
+ },
+ {
+  "label": "hover-11",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "close-11",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "idle-11",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "nonmodal-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "nonmodal-click-other",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 4,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "nonmodal-other-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "nonmodal-tab-out",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "nonmodal-tab-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ }
+]

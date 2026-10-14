@@ -1,0 +1,4 @@
+[
+  { "label": "scroll-group", "frames": false, "steps": [{ "do": "scroll", "target": "[data-slot=attachment-group]", "y": 0 }, { "do": "eval", "js": "document.querySelector('[data-slot=attachment-group]').scrollLeft = 140" }] },
+  { "label": "tab-into-group", "frames": false, "steps": [{ "do": "focus", "target": "[data-slot=attachment-group] [data-slot=attachment-action]", "nth": 2 }] }
+]

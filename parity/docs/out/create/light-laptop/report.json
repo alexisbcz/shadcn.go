@@ -1,0 +1,220 @@
+{
+  "path": "/create",
+  "group": "app",
+  "theme": "light",
+  "viewport": "laptop",
+  "ref": "http://localhost:4000",
+  "target": "http://localhost:4000",
+  "pass": true,
+  "captures": [
+    {
+      "label": "initial",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/create",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "New Project - shadcn/ui"
+      },
+      "ms": 1317
+    },
+    {
+      "label": "theme-shortcut-d",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          9,
+          9
+        ]
+      },
+      "frames": [],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/create",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "New Project - shadcn/ui"
+      },
+      "ms": 2447,
+      "stepsMs": 1104
+    },
+    {
+      "label": "search-type",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/create",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "New Project - shadcn/ui"
+      },
+      "ms": 1719,
+      "stepsMs": 2007
+    },
+    {
+      "label": "search-arrow",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/create",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "New Project - shadcn/ui"
+      },
+      "ms": 1294,
+      "stepsMs": 346
+    },
+    {
+      "label": "search-close",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          11,
+          11
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 25,
+          "pixels": 0
+        },
+        {
+          "t": 50,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/create",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "New Project - shadcn/ui"
+      },
+      "ms": 5883,
+      "stepsMs": 303
+    },
+    {
+      "label": "search-cmdk",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          15,
+          15
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/create",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "New Project - shadcn/ui"
+      },
+      "ms": 5962,
+      "stepsMs": 806
+    },
+    {
+      "label": "search-cmdk-close",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          11,
+          11
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 25,
+          "pixels": 0
+        },
+        {
+          "t": 50,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/create",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "New Project - shadcn/ui"
+      },
+      "ms": 10111,
+      "stepsMs": 490
+    }
+  ],
+  "errors": {
+    "ref": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "target": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  "openMs": 15355,
+  "skipped": [
+    "theme-toggle: \u001b[2m      - <div data-open=\"\" aria-hidden=\"true\" role=\"presentation\" data-base-ui-inert=\"\" data-slot=\"dialog-overlay\" class=\"fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out da",
+    "search-open-click: \u001b[2m      - <div data-open=\"\" aria-hidden=\"true\" role=\"presentation\" data-base-ui-inert=\"\" data-slot=\"dialog-overlay\" class=\"fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-o"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "path": "/docs/components/radix/button",
+  "group": "docs",
+  "theme": "light",
+  "viewport": "mobile",
+  "ref": "http://localhost:4000",
+  "target": "http://127.0.0.1:50161",
+  "pass": false,
+  "captures": [
+    {
+      "label": "initial",
+      "pass": false,
+      "retries": 3,
+      "pixels": 737,
+      "regions": [
+        {
+          "pixels": 737,
+          "box": [
+            45,
+            88,
+            74,
+            21
+          ]
+        }
+      ],
+      "at": [
+        "div[data-slot=docs] > div.flex.min-w-0 > div.mx-auto.flex > div.flex.flex-col > div.flex.flex-col > div.flex.items-center > h1.scroll-m-24.text-3xl \"Button\""
+      ],
+      "dom": [
+        "- ref:    <h1 class=\"font-semibold scroll-m-24 sm:text-3xl text-3xl tracking-tight\">   @  > html > body > div[data-slot=layout] > main > div > div[data-slot=sidebar-wrapper] > div > div[data-slot=docs] > div > div > div > div > div > h1",
+        "+ target: <h1 class=\"font-semibold scroll-m-24 sm:text-3xl text-3xl\">   @  > html > body > div[data-slot=layout] > main > div > div[data-slot=sidebar-wrapper] > div > div[data-slot=docs] > div > div > div > div > div > h1"
+      ],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 3501
+    }
+  ],
+  "errors": {
+    "ref": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "target": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  "openMs": 2714
+}

@@ -219,5 +219,63 @@
     "ms": 400
    }
   ]
+ },
+ {
+  "label": "w-open",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "w-ctrl-click-outside",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(1000, 700); const o = { bubbles: true, cancelable: true, composed: true, clientX: 1000, clientY: 700, button: 0, buttons: 1, ctrlKey: true, pointerType: \"mouse\", isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent(\"pointerdown\", o)); el.dispatchEvent(new MouseEvent(\"mousedown\", o)); el.dispatchEvent(new PointerEvent(\"pointerup\", o)); el.dispatchEvent(new MouseEvent(\"mouseup\", o)); el.dispatchEvent(new MouseEvent(\"click\", o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "w-ctrl-click-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "w-open-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "w-trigger-toggle-close",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "w-trigger-toggle-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
  }
 ]

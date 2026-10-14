@@ -1,0 +1,98 @@
+[
+ {
+  "label": "hover-item",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sidebar-menu-button]",
+    "nth": 3,
+    "force": true
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "press-item",
+  "frames": false,
+  "steps": [
+   {
+    "do": "down"
+   }
+  ]
+ },
+ {
+  "label": "release-item",
+  "frames": false,
+  "steps": [
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "tab-items",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 600,
+    "y": 400
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "collapse-ctrl-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+b"
+   }
+  ]
+ },
+ {
+  "label": "expand-ctrl-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+b"
+   }
+  ]
+ },
+ {
+  "label": "collapse-meta-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+b"
+   }
+  ]
+ },
+ {
+  "label": "expand-meta-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+b"
+   }
+  ]
+ }
+]

@@ -1,0 +1,84 @@
+[
+ {
+  "label": "close-button",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-inset] [data-slot=button]"
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "hover-button",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sidebar-inset] [data-slot=button]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "open-button",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-inset] [data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "close-ctrl-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+b"
+   }
+  ]
+ },
+ {
+  "label": "open-meta-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+b"
+   }
+  ]
+ },
+ {
+  "label": "button-keyboard",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=sidebar-inset] [data-slot=button]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "button-space",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "hover-item",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sidebar-menu-button]",
+    "nth": 4,
+    "force": true
+   }
+  ]
+ }
+]

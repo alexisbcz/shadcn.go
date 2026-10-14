@@ -13,6 +13,7 @@ package highlight
 import (
 	"fmt"
 	"regexp"
+	"runtime"
 	"strconv"
 	"strings"
 	"sync"
@@ -26,21 +27,83 @@ var Themes = []string{"vesper", "github-light-default"}
 // themeNames is getThemeNames(theme) joined with spaces (data-theme).
 const themeNames = "vesper github-light-default"
 
-// Highlighter highlights code. It is safe for concurrent use; calls are
-// serialized on one JavaScript runtime.
+// Highlighter highlights code. It is safe for concurrent use: it keeps a
+// pool of JavaScript runtimes (goja runtimes are single-threaded) and
+// memoizes shiki's output per (code, language).
 type Highlighter struct {
-	mu  sync.Mutex
-	eng *engine
+	idle    chan *engine
+	mu      sync.Mutex
+	created int
+	max     int
+	cache   sync.Map        // [github NUL] lang NUL code -> *hast.Element (pristine)
+	loaded  map[string]bool // languages (ids and aliases) the bundle loads
 }
 
-// New creates a Highlighter. Loading shiki and the grammars takes about
-// 0.2 s; grammars compile their regexes lazily on first use.
+// New creates a Highlighter that runs up to min(GOMAXPROCS, 4) shiki
+// runtimes in parallel. Creating a runtime takes about 0.2 s; grammars
+// compile their regexes lazily on first use in each runtime.
 func New() (*Highlighter, error) {
+	return NewWithRuntimes(min(runtime.GOMAXPROCS(0), 4))
+}
+
+// NewWithRuntimes creates a Highlighter with at most n runtimes.
+func NewWithRuntimes(n int) (*Highlighter, error) {
+	if n < 1 {
+		n = 1
+	}
 	e, err := newEngine()
 	if err != nil {
 		return nil, err
 	}
-	return &Highlighter{eng: e}, nil
+	h := &Highlighter{idle: make(chan *engine, n), max: n, created: 1, loaded: e.langs}
+	h.idle <- e
+	return h, nil
+}
+
+func (h *Highlighter) acquire() (*engine, error) {
+	select {
+	case e := <-h.idle:
+		return e, nil
+	default:
+	}
+	h.mu.Lock()
+	if h.created < h.max {
+		h.created++
+		h.mu.Unlock()
+		e, err := newEngine()
+		if err != nil {
+			h.mu.Lock()
+			h.created--
+			h.mu.Unlock()
+			return nil, err
+		}
+		return e, nil
+	}
+	h.mu.Unlock()
+	return <-h.idle, nil
+}
+
+// codeToHast returns shiki's <pre> for code (a copy the caller may modify),
+// with rehype-pretty-code's options or, with github, lib/highlight-code.ts's.
+func (h *Highlighter) codeToHast(code, lang string, github bool) (*hast.Element, error) {
+	key := lang + "\x00" + code
+	if github {
+		key = "github\x00" + key
+	}
+	if v, ok := h.cache.Load(key); ok {
+		return v.(*hast.Element).Clone(), nil
+	}
+	e, err := h.acquire()
+	if err != nil {
+		return nil, err
+	}
+	pre, err := e.codeToHast(code, lang, github)
+	h.idle <- e
+	if err != nil {
+		return nil, err
+	}
+	h.cache.Store(key, pre.Clone())
+	return pre, nil
 }
 
 var (
@@ -94,6 +157,9 @@ func IsBlockCode(el *hast.Element) bool {
 	c, ok := el.Children[0].(*hast.Element)
 	return ok && c.Tag == "code"
 }
+
+// specialLanguages are the names shiki handles without a grammar.
+var specialLanguages = map[string]bool{"text": true, "txt": true, "plain": true, "plaintext": true, "ansi": true}
 
 var (
 	titleRe   = regexp.MustCompile(`title="([^"]*)"`)
@@ -170,12 +236,20 @@ func (h *Highlighter) Apply(pre *hast.Element) error {
 	}
 	stripped := strings.TrimSuffix(text.Value, "\n")
 
-	h.mu.Lock()
-	tree, err := h.eng.codeToHast(stripped, lang)
-	if err != nil {
-		tree, err = h.eng.codeToHast(stripped, "plaintext")
+	hlLang := lang
+	switch {
+	case h.loaded[lang] || specialLanguages[lang]:
+	case bundledLanguages[lang]:
+		// Upstream loads any language of shiki's bundle on demand.
+		return fmt.Errorf("highlight: language %q is not in the vendored shiki bundle (see gen/entry.mjs)", lang)
+	default:
+		// shiki does not know the language: rehype-pretty-code catches the
+		// error and highlights as plain text. Other errors are not
+		// swallowed, so a failure of the goja runtime never silently turns
+		// into plain text.
+		hlLang = "plaintext"
 	}
-	h.mu.Unlock()
+	tree, err := h.codeToHast(stripped, hlLang, false)
 	if err != nil {
 		return fmt.Errorf("highlight: %w", err)
 	}
@@ -361,7 +435,7 @@ func showLineNumbersRe(r string) bool {
 		rest := r[at+len(word):]
 		// (?!(.*)(\/)): no "/" after it on the same line.
 		line := rest
-		if k := strings.IndexAny(line, "\n\r  "); k >= 0 {
+		if k := strings.IndexAny(line, "\n\r\u2028\u2029"); k >= 0 {
 			line = line[:k]
 		}
 		if !strings.Contains(line, "/") {

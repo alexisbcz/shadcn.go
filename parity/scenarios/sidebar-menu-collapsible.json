@@ -1,0 +1,119 @@
+[
+ {
+  "label": "close-first",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=collapsible-trigger]",
+    "nth": 0
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "open-second",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=collapsible-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "hover-sub",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sidebar-menu-sub-button]",
+    "nth": 2,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "press-sub",
+  "frames": false,
+  "steps": [
+   {
+    "do": "down"
+   }
+  ]
+ },
+ {
+  "label": "release-sub",
+  "frames": false,
+  "steps": [
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "scroll",
+  "frames": false,
+  "steps": [
+   {
+    "do": "scroll",
+    "target": "[data-slot=sidebar-content]",
+    "y": 120
+   }
+  ]
+ },
+ {
+  "label": "open-third-enter",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=collapsible-trigger]",
+    "nth": 2
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "close-third-space",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "tab-next",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "collapse-ctrl-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+b"
+   }
+  ]
+ },
+ {
+  "label": "expand-ctrl-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+b"
+   }
+  ]
+ }
+]

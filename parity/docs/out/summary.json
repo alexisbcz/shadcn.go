@@ -3,8 +3,8 @@
   "target": "http://localhost:4000",
   "self": true,
   "jobs": 1,
-  "captures": 27,
+  "captures": 2,
   "failed": 0,
-  "seconds": 29,
+  "seconds": 7,
   "failures": []
 }

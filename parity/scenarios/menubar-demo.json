@@ -1,0 +1,818 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "click-file",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "hover-item",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=menubar-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "sub-open",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=menubar-sub-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "sub-hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=menubar-sub-content] [data-slot=menubar-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "sub-arrow-left",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "sub-arrow-left-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "hover-edit",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "hover-edit-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "hover-view",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "hover-view-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "content-arrow-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "content-arrow-right-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "content-arrow-right-wrap",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "wrap-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "content-arrow-left-wrap",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "left-wrap-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "trigger-arrow-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "trigger-arrow-left",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "trigger-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "trigger-enter-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "item-arrow-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "item-arrow-down-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "subtrigger-arrow-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "subtrigger-open-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "sub-arrow-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "sub-arrow-right-next-menu",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "next-menu-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "menu-arrow-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "menu-arrow-left-prev",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "prev-menu-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "space-toggle-close",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 0
+   },
+   {
+    "do": "press",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "space-close-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-down-open",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "arrow-down-open-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "typeahead-p",
+  "steps": [
+   {
+    "do": "press",
+    "key": "p"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "select-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "select-enter-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "click-view",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "click-checkbox",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=menubar-checkbox-item]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "checkbox-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "click-profiles",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "click-radio",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=menubar-radio-item]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "radio-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "click-edit",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "click-edit-again-close",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "click-again-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "click-file-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "outside-click",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 20,
+    "y": 20
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "outside-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "v-tab-entry",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ],
+  "frames": false,
+  "reset": true
+ },
+ {
+  "label": "v-arrow-left-loop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "v-end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "v-home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "v-shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "v-tab-back",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "v-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "v-enter-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "v-tab-in-menu",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "v-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "v-escape-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "x-hover-closed-no-open",
+  "reset": true,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   },
+   {
+    "do": "hover",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 2
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   }
+  ]
+ },
+ {
+  "label": "x-right-click-trigger",
+  "frames": false,
+  "steps": [
+   {
+    "do": "down",
+    "button": "right"
+   },
+   {
+    "do": "up",
+    "button": "right"
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   }
+  ]
+ },
+ {
+  "label": "x-open-file",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "x-open-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "x-end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "x-home",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "x-click-sub-trigger",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=menubar-sub-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "x-click-sub-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "x-sub-escape-all",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "x-sub-escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "x-space-open",
+  "steps": [
+   {
+    "do": "press",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "x-space-open-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "x-close-click-trigger",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "x-close-click-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ }
+]

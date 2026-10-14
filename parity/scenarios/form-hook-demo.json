@@ -1,0 +1,99 @@
+[
+  {
+    "label": "submit-empty",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "type-valid",
+    "steps": [
+      {
+        "do": "type",
+        "target": "input[name=username]",
+        "text": "sh"
+      }
+    ]
+  },
+  {
+    "label": "type-bio-long",
+    "steps": [
+      {
+        "do": "type",
+        "target": "input[name=bio]",
+        "text": "a very long bio that is too long"
+      }
+    ]
+  },
+  {
+    "label": "submit-long",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "fix-bio",
+    "steps": [
+      {
+        "do": "press",
+        "target": "input[name=bio]",
+        "key": "ControlOrMeta+a"
+      },
+      {
+        "do": "type",
+        "target": "input[name=bio]",
+        "text": "short"
+      }
+    ]
+  },
+  {
+    "label": "submit-valid",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "click-label",
+    "reset": true,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=form-label]",
+        "nth": 1
+      }
+    ]
+  },
+  {
+    "label": "enter-submit",
+    "steps": [
+      {
+        "do": "type",
+        "target": "input[name=bio]",
+        "text": "x"
+      },
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  },
+  {
+    "label": "revalidate-invalid",
+    "steps": [
+      {
+        "do": "type",
+        "target": "input[name=username]",
+        "text": "abcdefghijk"
+      }
+    ]
+  }
+]

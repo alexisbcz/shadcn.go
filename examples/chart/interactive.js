@@ -30,3 +30,37 @@ define("chart-example-interactive", {
     return () => root.removeEventListener("click", onClick)
   },
 })
+
+// chart-area-interactive: the time range select filters the data with
+// upstream's date arithmetic (local-time setDate on a UTC date), so the
+// kept entries are the same as React's in every time zone. The full data
+// is the chart's initial data ("90d" keeps every entry of the example).
+define("chart-example-time-range", {
+  selector: '[data-slot="card"]:has(> [data-slot="card-header"] [data-slot="select-trigger"]):has([data-slot="chart"])',
+  mount(root) {
+    let all = null
+    const onChange = (e) => {
+      const chart = root.querySelector('[data-slot="chart"]')?.chart
+      if (!chart) return
+      const timeRange = e.detail?.value
+      chart.update((spec) => {
+        all ??= spec.props.data
+        spec.props.data = all.filter((item) => {
+          const date = new Date(item.date)
+          const referenceDate = new Date("2024-06-30")
+          let daysToSubtract = 90
+          if (timeRange === "30d") {
+            daysToSubtract = 30
+          } else if (timeRange === "7d") {
+            daysToSubtract = 7
+          }
+          const startDate = new Date(referenceDate)
+          startDate.setDate(startDate.getDate() - daysToSubtract)
+          return date >= startDate
+        })
+      })
+    }
+    root.addEventListener("shadcn:value-change", onChange)
+    return () => root.removeEventListener("shadcn:value-change", onChange)
+  },
+})

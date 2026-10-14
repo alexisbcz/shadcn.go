@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"sync"
+	"sync/atomic"
 
 	"shadcn.go/cn"
 	"shadcn.go/cva"
@@ -41,8 +42,9 @@ import (
 //
 // Sites mirror how the base source passes classes:
 //
-//	file.Cn("cn-card-header grid gap-1", style.Arg) // className={cn("cn-card-header ...", className)}
-//	file.Attr("cn-card-title")                      // className="cn-card-title"
+//	file.Cn("cn-card-header grid gap-1", style.Arg)  // className={cn("cn-card-header ...", className)}
+//	file.PropCn("cn-field-label flex", style.Arg)   // mergeProps({ className: cn("cn-field-label flex", className) }, props)
+//	file.Attr("cn-card-title")                       // className="cn-card-title"
 //
 // Resolution happens once per style, on first use, and is cached.
 type File struct {
@@ -78,6 +80,13 @@ type CVA struct {
 	defaults  cva.Selection
 	compounds []cva.Compound
 	resolved  [8]*cva.CVA
+	strings   [8]resolvedCVA
+}
+
+type resolvedCVA struct {
+	base      string
+	variants  []Variant
+	compounds []cva.Compound
 }
 
 // CVA declares the file's next cva(base, { variants, defaultVariants,
@@ -112,7 +121,7 @@ func (f *File) resolve(st Style) (int, map[string]bool) {
 			call, base, opts, comps := c.tree()
 			t.cvaCall(call)
 			sortTree([]*node{call})
-			c.resolved[i] = c.build(base, opts, comps)
+			c.resolved[i], c.strings[i] = c.build(base, opts, comps)
 		}
 		f.matched[i] = t.matched
 	})
@@ -151,20 +160,34 @@ func (c *CVA) tree() (call, base *node, opts [][]*node, comps []*node) {
 	return call, base, opts, comps
 }
 
-func (c *CVA) build(base *node, opts [][]*node, comps []*node) *cva.CVA {
+func (c *CVA) build(base *node, opts [][]*node, comps []*node) (*cva.CVA, resolvedCVA) {
 	cfg := cva.Config{Variants: cva.Variants{}, Defaults: c.defaults}
+	r := resolvedCVA{base: base.str}
 	for i, v := range c.variants {
 		m := map[string]string{}
+		rv := Variant{Name: v.Name}
 		for j, o := range v.Options {
 			m[o.Name] = opts[i][j].str
+			rv.Options = append(rv.Options, Option{Name: o.Name, Class: opts[i][j].str})
 		}
 		cfg.Variants[v.Name] = m
 		cfg.Order = append(cfg.Order, v.Name)
+		r.variants = append(r.variants, rv)
 	}
 	for i, cv := range c.compounds {
 		cfg.Compound = append(cfg.Compound, cva.Compound{When: cv.When, Class: comps[i].str})
 	}
-	return cva.New(base.str, cfg)
+	r.compounds = cfg.Compound
+	return cva.New(base.str, cfg), r
+}
+
+// Resolved returns the definition's strings as upstream's generated source
+// for style st has them: the base classes, each variant's options and the
+// compound variants.
+func (c *CVA) Resolved(st Style) (base string, variants []Variant, compounds []cva.Compound) {
+	i, _ := c.file.resolve(st)
+	r := c.strings[i]
+	return r.base, r.variants, r.compounds
 }
 
 // For returns the definition as upstream's generated source for style st
@@ -184,6 +207,8 @@ func (c *CVA) Classes(st Style, sel cva.Selection, extra ...string) string {
 // argPlaceholder is the type of Arg.
 type argPlaceholder struct{}
 
+func (argPlaceholder) String() string { return "style.Arg" }
+
 // Arg stands for a cn() argument that is not a string literal (the
 // className prop, a cva() result, a condition, ...): Site.Class takes its
 // value at render time. Upstream's transform leaves such arguments as they
@@ -198,6 +223,13 @@ type Site struct {
 	attr  bool  // className="..." (a literal attribute)
 	args  []any // string or Arg
 	slots int
+	// sorts is how many times prettier-plugin-tailwindcss sorts the call's
+	// literals: once for the call itself, once more for each enclosing
+	// className attribute or cn()/cva() call (each sorts every literal of its
+	// subtree). Sorting is not idempotent in general: trimming can expose a
+	// class, for one.
+	sorts int
+	used  atomic.Bool // resolved at least once: Enclosed is too late
 
 	once  [8]sync.Once
 	parts [8][]part
@@ -210,11 +242,52 @@ type part struct {
 	slot  int // -1 for a literal
 }
 
-// Cn declares a cn(args...) call of the file in a className attribute or
-// property (className={cn(...)}, className: cn(...), cn() calls nested in a
-// className expression). Each argument is a string literal of the base
-// source or Arg.
+// Cn declares a cn(args...) call of the file in a JSX className attribute:
+// className={cn(...)}, or a cn() call nested in a className attribute's
+// expression (className={x ? cn(...) : y}, composeRenderProps(className,
+// (c) => cn(...)), ...). Each argument is a string literal of the base
+// source or Arg. For a className: cn(...) property outside className
+// attributes, use PropCn.
 func (f *File) Cn(args ...any) *Site {
+	s := f.newCn("Cn", args)
+	s.sorts = 2 // the attribute, then the call
+	return s
+}
+
+// PropCn declares a className: cn(...) property of the file (in an object
+// literal: mergeProps arguments, render state, slot props ...) that is not
+// inside a className attribute. Arguments are as for Cn.
+func (f *File) PropCn(args ...any) *Site {
+	s := f.newCn("PropCn", args)
+	s.sorts = 1 // the call
+	return s
+}
+
+// Enclosed records that the site's cn() call sits inside n more cn() or
+// cva() calls (or, for a PropCn site, a className attribute), each of which
+// sorts the call's literals once more. It returns s; call it in the
+// declaration, before the site is first resolved.
+//
+//	// className={composeRenderProps(className, (c) => cn("a", c, cn("b")))}
+//	// (the transform handles both nested calls; cn("b") is also sorted by
+//	// the outer cn):
+//	var outer = file.Cn("a", style.Arg, style.Arg)
+//	var inner = file.Cn("b").Enclosed(1)
+//
+//	// mergeProps({ className: cn("c", className) }, props)
+//	var merged = file.PropCn("c", style.Arg)
+func (s *Site) Enclosed(n int) *Site {
+	if n < 0 || s.attr {
+		panic(fmt.Sprintf("style: %s: Enclosed(%d) on an attribute site or with a negative count", s.file.name, n))
+	}
+	if s.used.Load() {
+		panic(fmt.Sprintf("style: %s: Enclosed after the site was resolved; call it in the declaration", s.file.name))
+	}
+	s.sorts += n
+	return s
+}
+
+func (f *File) newCn(method string, args []any) *Site {
 	s := &Site{file: f}
 	for _, a := range args {
 		switch a := a.(type) {
@@ -224,7 +297,7 @@ func (f *File) Cn(args ...any) *Site {
 			s.args = append(s.args, a)
 			s.slots++
 		default:
-			panic(fmt.Sprintf("style: %s: Cn arguments are string literals or style.Arg, not %T", f.name, a))
+			panic(fmt.Sprintf("style: %s: %s arguments are string literals or style.Arg, not %T", f.name, method, a))
 		}
 	}
 	return s
@@ -237,6 +310,7 @@ func (f *File) Attr(class string) *Site {
 
 func (s *Site) resolve(st Style) []part {
 	i, matched := s.file.resolve(st)
+	s.used.Store(true)
 	s.once[i].Do(func() {
 		t := &transformer{styleMap: st.Map(), matched: matched}
 		var root *node
@@ -259,7 +333,10 @@ func (s *Site) resolve(st Style) []part {
 		}
 		root = &node{kind: kProp, name: "className", ident: true, value: call}
 		t.classNameProperty(root)
-		sortTree([]*node{root})
+		sortTree([]*node{root}) // the call's own pass
+		for k := 1; k < s.sorts; k++ {
+			sortExpression(root.value) // an enclosing attribute or call
+		}
 		parts := make([]part, 0, len(call.args))
 		for _, a := range root.value.args {
 			if a.kind == kStr {

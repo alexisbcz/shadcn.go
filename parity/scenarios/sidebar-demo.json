@@ -1,0 +1,161 @@
+[
+ {
+  "label": "hover-item",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sidebar-menu-button]",
+    "nth": 1,
+    "force": true
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "press-item",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sidebar-menu-button]",
+    "nth": 2,
+    "force": true
+   },
+   {
+    "do": "down"
+   }
+  ]
+ },
+ {
+  "label": "release-item",
+  "frames": false,
+  "steps": [
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "tab-items",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 600,
+    "y": 400
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "collapse-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "hover-trigger-collapsed",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sidebar-trigger]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "expand-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "collapse-ctrl-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+b"
+   }
+  ]
+ },
+ {
+  "label": "expand-meta-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+b"
+   }
+  ]
+ },
+ {
+  "label": "plain-b-ignored",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "b"
+   }
+  ]
+ },
+ {
+  "label": "ctrl-shift-b-ignored",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+Shift+B"
+   }
+  ]
+ },
+ {
+  "label": "trigger-keyboard",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=sidebar-trigger]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "trigger-space",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "cookie",
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.body.setAttribute('data-cookie', document.cookie)"
+   }
+  ]
+ }
+]

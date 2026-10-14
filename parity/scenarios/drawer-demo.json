@@ -234,23 +234,33 @@
   {
     "label": "early-drag",
     "reset": true,
+    "frames": false,
     "steps": [
       {
         "do": "click",
         "target": "[data-slot=drawer-trigger]"
       },
       {
-        "do": "drag",
-        "target": "[data-slot=drawer-title]",
-        "dx": 0,
-        "dy": 300
-      }
-    ]
-  },
-  {
-    "label": "early-settle",
-    "frames": false,
-    "steps": [
+        "do": "wait",
+        "ms": 100
+      },
+      {
+        "do": "mouse",
+        "x": 900,
+        "y": 740
+      },
+      {
+        "do": "down"
+      },
+      {
+        "do": "mouse",
+        "x": 900,
+        "y": 766,
+        "steps": 2
+      },
+      {
+        "do": "up"
+      },
       {
         "do": "wait",
         "ms": 700

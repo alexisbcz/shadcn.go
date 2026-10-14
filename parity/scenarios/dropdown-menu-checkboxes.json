@@ -1,0 +1,193 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "hover-checked",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-checkbox-item]",
+    "nth": 0
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "hover-disabled",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-checkbox-item]",
+    "nth": 1,
+    "force": true
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "click-disabled",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-checkbox-item]",
+    "nth": 1,
+    "force": true
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "uncheck-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-checkbox-item]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "uncheck-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "reopen-keyboard",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "arrow-skips-disabled",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-to-panel",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "space-check",
+  "steps": [
+   {
+    "do": "press",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "space-check-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "reopen-state",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "enter-check",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "enter-check-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "typeahead-open",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "typeahead-p",
+  "steps": [
+   {
+    "do": "press",
+    "key": "p"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ }
+]

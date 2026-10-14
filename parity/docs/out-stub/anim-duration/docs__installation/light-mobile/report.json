@@ -1,0 +1,162 @@
+{
+  "path": "/docs/installation",
+  "group": "docs",
+  "theme": "light",
+  "viewport": "mobile",
+  "ref": "http://localhost:4000",
+  "target": "http://127.0.0.1:51624",
+  "pass": false,
+  "captures": [
+    {
+      "label": "initial",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/installation",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Installation - shadcn/ui"
+      },
+      "ms": 262
+    },
+    {
+      "label": "mobile-menu-open",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          8,
+          8
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/installation",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Installation - shadcn/ui"
+      },
+      "ms": 583,
+      "stepsMs": 896
+    },
+    {
+      "label": "mobile-menu-close",
+      "pass": false,
+      "animations": {
+        "equal": false,
+        "count": [
+          5,
+          5
+        ],
+        "diff": [
+          "CSSAnimation exit @ html > body > div > div[data-slot=popover-content]: duration 100 vs 250"
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 63,
+          "pixels": 217149,
+          "regions": [
+            {
+              "pixels": 217149,
+              "box": [
+                9,
+                72,
+                373,
+                756
+              ]
+            }
+          ],
+          "at": [
+            "div.h-full.w-full > div[data-slot=docs] > div.flex.min-w-0 > div.mx-auto.flex > div.typeset.w-full > div.mt-6.grid > a.flex.w-full \"Use shadcn/createBuild your preset visua\""
+          ]
+        },
+        {
+          "t": 125,
+          "pixels": 195866,
+          "regions": [
+            {
+              "pixels": 195866,
+              "box": [
+                12,
+                75,
+                363,
+                738
+              ]
+            }
+          ],
+          "at": [
+            "div.h-full.w-full > div[data-slot=docs] > div.flex.min-w-0 > div.mx-auto.flex > div.typeset.w-full > div.mt-6.grid > a.flex.w-full \"Use shadcn/createBuild your preset visua\""
+          ]
+        },
+        {
+          "t": 188,
+          "pixels": 130314,
+          "regions": [
+            {
+              "pixels": 130314,
+              "box": [
+                15,
+                78,
+                357,
+                728
+              ]
+            }
+          ],
+          "at": [
+            "div.h-full.w-full > div[data-slot=docs] > div.flex.min-w-0 > div.mx-auto.flex > div.typeset.w-full > div.mt-6.grid > a.flex.w-full \"Use shadcn/createBuild your preset visua\""
+          ]
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/installation",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Installation - shadcn/ui"
+      },
+      "ms": 1757,
+      "stepsMs": 284
+    }
+  ],
+  "errors": {
+    "ref": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "target": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  "openMs": 2104
+}

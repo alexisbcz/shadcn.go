@@ -1,0 +1,352 @@
+[
+ {
+  "label": "open-click",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "hover-item",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=select-item]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "hover-label",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=select-label]"
+   }
+  ]
+ },
+ {
+  "label": "arrow-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "arrow-up",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "home",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "tab-trapped",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "typeahead",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "bl"
+   }
+  ]
+ },
+ {
+  "label": "select-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-item]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "reopen-selected",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "outside-click",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 20,
+    "y": 20
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-open-enter",
+  "reset": true,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-arrows",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "keyboard-select-space",
+  "steps": [
+   {
+    "do": "press",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "trigger-typeahead",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "p"
+   }
+  ]
+ },
+ {
+  "label": "trigger-typeahead-repeat",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1100
+   },
+   {
+    "do": "press",
+    "key": "b"
+   },
+   {
+    "do": "press",
+    "key": "b"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-open-arrow",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1100
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-select-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-open-space",
+  "steps": [
+   {
+    "do": "press",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "escape-close",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "drag-select",
+  "reset": true,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 470,
+    "steps": 5
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "v-right-click-no-open",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "down",
+    "button": "right"
+   },
+   {
+    "do": "up",
+    "button": "right"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "v-keyboard-open-arrowup",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "v-resize-closes",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "window.dispatchEvent(new Event('resize'))"
+   }
+  ]
+ },
+ {
+  "label": "v-reopen-for-blur",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "v-window-blur-closes",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "window.dispatchEvent(new Event('blur'))"
+   }
+  ]
+ },
+ {
+  "label": "v-modifier-no-typeahead",
+  "frames": false,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "press",
+    "key": "Control+b"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ }
+]

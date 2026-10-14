@@ -1,0 +1,21 @@
+[
+ {
+  "label": "collapse-ctrl-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+b"
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "expand-ctrl-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+b"
+   }
+  ]
+ }
+]

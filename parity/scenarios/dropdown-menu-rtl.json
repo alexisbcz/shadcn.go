@@ -1,0 +1,210 @@
+[
+ {
+  "label": "start-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-enter",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "arrow-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-right-no-open",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-left-opens",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "sub-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "sub-arrow-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-right-closes",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "close-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "hover-sub",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-sub-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "hover-sub-item",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-sub-content] [data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "hover-radio",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-radio-item]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "hover-radio-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "click-radio",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-radio-item]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "radio-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "reopen",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "escape-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-2-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ }
+]

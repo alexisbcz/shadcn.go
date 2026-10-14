@@ -34,6 +34,9 @@
 //     onEntryFocus: (event) => {},     // may call event.preventDefault()
 //     onCurrentTabStopChange: (item) => {},
 //     preventScrollOnEntryFocus: false,
+//     groupTabIndex: undefined,        // a number pins the group's own tabindex (Radix
+//                                      // menus: FocusScope's tabIndex=-1 overrides the
+//                                      // group's computed one); items stay managed
 //   })
 //   group.update()      // re-read focusable/active after the component changed state
 //   group.getItems()    // focusable or not, document order
@@ -99,6 +102,7 @@ export function wrapArray(array, startIndex) {
  *   onEntryFocus?: (event: Event) => void,
  *   preventScrollOnEntryFocus?: boolean,
  *   manageTabIndex?: boolean,
+ *   groupTabIndex?: number,
  * }} [options]
  */
 export function createRovingFocusGroup(root, options = {}) {
@@ -125,7 +129,7 @@ export function createRovingFocusGroup(root, options = {}) {
     const items = getItems()
     if (currentTabStop && !items.includes(currentTabStop)) currentTabStop = null
     const count = items.filter((item) => opts.focusable(item)).length
-    setTabIndex(root, isTabbingBackOut || count === 0 ? -1 : 0)
+    setTabIndex(root, typeof opts.groupTabIndex === "number" ? opts.groupTabIndex : isTabbingBackOut || count === 0 ? -1 : 0)
     for (const item of items) setTabIndex(item, item === currentTabStop ? 0 : -1)
   }
 

@@ -1,0 +1,294 @@
+[
+ {
+  "label": "open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "hover-sub",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-sub-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "type-filter",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "de"
+   }
+  ]
+ },
+ {
+  "label": "arrow-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "select-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "settle-reopen",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "reopen",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "hover-sub-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-sub-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "click-item",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=command-item]",
+    "nth": 4
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "settle-reopen-escape",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "reopen-escape",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "settle-kbd",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "kbd-open",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "kbd-arrows",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "kbd-sub-open",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "kbd-sub-close-arrowleft",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "kbd-sub-reopen-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "kbd-type",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "bug"
+   }
+  ]
+ },
+ {
+  "label": "kbd-select-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "settle-kbd-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "kbd-open-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "kbd-sub-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "press",
+    "key": "Escape"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ }
+]

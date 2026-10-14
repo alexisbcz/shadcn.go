@@ -373,5 +373,68 @@
     "key": "Shift+ArrowDown"
    }
   ]
+ },
+ {
+  "label": "month-typeahead",
+  "reset": true,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=calendar] .rdp-months_dropdown"
+   },
+   {
+    "do": "press",
+    "key": "m"
+   }
+  ]
+ },
+ {
+  "label": "tab-to-year",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "year-typeahead",
+  "steps": [
+   {
+    "do": "type",
+    "text": "2001"
+   }
+  ]
+ },
+ {
+  "label": "tab-to-grid",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-to-nav-next",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "enter-on-nav",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
  }
 ]

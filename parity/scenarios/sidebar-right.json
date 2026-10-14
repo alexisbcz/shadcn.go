@@ -1,0 +1,9 @@
+[
+  { "label": "expand-trigger", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=sidebar-trigger]" }] },
+  { "label": "hover-rail", "frames": false, "steps": [{ "do": "hover", "target": "[data-slot=sidebar-rail]", "force": true }] },
+  { "label": "collapse-rail", "steps": [{ "do": "click", "target": "[data-slot=sidebar-rail]", "force": true }] },
+  { "label": "hover-rail-collapsed", "frames": false, "steps": [{ "do": "hover", "target": "[data-slot=sidebar-rail]", "force": true }] },
+  { "label": "expand-ctrl-b", "steps": [{ "do": "mouse", "x": 300, "y": 400 }, { "do": "press", "key": "Control+b" }] },
+  { "label": "hover-item", "frames": false, "steps": [{ "do": "hover", "target": "[data-sidebar=menu-button]", "nth": 1, "force": true }] },
+  { "label": "collapse-meta-b", "steps": [{ "do": "mouse", "x": 300, "y": 400 }, { "do": "press", "key": "Meta+b" }] }
+]

@@ -146,6 +146,12 @@ function createDrawer(tpl) {
   let drawerHeight = 0
   let drawerWidth = 0
   let activeSnapPoint = snapPoints?.[0]
+  // drawerRef.current as vaul's Root last rendered it. useSnapPoints'
+  // snapToPoint is a useCallback depending on drawerRef.current, and an
+  // effect snaps to the active point whenever its identity changes: on the
+  // first Root render after the content mounted (the next open/close or
+  // drag start, as the content mounts in the Portal's own render).
+  let renderedDrawer = null
   let closeSnapTimer = null
   let scaleCleanup = null
   let bgTimer = null
@@ -217,8 +223,20 @@ function createDrawer(tpl) {
   function setActiveSnapPoint(p) {
     if (p === activeSnapPoint) return
     activeSnapPoint = p
+    renderedDrawer = drawerEl()
     renderSnap()
     // Effect: snap to the new active point.
+    const i = activeSnapPointIndex()
+    const offsets = snapPointsOffset()
+    if (i !== -1 && typeof offsets[i] === "number") snapToPoint(offsets[i])
+  }
+
+  // A render of vaul's Root that saw drawerRef.current = drawerAtRender,
+  // then its useSnapPoints effect.
+  function rootRender(drawerAtRender) {
+    if (drawerAtRender === renderedDrawer) return
+    renderedDrawer = drawerAtRender
+    if (!activeSnapPoint) return
     const i = activeSnapPointIndex()
     const offsets = snapPointsOffset()
     if (i !== -1 && typeof offsets[i] === "number") snapToPoint(offsets[i])
@@ -309,6 +327,7 @@ function createDrawer(tpl) {
   function setIsOpen(next) {
     next = !!next
     if (next === open) return
+    const drawerAtRender = drawerEl()
     open = next
     for (const t of triggers()) {
       t.setAttribute("aria-expanded", String(open))
@@ -328,6 +347,7 @@ function createDrawer(tpl) {
       for (const p of mounted.presences) p.setPresent(false)
     }
     onIsOpenChange()
+    rootRender(drawerAtRender)
   }
 
   // Effects of vaul's Root reacting to isOpen.
@@ -658,6 +678,7 @@ function createDrawer(tpl) {
     dragStartTime = new Date()
     event.target.setPointerCapture(event.pointerId)
     pointerStart = isVertical(direction) ? event.pageY : event.pageX
+    rootRender(drawer) // setIsDragging(true)
   }
 
   function shouldDrag(el, isDraggingInDirection) {

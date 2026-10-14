@@ -1,0 +1,258 @@
+[
+ {
+  "label": "hover-expanded-tooltip",
+  "reset": true,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sidebar=menu-button]",
+    "nth": 1,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "hover-action",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sidebar=menu-action]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "hover-rail",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sidebar-rail]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "collapse-rail",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-rail]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "hover-collapsed-tooltip",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sidebar=menu-button]",
+    "nth": 2,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "hover-next-tooltip",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sidebar=menu-button]",
+    "nth": 1,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   }
+  ]
+ },
+ {
+  "label": "focus-tooltip",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-sidebar=menu-button]",
+    "nth": 4
+   }
+  ]
+ },
+ {
+  "label": "escape-tooltip",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "focus-next-tooltip",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "click-closes-tooltip",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-sidebar=menu-button]",
+    "nth": 2,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "expand-trigger",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "type",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-input]"
+   },
+   {
+    "do": "type",
+    "text": "abc"
+   }
+  ]
+ },
+ {
+  "label": "ctrl-b-in-input",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+b"
+   }
+  ]
+ },
+ {
+  "label": "meta-b-in-input",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+b"
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "focus-action",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   },
+   {
+    "do": "focus",
+    "target": "[data-sidebar=menu-action]"
+   }
+  ]
+ },
+ {
+  "label": "press-active",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sidebar=menu-button]",
+    "nth": 1,
+    "force": true
+   },
+   {
+    "do": "down"
+   }
+  ]
+ },
+ {
+  "label": "release-active",
+  "frames": false,
+  "steps": [
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "hover-disabled",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sidebar=menu-button]",
+    "nth": 3,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "hover-sub",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sidebar=menu-sub-button]",
+    "nth": 1,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "collapse-ctrl-b",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   },
+   {
+    "do": "press",
+    "key": "Control+b"
+   }
+  ]
+ },
+ {
+  "label": "expand-meta-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+b"
+   }
+  ]
+ }
+]

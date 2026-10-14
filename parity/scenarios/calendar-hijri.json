@@ -291,5 +291,88 @@
     "target": "[data-slot=calendar] .rdp-button_previous"
    }
   ]
+ },
+ {
+  "label": "focus-day-2",
+  "reset": true,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=calendar] tbody button",
+    "nth": 15
+   }
+  ]
+ },
+ {
+  "label": "key-shift-pagedown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+PageDown"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-pageup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+PageUp"
+   }
+  ]
+ },
+ {
+  "label": "space-toggles",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "space-toggles-off",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-to-nav",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "enter-on-nav",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-to-prev-nav",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "space-on-prev-nav",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
  }
 ]

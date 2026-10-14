@@ -1,0 +1,17 @@
+[
+  { "label": "hover-open", "reset": true, "steps": [{ "do": "hover", "target": "[data-slot=navigation-menu-trigger]" }, { "do": "wait", "ms": 50 }] },
+  { "label": "hover-next-motion", "steps": [{ "do": "hover", "target": "[data-slot=navigation-menu-trigger]", "nth": 1 }, { "do": "wait", "ms": 30 }] },
+  { "label": "leave", "steps": [{ "do": "mouse", "x": 900, "y": 700 }, { "do": "wait", "ms": 250 }] },
+  { "label": "kb-focus", "frames": false, "steps": [{ "do": "focus", "target": "[data-slot=navigation-menu-trigger]" }] },
+  { "label": "kb-arrow-down-next", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }, { "do": "wait", "ms": 50 }] },
+  { "label": "kb-arrow-down-link", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }, { "do": "wait", "ms": 50 }] },
+  { "label": "kb-arrow-up", "frames": false, "steps": [{ "do": "press", "key": "ArrowUp" }, { "do": "wait", "ms": 50 }] },
+  { "label": "kb-home", "frames": false, "steps": [{ "do": "press", "key": "Home" }, { "do": "wait", "ms": 50 }] },
+  { "label": "kb-arrow-right-closed", "frames": false, "steps": [{ "do": "press", "key": "ArrowRight" }, { "do": "wait", "ms": 50 }] },
+  { "label": "kb-open", "steps": [{ "do": "press", "key": "Enter" }] },
+  { "label": "kb-arrow-right-entry", "frames": false, "steps": [{ "do": "press", "key": "ArrowRight" }, { "do": "wait", "ms": 50 }] },
+  { "label": "kb-content-down", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }, { "do": "wait", "ms": 50 }] },
+  { "label": "kb-content-end", "frames": false, "steps": [{ "do": "press", "key": "End" }, { "do": "wait", "ms": 50 }] },
+  { "label": "kb-content-up", "frames": false, "steps": [{ "do": "press", "key": "ArrowUp" }, { "do": "wait", "ms": 50 }] },
+  { "label": "kb-escape", "steps": [{ "do": "press", "key": "Escape" }] }
+]

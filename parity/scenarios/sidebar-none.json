@@ -1,0 +1,6 @@
+[
+  { "label": "hover-item", "reset": true, "frames": false, "steps": [{ "do": "hover", "target": "[data-sidebar=menu-button]", "nth": 1, "force": true }] },
+  { "label": "ctrl-b", "steps": [{ "do": "press", "key": "Control+b" }] },
+  { "label": "tab", "frames": false, "steps": [{ "do": "press", "key": "Tab" }, { "do": "press", "key": "Tab" }] },
+  { "label": "cookie", "frames": false, "steps": [{ "do": "eval", "js": "document.body.setAttribute('data-cookie', document.cookie)" }] }
+]

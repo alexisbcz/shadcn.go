@@ -1,0 +1,70 @@
+[
+ {
+  "label": "submit-off",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "switch-on",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=switch]"
+   }
+  ]
+ },
+ {
+  "label": "switch-off",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=switch]"
+   }
+  ]
+ },
+ {
+  "label": "submit-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "switch-space",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=switch]"
+   },
+   {
+    "do": "press",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "submit-on",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "reset",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=card-footer] button[type=button]"
+   }
+  ]
+ }
+]

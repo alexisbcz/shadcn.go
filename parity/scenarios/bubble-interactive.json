@@ -1,0 +1,309 @@
+[
+ {
+  "label": "hover-button-0",
+  "frames": true,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "hover-link-0",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "hover-button-1",
+  "frames": true,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "hover-link-1",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "hover-button-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 4
+   }
+  ]
+ },
+ {
+  "label": "hover-link-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 5
+   }
+  ]
+ },
+ {
+  "label": "hover-button-3",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 6
+   }
+  ]
+ },
+ {
+  "label": "hover-link-3",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 7
+   }
+  ]
+ },
+ {
+  "label": "hover-button-4",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 8
+   }
+  ]
+ },
+ {
+  "label": "hover-link-4",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 9
+   }
+  ]
+ },
+ {
+  "label": "hover-button-5",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 10
+   }
+  ]
+ },
+ {
+  "label": "hover-link-5",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 11
+   }
+  ]
+ },
+ {
+  "label": "hover-button-6",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 12
+   }
+  ]
+ },
+ {
+  "label": "hover-link-6",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-content]",
+    "nth": 13
+   }
+  ]
+ },
+ {
+  "label": "tab-1",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 740
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-3",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-4",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-5",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-6",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-7",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-8",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-9",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-10",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-11",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-12",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-13",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-14",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-reaction-button",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=bubble-reactions] button"
+   }
+  ]
+ }
+]

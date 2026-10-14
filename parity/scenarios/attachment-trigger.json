@@ -1,0 +1,14 @@
+[
+  { "label": "hover-card", "steps": [{ "do": "hover", "target": "[data-slot=attachment]", "nth": 0 }] },
+  { "label": "hover-action", "steps": [{ "do": "hover", "target": "[data-slot=attachment-action]", "nth": 1 }] },
+  { "label": "hover-link-card", "steps": [{ "do": "hover", "target": "[data-slot=attachment]", "nth": 1 }] },
+  { "label": "hover-submit-card", "frames": false, "steps": [{ "do": "hover", "target": "[data-slot=attachment]", "nth": 2 }] },
+  { "label": "tab-1", "steps": [{ "do": "mouse", "x": 1000, "y": 740 }, { "do": "press", "key": "Tab" }] },
+  { "label": "tab-2", "frames": false, "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "tab-3", "frames": false, "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "tab-4", "frames": false, "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "tab-5", "frames": false, "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "open-dialog", "steps": [{ "do": "click", "target": "[data-slot=attachment-trigger]", "nth": 0 }] },
+  { "label": "close-escape", "steps": [{ "do": "press", "key": "Escape" }] },
+  { "label": "action-click", "frames": false, "steps": [{ "do": "click", "target": "[data-slot=attachment-action]", "nth": 0 }] }
+]

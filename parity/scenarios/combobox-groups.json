@@ -1,0 +1,153 @@
+[
+ {
+  "label": "open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "input[role=combobox]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "type-gmt-1",
+  "steps": [
+   {
+    "do": "type",
+    "text": "GMT+1"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrowdown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "type-to",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+a"
+   },
+   {
+    "do": "type",
+    "text": "to"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "type-none",
+  "steps": [
+   {
+    "do": "type",
+    "text": "zzz"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "clear-query",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+a"
+   },
+   {
+    "do": "press",
+    "key": "Backspace"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrowup-last",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "open-addon",
+  "steps": [
+   {
+    "do": "click",
+    "target": "input[role=combobox]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "type-addon",
+  "steps": [
+   {
+    "do": "type",
+    "text": "o"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[role=option]",
+    "nth": 2
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[role=option]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "reopen-selected",
+  "steps": [
+   {
+    "do": "click",
+    "target": "input[role=combobox]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ }
+]

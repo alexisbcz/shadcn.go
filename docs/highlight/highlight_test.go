@@ -2,8 +2,12 @@ package highlight
 
 import (
 	"compress/gzip"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"os"
+	"runtime"
+	"sync"
 	"testing"
 
 	"shadcn.go/docs/hast"
@@ -41,20 +45,32 @@ func TestBlocks(t *testing.T) {
 	}
 	blocks := loadBlocks(t)
 	failed := 0
+	var wg sync.WaitGroup
+	var mu sync.Mutex
+	sem := make(chan struct{}, runtime.GOMAXPROCS(0))
 	for i, b := range blocks {
-		el, err := h.Block(b.Code, b.Lang, b.Meta)
-		if err != nil {
-			t.Errorf("block %d (%s %q): %v", i, b.Lang, b.Meta, err)
-			failed++
-			continue
-		}
-		if got := hast.ToHTML(el); got != b.HTML {
-			failed++
-			if failed <= 5 {
-				t.Errorf("block %d (%s %q) differs:\n got: %s\nwant: %s", i, b.Lang, b.Meta, firstDiff(got, b.HTML), firstDiff(b.HTML, got))
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			sem <- struct{}{}
+			defer func() { <-sem }()
+			el, err := h.Block(b.Code, b.Lang, b.Meta)
+			mu.Lock()
+			defer mu.Unlock()
+			if err != nil {
+				t.Errorf("block %d (%s %q): %v", i, b.Lang, b.Meta, err)
+				failed++
+				return
 			}
-		}
+			if got := hast.ToHTML(el); got != b.HTML {
+				failed++
+				if failed <= 5 {
+					t.Errorf("block %d (%s %q) differs:\n got: %s\nwant: %s", i, b.Lang, b.Meta, firstDiff(got, b.HTML), firstDiff(b.HTML, got))
+				}
+			}
+		}()
 	}
+	wg.Wait()
 	t.Logf("%d blocks, %d identical, %d different", len(blocks), len(blocks)-failed, failed)
 }
 
@@ -66,4 +82,160 @@ func firstDiff(a, b string) string {
 	lo := max(i-150, 0)
 	hi := min(i+150, len(a))
 	return a[lo:hi]
+}
+
+// TestCode runs Code (lib/highlight-code.ts's highlightCode) on the 792
+// sources of testdata/code.json.gz (every radix example, every radix-nova
+// component, the style sheets and the radix-nova registry items), in
+// parallel, and requires byte-identical HTML to the docs' own function
+// (written by docs/oracle/highlight-code.mjs).
+func TestCode(t *testing.T) {
+	f, err := os.Open("testdata/code.json.gz")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+	zr, err := gzip.NewReader(f)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var list []struct{ Path, Lang, Code, HTML string }
+	if err := json.NewDecoder(zr).Decode(&list); err != nil {
+		t.Fatal(err)
+	}
+	h, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	var wg sync.WaitGroup
+	var mu sync.Mutex
+	failed := 0
+	sem := make(chan struct{}, runtime.GOMAXPROCS(0))
+	for _, it := range list {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			sem <- struct{}{}
+			defer func() { <-sem }()
+			got, err := h.Code(it.Code, it.Lang)
+			mu.Lock()
+			defer mu.Unlock()
+			if err != nil {
+				failed++
+				t.Errorf("%s: %v", it.Path, err)
+				return
+			}
+			if got != it.HTML {
+				failed++
+				if failed <= 5 {
+					t.Errorf("%s differs:\n got: %s\nwant: %s", it.Path, firstDiff(got, it.HTML), firstDiff(it.HTML, got))
+				}
+			}
+		}()
+	}
+	wg.Wait()
+	t.Logf("%d sources, %d identical, %d different", len(list), len(list)-failed, failed)
+}
+
+// TestCodeExtended runs Code on testdata/code-extended.json.gz (written by
+// `node docs/oracle/highlight-code.mjs --extended`): the base and aria
+// examples, the base-nova, aria-nova and rhea components ComponentSource
+// shows on the docs pages, and a seeded sample of registry files (blocks,
+// charts, other styles). The expected HTML is stored as its SHA-256.
+func TestCodeExtended(t *testing.T) {
+	if testing.Short() {
+		t.Skip("slow")
+	}
+	f, err := os.Open("testdata/code-extended.json.gz")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+	zr, err := gzip.NewReader(f)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var list []struct{ Path, Lang, Code, SHA256 string }
+	if err := json.NewDecoder(zr).Decode(&list); err != nil {
+		t.Fatal(err)
+	}
+	h, err := New()
+	if err != nil {
+		t.Fatal(err)
+	}
+	var wg sync.WaitGroup
+	var mu sync.Mutex
+	failed := 0
+	sem := make(chan struct{}, runtime.GOMAXPROCS(0))
+	for _, it := range list {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			sem <- struct{}{}
+			defer func() { <-sem }()
+			got, err := h.Code(it.Code, it.Lang)
+			sum := sha256.Sum256([]byte(got))
+			mu.Lock()
+			defer mu.Unlock()
+			if err != nil {
+				failed++
+				t.Errorf("%s: %v", it.Path, err)
+				return
+			}
+			if hex.EncodeToString(sum[:]) != it.SHA256 {
+				failed++
+				if failed <= 5 {
+					t.Errorf("%s differs", it.Path)
+				}
+			}
+		}()
+	}
+	wg.Wait()
+	t.Logf("%d sources, %d identical, %d different", len(list), len(list)-failed, failed)
+}
+
+// TestConcurrent highlights the same blocks from many goroutines through a
+// small runtime pool (run it with -race): every result must equal the
+// sequential one, cached or not.
+func TestConcurrent(t *testing.T) {
+	blocks := loadBlocks(t)[:40]
+	h, err := NewWithRuntimes(3)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var wg sync.WaitGroup
+	for g := 0; g < 8; g++ {
+		wg.Add(1)
+		go func(g int) {
+			defer wg.Done()
+			for i := range blocks {
+				b := blocks[(i+g*5)%len(blocks)]
+				el, err := h.Block(b.Code, b.Lang, b.Meta)
+				if err != nil {
+					t.Error(err)
+					return
+				}
+				if hast.ToHTML(el) != b.HTML {
+					t.Errorf("block (%s %q) differs under concurrency", b.Lang, b.Meta)
+				}
+			}
+		}(g)
+	}
+	wg.Wait()
+}
+
+// TestLanguages: a language shiki bundles but the vendored bundle lacks
+// must fail (upstream would load and highlight it); a name shiki does not
+// know falls back to plain text, as upstream does.
+func TestLanguages(t *testing.T) {
+	h, err := Default()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := h.Block("puts 1", "ruby", ""); err == nil {
+		t.Error("ruby: expected an error")
+	}
+	if _, err := h.Block("x", "unknownlang", ""); err != nil {
+		t.Errorf("unknownlang: %v", err)
+	}
 }

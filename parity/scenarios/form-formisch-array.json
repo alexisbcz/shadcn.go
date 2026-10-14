@@ -1,0 +1,149 @@
+[
+ {
+  "label": "submit-empty",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "type-first",
+  "steps": [
+   {
+    "do": "type",
+    "target": "input[type=email]",
+    "text": "bad@x"
+   }
+  ]
+ },
+ {
+  "label": "blur-first",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "add",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-group] > [data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "type-new",
+  "steps": [
+   {
+    "do": "type",
+    "target": "input[type=email] >> nth=-1",
+    "text": "me@example.com"
+   }
+  ]
+ },
+ {
+  "label": "submit-mixed",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "remove-first",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-addon] button",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "add-more",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-group] > [data-slot=button]"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=field-group] > [data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "add-to-five",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=field-group] > [data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "remove-middle",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-addon] button",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "fix-all",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "0"
+   }
+  ]
+ },
+ {
+  "label": "reset",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=card-footer] button[type=button]"
+   }
+  ]
+ },
+ {
+  "label": "valid-submit",
+  "reset": true,
+  "steps": [
+   {
+    "do": "type",
+    "target": "input[type=email]",
+    "text": "a@example.com"
+   },
+   {
+    "do": "type",
+    "target": "input[type=email] >> nth=1",
+    "text": "b@example.com"
+   },
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "remove-to-one",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-addon] button",
+    "nth": 1
+   }
+  ]
+ }
+]

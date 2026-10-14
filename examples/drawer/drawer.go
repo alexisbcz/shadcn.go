@@ -41,6 +41,7 @@ func init() {
 		ex("drawer-demo", Demo),
 		ex("drawer-dialog", DialogExample),
 		ex("drawer-directions", Directions),
+		ex("drawer-options", Options),
 	)
 }
 
@@ -251,4 +252,55 @@ func Directions() h.Node {
 		),
 	))
 	return h.Div(append([]any{h.Class("flex flex-wrap items-center gap-2")}, items...)...)
+}
+
+// Options is the parity fixture drawer-options: snap points, a drawer that
+// cannot be dismissed, background scaling and handle-only dragging.
+func Options() h.Node {
+	closeFooter := func() h.Node {
+		return drawer.Footer(drawer.Close(lib.AsChild, button.Button(button.VariantOutline, "Close")))
+	}
+	return h.Div(h.Data("vaul-drawer-wrapper", ""), h.Class("bg-background flex flex-wrap items-center gap-2 p-4"),
+		drawer.Drawer(drawer.SnapPoints("240px", 1),
+			drawer.Trigger(lib.AsChild, button.Button(button.VariantOutline, "Snap")),
+			drawer.Content(h.Class("h-full"),
+				drawer.Header(
+					drawer.Title("Snap points"),
+					drawer.Description("Opens at 240px, drag up to expand."),
+				),
+				closeFooter(),
+			),
+		),
+		drawer.Drawer(drawer.Dismissible(false),
+			drawer.Trigger(lib.AsChild, button.Button(button.VariantOutline, "Locked")),
+			drawer.Content(
+				drawer.Header(
+					drawer.Title("Not dismissible"),
+					drawer.Description("Only the button closes it."),
+				),
+				closeFooter(),
+			),
+		),
+		drawer.Drawer(drawer.ShouldScaleBackground,
+			drawer.Trigger(lib.AsChild, button.Button(button.VariantOutline, "Scale")),
+			drawer.Content(
+				drawer.Header(
+					drawer.Title("Scaled background"),
+					drawer.Description("The page shrinks behind the drawer."),
+				),
+				closeFooter(),
+			),
+		),
+		drawer.Drawer(drawer.HandleOnly,
+			drawer.Trigger(lib.AsChild, button.Button(button.VariantOutline, "Handle")),
+			drawer.Content(
+				drawer.Handle(h.Class("mt-2")),
+				drawer.Header(
+					drawer.Title("Handle only"),
+					drawer.Description("Drag the handle to close."),
+				),
+				closeFooter(),
+			),
+		),
+	)
 }

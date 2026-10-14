@@ -44,6 +44,7 @@ func TestStyleRejectsInjection(t *testing.T) {
 		{{Key: "a", Color: "red;} body{display:none"}},
 		{{Key: "a b", Color: "red"}},
 		{{Key: "a", Color: "</style><script>"}},
+		{{Key: "a", Color: "red /* unterminated"}},
 	} {
 		if err := Container(c, BarChart()).Render(&bytes.Buffer{}); err == nil {
 			t.Fatalf("config %+v rendered", c)
@@ -51,6 +52,18 @@ func TestStyleRejectsInjection(t *testing.T) {
 		if _, err := c.css("chart-x"); err == nil {
 			t.Fatalf("config %+v accepted", c)
 		}
+	}
+}
+
+func TestIDRejectsInjection(t *testing.T) {
+	for _, id := range []ID{"x] { } body { display: none } [a", "</style><script>", "a b"} {
+		if err := Container(Config{{Key: "a", Color: "red"}}, id, BarChart()).Render(&bytes.Buffer{}); err == nil {
+			t.Errorf("id %q rendered", id)
+		}
+	}
+	out := render(t, Container(Config{{Key: "a", Color: "red"}}, ID(":r1:"), BarChart()))
+	if !strings.Contains(out, `data-chart="chart-r1"`) || !strings.Contains(out, "[data-chart=chart-r1]") {
+		t.Errorf("id with colons:\n%s", out)
 	}
 }
 
@@ -119,5 +132,17 @@ func TestTooltipClasses(t *testing.T) {
 	}
 	if got := c["item"]; got != "flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground" {
 		t.Errorf("item = %q", got)
+	}
+}
+
+func TestBuilderMethods(t *testing.T) {
+	out := render(t, Container(Config{{Key: "a", Color: "red"}}, BarChart()).ID("sales").Nonce("abc").InitialDimension(400, 300))
+	for _, want := range []string{`data-chart="chart-sales"`, `[data-chart=chart-sales]`, `<style nonce="abc">`, `"initialDimension":{"height":300,"width":400}`} {
+		if !strings.Contains(out, want) {
+			t.Errorf("missing %s in\n%s", want, out)
+		}
+	}
+	if strings.Contains(out, `id="sales"`) {
+		t.Errorf("chart id leaked to the div's id attribute:\n%s", out)
 	}
 }

@@ -157,5 +157,106 @@
     "target": "[data-slot=carousel-next]"
    }
   ]
+ },
+ {
+  "label": "flick-up",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 200
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 160,
+    "steps": 2
+   },
+   {
+    "do": "up"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "flick-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 120
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 160,
+    "steps": 2
+   },
+   {
+    "do": "up"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "focus-next-enter",
+  "frames": false,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=carousel-next]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "space-on-next",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "arrow-up-ignored",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
  }
 ]

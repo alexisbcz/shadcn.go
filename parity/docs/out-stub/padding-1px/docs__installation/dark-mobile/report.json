@@ -1,0 +1,50 @@
+{
+  "path": "/docs/installation",
+  "group": "docs",
+  "theme": "dark",
+  "viewport": "mobile",
+  "ref": "http://localhost:4000",
+  "target": "http://127.0.0.1:51046",
+  "pass": false,
+  "captures": [
+    {
+      "label": "initial",
+      "pass": false,
+      "retries": 3,
+      "pixels": 1464,
+      "regions": [
+        {
+          "pixels": 1464,
+          "box": [
+            26,
+            86,
+            151,
+            23
+          ]
+        }
+      ],
+      "at": [
+        "div[data-slot=docs] > div.flex.min-w-0 > div.mx-auto.flex > div.flex.flex-col > div.flex.flex-col > div.flex.items-center > h1.scroll-m-24.text-3xl \"Installation\""
+      ],
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/installation",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Installation - shadcn/ui"
+      },
+      "ms": 1332
+    }
+  ],
+  "errors": {
+    "ref": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "target": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  "openMs": 1383
+}

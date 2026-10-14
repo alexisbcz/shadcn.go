@@ -8,8 +8,11 @@
 // data-chart-spec>. This module measures the container, then renders the
 // exact SVG recharts renders: same elements, attributes, z-index layers,
 // text measurements, tick selection, scales, curves, animations (driven by
-// requestAnimationFrame with recharts' own easing), tooltip (mouse,
-// keyboard, Escape), cursor, active dots and legend.
+// requestAnimationFrame with recharts' own easing), tooltip (mouse, touch,
+// click, bar item enter/leave, keyboard, Escape), cursor, active dots and
+// legend. Like ResponsiveContainer, a container measured at a non-positive
+// size unmounts the chart, which mounts afresh once it has a size. The
+// spec <script> is removed once read (React renders none).
 //
 // The numeric parts of recharts that do not depend on React (d3 scales and
 // shapes, nice ticks, getTicks, stacking, bar positions, tooltip
@@ -597,7 +600,16 @@ class Animation {
     this.beginTime = null
     // timeline: [onAnimationStart, begin, onAnimationActive, duration, onAnimationEnd]
     this.queue = ["wait", this.begin > 0 ? { delay: this.begin } : "wait", "active"]
+    // RequestAnimationFrameTimeoutController: every step (and every timing
+    // frame) is a setTimeout that records performance.now() when it is
+    // scheduled and fires on the first frame whose rAF timestamp is at
+    // least that start plus the delay.
+    this.gate(0)
     chart.scheduleFrame()
+  }
+  gate(delay) {
+    this.gateStart = performance.now()
+    this.gateDelay = delay
   }
   stop() {
     this.stopped = true
@@ -610,9 +622,10 @@ class Animation {
       this.finish()
       return false
     }
+    if (now - this.gateStart < this.gateDelay) return true
     if (this.queue.length) {
       const step = this.queue[0]
-      if (step === "wait") this.queue.shift()
+      if (step === "wait" || step.delay != null) this.queue.shift()
       else if (step === "active") {
         this.queue.shift()
         this.activeAt = now
@@ -622,20 +635,25 @@ class Animation {
         this.beginTime = now
         this.endTimer = now
         this.t = 0
-      } else if (step.delay != null) {
-        if (step.start == null) step.start = now
-        if (now - step.start >= step.delay) this.queue.shift()
       }
+      this.gate(this.queue[0]?.delay ?? 0)
       return true
     }
+    if (this.ending) {
+      // The animation manager's end callback runs on a frame after the
+      // last tick (its timer starts after the first tick's timestamp).
+      this.finish()
+      return false
+    }
     const raw = (now - this.beginTime) / this.duration
+    this.gate(0)
     if (raw < 1) {
       this.t = this.easing(raw)
       return true
     }
     this.t = this.easing(1)
-    this.finish()
-    return false
+    this.ending = true
+    return true
   }
   finish() {
     this.done = true
@@ -1884,6 +1902,7 @@ export class CartesianChart {
       return { ...entry, width: R.interpolate(0, entry.width, t), x: R.interpolate(entry.stackedBarStart, entry.x, t) }
     })
     if (t > 0) rec.prev = stepData ?? null
+    ;(this.barEntries ??= new Map()).set(item.id, stepData)
     const baseProps = omit(svgProps(allProps), ["id"])
     const rectangles = stepData.map((entry, i) =>
       Layer(
@@ -2131,12 +2150,20 @@ export class CartesianChart {
     const contentEl = this.tooltipContent ? renderTooltipContent(this.tooltipContent.props, { active: finalIsActive, payload, label: active.label, config: this.config, icons: this.icons }) : null
     patchChildren(div, contentEl ? [contentEl] : [])
     this.emitTooltip(finalIsActive, active)
-    this.layoutTooltip(state, active.coordinate, finalIsActive, hasPayload)
+    // useElementOffset([payload, finalIsActive]): the bounding box is read
+    // by a callback ref, which React calls again only when its deps change:
+    // the payload (memoized on the item settings, data, active index and
+    // label), finalIsActive or the last box.
+    const deps = [JSON.stringify(this.items.map((item) => this.tooltipEntrySettings(item))), this.data, active.index, active.label, finalIsActive]
+    const prev = this.tooltipMeasureDeps
+    const measure = !prev || deps.some((d, i) => d !== prev[i])
+    this.tooltipMeasureDeps = deps
+    this.layoutTooltip(state, active.coordinate, finalIsActive, hasPayload, measure)
   }
 
   // TooltipBoundingBox: position from the last measured box; re-measures
   // and repositions (the change animates through the CSS transition).
-  layoutTooltip(state, coordinate, active, hasPayload) {
+  layoutTooltip(state, coordinate, active, hasPayload, measure = true) {
     const tp = this.tooltipProps
     const div = this.tooltipWrapper
     const ts = this.tooltipState
@@ -2149,6 +2176,7 @@ export class CartesianChart {
       syncElement(div, { xmlns: "http://www.w3.org/1999/xhtml", tabIndex: -1, className: cssClasses }, style)
     }
     apply()
+    if (!measure) return
     // useElementOffset: measure, update if changed by more than 1px.
     const rect = div.getBoundingClientRect()
     const box = { height: rect.height, left: rect.left, top: rect.top, width: rect.width }
@@ -2300,18 +2328,87 @@ export class CartesianChart {
         raf = null
         if (!latest || !this.state) return
         const props = this.activePropsFromPointer(this.state, latest)
-        if (props?.activeIndex != null) this.tooltipState.hover = { active: true, index: props.activeIndex, dataKey: undefined, coordinate: props.activeCoordinate }
-        else this.tooltipState.hover = { ...this.tooltipState.hover, active: false }
+        if (props?.activeIndex != null) {
+          // setMouseOverAxisIndex
+          this.tooltipState.hover = { active: true, index: props.activeIndex, dataKey: undefined, coordinate: props.activeCoordinate }
+          this.tooltipState.keyboard = { ...this.tooltipState.keyboard, active: false }
+        } else this.tooltipState.hover = { ...this.tooltipState.hover, active: false }
         this.render()
       })
     }
     w.addEventListener("mouseenter", move)
     w.addEventListener("mousemove", move)
+    // mouseLeaveChart clears the active flags only; like recharts, a pending
+    // (rAF-throttled) move still applies afterwards.
     w.addEventListener("mouseleave", () => {
-      if (raf !== null) cancelAnimationFrame(raf)
-      raf = null
-      latest = null
       this.tooltipState.hover = { ...this.tooltipState.hover, active: false }
+      if (this.tooltipState.item) this.tooltipState.item = { ...this.tooltipState.item, active: false }
+      this.render()
+    })
+    // touchEventAction (axis tooltips): the first touch, rAF-throttled,
+    // activates the axis hover like a mouse move; outside the plot area
+    // nothing changes.
+    let touchRaf = null
+    let latestTouch = null
+    w.addEventListener(
+      "touchmove",
+      (e) => {
+        if (!e.touches || e.touches.length === 0) return
+        latestTouch = pointer(e.touches[0])
+        if (touchRaf !== null) cancelAnimationFrame(touchRaf)
+        touchRaf = requestAnimationFrame(() => {
+          touchRaf = null
+          if (!latestTouch || !this.state) return
+          const props = this.activePropsFromPointer(this.state, latestTouch)
+          if (props?.activeIndex == null) return
+          this.tooltipState.hover = { active: true, index: props.activeIndex, dataKey: undefined, coordinate: props.activeCoordinate }
+          this.tooltipState.keyboard = { ...this.tooltipState.keyboard, active: false }
+          this.render()
+        })
+      },
+      { passive: true },
+    )
+    // Bar rectangles' item events (useMouseEnterItemDispatch,
+    // useMouseLeaveItemDispatch). React emulates mouseenter/mouseleave from
+    // mouseout (with relatedTarget), or from mouseover when the pointer comes
+    // from outside. setActiveMouseOverItemIndex also deactivates the
+    // keyboard interaction, which an axis tooltip shows.
+    const barRect = (el) => (el instanceof Element ? el.closest(".recharts-bar-rectangle") : null)
+    const enterBar = (g) => {
+      const bar = g.closest(".recharts-bar")
+      const item = this.items.find((i) => i.id === bar?.id)
+      if (!item) return
+      const index = [...g.parentNode.children].filter((c) => c.classList.contains("recharts-bar-rectangle")).indexOf(g)
+      const entry = this.barEntries?.get(item.id)?.[index]
+      this.tooltipState.item = { active: true, index: String(index), dataKey: item.props.dataKey, graphicalItemId: item.id, coordinate: entry?.tooltipPosition }
+      this.tooltipState.keyboard = { ...this.tooltipState.keyboard, active: false }
+      this.render()
+    }
+    const leaveBar = () => {
+      if (!this.tooltipState.item?.active) return
+      this.tooltipState.item = { ...this.tooltipState.item, active: false }
+      this.render()
+    }
+    w.addEventListener("mouseout", (e) => {
+      const from = barRect(e.target)
+      const to = w.contains(e.relatedTarget) ? barRect(e.relatedTarget) : null
+      if (from === to) return
+      if (from) leaveBar()
+      if (to) enterBar(to)
+    })
+    w.addEventListener("mouseover", (e) => {
+      if (e.relatedTarget && w.contains(e.relatedTarget)) return
+      const to = barRect(e.target)
+      if (to) enterBar(to)
+    })
+    // mouseClickAction -> setMouseClickAxisIndex (not throttled): the click
+    // interaction is recorded and the keyboard interaction deactivated.
+    w.addEventListener("click", (e) => {
+      if (!this.state) return
+      const props = this.activePropsFromPointer(this.state, pointer(e))
+      if (props?.activeIndex == null) return
+      this.tooltipState.click = { active: true, index: props.activeIndex, dataKey: undefined, coordinate: props.activeCoordinate }
+      this.tooltipState.keyboard = { ...this.tooltipState.keyboard, active: false }
       this.render()
     })
     w.addEventListener("focusin", () => {
@@ -2615,9 +2712,22 @@ export function getCartesianPosition({ viewBox, position, offset = 0, parentView
 }
 
 // Renders a spec subtree of raw SVG (user <defs>): {type, props, children}.
+// Elements a chart's <defs> may hold (gradients, patterns, clip paths,
+// masks, filters and the shapes inside them). Anything else (script,
+// foreignObject, a, ...) is dropped, as are event handler attributes and
+// javascript: URLs, which React would never let run either.
+const DEFS_TAGS = new Set("defs linearGradient radialGradient stop pattern clipPath mask filter symbol g rect circle ellipse line path polygon polyline text tspan title desc feBlend feColorMatrix feComponentTransfer feComposite feConvolveMatrix feDiffuseLighting feDisplacementMap feDistantLight feDropShadow feFlood feFuncA feFuncB feFuncG feFuncR feGaussianBlur feImage feMerge feMergeNode feMorphology feOffset fePointLight feSpecularLighting feSpotLight feTile feTurbulence".split(" "))
+
 function renderSpecSvg(node) {
   if (typeof node === "string") return document.createTextNode(node)
-  const el = h(node.type, node.props ?? {})
+  if (!node || !DEFS_TAGS.has(node.type)) return document.createTextNode("")
+  const props = {}
+  for (const [k, v] of Object.entries(node.props ?? {})) {
+    if (/^on/i.test(k)) continue
+    if (/href$/i.test(k) && /^javascript:/i.test(String(v).replace(/[\u0000-\u0020]/g, ""))) continue
+    props[k] = v
+  }
+  const el = h(node.type, props)
   for (const c of node.children ?? []) el.appendChild(renderSpecSvg(c))
   return el
 }
@@ -2743,19 +2853,29 @@ class IdScope {
 }
 
 let pageIdBase = 0
+const payloads = new WeakMap()
 
 define("chart", {
   selector: '[data-slot="chart"]',
   mount(root) {
+    // The spec <script> is removed once read: React renders no script in
+    // the container, and hide-others (aria-hidden) keeps every <script>
+    // and its ancestors visible, so a leftover script would change which
+    // elements a modal (dialog, select, ...) marks aria-hidden. The
+    // payload is kept for remounts.
+    let payload = payloads.get(root)
     const script = root.querySelector(":scope > script[data-chart-spec]")
-    if (!script) return
-    let payload
-    try {
-      payload = JSON.parse(script.textContent)
-    } catch (e) {
-      console.error("[shadcn] chart: invalid spec", e)
-      return
+    if (script) {
+      try {
+        payload = JSON.parse(script.textContent)
+      } catch (e) {
+        console.error("[shadcn] chart: invalid spec", e)
+        return
+      }
+      payloads.set(root, payload)
+      script.remove()
     }
+    if (!payload) return
     // The <style> needs the page's CSP nonce; recreate it with the nonce
     // when the server could not set one.
     const style = root.querySelector(":scope > style")
@@ -2795,7 +2915,7 @@ define("chart", {
     if (!responsive || !inner) return
     pageIdBase += 1 + countItems(payload.spec)
     const ctx = { config, icons }
-    const chart = new Instance(root, payload.spec, ctx, ids)
+    let chart = new Instance(root, payload.spec, ctx, ids)
     chart.mountSkeleton(inner)
     const initial = payload.initialDimension ?? { width: 320, height: 200 }
     let size = { width: initial.width, height: initial.height }
@@ -2806,21 +2926,44 @@ define("chart", {
       size = { width, height }
       return true
     }
+    // ResponsiveContainerContextProvider renders nothing for a non-positive
+    // size: the chart unmounts (store, tooltip state, animations) and mounts
+    // afresh, from the registration passes on, once the size is positive.
+    const acceptable = () => size.width > 0 && size.height > 0
     const r = responsive.getBoundingClientRect()
     setContainerSize(r.width, r.height)
     chart.setSize(size.width, size.height)
     chart.mountSequence()
+    let unmounted = !acceptable()
     const ro = new ResizeObserver((entries) => {
       const e = entries[0]
       if (!e) return
-      if (setContainerSize(e.contentRect.width, e.contentRect.height)) {
+      if (!setContainerSize(e.contentRect.width, e.contentRect.height)) return
+      if (!acceptable()) {
+        unmounted = true
         chart.setSize(size.width, size.height)
-        chart.commit()
+        chart.render()
+        return
       }
+      if (unmounted) {
+        unmounted = false
+        const spec = chart.spec
+        chart.destroy()
+        chart.wrapper?.remove()
+        chart = new Instance(root, spec, ctx, ids)
+        chart.mountSkeleton(inner)
+        chart.setSize(size.width, size.height)
+        chart.mountSequence()
+        return
+      }
+      chart.setSize(size.width, size.height)
+      chart.commit()
     })
     ro.observe(responsive)
     root.chart = {
-      instance: chart,
+      get instance() {
+        return chart
+      },
       spec: () => structuredClone(chart.spec),
       setSpec(spec) {
         chart.setSpec(spec)

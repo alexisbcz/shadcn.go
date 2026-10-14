@@ -1,0 +1,279 @@
+{
+  "path": "/",
+  "group": "app",
+  "theme": "dark",
+  "viewport": "laptop",
+  "ref": "http://localhost:4000",
+  "target": "http://127.0.0.1:60422",
+  "pass": true,
+  "captures": [
+    {
+      "label": "initial",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 364
+    },
+    {
+      "label": "theme-toggle",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          0,
+          0
+        ]
+      },
+      "frames": [],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 531,
+      "stepsMs": 397
+    },
+    {
+      "label": "theme-shortcut-d",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          0,
+          0
+        ]
+      },
+      "frames": [],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 398,
+      "stepsMs": 306
+    },
+    {
+      "label": "search-open-click",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          6,
+          6
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 1027,
+      "stepsMs": 465
+    },
+    {
+      "label": "search-type",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 429,
+      "stepsMs": 1618
+    },
+    {
+      "label": "search-arrow",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 429,
+      "stepsMs": 432
+    },
+    {
+      "label": "search-close",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          1,
+          1
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 762,
+      "stepsMs": 393
+    },
+    {
+      "label": "search-cmdk",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          1,
+          1
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 742,
+      "stepsMs": 395
+    },
+    {
+      "label": "search-cmdk-close",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          1,
+          1
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "shadcn/ui - The Foundation for your Design System"
+      },
+      "ms": 651,
+      "stepsMs": 331
+    }
+  ],
+  "errors": {
+    "ref": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "target": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  "openMs": 11924
+}

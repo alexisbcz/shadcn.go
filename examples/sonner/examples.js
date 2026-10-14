@@ -44,13 +44,19 @@ const handlers = {
 }
 
 define("example-sonner", {
-  // Buttons of the example previews, on pages that have a toaster.
-  selector: '[data-slot="button"]',
-  mount(button) {
-    if (!document.querySelector("template[data-sonner-toaster]")) return
-    const handler = handlers[button.textContent.trim()]
-    if (!handler) return
-    button.addEventListener("click", handler)
-    return () => button.removeEventListener("click", handler)
+  // The marker template rendered inside each example: the buttons next to
+  // it get the example's onClick handlers.
+  selector: "template[data-example-sonner]",
+  mount(tpl) {
+    const root = tpl.parentElement
+    if (!root) return
+    const bound = []
+    for (const button of root.querySelectorAll('[data-slot="button"]')) {
+      const handler = handlers[button.textContent.trim()]
+      if (!handler) continue
+      button.addEventListener("click", handler)
+      bound.push([button, handler])
+    }
+    return () => bound.forEach(([button, handler]) => button.removeEventListener("click", handler))
   },
 })

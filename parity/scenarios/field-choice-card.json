@@ -14,7 +14,19 @@
   "steps": [
    {
     "do": "press",
-    "key": "ArrowUp"
+    "key": "Shift"
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent(\"keydown\", { key: \"ArrowUp\", code: \"ArrowUp\", bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent(\"keyup\", { key: \"ArrowUp\", code: \"ArrowUp\", bubbles: true, cancelable: true }))"
    }
   ]
  },
@@ -23,7 +35,19 @@
   "steps": [
    {
     "do": "press",
-    "key": "ArrowDown"
+    "key": "Shift"
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent(\"keydown\", { key: \"ArrowDown\", code: \"ArrowDown\", bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent(\"keyup\", { key: \"ArrowDown\", code: \"ArrowDown\", bubbles: true, cancelable: true }))"
    }
   ]
  },

@@ -120,7 +120,7 @@ func (c Config) css(id string) (string, error) {
 				lines = append(lines, "")
 				continue
 			}
-			if !safeColor.MatchString(color) {
+			if !safeColor.MatchString(color) || strings.Contains(color, "/*") || strings.Contains(color, "*/") {
 				return "", fmt.Errorf("chart: config color %q for %q is not a plain CSS value", color, it.Key)
 			}
 			lines = append(lines, "  --color-"+it.Key+": "+color+";")
@@ -414,6 +414,7 @@ func LegendContent(args ...any) *Node {
 const containerClass = "flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector]:outline-hidden [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-surface]:outline-hidden"
 
 // ID sets the chart id (data-chart="chart-<id>"), like ChartContainer's id.
+// It may contain letters, digits, -, _ (and : which is removed, as upstream).
 type ID string
 
 // Nonce is the CSP nonce for the container's <style>.
@@ -458,6 +459,18 @@ func (b *ContainerBuilder) AcceptChild(c any) bool {
 	return true
 }
 
+// ID sets the chart id (see type ID).
+func (b *ContainerBuilder) ID(id string) *ContainerBuilder { b.id = id; return b }
+
+// Nonce sets the CSP nonce of the container's <style>.
+func (b *ContainerBuilder) Nonce(nonce string) *ContainerBuilder { b.nonce = nonce; return b }
+
+// InitialDimension sets the size rendered before the container is measured.
+func (b *ContainerBuilder) InitialDimension(width, height float64) *ContainerBuilder {
+	b.initial = InitialDimension{width, height}
+	return b
+}
+
 type configJSON struct {
 	Key   string `json:"key"`
 	Label string `json:"label,omitempty"`
@@ -475,7 +488,12 @@ func (b *ContainerBuilder) Element() *h.Element {
 		// runtime renumbers duplicates when a page has several charts.
 		id = "_r_0_"
 	}
-	chartID := "chart-" + strings.ReplaceAll(id, ":", "")
+	id = strings.ReplaceAll(id, ":", "")
+	// The id is written unquoted into the <style>'s selectors.
+	if !safeKey.MatchString(id) {
+		return h.Errored(fmt.Errorf("chart: id %q: only letters, digits, - and _ are allowed", id))
+	}
+	chartID := "chart-" + id
 	css, err := b.config.css(chartID)
 	if err != nil {
 		return h.Errored(err)

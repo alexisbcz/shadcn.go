@@ -362,5 +362,138 @@
     "ms": 500
    }
   ]
+ },
+ {
+  "label": "w-touch-move-ignored",
+  "reset": true,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const t = document.querySelector(\"[data-slot=tooltip-trigger]\"); const r = t.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, clientX: r.x + 5, clientY: r.y + 5, pointerType: \"touch\", isPrimary: true, pointerId: 2 }; t.dispatchEvent(new PointerEvent(\"pointerover\", o)); })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const t = document.querySelector(\"[data-slot=tooltip-trigger]\"); const r = t.getBoundingClientRect(); const o = { bubbles: false, cancelable: true, composed: true, clientX: r.x + 5, clientY: r.y + 5, pointerType: \"touch\", isPrimary: true, pointerId: 2 }; t.dispatchEvent(new PointerEvent(\"pointerenter\", o)); })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const t = document.querySelector(\"[data-slot=tooltip-trigger]\"); const r = t.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, clientX: r.x + 5, clientY: r.y + 5, pointerType: \"touch\", isPrimary: true, pointerId: 2 }; t.dispatchEvent(new PointerEvent(\"pointermove\", o)); })()"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "w-focus-open",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=tooltip-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "w-enter-closes",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "w-enter-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "w-refocus",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.querySelector(\"[data-slot=tooltip-trigger]\").blur(); document.querySelector(\"[data-slot=tooltip-trigger]\").focus()"
+   },
+   {
+    "do": "wait",
+    "ms": 30
+   }
+  ]
+ },
+ {
+  "label": "w-space-closes",
+  "steps": [
+   {
+    "do": "press",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "w-space-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "w-hover-trigger",
+  "reset": true,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=tooltip-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "w-to-content",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=tooltip-content] p",
+    "force": true
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "w-back-to-trigger",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=tooltip-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "w-back-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
  }
 ]

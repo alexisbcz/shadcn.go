@@ -5,7 +5,7 @@
   "viewport": "desktop",
   "ref": "http://localhost:4000",
   "target": "http://localhost:4000",
-  "pass": true,
+  "pass": false,
   "captures": [
     {
       "label": "initial",
@@ -20,7 +20,7 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 784
+      "ms": 2761
     },
     {
       "label": "theme-toggle",
@@ -43,8 +43,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 752,
-      "stepsMs": 342
+      "ms": 2518,
+      "stepsMs": 1143
     },
     {
       "label": "theme-shortcut-d",
@@ -67,8 +67,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 900,
-      "stepsMs": 335
+      "ms": 1831,
+      "stepsMs": 1830
     },
     {
       "label": "search-open-click",
@@ -108,8 +108,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 641,
-      "stepsMs": 425
+      "ms": 4417,
+      "stepsMs": 1876
     },
     {
       "label": "search-type",
@@ -124,8 +124,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 203,
-      "stepsMs": 1222
+      "ms": 1365,
+      "stepsMs": 4731
     },
     {
       "label": "search-arrow",
@@ -140,8 +140,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 192,
-      "stepsMs": 313
+      "ms": 604,
+      "stepsMs": 706
     },
     {
       "label": "search-close",
@@ -181,8 +181,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 631,
-      "stepsMs": 297
+      "ms": 1416,
+      "stepsMs": 581
     },
     {
       "label": "search-cmdk",
@@ -222,8 +222,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 695,
-      "stepsMs": 355
+      "ms": 3323,
+      "stepsMs": 1407
     },
     {
       "label": "search-cmdk-close",
@@ -263,8 +263,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 601,
-      "stepsMs": 329
+      "ms": 1977,
+      "stepsMs": 456
     },
     {
       "label": "pm-tab-npm",
@@ -304,8 +304,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 618,
-      "stepsMs": 343
+      "ms": 3925,
+      "stepsMs": 529
     },
     {
       "label": "pm-tab-bun",
@@ -345,8 +345,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 590,
-      "stepsMs": 342
+      "ms": 2561,
+      "stepsMs": 715
     },
     {
       "label": "code-tab-manual",
@@ -386,8 +386,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 586,
-      "stepsMs": 347
+      "ms": 1955,
+      "stepsMs": 985
     },
     {
       "label": "code-tab-command",
@@ -427,12 +427,12 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 624,
-      "stepsMs": 357
+      "ms": 1535,
+      "stepsMs": 644
     },
     {
       "label": "copy-button",
-      "pass": true,
+      "pass": false,
       "animations": {
         "equal": true,
         "count": [
@@ -459,7 +459,13 @@
         }
       ],
       "pixels": 0,
-      "dom": [],
+      "dom": [
+        "- ref:    <svg class=\"tabler-icon tabler-icon-copy\" fill=\"none\" height=\"24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">   @  > html > body > div[data-slot=layout] > main > div > div[data-slot=sidebar-wrapper] > div > div[data-slot=docs] > div > div > div > div[data-slot=tabs] > div[data-slot=tabs-content] > figure > pre > div > button[data-slot=copy-button] > svg",
+        "+ target: <svg class=\"tabler-icon tabler-icon-check\" fill=\"none\" height=\"24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\">   @  > html > body > div[data-slot=layout] > main > div > div[data-slot=sidebar-wrapper] > div > div[data-slot=docs] > div > div > div > div[data-slot=tabs] > div[data-slot=tabs-content] > figure > pre > div > button[data-slot=copy-button] > svg",
+        "- ref:    <path d=\"M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z\">   @  > html > body > div[data-slot=layout] > main > div > div[data-slot=sidebar-wrapper] > div > div[data-slot=docs] > div > div > div > div[data-slot=tabs] > div[data-slot=tabs-content] > figure > pre > div > button[data-slot=copy-button] > svg > path",
+        "+ target: <path d=\"M5 12l5 5l10 -10\">   @  > html > body > div[data-slot=layout] > main > div > div[data-slot=sidebar-wrapper] > div > div[data-slot=docs] > div > div > div > div[data-slot=tabs] > div[data-slot=tabs-content] > figure > pre > div > button[data-slot=copy-button] > svg > path",
+        "- ref:    <path d=\"M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1\">   @  > html > body > div[data-slot=layout] > main > div > div[data-slot=sidebar-wrapper] > div > div[data-slot=docs] > div > div > div > div[data-slot=tabs] > div[data-slot=tabs-content] > figure > pre > div > button[data-slot=copy-button] > svg > path"
+      ],
       "stateEqual": {
         "path": "/docs/components/radix/button",
         "scroll": [
@@ -469,8 +475,8 @@
         "title": "Button - shadcn/ui",
         "clipboard": "bunx --bun shadcn@latest add button"
       },
-      "ms": 584,
-      "stepsMs": 365
+      "ms": 2002,
+      "stepsMs": 495
     },
     {
       "label": "view-code",
@@ -510,8 +516,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 613,
-      "stepsMs": 319
+      "ms": 1354,
+      "stepsMs": 619
     },
     {
       "label": "copy-page",
@@ -552,8 +558,8 @@
         "title": "Button - shadcn/ui",
         "clipboard": "---\ntitle: Button\ndescription: Displays a button or a component that looks like a button.\nfeatured: true\nbase: radix\ncomponent: true\n---\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-demo\" />\n\n## Installation\n\n<CodeTabs>\n\n<TabsList>\n  <TabsTrigger value=\"cli\">Command</TabsTrigger>\n  <TabsTrigger value=\"manual\">Manual</TabsTrigger>\n</TabsList>\n<TabsContent value=\"cli\">\n\n```bash\nnpx shadcn@latest add button\n```\n\n</TabsContent>\n\n<TabsContent value=\"manual\">\n\n<Steps className=\"mb-0 pt-2\">\n\n<Step>Install the following dependencies:</Step>\n\n```bash\nnpm install radix-ui\n```\n\n<Step>Copy and paste the following code into your project.</Step>\n\n<ComponentSource\n  name=\"button\"\n  title=\"components/ui/button.tsx\"\n  styleName=\"radix-nova\"\n/>\n\n<Step>Update the import paths to match your project setup.</Step>\n\n</Steps>\n\n</TabsContent>\n\n</CodeTabs>\n\n## Usage\n\n```tsx\nimport { Button } from \"@/components/ui/button\"\n```\n\n```tsx\n<Button variant=\"outline\">Button</Button>\n```\n\n## Cursor\n\nTailwind v4 [switched](https://tailwindcss.com/docs/upgrade-guide#buttons-use-the-default-cursor) from `cursor: pointer` to `cursor: default` for the button component.\n\nIf you want to keep the `cursor: pointer` behavior, add the following code to your CSS file:\n\nYou can also enable this during project setup with `npx shadcn@latest init --pointer`.\n\n```css showLineNumbers title=\"globals.css\"\n@layer base {\n  button:not(:disabled),\n  [role=\"button\"]:not(:disabled) {\n    cursor: pointer;\n  }\n}\n```\n\n## Size\n\nUse the `size` prop to change the size of the button.\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-size\" />\n\n## Default\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-default\" />\n\n## Outline\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-outline\" />\n\n## Secondary\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-secondary\" />\n\n## Ghost\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-ghost\" />\n\n## Destructive\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-destructive\" />\n\n## Link\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-link\" />\n\n## Icon\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-icon\" />\n\n## With Icon\n\nRemember to add the `data-icon=\"inline-start\"` or `data-icon=\"inline-end\"` attribute to the icon for the correct spacing.\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-with-icon\" />\n\n## Rounded\n\nUse the `rounded-full` class to make the button rounded.\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-rounded\" />\n\n## Spinner\n\nRender a `<Spinner />` component inside the button to show a loading state. Remember to add the `data-icon=\"inline-start\"` or `data-icon=\"inline-end\"` attribute to the spinner for the correct spacing.\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-spinner\" />\n\n## Button Group\n\nTo create a button group, use the `ButtonGroup` component. See the [Button Group](/docs/components/radix/button-group) documentation for more details.\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-group-demo\" />\n\n## As Child\n\nYou can use the `asChild` prop on `<Button />` to make another component look like a button. Here's an example of a link that looks like a button.\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-aschild\" />\n\n## RTL\n\nTo enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-rtl\" direction=\"rtl\" />\n\n## API Reference\n\n### Button\n\nThe `Button` component is a wrapper around the `button` element that adds a variety of styles and functionality.\n\n| Prop      | Type                                                                                 | Default     |\n| --------- | ------------------------------------------------------------------------------------ | ----------- |\n| `variant` | `\"default\" \\| \"outline\" \\| \"ghost\" \\| \"destructive\" \\| \"secondary\" \\| \"link\"`        | `\"default\"` |\n| `size`    | `\"default\" \\| \"xs\" \\| \"sm\" \\| \"lg\" \\| \"icon\" \\| \"icon-xs\" \\| \"icon-sm\" \\| \"icon-lg\"` | `\"default\"` |\n| `asChild` | `boolean`                                                                            | `false`     |\n"
       },
-      "ms": 656,
-      "stepsMs": 478
+      "ms": 1867,
+      "stepsMs": 501
     },
     {
       "label": "copy-page-menu",
@@ -593,8 +599,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 656,
-      "stepsMs": 360
+      "ms": 1868,
+      "stepsMs": 453
     },
     {
       "label": "copy-page-menu-close",
@@ -634,8 +640,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 623,
-      "stepsMs": 322
+      "ms": 1349,
+      "stepsMs": 343
     },
     {
       "label": "scroll-20",
@@ -650,8 +656,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 182,
-      "stepsMs": 282
+      "ms": 322,
+      "stepsMs": 274
     },
     {
       "label": "scroll-40",
@@ -666,8 +672,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 197,
-      "stepsMs": 268
+      "ms": 394,
+      "stepsMs": 352
     },
     {
       "label": "scroll-60",
@@ -682,8 +688,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 182,
-      "stepsMs": 266
+      "ms": 385,
+      "stepsMs": 357
     },
     {
       "label": "scroll-80",
@@ -698,8 +704,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 181,
-      "stepsMs": 270
+      "ms": 463,
+      "stepsMs": 308
     },
     {
       "label": "scroll-100",
@@ -714,8 +720,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 188,
-      "stepsMs": 266
+      "ms": 207,
+      "stepsMs": 360
     },
     {
       "label": "scroll-top",
@@ -730,8 +736,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 193,
-      "stepsMs": 268
+      "ms": 534,
+      "stepsMs": 270
     },
     {
       "label": "sidebar-hover",
@@ -746,8 +752,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 189,
-      "stepsMs": 308
+      "ms": 371,
+      "stepsMs": 455
     },
     {
       "label": "sidebar-navigate",
@@ -770,8 +776,8 @@
         ],
         "title": "Components - shadcn/ui"
       },
-      "ms": 196,
-      "stepsMs": 782
+      "ms": 243,
+      "stepsMs": 1316
     },
     {
       "label": "base-tab",
@@ -794,8 +800,8 @@
         ],
         "title": "Button - shadcn/ui"
       },
-      "ms": 191,
-      "stepsMs": 637
+      "ms": 240,
+      "stepsMs": 1057
     }
   ],
   "errors": {
@@ -806,5 +812,5 @@
       "Failed to load resource: the server responded with a status of 404 (Not Found)"
     ]
   },
-  "openMs": 2838
+  "openMs": 7131
 }

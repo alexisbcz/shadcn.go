@@ -1,0 +1,13 @@
+[
+  { "label": "open-click", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=dropdown-menu-trigger]" }] },
+  { "label": "arrow-down", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }] },
+  { "label": "arrow-down-2", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }] },
+  { "label": "hover-item", "frames": false, "steps": [{ "do": "hover", "target": "[data-slot=dropdown-menu-item]", "nth": 0, "force": true }] },
+  { "label": "escape", "steps": [{ "do": "press", "key": "Escape" }] },
+  { "label": "open-enter", "steps": [{ "do": "press", "key": "Enter" }] },
+  { "label": "select-enter", "steps": [{ "do": "press", "key": "ArrowDown" }, { "do": "press", "key": "Enter" }] },
+  { "label": "open-arrow", "steps": [{ "do": "press", "key": "ArrowDown" }] },
+  { "label": "outside-click", "steps": [{ "do": "mouse", "x": 700, "y": 400 }, { "do": "down" }, { "do": "up" }] },
+  { "label": "collapse-trigger", "steps": [{ "do": "click", "target": "[data-slot=sidebar-trigger]" }] },
+  { "label": "expand-ctrl-b", "steps": [{ "do": "press", "key": "Control+b" }] }
+]

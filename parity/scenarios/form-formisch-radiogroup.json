@@ -1,0 +1,110 @@
+[
+  {
+    "label": "submit-empty",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "pick-pro",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=radio-group-item]",
+        "nth": 1
+      }
+    ]
+  },
+  {
+    "label": "arrow-down",
+    "steps": [
+      {
+        "do": "press",
+        "key": "ArrowDown"
+      }
+    ]
+  },
+  {
+    "label": "arrow-up",
+    "steps": [
+      {
+        "do": "press",
+        "key": "ArrowUp"
+      }
+    ]
+  },
+  {
+    "label": "click-label",
+    "steps": [
+      {
+        "do": "click",
+        "target": "label[for$=-starter] [data-slot=field-description]"
+      }
+    ]
+  },
+  {
+    "label": "reset",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=card-footer] button[type=button]"
+      }
+    ]
+  },
+  {
+    "label": "submit-after-reset",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "pick-enterprise",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=radio-group-item]",
+        "nth": 2
+      }
+    ]
+  },
+  {
+    "label": "submit-valid",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "reset-after-submit",
+    "frames": false,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=card-footer] button[type=button]"
+      }
+    ]
+  },
+  {
+    "label": "space-select",
+    "steps": [
+      {
+        "do": "focus",
+        "target": "[data-slot=radio-group-item]",
+        "nth": 1
+      },
+      {
+        "do": "press",
+        "key": " "
+      }
+    ],
+    "reset": true
+  }
+]

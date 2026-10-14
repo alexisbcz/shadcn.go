@@ -38,8 +38,13 @@ func init() {
 // --normal-* variables.
 func toaster(*http.Request) h.Node { return sonner.Toaster(sonner.ThemeLight) }
 
+// handlers marks the example's container: examples.js binds the toast()
+// calls to the buttons next to it only (an inert template, left out of the
+// parity DOM comparison).
+func handlers() h.Node { return h.Template(h.Data("parity-ignore", ""), h.Data("example-sonner", "")) }
+
 func Demo() h.Node {
-	return button.Button(button.VariantOutline, "Show Toast")
+	return h.Group(button.Button(button.VariantOutline, "Show Toast"), handlers())
 }
 
 func Types() h.Node {
@@ -50,6 +55,7 @@ func Types() h.Node {
 		button.Button(button.VariantOutline, "Warning"),
 		button.Button(button.VariantOutline, "Error"),
 		button.Button(button.VariantOutline, "Promise"),
+		handlers(),
 	)
 }
 
@@ -62,5 +68,6 @@ func Options() h.Node {
 		button.Button(button.VariantOutline, "Dismiss all"),
 		button.Button(button.VariantOutline, "Reject"),
 		button.Button(button.VariantOutline, "Sticky"),
+		handlers(),
 	)
 }

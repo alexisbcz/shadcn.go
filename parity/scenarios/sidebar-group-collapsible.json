@@ -1,0 +1,98 @@
+[
+ {
+  "label": "close-group",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-group-label]"
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "open-group",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-group-label]"
+   }
+  ]
+ },
+ {
+  "label": "hover-label",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sidebar-group-label]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "hover-item",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sidebar-menu-button]",
+    "nth": 1,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "keyboard-close",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=sidebar-group-label]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-open",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "tab-items",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "collapse-ctrl-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+b"
+   }
+  ]
+ },
+ {
+  "label": "expand-meta-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Meta+b"
+   }
+  ]
+ }
+]

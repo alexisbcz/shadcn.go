@@ -1,0 +1,187 @@
+[
+ {
+  "label": "auto-type",
+  "steps": [
+   {
+    "do": "click",
+    "target": "input[role=combobox]",
+    "nth": 0
+   },
+   {
+    "do": "type",
+    "text": "s"
+   }
+  ]
+ },
+ {
+  "label": "auto-arrowdown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "auto-arrowdown-wrap",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "auto-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "auto-escape-clear",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "auto-type-none",
+  "steps": [
+   {
+    "do": "type",
+    "text": "zz"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "auto-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "clear-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "input[role=combobox]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "clear-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "clear-hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=combobox-clear]",
+    "nth": 0
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "clear-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=combobox-clear]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "clear-after",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "trigger-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-button]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "trigger-click-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-button]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "disabled-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "input[role=combobox]",
+    "nth": 2,
+    "force": true
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "invalid-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "input[role=combobox]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "invalid-tab-out",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ }
+]

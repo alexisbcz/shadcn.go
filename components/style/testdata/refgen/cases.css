@@ -1,0 +1,49 @@
+/* Edge cases of createStyleMap, beyond upstream's unit tests. Each section
+   starting with a "--- name" comment is one stylesheet; upstream.mjs runs
+   upstream's createStyleMap on it. */
+/* --- selector lists, commas inside :is() and :where() */
+.cn-a, .cn-b { @apply p-1; }
+:is(.cn-c, .cn-d) .cn-e { @apply p-2; }
+:where(.cn-f,.cn-g) { @apply p-3; }
+.cn-h,
+.cn-i
+{ @apply p-4 }
+/* --- the subject is the last cn- class, inside :not() and :has() too */
+.cn-a:not(.cn-b) { @apply m-1; }
+.cn-c:has(> .cn-d) .x { @apply m-2; }
+.cn-e.cn-f::after { @apply m-3; }
+[class~="cn-zz"] .cn-g { @apply m-4; }
+.cn-h:hover .plain { @apply m-5; }
+/* --- several rules for one token: later first; several @apply per rule */
+.cn-a { @apply a1; }
+.cn-a { @apply a2; @apply   a3  ; }
+.cn-a:hover { @apply a4; }
+.cn-b { @apply; color: red; }
+.cn-c { color: red; }
+.cn-d { @APPLY upper; @apply lower; }
+/* --- nesting, & and at-rules */
+.cn-a {
+  @apply n1;
+  &:hover { @apply n2; }
+  & .cn-b { @apply n3; }
+  .cn-c & { @apply n4; }
+  &.cn-d { @apply n5; }
+  @media (min-width: 640px) { @apply n6; }
+  @media (min-width: 640px) { .cn-e { @apply n7; } }
+}
+@layer components {
+  .cn-f { @apply n8; }
+  @supports (display: grid) { .cn-g { @apply n9; } }
+}
+/* --- comments, strings, escapes, whitespace */
+.cn-a /* { not a rule } */ { /* @apply nope; */ @apply c1; }
+.cn-b::before { content: "} { @apply nope;"; @apply c2; }
+.cn-c\:x { @apply c3; }
+.cn-d\.e .f { @apply c4; }
+.cn-e { @apply
+    c5
+    c6   ; }
+.cn-f { @apply c7 !important; }
+.cn-g { @apply [&_svg]:size-4 data-[state=open]:bg-muted/50 has-[>svg]:px-2; }
+.cn-h{@apply c8}
+.cn-é { @apply c9; }

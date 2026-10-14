@@ -1,0 +1,91 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "hover-dark",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "select-dark",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "select-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-keyboard",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "typeahead-s",
+  "steps": [
+   {
+    "do": "press",
+    "key": "s"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "select-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "select-enter-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ }
+]

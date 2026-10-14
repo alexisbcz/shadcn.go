@@ -1,0 +1,6 @@
+[
+  { "label": "hover-action", "steps": [{ "do": "hover", "target": "[data-slot=message-footer] button", "nth": 0 }] },
+  { "label": "hover-retry", "frames": false, "steps": [{ "do": "hover", "target": "[data-slot=message-footer] button", "nth": 3 }] },
+  { "label": "tab-1", "steps": [{ "do": "mouse", "x": 1000, "y": 740 }, { "do": "press", "key": "Tab" }] },
+  { "label": "tab-2", "frames": false, "steps": [{ "do": "press", "key": "Tab" }] }
+]

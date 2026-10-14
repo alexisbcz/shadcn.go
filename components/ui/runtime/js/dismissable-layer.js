@@ -32,6 +32,13 @@
 //                                      // topmost layer containing the node.
 //   })
 //   layer.update({ onDismiss, ... })  // replace callbacks (like new props)
+//   layer.setDisableOutsidePointerEvents(on)
+//                                     // like changing that prop while mounted
+//                                     // (Radix menus pass `open`): React re-runs
+//                                     // the effect, so turning it off restores
+//                                     // body pointer-events (when this was the
+//                                     // last such layer) but keeps the layer in
+//                                     // the disabled set until it unmounts
 //   layer.node                        // the element
 //   layer.destroy()                   // unmount: removes the layer and
 //                                     // restores body pointer-events
@@ -99,7 +106,7 @@ function handleAndDispatchCustomEvent(name, handler, detail) {
 export function createDismissableLayer(node, props = {}) {
   const ownerDocument = node.ownerDocument ?? globalThis.document
   let opts = { ...props }
-  const disableOutsidePointerEvents = !!opts.disableOutsidePointerEvents
+  let disableOutsidePointerEvents = !!opts.disableOutsidePointerEvents
   const parentLayer = opts.parent ? (opts.parent.node ? recordOf(opts.parent) : recordOfElement(opts.parent)) : recordOfElement(node.parentElement)
 
   const record = { node, parent: parentLayer, pointerInside: false, focusInside: false, handle: null }
@@ -214,6 +221,24 @@ export function createDismissableLayer(node, props = {}) {
     node,
     update(next) {
       opts = { ...opts, ...next }
+    },
+    setDisableOutsidePointerEvents(on) {
+      on = !!on
+      if (destroyed || on === disableOutsidePointerEvents) return
+      // Effect cleanup with the previous value, then the effect with the new one.
+      if (disableOutsidePointerEvents && context.layersWithOutsidePointerEventsDisabled.size === 1) {
+        ownerDocument.body.style.pointerEvents = originalBodyPointerEvents
+      }
+      disableOutsidePointerEvents = on
+      if (on) {
+        if (context.layersWithOutsidePointerEventsDisabled.size === 0) {
+          originalBodyPointerEvents = ownerDocument.body.style.pointerEvents
+          ownerDocument.body.style.pointerEvents = "none"
+        }
+        context.layersWithOutsidePointerEventsDisabled.add(record)
+      }
+      context.layers.add(record)
+      dispatchUpdate()
     },
     destroy() {
       if (destroyed) return

@@ -190,5 +190,51 @@
     "target": "[data-slot=popover-trigger]"
    }
   ]
+ },
+ {
+  "label": "open-fresh",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "key-pageup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "key-shift-pagedown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+PageDown"
+   }
+  ]
+ },
+ {
+  "label": "space-selects",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "tab-out-closes",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
  }
 ]

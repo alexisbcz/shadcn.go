@@ -1,0 +1,159 @@
+[
+ {
+  "label": "key-pageup",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=message-scroller-viewport]"
+   },
+   {
+    "do": "press",
+    "key": "PageUp"
+   },
+   {
+    "do": "wait",
+    "ms": 800
+   }
+  ]
+ },
+ {
+  "label": "hover-end-button",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=message-scroller-button]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "click-end-button",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=message-scroller-button]",
+    "nth": 1
+   },
+   {
+    "do": "wait",
+    "ms": 1000
+   }
+  ]
+ },
+ {
+  "label": "key-home",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=message-scroller-viewport]"
+   },
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "wait",
+    "ms": 1000
+   }
+  ]
+ },
+ {
+  "label": "key-pagedown",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageDown"
+   },
+   {
+    "do": "wait",
+    "ms": 800
+   }
+  ]
+ },
+ {
+  "label": "click-start-button",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=message-scroller-button]",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 1000
+   }
+  ]
+ },
+ {
+  "label": "wheel-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 300,
+    "y": 200
+   },
+   {
+    "do": "scroll",
+    "y": 200
+   },
+   {
+    "do": "wait",
+    "ms": 800
+   }
+  ]
+ },
+ {
+  "label": "set-scrolltop",
+  "frames": false,
+  "steps": [
+   {
+    "do": "scroll",
+    "target": "[data-slot=message-scroller-viewport]",
+    "y": 150
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "key-end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=message-scroller-viewport]"
+   },
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "wait",
+    "ms": 1000
+   }
+  ]
+ },
+ {
+  "label": "tab-to-button",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ }
+]

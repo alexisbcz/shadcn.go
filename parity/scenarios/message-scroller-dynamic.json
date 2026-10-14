@@ -1,0 +1,414 @@
+[
+ {
+  "label": "add-reply",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "add-reply-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "add-turn",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 1
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "add-reply-after-turn",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "add-reply-fills",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "jump-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 3
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "prepend",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 2
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "prepend-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 2
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "jump-4",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 4
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "start",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 5
+   },
+   {
+    "do": "wait",
+    "ms": 600
+   }
+  ]
+ },
+ {
+  "label": "reply-while-scrolled-up",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "end",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 6
+   },
+   {
+    "do": "wait",
+    "ms": 600
+   }
+  ]
+ },
+ {
+  "label": "reply-following",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "wheel-up-releases",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 300,
+    "y": 300
+   },
+   {
+    "do": "scroll",
+    "y": -150
+   },
+   {
+    "do": "wait",
+    "ms": 600
+   }
+  ]
+ },
+ {
+  "label": "reply-not-following",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "scroll-button",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=message-scroller-button]"
+   },
+   {
+    "do": "wait",
+    "ms": 1000
+   }
+  ]
+ },
+ {
+  "label": "add-turn-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 1
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "stream-start",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "button",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "stream-grow",
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const b = [...document.querySelectorAll('[data-slot=bubble-content]')].pop(); b.textContent += ' More streamed text that keeps growing the reply in place.'.repeat(2) })()"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "stream-grow-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const b = [...document.querySelectorAll('[data-slot=bubble-content]')].pop(); b.textContent += ' More streamed text that keeps growing the reply in place.'.repeat(2) })()"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const b = [...document.querySelectorAll('[data-slot=bubble-content]')].pop(); b.textContent += ' More streamed text that keeps growing the reply in place.'.repeat(2) })()"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "stream-grow-fills",
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const b = [...document.querySelectorAll('[data-slot=bubble-content]')].pop(); b.textContent += ' More streamed text that keeps growing the reply in place.'.repeat(2) })()"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const b = [...document.querySelectorAll('[data-slot=bubble-content]')].pop(); b.textContent += ' More streamed text that keeps growing the reply in place.'.repeat(2) })()"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const b = [...document.querySelectorAll('[data-slot=bubble-content]')].pop(); b.textContent += ' More streamed text that keeps growing the reply in place.'.repeat(2) })()"
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "stream-grow-follows",
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const b = [...document.querySelectorAll('[data-slot=bubble-content]')].pop(); b.textContent += ' More streamed text that keeps growing the reply in place.'.repeat(2) })()"
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "key-arrowup-releases",
+  "frames": false,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=message-scroller-viewport]"
+   },
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "stream-grow-free",
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const b = [...document.querySelectorAll('[data-slot=bubble-content]')].pop(); b.textContent += ' More streamed text that keeps growing the reply in place.'.repeat(2) })()"
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ },
+ {
+  "label": "key-space",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   },
+   {
+    "do": "wait",
+    "ms": 800
+   }
+  ]
+ },
+ {
+  "label": "remove-row",
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const rows = document.querySelectorAll('[data-slot=message-scroller-item]'); rows[rows.length-1].remove() })()"
+   },
+   {
+    "do": "wait",
+    "ms": 500
+   }
+  ]
+ }
+]

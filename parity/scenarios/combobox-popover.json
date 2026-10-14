@@ -1,0 +1,298 @@
+[
+ {
+  "label": "open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "key-arrowdown",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "key-arrowup",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "key-end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "hover-item",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=command-item]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "type-filter",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "do"
+   }
+  ]
+ },
+ {
+  "label": "type-no-match",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "qq"
+   }
+  ]
+ },
+ {
+  "label": "clear-filter",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Backspace"
+   },
+   {
+    "do": "press",
+    "key": "Backspace"
+   },
+   {
+    "do": "press",
+    "key": "Backspace"
+   },
+   {
+    "do": "press",
+    "key": "Backspace"
+   }
+  ]
+ },
+ {
+  "label": "select-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=command-item]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "settle-reopen",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "reopen",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "key-arrowdown-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "select-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "settle-reopen-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "reopen-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "close-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "settle-reopen-3",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "reopen-3",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=popover-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "outside-click",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 20,
+    "y": 20
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "close-escape-end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "settle-kbd",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "kbd-open-enter",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=popover-trigger]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "kbd-home-end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "press",
+    "key": "Control+p"
+   }
+  ]
+ },
+ {
+  "label": "kbd-select-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "settle-kbd-2",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "kbd-open-space",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "kbd-tab-loops",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "kbd-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ }
+]

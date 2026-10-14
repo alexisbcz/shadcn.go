@@ -1,6 +1,9 @@
 // Bundle entry: shiki 3.23.0 (the version rehype-pretty-code 0.14.1 resolves
 // to in ui/apps/v4), its JavaScript regex engine, and the grammars and themes
-// the docs use. The packages are bundled unmodified.
+// the docs use: vesper and github-light-default for Markdown code blocks
+// (rehype-pretty-code), github-dark and github-light for the code the docs
+// components show (lib/highlight-code.ts). The packages are bundled
+// unmodified.
 import { createHighlighterCoreSync } from "@shikijs/core"
 import { createJavaScriptRegexEngine } from "@shikijs/engine-javascript"
 
@@ -19,6 +22,8 @@ import toml from "@shikijs/langs/toml"
 import tsx from "@shikijs/langs/tsx"
 import typescript from "@shikijs/langs/typescript"
 
+import githubDark from "@shikijs/themes/github-dark"
+import githubLight from "@shikijs/themes/github-light"
 import githubLightDefault from "@shikijs/themes/github-light-default"
 import vesper from "@shikijs/themes/vesper"
 
@@ -26,5 +31,5 @@ globalThis.Shiki = {
   createHighlighterCoreSync,
   createJavaScriptRegexEngine,
   langs: { astro, css, diff, html, javascript, json, jsx, markdown, postcss, regexp, shellscript, toml, tsx, typescript },
-  themes: { "github-light-default": githubLightDefault, vesper },
+  themes: { "github-dark": githubDark, "github-light": githubLight, "github-light-default": githubLightDefault, vesper },
 }

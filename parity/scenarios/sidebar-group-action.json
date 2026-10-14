@@ -1,0 +1,8 @@
+[
+  { "label": "hover-action", "reset": true, "frames": false, "steps": [{ "do": "hover", "target": "[data-slot=sidebar-group-action]", "force": true }] },
+  { "label": "toast", "steps": [{ "do": "click", "target": "[data-slot=sidebar-group-action]" }] },
+  { "label": "toast-settled", "frames": false, "steps": [{ "do": "wait", "ms": 600 }] },
+  { "label": "keyboard-toast", "steps": [{ "do": "focus", "target": "[data-slot=sidebar-group-action]" }, { "do": "press", "key": "Enter" }] },
+  { "label": "collapse-ctrl-b", "steps": [{ "do": "mouse", "x": 700, "y": 300 }, { "do": "press", "key": "Control+b" }] },
+  { "label": "expand-ctrl-b", "steps": [{ "do": "press", "key": "Control+b" }] }
+]

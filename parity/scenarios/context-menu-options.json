@@ -1,0 +1,302 @@
+[
+ {
+  "label": "start-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "rc-open",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=context-menu-trigger]"
+   },
+   {
+    "do": "down",
+    "button": "right"
+   },
+   {
+    "do": "up",
+    "button": "right"
+   }
+  ]
+ },
+ {
+  "label": "hover-arrange",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=context-menu-sub-trigger]:has-text('Arrange')"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "hover-align",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=context-menu-sub-trigger]:has-text('Align')"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "hover-right",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=context-menu-item]:has-text('Right')"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-left-close",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "align-close-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-left-close-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "arrange-close-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-up",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-down-loop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "click-checkbox",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=context-menu-checkbox-item]"
+   }
+  ]
+ },
+ {
+  "label": "checkbox-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "rc-open-2",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=context-menu-trigger]"
+   },
+   {
+    "do": "down",
+    "button": "right"
+   },
+   {
+    "do": "up",
+    "button": "right"
+   }
+  ]
+ },
+ {
+  "label": "checkbox-state",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=context-menu-checkbox-item]"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "outside-click",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 20,
+    "y": 20
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "outside-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "rc-disabled",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=context-menu-trigger]",
+    "nth": 1
+   },
+   {
+    "do": "down",
+    "button": "right"
+   },
+   {
+    "do": "up",
+    "button": "right"
+   }
+  ]
+ },
+ {
+  "label": "rc-disabled-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "rc-open-3",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=context-menu-trigger]"
+   },
+   {
+    "do": "down",
+    "button": "right"
+   },
+   {
+    "do": "up",
+    "button": "right"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-arrange",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-arrange-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ }
+]

@@ -1,0 +1,714 @@
+{
+  "path": "/docs/components/radix/button",
+  "group": "docs",
+  "theme": "light",
+  "viewport": "laptop",
+  "ref": "http://localhost:4000",
+  "target": "http://127.0.0.1:60422",
+  "pass": true,
+  "captures": [
+    {
+      "label": "initial",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 919
+    },
+    {
+      "label": "theme-toggle",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          7,
+          7
+        ]
+      },
+      "frames": [],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 800,
+      "stepsMs": 347
+    },
+    {
+      "label": "theme-shortcut-d",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          7,
+          7
+        ]
+      },
+      "frames": [],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 1075,
+      "stepsMs": 315
+    },
+    {
+      "label": "search-open-click",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          13,
+          13
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 797,
+      "stepsMs": 441
+    },
+    {
+      "label": "search-type",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 214,
+      "stepsMs": 1635
+    },
+    {
+      "label": "search-arrow",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 219,
+      "stepsMs": 325
+    },
+    {
+      "label": "search-close",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          13,
+          13
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 828,
+      "stepsMs": 500
+    },
+    {
+      "label": "search-cmdk",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          13,
+          13
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 838,
+      "stepsMs": 451
+    },
+    {
+      "label": "search-cmdk-close",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          13,
+          13
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 777,
+      "stepsMs": 463
+    },
+    {
+      "label": "pm-tab-npm",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          25,
+          25
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          413
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 928,
+      "stepsMs": 386
+    },
+    {
+      "label": "pm-tab-bun",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          19,
+          19
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          413
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 743,
+      "stepsMs": 480
+    },
+    {
+      "label": "code-tab-manual",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          19,
+          19
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          413
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 690,
+      "stepsMs": 377
+    },
+    {
+      "label": "code-tab-command",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          19,
+          19
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          413
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 827,
+      "stepsMs": 424
+    },
+    {
+      "label": "copy-button",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          10,
+          10
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          413
+        ],
+        "title": "Button - shadcn/ui",
+        "clipboard": "bunx --bun shadcn@latest add button"
+      },
+      "ms": 806,
+      "stepsMs": 458
+    },
+    {
+      "label": "view-code",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          10,
+          10
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          413
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 711,
+      "stepsMs": 390
+    },
+    {
+      "label": "copy-page",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          8,
+          8
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui",
+        "clipboard": "---\ntitle: Button\ndescription: Displays a button or a component that looks like a button.\nfeatured: true\nbase: radix\ncomponent: true\n---\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-demo\" />\n\n## Installation\n\n<CodeTabs>\n\n<TabsList>\n  <TabsTrigger value=\"cli\">Command</TabsTrigger>\n  <TabsTrigger value=\"manual\">Manual</TabsTrigger>\n</TabsList>\n<TabsContent value=\"cli\">\n\n```bash\nnpx shadcn@latest add button\n```\n\n</TabsContent>\n\n<TabsContent value=\"manual\">\n\n<Steps className=\"mb-0 pt-2\">\n\n<Step>Install the following dependencies:</Step>\n\n```bash\nnpm install radix-ui\n```\n\n<Step>Copy and paste the following code into your project.</Step>\n\n<ComponentSource\n  name=\"button\"\n  title=\"components/ui/button.tsx\"\n  styleName=\"radix-nova\"\n/>\n\n<Step>Update the import paths to match your project setup.</Step>\n\n</Steps>\n\n</TabsContent>\n\n</CodeTabs>\n\n## Usage\n\n```tsx\nimport { Button } from \"@/components/ui/button\"\n```\n\n```tsx\n<Button variant=\"outline\">Button</Button>\n```\n\n## Cursor\n\nTailwind v4 [switched](https://tailwindcss.com/docs/upgrade-guide#buttons-use-the-default-cursor) from `cursor: pointer` to `cursor: default` for the button component.\n\nIf you want to keep the `cursor: pointer` behavior, add the following code to your CSS file:\n\nYou can also enable this during project setup with `npx shadcn@latest init --pointer`.\n\n```css showLineNumbers title=\"globals.css\"\n@layer base {\n  button:not(:disabled),\n  [role=\"button\"]:not(:disabled) {\n    cursor: pointer;\n  }\n}\n```\n\n## Size\n\nUse the `size` prop to change the size of the button.\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-size\" />\n\n## Default\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-default\" />\n\n## Outline\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-outline\" />\n\n## Secondary\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-secondary\" />\n\n## Ghost\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-ghost\" />\n\n## Destructive\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-destructive\" />\n\n## Link\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-link\" />\n\n## Icon\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-icon\" />\n\n## With Icon\n\nRemember to add the `data-icon=\"inline-start\"` or `data-icon=\"inline-end\"` attribute to the icon for the correct spacing.\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-with-icon\" />\n\n## Rounded\n\nUse the `rounded-full` class to make the button rounded.\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-rounded\" />\n\n## Spinner\n\nRender a `<Spinner />` component inside the button to show a loading state. Remember to add the `data-icon=\"inline-start\"` or `data-icon=\"inline-end\"` attribute to the spinner for the correct spacing.\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-spinner\" />\n\n## Button Group\n\nTo create a button group, use the `ButtonGroup` component. See the [Button Group](/docs/components/radix/button-group) documentation for more details.\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-group-demo\" />\n\n## As Child\n\nYou can use the `asChild` prop on `<Button />` to make another component look like a button. Here's an example of a link that looks like a button.\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-aschild\" />\n\n## RTL\n\nTo enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).\n\n<ComponentPreview styleName=\"radix-nova\" name=\"button-rtl\" direction=\"rtl\" />\n\n## API Reference\n\n### Button\n\nThe `Button` component is a wrapper around the `button` element that adds a variety of styles and functionality.\n\n| Prop      | Type                                                                                 | Default     |\n| --------- | ------------------------------------------------------------------------------------ | ----------- |\n| `variant` | `\"default\" \\| \"outline\" \\| \"ghost\" \\| \"destructive\" \\| \"secondary\" \\| \"link\"`        | `\"default\"` |\n| `size`    | `\"default\" \\| \"xs\" \\| \"sm\" \\| \"lg\" \\| \"icon\" \\| \"icon-xs\" \\| \"icon-sm\" \\| \"icon-lg\"` | `\"default\"` |\n| `asChild` | `boolean`                                                                            | `false`     |\n"
+      },
+      "ms": 865,
+      "stepsMs": 327
+    },
+    {
+      "label": "copy-page-menu",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          8,
+          8
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 770,
+      "stepsMs": 477
+    },
+    {
+      "label": "copy-page-menu-close",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          14,
+          14
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 845,
+      "stepsMs": 340
+    },
+    {
+      "label": "sidebar-hover",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/radix/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 257,
+      "stepsMs": 353
+    },
+    {
+      "label": "sidebar-navigate",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          2,
+          2
+        ]
+      },
+      "frames": [],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Components - shadcn/ui"
+      },
+      "ms": 222,
+      "stepsMs": 936
+    },
+    {
+      "label": "base-tab",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          7,
+          7
+        ]
+      },
+      "frames": [],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/docs/components/base/button",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "Button - shadcn/ui"
+      },
+      "ms": 259,
+      "stepsMs": 683
+    }
+  ],
+  "errors": {
+    "ref": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "target": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  "openMs": 4482
+}

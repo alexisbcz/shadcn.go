@@ -15,6 +15,10 @@
 //     lib, components), base -> the build's transform output in
 //     ui/apps/v4/node_modules/.cache/build-registry/transforms/<base>-<style>/.
 //
+// Completeness: for every pair it also requires every string outside the
+// roots (stringsOutsideRoots in trees.mjs) to be unchanged by the build, so
+// the roots hold every string the build changes.
+//
 // Format: { dir, files: [{ path, base: [root...], gen: [root...] }] }.
 // A root is a class context, outermost first, in document order: a JSX
 // className attribute, a call whose callee is (or, through call/member
@@ -38,127 +42,18 @@
 import fs from "node:fs"
 import path from "node:path"
 import zlib from "node:zlib"
-import { createRequire } from "node:module"
 import { fileURLToPath } from "node:url"
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 const repo = path.resolve(here, "../../../..")
 const v4 = path.join(repo, "ui/apps/v4")
-const require = createRequire(path.join(v4, "package.json"))
-const ts = require("typescript")
+import { rootsOf, stringsOutsideRoots } from "./trees.mjs"
+import { isDeepStrictEqual } from "node:util"
 
 const BASES = ["radix", "base", "aria"]
 const STYLES = ["nova", "vega", "lyra", "maia", "mira", "luma", "sera", "rhea"]
 const cacheRoot = path.join(v4, "node_modules/.cache/build-registry/transforms")
 const outDir = path.join(here, "../ref")
-
-function calleeIdent(expr) {
-  return ts.isIdentifier(expr) ? expr.text : null
-}
-
-function calleeRoot(expr) {
-  let e = expr
-  for (;;) {
-    if (ts.isCallExpression(e)) e = e.expression
-    else if (ts.isPropertyAccessExpression(e) || ts.isElementAccessExpression(e)) e = e.expression
-    else break
-  }
-  return ts.isIdentifier(e) ? e.text : null
-}
-
-const ROOT_CALLEES = new Set(["cn", "cva", "mergeProps"])
-
-function isRoot(node) {
-  if (ts.isJsxAttribute(node)) return node.name.getText() === "className"
-  if (ts.isCallExpression(node)) {
-    const f = calleeIdent(node.expression)
-    const r = calleeRoot(node.expression)
-    return ROOT_CALLEES.has(f) || r === "cn" || r === "cva"
-  }
-  if (ts.isPropertyAssignment(node)) return node.name.getText() === "className"
-  return false
-}
-
-function children(node) {
-  const out = []
-  ts.forEachChild(node, (c) => {
-    out.push(c)
-  })
-  return out
-}
-
-function ser(node) {
-  while (ts.isParenthesizedExpression(node)) node = node.expression
-  if (ts.isStringLiteral(node)) return { k: "str", v: node.text }
-  if (ts.isNoSubstitutionTemplateLiteral(node)) return { k: "str", v: node.text, t: 1 }
-  if (ts.isTemplateExpression(node)) {
-    const q = [[node.head.rawText ?? node.head.text, node.head.text]]
-    const e = []
-    for (const span of node.templateSpans) {
-      e.push(ser(span.expression))
-      q.push([span.literal.rawText ?? span.literal.text, span.literal.text])
-    }
-    return { k: "tpl", q, e }
-  }
-  if (ts.isCallExpression(node)) {
-    return {
-      k: "call",
-      f: calleeIdent(node.expression),
-      r: calleeRoot(node.expression),
-      c: ser(node.expression),
-      a: node.arguments.map(ser),
-    }
-  }
-  if (ts.isObjectLiteralExpression(node)) return { k: "obj", p: node.properties.map(ser) }
-  if (ts.isPropertyAssignment(node)) {
-    const out = { k: "pa", n: node.name.getText(), id: ts.isIdentifier(node.name) ? 1 : 0, v: ser(node.initializer) }
-    // A string key is a literal prettier sorts too (clsx object syntax).
-    if (ts.isStringLiteral(node.name) || ts.isNoSubstitutionTemplateLiteral(node.name)) out.nk = ser(node.name)
-    return out
-  }
-  if (ts.isJsxAttribute(node)) {
-    return { k: "attr", n: node.name.getText(), v: node.initializer ? ser(node.initializer) : null }
-  }
-  if (ts.isJsxExpression(node)) return { k: "jx", e: node.expression ? ser(node.expression) : null }
-  if (ts.isJsxElement(node)) {
-    return {
-      k: "jsx",
-      a: node.openingElement.attributes.properties.map(ser),
-      c: node.children.map(ser).filter(Boolean),
-    }
-  }
-  if (ts.isJsxSelfClosingElement(node)) {
-    return { k: "jsx", a: node.attributes.properties.map(ser), c: [] }
-  }
-  if (ts.isJsxText(node)) {
-    // Prettier rewraps JSX text; whitespace-only text is not content.
-    const t = node.text.replace(/\s+/g, " ").trim()
-    return t ? { k: "g", s: "JsxText" } : null
-  }
-  if (ts.isBinaryExpression(node)) {
-    return { k: "bin", op: node.operatorToken.getText(), l: ser(node.left), r: ser(node.right) }
-  }
-  if (ts.isIdentifier(node)) return { k: "id", v: node.text }
-  const c = children(node).map(ser).filter(Boolean)
-  const out = { k: "g", s: ts.SyntaxKind[node.kind] }
-  if (c.length) out.c = c
-  return out
-}
-
-function roots(file, text) {
-  const sf = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX)
-  const out = []
-  const visit = (node) => {
-    if (isRoot(node)) {
-      const { line } = sf.getLineAndCharacterOfPosition(node.getStart(sf))
-      out.push({ line: line + 1, n: ser(node) })
-      return
-    }
-    ts.forEachChild(node, visit)
-  }
-  visit(sf)
-  return out
-}
 
 function walk(dir, rel = "") {
   const out = []
@@ -171,6 +66,7 @@ function walk(dir, rel = "") {
 }
 
 function extractDir(name) {
+  let outside = 0
   const [base] = name.split("-")
   const baseRoot = path.join(v4, "registry/bases", base)
   const files = []
@@ -185,9 +81,13 @@ function extractDir(name) {
   for (const [rel, b, g] of pairs) {
     const bt = fs.readFileSync(b, "utf8")
     const gt = fs.readFileSync(g, "utf8")
-    files.push({ path: rel, base: roots(b, bt), gen: roots(g, gt) })
+    files.push({ path: rel, base: rootsOf(b, bt), gen: rootsOf(g, gt) })
+    const ob = stringsOutsideRoots(b, bt)
+    const og = stringsOutsideRoots(g, gt)
+    if (!isDeepStrictEqual(ob, og)) throw new Error(`${name}/${rel}: the build changed strings outside the class roots`)
+    outside += ob.length
   }
-  return { dir: name, files }
+  return { dir: name, files, outside }
 }
 
 const only = process.argv.slice(2)
@@ -197,8 +97,10 @@ fs.mkdirSync(outDir, { recursive: true })
 for (const d of dirs) {
   if (only.length && !only.includes(d)) continue
   const data = extractDir(d)
+  const outside = data.outside
+  delete data.outside
   const json = JSON.stringify(data)
   fs.writeFileSync(path.join(outDir, `${d}.json.gz`), zlib.gzipSync(json, { level: 9 }))
   const roots = data.files.reduce((n, f) => n + f.base.length, 0)
-  console.log(`${d}: ${data.files.length} files, ${roots} roots, ${json.length} bytes`)
+  console.log(`${d}: ${data.files.length} files, ${roots} roots, ${json.length} bytes; ${outside} strings outside the roots unchanged`)
 }

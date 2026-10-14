@@ -234,5 +234,70 @@
     "target": "[data-slot=carousel-previous]"
    }
   ]
+ },
+ {
+  "label": "focus-next-enter",
+  "frames": false,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=carousel-next]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "space-on-next",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "focus-prev-enter",
+  "frames": false,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=carousel-previous]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-from-prev",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
  }
 ]

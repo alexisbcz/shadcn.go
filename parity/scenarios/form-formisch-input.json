@@ -1,0 +1,172 @@
+[
+  {
+    "label": "submit-empty",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "type-invalid",
+    "steps": [
+      {
+        "do": "type",
+        "target": "input",
+        "text": "a!"
+      }
+    ]
+  },
+  {
+    "label": "blur",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "submit-invalid",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "type-more",
+    "steps": [
+      {
+        "do": "press",
+        "target": "input",
+        "key": "ControlOrMeta+a"
+      },
+      {
+        "do": "type",
+        "target": "input",
+        "text": "this_is_way_too_long!"
+      }
+    ]
+  },
+  {
+    "label": "submit-again",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "reset",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=card-footer] button[type=button]"
+      }
+    ]
+  },
+  {
+    "label": "type-valid",
+    "reset": true,
+    "steps": [
+      {
+        "do": "type",
+        "target": "input",
+        "text": "shadcn"
+      }
+    ]
+  },
+  {
+    "label": "submit-valid",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "reset-after-submit",
+    "frames": false,
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=card-footer] button[type=button]"
+      }
+    ]
+  },
+  {
+    "label": "enter-submit-invalid",
+    "reset": true,
+    "steps": [
+      {
+        "do": "type",
+        "target": "input",
+        "text": "ab"
+      },
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  },
+  {
+    "label": "enter-submit-valid",
+    "steps": [
+      {
+        "do": "press",
+        "target": "input",
+        "key": "ControlOrMeta+a"
+      },
+      {
+        "do": "type",
+        "target": "input",
+        "text": "shadcn"
+      },
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  },
+  {
+    "label": "submit-then-blur",
+    "reset": true,
+    "steps": [
+      {
+        "do": "click",
+        "target": "button[type=submit]"
+      }
+    ]
+  },
+  {
+    "label": "blur-after-submit",
+    "steps": [
+      {
+        "do": "focus",
+        "target": "input"
+      },
+      {
+        "do": "press",
+        "key": "Tab"
+      }
+    ]
+  },
+  {
+    "label": "keyboard-reset",
+    "steps": [
+      {
+        "do": "focus",
+        "target": "[data-slot=card-footer] button[type=button]"
+      },
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  }
+]

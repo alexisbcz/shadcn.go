@@ -1,0 +1,205 @@
+[
+ {
+  "label": "open-popper",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "arrow-skips-disabled",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "hover-disabled",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=select-item][data-disabled]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "hover-separator",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=select-separator]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "typeahead-textvalue",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "s"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "select-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "reopen",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "close-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "open-top-end",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "select-two",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-item]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "open-right-many",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "hover-scroll-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=select-scroll-down-button]"
+   },
+   {
+    "do": "wait",
+    "ms": 3000
+   },
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 760
+   }
+  ]
+ },
+ {
+  "label": "end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "arrow-up",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "select-space",
+  "steps": [
+   {
+    "do": "press",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "reopen-many",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]",
+    "nth": 2
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "outside-close",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 10,
+    "y": 10
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ }
+]

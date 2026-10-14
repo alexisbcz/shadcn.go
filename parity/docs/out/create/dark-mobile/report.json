@@ -1,0 +1,201 @@
+{
+  "path": "/create",
+  "group": "app",
+  "theme": "dark",
+  "viewport": "mobile",
+  "ref": "http://localhost:4000",
+  "target": "http://localhost:4000",
+  "pass": false,
+  "captures": [
+    {
+      "label": "initial",
+      "pass": true,
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/create",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "New Project - shadcn/ui"
+      },
+      "ms": 1078
+    },
+    {
+      "label": "theme-shortcut-d",
+      "pass": false,
+      "animations": {
+        "equal": false,
+        "count": [
+          372,
+          9
+        ],
+        "diff": [
+          "- ref: CSSTransition background-color @ div > div[data-slot=card] > div[data-slot=card-content] > div[data-slot=item]",
+          "- ref: CSSTransition background-color @ div > div[data-slot=card] > div[data-slot=card-footer] > button[data-slot=button]",
+          "- ref: CSSTransition background-color @ div > div[data-slot=card] > div[data-slot=card-footer] > button[data-slot=button]",
+          "- ref: CSSTransition background-color @ div > div[data-slot=card] > div[data-slot=card-footer] > button[data-slot=button]",
+          "- ref: CSSTransition background-color @ div > div[data-slot=card] > div[data-slot=card-footer] > button[data-slot=button]",
+          "- ref: CSSTransition background-color @ div > div[data-slot=card] > div[data-slot=card-footer] > button[data-slot=button]",
+          "- ref: CSSTransition background-color @ div > div[data-slot=card] > div[data-slot=card-footer] > button[data-slot=button]",
+          "- ref: CSSTransition background-color @ div > div[data-slot=card] > div[data-slot=card-footer] > button[data-slot=button]",
+          "- ref: CSSTransition background-color @ div[data-slot=card-content] > div > div[data-slot=toggle-group] > button[data-slot=toggle-group-item]",
+          "- ref: CSSTransition background-color @ div[data-slot=card-content] > div[data-slot=empty] > div[data-slot=empty-content] > button[data-slot=button]",
+          "- ref: CSSTransition background-color @ div[data-slot=card-content] > div[data-slot=empty] > div[data-slot=empty-content] > button[data-slot=button]",
+          "- ref: CSSTransition background-color @ div[data-slot=card-content] > div[data-slot=field-group] > div[data-slot=field] > button[data-slot=select-trigger]",
+          "- ref: CSSTransition background-color @ div[data-slot=card-content] > div[data-slot=field-group] > div[data-slot=field] > button[data-slot=select-trigger]",
+          "- ref: CSSTransition background-color @ div[data-slot=card-content] > div[data-slot=field-group] > div[data-slot=field] > div[data-slot=input-group]",
+          "- ref: CSSTransition background-color @ div[data-slot=card-content] > div[data-slot=field-group] > div[data-slot=field] > span[data-slot=switch]",
+          "- ref: CSSTransition background-color @ div[data-slot=card-content] > div[data-slot=field-group] > div[data-slot=field] > span[data-slot=switch]",
+          "- ref: CSSTransition background-color @ div[data-slot=card-content] > div[data-slot=field-group] > div[data-slot=field] > textarea[data-slot=textarea]",
+          "- ref: CSSTransition background-color @ div[data-slot=card-content] > div[data-slot=tabs] > div[data-slot=tabs-list] > button[data-slot=tabs-trigger]",
+          "- ref: CSSTransition background-color @ div[data-slot=card-header] > div > div[data-slot=toggle-group] > button[data-slot=toggle-group-item]",
+          "- ref: CSSTransition background-color @ div[data-slot=card] > div[data-slot=card-content] > div > div[data-slot=item]"
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 5662,
+          "regions": [
+            {
+              "pixels": 5662,
+              "box": [
+                43,
+                633,
+                329,
+                27
+              ]
+            }
+          ],
+          "at": [
+            "div[data-slot=layout] > main.flex.min-h-0 > div.relative.z-10 > div[data-slot=designer] > div.relative.flex \"0102\""
+          ]
+        },
+        {
+          "t": 38,
+          "pixels": 5567,
+          "regions": [
+            {
+              "pixels": 5567,
+              "box": [
+                43,
+                633,
+                329,
+                26
+              ]
+            }
+          ],
+          "at": [
+            "div[data-slot=layout] > main.flex.min-h-0 > div.relative.z-10 > div[data-slot=designer] > div.relative.flex \"0102\""
+          ]
+        },
+        {
+          "t": 75,
+          "pixels": 4578,
+          "regions": [
+            {
+              "pixels": 4578,
+              "box": [
+                43,
+                634,
+                325,
+                25
+              ]
+            }
+          ],
+          "at": [
+            "div[data-slot=layout] > main.flex.min-h-0 > div.relative.z-10 > div[data-slot=designer] > div.relative.flex \"0102\""
+          ]
+        },
+        {
+          "t": 113,
+          "pixels": 3402,
+          "regions": [
+            {
+              "pixels": 3402,
+              "box": [
+                46,
+                634,
+                311,
+                23
+              ]
+            }
+          ],
+          "at": [
+            "div[data-slot=layout] > main.flex.min-h-0 > div.relative.z-10 > div[data-slot=designer] > div.relative.flex \"0102\""
+          ]
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/create",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "New Project - shadcn/ui"
+      },
+      "ms": 13340,
+      "stepsMs": 859
+    },
+    {
+      "label": "mobile-menu-close",
+      "pass": true,
+      "animations": {
+        "equal": true,
+        "count": [
+          17,
+          17
+        ]
+      },
+      "frames": [
+        {
+          "t": 0,
+          "pixels": 0
+        },
+        {
+          "t": 38,
+          "pixels": 0
+        },
+        {
+          "t": 75,
+          "pixels": 0
+        },
+        {
+          "t": 113,
+          "pixels": 0
+        }
+      ],
+      "pixels": 0,
+      "dom": [],
+      "stateEqual": {
+        "path": "/create",
+        "scroll": [
+          0,
+          0
+        ],
+        "title": "New Project - shadcn/ui"
+      },
+      "ms": 4564,
+      "stepsMs": 1362
+    }
+  ],
+  "errors": {
+    "ref": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "target": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  "openMs": 16964,
+  "skipped": [
+    "theme-toggle: \u001b[2m      - <div data-open=\"\" aria-hidden=\"true\" role=\"presentation\" data-base-ui-inert=\"\" data-slot=\"dialog-overlay\" class=\"fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-out da",
+    "mobile-menu-open: \u001b[2m      - <div data-open=\"\" aria-hidden=\"true\" role=\"presentation\" data-base-ui-inert=\"\" data-slot=\"dialog-overlay\" class=\"fixed inset-0 isolate z-50 bg-black/10 duration-100 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-closed:animate-ou"
+  ]
+}

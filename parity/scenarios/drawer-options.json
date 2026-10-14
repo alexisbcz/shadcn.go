@@ -1,0 +1,39 @@
+[
+  { "label": "snap-open", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=drawer-trigger]", "nth": 0 }] },
+  { "label": "snap-settle", "frames": false, "steps": [{ "do": "wait", "ms": 700 }] },
+  { "label": "snap-drag-up", "steps": [{ "do": "drag", "target": "[data-slot=drawer-title]", "dx": 0, "dy": -250 }] },
+  { "label": "snap-settle-2", "frames": false, "steps": [{ "do": "wait", "ms": 700 }] },
+  { "label": "snap-drag-down-slow", "steps": [
+    { "do": "hover", "target": "[data-slot=drawer-title]" },
+    { "do": "down" },
+    { "do": "mouse", "x": 512, "y": 300, "steps": 6 },
+    { "do": "wait", "ms": 800 },
+    { "do": "up" }
+  ] },
+  { "label": "snap-settle-3", "frames": false, "steps": [{ "do": "wait", "ms": 700 }] },
+  { "label": "snap-drag-close", "steps": [{ "do": "drag", "target": "[data-slot=drawer-title]", "dx": 0, "dy": 250 }] },
+  { "label": "locked-open", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=drawer-trigger]", "nth": 1 }] },
+  { "label": "locked-settle", "frames": false, "steps": [{ "do": "wait", "ms": 700 }] },
+  { "label": "locked-escape", "steps": [{ "do": "press", "key": "Escape" }] },
+  { "label": "locked-outside", "steps": [{ "do": "mouse", "x": 500, "y": 40 }, { "do": "down" }, { "do": "up" }] },
+  { "label": "locked-drag", "steps": [{ "do": "drag", "target": "[data-slot=drawer-title]", "dx": 0, "dy": 250 }] },
+  { "label": "locked-settle-2", "frames": false, "steps": [{ "do": "wait", "ms": 700 }] },
+  { "label": "locked-close", "steps": [{ "do": "click", "target": "[data-slot=drawer-close]" }] },
+  { "label": "scale-open", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=drawer-trigger]", "nth": 2 }] },
+  { "label": "scale-settle", "frames": false, "steps": [{ "do": "wait", "ms": 700 }] },
+  { "label": "scale-drag-hold", "steps": [
+    { "do": "hover", "target": "[data-slot=drawer-title]" },
+    { "do": "down" },
+    { "do": "mouse", "x": 512, "y": 700, "steps": 6 }
+  ] },
+  { "label": "scale-drag-release", "steps": [{ "do": "wait", "ms": 600 }, { "do": "up" }] },
+  { "label": "scale-settle-2", "frames": false, "steps": [{ "do": "wait", "ms": 700 }] },
+  { "label": "scale-escape", "steps": [{ "do": "press", "key": "Escape" }] },
+  { "label": "scale-closed", "frames": false, "steps": [{ "do": "wait", "ms": 700 }] },
+  { "label": "handle-open", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=drawer-trigger]", "nth": 3 }] },
+  { "label": "handle-settle", "frames": false, "steps": [{ "do": "wait", "ms": 700 }] },
+  { "label": "handle-drag-content", "steps": [{ "do": "drag", "target": "[data-slot=drawer-title]", "dx": 0, "dy": 250 }] },
+  { "label": "handle-hover", "steps": [{ "do": "hover", "target": "[data-vaul-handle]" }] },
+  { "label": "handle-click", "steps": [{ "do": "click", "target": "[data-vaul-handle]" }] },
+  { "label": "handle-drag", "steps": [{ "do": "drag", "target": "[data-vaul-handle]", "dx": 0, "dy": 250 }] }
+]

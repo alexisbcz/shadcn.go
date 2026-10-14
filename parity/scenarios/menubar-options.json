@@ -1,0 +1,347 @@
+[
+ {
+  "label": "start-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false,
+  "reset": true
+ },
+ {
+  "label": "hover-file-switch",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "file-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "hover-export",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=menubar-sub-trigger]:has-text('Export')"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "hover-image",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=menubar-sub-trigger]:has-text('Image')"
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "hover-svg",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=menubar-item]:has-text('SVG')"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "escape-all",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-all-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-left-no-loop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-right-skips-disabled",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrow-right-no-loop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "enter-help",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "help-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "content-arrow-right-no-loop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "help-right-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "content-arrow-left",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "edit-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "hover-locked",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 2,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "locked-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "rtl-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=menubar-trigger]",
+    "nth": 4
+   }
+  ]
+ },
+ {
+  "label": "rtl-sub-keyboard",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "rtl-sub-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "rtl-sub-close",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "rtl-sub-close-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "rtl-content-next",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "rtl-next-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "rtl-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "rtl-escape-idle",
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "rtl-trigger-arrows",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "rtl-trigger-arrows-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ],
+  "frames": false
+ }
+]

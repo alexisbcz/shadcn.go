@@ -29,6 +29,7 @@
 //   --jobs N              page jobs in parallel (default 3); each job is one page x theme x viewport
 //   --keep                keep images and DOM dumps of passing captures too
 //   --out DIR             reports (default parity/docs/out)
+//   --rerun FILE          only the failed jobs listed in a previous summary.json
 //   --quiet MS            DOM-quiet window of the settle wait (default 200)
 //
 // What is compared, per page, theme, viewport and capture
@@ -46,8 +47,8 @@
 //               document.title, HTTP status of the first load, clipboard
 //               text after copy actions.
 //   animations  in scenarios: the document timeline is frozen through the
-//               DevTools protocol before the steps (as in parity/run.mjs);
-//               the running animations' definitions (keyframes, duration,
+//               DevTools protocol (as in parity/run.mjs, see D7); the
+//               running animations' definitions (keyframes, duration,
 //               delay, easing, iterations, direction, fill, target) must be
 //               identical, then frames at 0, 25, 50 and 75% of the longest
 //               animation are compared pixel-exactly. Scroll-driven
@@ -79,11 +80,14 @@
 //   N4 next/font CSS-module classes "<family>_<hex8>-module__<hash>__<local>"
 //      become "next-font:<family>:<local>" (the class hash is a build hash;
 //      which font is used is checked through the pixels).
-//   N5 Generated ids: React useId values (_R_..._, «r..», :r..:) and the ids
+//   N5 Generated ids: React useId values (_R_..._, _r_..._, «r..», :r..:),
+//      recharts' lodash uniqueId ids (recharts<N>-clip, recharts-radial-line-<N>),
+//      also inside <style> text (ChartStyle's [data-chart=chart-_r_7_]), and the ids
 //      of shadcn.go's uid package (radix-|base-ui-|aria-|react-aria- + 10
 //      base32 characters) are replaced in every attribute by #idN in order
 //      of first appearance, keeping any prefix and suffix
-//      ("radix-_R_43a_-trigger-cli" -> "radix-#id3-trigger-cli"). Content
+//      ("radix-_R_43a_-trigger-cli" -> "radix-#id3-trigger-cli"), numbered
+//      separately in each frame's document. Content
 //      ids (heading slugs, example ids such as "email") are kept verbatim.
 //   N6 class: tokens sorted (order is not significant; duplicates kept).
 //      style: parsed declarations, sorted. Attributes sorted by name.
@@ -94,37 +98,106 @@
 //   N8 Live state added: .value of inputs, .checked of checkboxes/radios,
 //      (focused) on document.activeElement; same-origin <iframe> documents
 //      are snapshotted inline under their <iframe>.
+//   N9 Library scratch elements outside the visible document are dropped:
+//      recharts' <span id="recharts_measurement_span"> (an off-screen text
+//      measuring span whose content is the last string measured, which
+//      depends on render order).
 //
-// Nondeterminism neutralized identically on both sides (found by the
-// self-comparison, --self; each item is applied to the reference and the
-// candidate in the same way)
+// Nondeterminism neutralized identically on both sides. Each item was found
+// by the self-comparison (--self: the reference against itself in two
+// independent browser contexts) and is applied to the reference and the
+// candidate in the same way.
 //
-//   D1 Time: Date is fixed at PARITY_NOW (page.clock.setFixedTime; timers
-//      keep running). Server-rendered dates on the candidate must use the
-//      same instant: every request carries "x-parity-now: <ISO time>" (stub
-//      contract for the Go server; the reference is prerendered at build).
-//   D2 Math.random is a seeded PRNG (mulberry32, seed 1), fresh per document.
-//   D3 Clipboard: navigator.clipboard.writeText/readText and the "copy"
-//      event are captured per page (window.__parityClipboard) instead of the
-//      browser-wide system clipboard, which parallel jobs would share.
-//   D4 Lazy content: <img loading=lazy> and <iframe loading=lazy> are loaded
-//      eagerly (loading set to eager, then the attribute restored once
-//      loaded), then every image is decoded before a capture.
-//   D5 Fonts: document.fonts.ready in every frame before a capture.
-//   D6 Hydration / late effects: a capture waits for network idle (no request
-//      in flight for 150ms) and for 200ms without DOM mutations (max 10s) in
-//      every frame.
-//   D7 Animations: CSS transitions started by the page load are awaited
-//      (max 1s); before each capture, finite animations are finished and
-//      infinite ones (spinners, shimmer, marquees) paused at 0, in every
-//      frame. Scroll-driven animations are left to their scroll position.
-//   D8 Rendering: a forced full repaint before each screenshot (as in
-//      parity/run.mjs); the caret is hidden; deviceScaleFactor 1; one
-//      Chromium build (the headless shell parity/run.mjs uses); timezone
-//      UTC, locale en-US; reducedMotion no-preference.
-//   D9 Scroll: every job starts at the top in a fresh context (no
-//      sessionStorage, so the sidebar scroll-restore script sees no state);
-//      scroll steps use instant scrolling.
+//   D1  Time: Date is fixed at PARITY_NOW (Date.now() and new Date() return
+//       it; timers and performance.now keep running). Playwright's
+//       page.clock is deliberately not used: it replaces setTimeout and
+//       requestAnimationFrame with its own fakes, defeating D6 and D10. Server-rendered dates on the candidate must use the
+//       same instant: every request carries "x-parity-now: <ISO time>" (stub
+//       contract for the Go server; the reference is prerendered at build).
+//   D2  Math.random is a seeded PRNG (mulberry32, seed 1), fresh per document.
+//   D3  Clipboard: navigator.clipboard.writeText/readText and the "copy"
+//       event are captured per page (window.__parityClipboard) instead of the
+//       browser-wide system clipboard, which parallel jobs would share.
+//   D4  Lazy content: <img loading=lazy> and <iframe loading=lazy> are loaded
+//       eagerly (loading set to eager, the attribute restored once loaded),
+//       then every image is decoded before a capture.
+//   D5  Fonts: document.fonts.ready in every frame before a capture.
+//   D6  Late effects: a capture waits for network idle (no request in flight
+//       for 150ms) and, in every frame, for a window without DOM mutations
+//       and without page calls to requestAnimationFrame of 200ms (600ms after
+//       a page load) AND 8 animation frames (max 15s), so rAF-driven JS
+//       animations and rAF-based delays (recharts) are waited for even on a
+//       loaded machine. A change of the document's scroll size also resets
+//       the window (content-visibility:auto content, such as the closed
+//       CodeCollapsibleWrapper, gets its real height only when it nears the
+//       viewport). Lazily added frames repeat the wait.
+//   D7  Animations: CSS transitions started by the page load are awaited
+//       (max 1s); then the document timeline stays frozen (DevTools
+//       Animation.setPlaybackRate 0) for the rest of the job, so nothing
+//       progresses with wall time (a transition interrupted a few real
+//       milliseconds after it started would otherwise reverse from a
+//       timing-dependent point). Before each capture, finite animations are
+//       finished and infinite ones (spinners, shimmer, marquees) paused at 0,
+//       in every frame, repeatedly until none is left running. Scroll-driven
+//       animations are left to their scroll position. The frozen timeline
+//       also stops requestAnimationFrame timestamps, so page callbacks get
+//       performance.now() instead: JS animations (recharts) run in real time
+//       and the settle wait (D6) lets them finish.
+//   D8  Rendering: Chromium runs with --disable-partial-raster (a re-raster
+//       never keeps anti-aliased edges from an earlier paint, which left
+//       1-gray-level differences in iframes) and --force-color-profile=srgb;
+//       a full repaint is forced in every frame before each screenshot (as
+//       in parity/run.mjs); the caret is hidden; deviceScaleFactor 1; one
+//       Chromium build (the headless shell parity/run.mjs uses); timezone
+//       UTC, locale en-US; reducedMotion no-preference. A capture that
+//       differs is settled and taken again up to twice (a real mismatch is
+//       deterministic); the last one is reported.
+//   D9  Scroll: every job starts at the top in a fresh context (no
+//       sessionStorage, so the sidebar scroll-restore script sees no state);
+//       scroll steps use instant scrolling; a step target outside the
+//       viewport is centered instantly, the page settled (content above can
+//       grow when it scrolls into view), and repeated until the target stays
+//       in view, before Playwright acts on it (its own scroll-into-view
+//       retries other alignments when the first attempt is obscured, which
+//       depends on timing).
+//   D10 Long timers: setTimeout with a delay of 1s or more is held (it never
+//       fires by itself) and setInterval of 1s or more never fires, from the
+//       first script on. This freezes autoplay carousels, toast auto-dismiss,
+//       "Copied!" states that revert after 2s, and anything else on a
+//       wall-clock schedule, at the same point on both sides. A scenario can
+//       run the held timers explicitly with the "timers" step.
+//   D11 Iframe load race: once an iframe has loaded, a "load" event is
+//       dispatched on it once more (after hydration), so a listener attached
+//       late sees it on both sides (upstream's ChartIframe otherwise stays at
+//       opacity-0 whenever the frame loads before React hydrates).
+//   D12 Theme switch transitions: next-themes disables transitions with a
+//       temporary style removed after getComputedStyle(document.body), which
+//       forces no style update, so whether colors then transition depends on
+//       frame timing. The harness forces a style update before that style is
+//       removed: theme changes never transition, on both sides.
+//   D13 Full-page screenshots fire "resize" in every frame (Chromium's
+//       captureBeyondViewport) although no size changes; resize events are
+//       swallowed (capture-phase listener installed first) while the harness
+//       takes one, so no handler re-renders during the capture.
+//   D14 Hydration: each frame of a Next.js page (self.__next_f present) is
+//       waited for until React has hydrated it (<html> carries its fiber),
+//       before the DOM-quiet wait; under load hydration can come seconds
+//       after the load event. A page declaring window.__shadcnReady (the Go
+//       runtime) is waited for until it is true.
+//   D15 Focus taken by an iframe during load (an autofocus inside a block
+//       preview): which frame ends up focused depends on load order, so if
+//       the top document's active element is an iframe after load, it is
+//       blurred.
+//   D16 Iframe size race: an iframe's first render races the parent's
+//       layout (react-resizable-panels sizes the panel holding a block
+//       preview on mount; the frame may hydrate at width 0, and its
+//       useIsMobile-driven state then differs). After the page settled,
+//       every iframe is reloaded once and the page settled again.
+//
+// Harness errors (a timeout on an overloaded machine) retry the job once;
+// a difference is never retried. A scenario whose first target the
+// reference cannot act on (covered by a modal the page opens, e.g. /create)
+// is skipped and listed under "skipped" in the report.
 //
 // Steps (scenarios.mjs and parity/docs/scenarios/*.json)
 //
@@ -138,6 +211,7 @@
 //   wait                               ms
 //   settle                             network idle + DOM quiet + fonts + images
 //   clipboard                          record the captured clipboard text in the capture
+//   timers                             run the held timers (D10) once, in every frame
 //   eval                               js
 //
 // Targets resolve to the nth VISIBLE match.
@@ -161,7 +235,7 @@ const here = import.meta.dirname
 // --- arguments -------------------------------------------------------------------------
 
 const args = process.argv.slice(2)
-const VALUED = ["--quiet", "--ref", "--target", "--group", "--grep", "--shard", "--themes", "--viewports", "--only", "--jobs", "--out"]
+const VALUED = ["--rerun", "--quiet", "--ref", "--target", "--group", "--grep", "--shard", "--themes", "--viewports", "--only", "--jobs", "--out"]
 const flag = (n) => args.includes(n)
 const opt = (n, d) => (args.includes(n) ? args[args.indexOf(n) + 1] : d)
 const positional = args.filter((a, i) => !a.startsWith("--") && !VALUED.includes(args[i - 1]))
@@ -184,12 +258,26 @@ const only = opt("--only") ? new Set(opt("--only").split(",")) : null
 const outRoot = path.resolve(opt("--out", path.join(here, "out")))
 const QUIET = Number(opt("--quiet", "200"))
 const QUIET_LOAD = 600
+export const LAUNCH_ARGS = ["--disable-partial-raster", "--force-color-profile=srgb"]
 export const PARITY_NOW = "2026-01-15T12:00:00.000Z"
 
 // --- browser-side helpers (serialized into the page) ---------------------------------------
 
 // D2 + D3: installed before any page script, in every frame.
 const PRELUDE = `(() => {
+  // D1: a fixed Date. (Playwright's page.clock is not used: it replaces
+  // setTimeout and requestAnimationFrame with its own fakes, over D6/D10.)
+  const RealDate = Date
+  const NOW = ${Date.parse(PARITY_NOW)}
+  function FixedDate(...a) {
+    if (!new.target) return new RealDate(NOW).toString()
+    return a.length ? new RealDate(...a) : new RealDate(NOW)
+  }
+  FixedDate.prototype = RealDate.prototype
+  FixedDate.now = () => NOW
+  FixedDate.parse = RealDate.parse
+  FixedDate.UTC = RealDate.UTC
+  window.Date = FixedDate
   let s = 1
   Math.random = function () {
     s |= 0; s = (s + 0x6d2b79f5) | 0
@@ -197,6 +285,71 @@ const PRELUDE = `(() => {
     t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296
   }
+  // D10: timers of 1s or more are held (never fire by themselves); the
+  // "timers" step flushes them. Intervals of 1s or more never fire.
+  const realSetTimeout = window.setTimeout.bind(window)
+  window.__paritySetTimeout = realSetTimeout // for the harness's own waits
+  // D6: page code's last requestAnimationFrame call, so JS animation loops
+  // (recharts' rAF timeouts and tweens) count as activity for the settle wait.
+  const realRAF = window.requestAnimationFrame.bind(window)
+  window.__parityRAF = realRAF
+  window.__parityRafAt = 0
+  // The callback gets performance.now() as its timestamp: with the document
+  // timeline frozen (D7) Chromium's rAF timestamps stop advancing, and a JS
+  // animation computing progress from them (recharts) would never end.
+  window.requestAnimationFrame = function (cb) {
+    window.__parityRafAt = performance.now()
+    return realRAF(() => cb(performance.now()))
+  }
+  const realClearTimeout = window.clearTimeout.bind(window)
+  const realSetInterval = window.setInterval.bind(window)
+  const realClearInterval = window.clearInterval.bind(window)
+  const held = new Map()
+  let nextHeld = 1e9
+  window.setTimeout = function (fn, ms, ...rest) {
+    if (Number(ms) >= 1000 && typeof fn === "function") {
+      const id = nextHeld++
+      held.set(id, () => fn(...rest))
+      return id
+    }
+    return realSetTimeout(fn, ms, ...rest)
+  }
+  window.clearTimeout = function (id) { if (held.has(id)) held.delete(id); else realClearTimeout(id) }
+  window.setInterval = function (fn, ms, ...rest) {
+    if (Number(ms) >= 1000) { const id = nextHeld++; held.set(id, null); return id }
+    return realSetInterval(fn, ms, ...rest)
+  }
+  window.clearInterval = function (id) { if (held.has(id)) held.delete(id); else realClearInterval(id) }
+  window.__parityFlushTimers = () => {
+    const due = [...held.entries()].filter(([, f]) => f)
+    for (const [id] of due) held.delete(id)
+    for (const [, f] of due) { try { f() } catch (e) { realSetTimeout(() => { throw e }) } }
+    return due.length
+  }
+  // D12: next-themes disables transitions during a theme change with a
+  // temporary "transition:none!important" <style>, removed 1ms later after
+  // getComputedStyle(document.body), which does not force a style update:
+  // whether transitions then run depends on frame timing. Force the update
+  // before such a style is removed, so the change never transitions.
+  const isNoTransition = (n) => n && n.nodeName === "STYLE" && /transition:none!important/.test(n.textContent || "")
+  const realRemoveChild = Node.prototype.removeChild
+  Node.prototype.removeChild = function (child) {
+    if (isNoTransition(child)) void document.documentElement.offsetHeight
+    return realRemoveChild.call(this, child)
+  }
+  const realRemove = Element.prototype.remove
+  Element.prototype.remove = function () {
+    if (isNoTransition(this)) void document.documentElement.offsetHeight
+    return realRemove.call(this)
+  }
+  // D13: a full-page screenshot (captureBeyondViewport) fires "resize" in
+  // every frame although no size changes; handlers then re-render or
+  // re-initialize (carousels, charts) while the capture is taken. Resize
+  // events are swallowed while the harness takes such a screenshot.
+  window.__parityHoldResize = false
+  const gate = (e) => { if (window.__parityHoldResize) e.stopImmediatePropagation() }
+  window.addEventListener("resize", gate, true)
+  try { window.visualViewport && window.visualViewport.addEventListener("resize", gate, true) } catch {}
   window.__parityClipboard = null
   const clip = {
     writeText: (t) => { window.__parityClipboard = String(t); return Promise.resolve() },
@@ -216,12 +369,14 @@ const PRELUDE = `(() => {
 // Serializes the document into comparable lines, see "DOM normalization
 // rules" above. Each line carries the path of its ancestors for reports.
 function snapshotDOM(origins) {
-  const ids = new Map()
+  // One id map per document: ids never refer across frames, and each frame
+  // has its own generators (recharts' counter restarts in every iframe).
+  let ids = new Map()
   const idOf = (v) => {
     if (!ids.has(v)) ids.set(v, `#id${ids.size}`)
     return ids.get(v)
   }
-  const REACT_ID = /_R_[0-9A-Za-z]+_|«[^»]+»|:r[0-9a-z]+:/g
+  const REACT_ID = /_[Rr]_[0-9A-Za-z]+_|«[^»]+»|:r[0-9a-z]+:|\brecharts\d+(?=-)|\brecharts(?:-[a-z]+)+-\d+\b/g
   const GO_UID = /(^|[\s#])((?:radix|base-ui|aria|react-aria)-)([a-z2-7]{10})(?=$|[\s-])/g
   const genIds = (v) => v.replace(REACT_ID, (m) => idOf(m)).replace(GO_UID, (_, pre, prefix, core) => pre + prefix + idOf(core))
   const url = (v) => {
@@ -237,7 +392,7 @@ function snapshotDOM(origins) {
     let s = el.tagName.toLowerCase()
     const slot = el.getAttribute("data-slot")
     if (slot) s += `[data-slot=${slot}]`
-    if (el.id && !/_R_|«|:r/.test(el.id)) s += `#${el.id}`
+    if (el.id && !/_[Rr]_|«|:r/.test(el.id)) s += `#${el.id}`
     return s
   }
   const keepHead = (el) => {
@@ -250,7 +405,8 @@ function snapshotDOM(origins) {
   const walk = (node, depth, trail, inHead, verbatim, doc) => {
     for (const child of node.childNodes) {
       if (child.nodeType === 3) {
-        const t = verbatim ? child.textContent : child.textContent.replace(/\s+/g, " ").trim()
+        let t = verbatim ? child.textContent : child.textContent.replace(/\s+/g, " ").trim()
+        if (node.nodeName === "STYLE") t = genIds(t)
         if (t) {
           lines.push(`${"  ".repeat(depth)}${JSON.stringify(t)}`)
           paths.push(trail)
@@ -263,6 +419,7 @@ function snapshotDOM(origins) {
       if (inHead && !keepHead(child)) continue
       if (tag === "link" && DROP_LINK.test(child.getAttribute("rel") ?? "")) continue
       if (tag === "div" && child.hidden && !child.children.length && !child.textContent.trim()) continue
+      if (child.id === "recharts_measurement_span") continue
       const attrs = []
       for (const a of child.attributes) {
         if (a.name === "nonce" || a.name.startsWith("data-parity")) continue
@@ -295,6 +452,15 @@ function snapshotDOM(origins) {
     }
   }
   const walkRoot = (doc, depth, trail) => {
+    const outer = ids
+    ids = new Map()
+    try {
+      walkDoc(doc, depth, trail)
+    } finally {
+      ids = outer
+    }
+  }
+  const walkDoc = (doc, depth, trail) => {
     const html = doc.documentElement
     const attrs = [...html.attributes].map((a) => {
       let v = a.value
@@ -386,7 +552,8 @@ function maxAnimationEnd() {
 }
 
 async function forceRepaint() {
-  const raf2 = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))
+  const rf = window.__parityRAF ?? requestAnimationFrame
+  const raf2 = () => new Promise((r) => rf(() => rf(r)))
   const b = document.body
   if (!b) return
   const hadStyle = b.hasAttribute("style")
@@ -399,25 +566,30 @@ async function forceRepaint() {
 }
 
 function settleLoadTransitions() {
+  const st = window.__paritySetTimeout ?? setTimeout
   const running = document.getAnimations().filter((a) => a.constructor.name === "CSSTransition")
-  return Promise.race([Promise.all(running.map((a) => a.finished.catch(() => {}))), new Promise((r) => setTimeout(r, 1000))])
+  return Promise.race([Promise.all(running.map((a) => a.finished.catch(() => {}))), new Promise((r) => st(r, 1000))])
 }
 
 // D4: load lazy images and iframes now; restore the attribute afterwards.
 function eagerLoad() {
-  const lazy = [...document.querySelectorAll('img[loading="lazy"], iframe[loading="lazy"]')]
-  for (const el of lazy) {
+  const done = (window.__parityEager ??= new WeakSet())
+  let n = 0
+  for (const el of document.querySelectorAll('img[loading="lazy"], iframe[loading="lazy"]')) {
+    if (done.has(el)) continue
+    done.add(el)
     el.setAttribute("data-parity-lazy", "")
     el.loading = "eager"
+    n++
   }
-  return lazy.length
+  return n
 }
 
 async function restoreLazyAndDecode() {
   const imgs = [...document.images]
   await Promise.race([
     Promise.all(imgs.map((i) => (i.complete ? null : new Promise((r) => { i.addEventListener("load", r, { once: true }); i.addEventListener("error", r, { once: true }) })))),
-    new Promise((r) => setTimeout(r, 10000)),
+    new Promise((r) => (window.__paritySetTimeout ?? setTimeout)(r, 10000)),
   ])
   await Promise.all(imgs.map((i) => (i.complete && i.naturalWidth ? i.decode().catch(() => {}) : null)))
   for (const el of document.querySelectorAll("[data-parity-lazy]")) {
@@ -427,16 +599,100 @@ async function restoreLazyAndDecode() {
   await document.fonts.ready
 }
 
-// D6: resolves after `quiet` ms without DOM mutations (or `max` ms).
-function domQuiet({ quiet, max }) {
+// D14: resolves once the document is interactive: on a Next.js page (it
+// carries self.__next_f) when React has hydrated (<html> has its fiber);
+// on a page that declares window.__shadcnReady when that is true.
+function waitHydrated(max) {
+  const st = window.__paritySetTimeout ?? setTimeout
+  const ok = () => {
+    if (self.__next_f) return Object.keys(document.documentElement).some((k) => k.startsWith("__reactFiber$"))
+    if ("__shadcnReady" in window) return !!window.__shadcnReady
+    return document.readyState !== "loading"
+  }
+  const start = performance.now()
   return new Promise((resolve) => {
-    let timer
+    const poll = () => (ok() || performance.now() - start > max ? resolve(ok()) : st(poll, 25))
+    poll()
+  })
+}
+
+// D15: when an iframe took the focus during load, which of several frames
+// ends up focused depends on their load order: drop that focus.
+function dropFrameFocus() {
+  const a = document.activeElement
+  if (a && a.tagName === "IFRAME") {
+    try { a.contentDocument?.activeElement?.blur() } catch {}
+    a.blur()
+    return 1
+  }
+  return 0
+}
+
+// D16: reloads every iframe once the parent settled.
+function reloadIframes() {
+  let n = 0
+  for (const f of document.querySelectorAll("iframe")) {
+    try { f.contentWindow.location.reload(); n++ } catch {}
+  }
+  return n
+}
+
+// D11: re-dispatches "load" once on every iframe that finished loading.
+// Pages that attach their onLoad listener during hydration (React) miss the
+// event when the frame loaded first: a race the reference itself loses at
+// random (e.g. ChartIframe stays at opacity-0).
+function redispatchIframeLoad() {
+  const seen = (window.__parityLoaded ??= new WeakSet())
+  let n = 0
+  for (const f of document.querySelectorAll("iframe")) {
+    let ready = false
+    try { ready = f.contentDocument?.readyState === "complete" && f.contentDocument.location.href !== "about:blank" } catch {}
+    if (!ready || seen.has(f)) continue
+    seen.add(f)
+    f.dispatchEvent(new Event("load"))
+    n++
+  }
+  return n
+}
+
+// D6: resolves after `quiet` ms without DOM mutations (or `max` ms).
+// Counted both in milliseconds and in animation frames, so a rAF-driven JS
+// animation (recharts) is seen as running even on a loaded machine.
+function domQuiet({ quiet, frames, max }) {
+  const st = window.__paritySetTimeout ?? setTimeout
+  return new Promise((resolve) => {
     const start = performance.now()
-    const done = () => { obs.disconnect(); clearTimeout(timer); clearTimeout(cap); resolve(Math.round(performance.now() - start)) }
-    const obs = new MutationObserver(() => { clearTimeout(timer); timer = setTimeout(done, quiet) })
+    let last = start
+    let ticks = 0
+    let finished = false
+    const raf = window.__parityRAF ?? requestAnimationFrame
+    const obs = new MutationObserver(() => { last = performance.now(); ticks = 0 })
     obs.observe(document, { subtree: true, childList: true, attributes: true, characterData: true })
-    timer = setTimeout(done, quiet)
-    const cap = setTimeout(done, max)
+    let rafSeen = window.__parityRafAt ?? 0
+    const check = () => {
+      if (finished) return
+      const now = performance.now()
+      if ((window.__parityRafAt ?? 0) !== rafSeen) { rafSeen = window.__parityRafAt; last = Math.max(last, rafSeen); ticks = 0 }
+      if ((now - last >= quiet && ticks >= frames) || now - start >= max) {
+        finished = true
+        obs.disconnect()
+        resolve(now - start >= max ? -1 : Math.round(now - start))
+      }
+    }
+    // Layout changes without DOM mutations count too (content-visibility:
+    // auto content gets its real size when it nears the viewport).
+    const de = document.documentElement
+    let size = de.scrollHeight + "x" + de.scrollWidth
+    const tick = () => {
+      const now = de.scrollHeight + "x" + de.scrollWidth
+      if (now !== size) { size = now; last = performance.now(); ticks = 0 }
+      ticks++
+      check()
+      if (!finished) raf(tick)
+    }
+    raf(tick)
+    const poll = () => { check(); if (!finished) st(poll, 50) }
+    st(poll, 50)
   })
 }
 
@@ -449,7 +705,7 @@ function locate(points) {
       let s = e.tagName.toLowerCase()
       const slot = e.getAttribute("data-slot")
       if (slot) s += `[data-slot=${slot}]`
-      else if (e.id && !/_R_/.test(e.id)) s += `#${e.id}`
+      else if (e.id && !/_[Rr]_/.test(e.id)) s += `#${e.id}`
       else if (typeof e.className === "string" && e.className) s += "." + e.className.trim().split(/\s+/).slice(0, 2).join(".")
       out.unshift(s)
     }
@@ -477,7 +733,7 @@ function locate(points) {
 
 // --- one side ---------------------------------------------------------------------------
 
-function chromiumPath() {
+export function chromiumPath() {
   if (process.env.PARITY_CHROMIUM) return process.env.PARITY_CHROMIUM
   for (const dir of [path.join(os.homedir(), "Library/Caches/ms-playwright"), path.join(os.homedir(), ".cache/ms-playwright")]) {
     if (!fs.existsSync(dir)) continue
@@ -492,7 +748,7 @@ function chromiumPath() {
   return undefined
 }
 
-class Side {
+export class Side {
   constructor(browser, base, role, theme, vpName) {
     Object.assign(this, { browser, base, role, theme, vpName })
     this.origin = new URL(base).origin
@@ -510,7 +766,6 @@ class Side {
     })
     await this.context.addInitScript(PRELUDE)
     this.page = await this.context.newPage()
-    await this.page.clock.setFixedTime(new Date(PARITY_NOW))
     this.errors = []
     this.page.on("pageerror", (e) => this.errors.push(String(e)))
     this.page.on("console", (m) => m.type() === "error" && this.errors.push(m.text()))
@@ -524,14 +779,29 @@ class Side {
     this.page.on("requestfailed", done)
     this.cdp = await this.context.newCDPSession(this.page)
     await this.cdp.send("Animation.enable")
-    const res = await this.page.goto(this.base + pathname, { waitUntil: "load", timeout: 60000 })
+    const res = await this.page.goto(this.base + pathname, { waitUntil: "domcontentloaded", timeout: 180000 })
+    await this.page.waitForLoadState("load", { timeout: 120000 }).catch(() => this.timeout("load"))
     this.status = res?.status() ?? 0
     await this.settle({ load: true })
+    // D16: an iframe's first render races the parent's layout (e.g. a
+    // react-resizable-panels panel sized on mount: the frame hydrates at
+    // width 0 or at its final width, and useIsMobile-driven state differs).
+    // Reloading every iframe once the parent settled makes each frame start
+    // at its final size.
+    if (await this.page.evaluate(reloadIframes)) {
+      await this.page.waitForTimeout(50)
+      await this.settle({ load: true })
+    }
+    await this.page.evaluate(dropFrameFocus)
     // D7: the document timeline stays frozen from here on; captures finish
     // or park animations explicitly, so no animation progresses with wall
     // time (a transition interrupted after a few real milliseconds would
     // otherwise be reversed from a timing-dependent point).
     await this.freeze(true)
+  }
+
+  timeout(what) {
+    ;(this.settleTimeouts ??= []).push(what)
   }
 
   // Resolves once no request has been in flight for `quiet` ms (max 20s).
@@ -554,22 +824,26 @@ class Side {
   async settle({ load = false } = {}) {
     const p = this.page
     await this.netIdle()
-    for (let round = 0; round < 3; round++) {
+    for (let round = 0; round < 6; round++) {
       const n = this.frames().length
       const lazy = (await this.eachFrame(eagerLoad)).reduce((a, b) => a + (b ?? 0), 0)
       if (lazy) await this.netIdle()
       await Promise.all(this.frames().map((f) => f.waitForLoadState("load", { timeout: 20000 }).catch(() => {})))
+      const hydrated = await this.eachFrame(waitHydrated, 30000)
+      if (hydrated.includes(false)) this.timeout(`hydration of ${this.frames()[hydrated.indexOf(false)]?.url()}`)
       await this.eachFrame(restoreLazyAndDecode)
+      const reloaded = (await this.eachFrame(redispatchIframeLoad)).reduce((a, b) => a + (b ?? 0), 0)
       if (load) await this.eachFrame(settleLoadTransitions)
-      await this.eachFrame(domQuiet, { quiet: load ? QUIET_LOAD : QUIET, max: 10000 })
+      const q = await this.eachFrame(domQuiet, { quiet: load ? QUIET_LOAD : QUIET, frames: 8, max: 15000 })
+      if (q.includes(-1)) this.timeout(`dom-quiet of ${this.frames()[q.indexOf(-1)]?.url()}`)
       await this.netIdle()
-      if (this.frames().length === n && !lazy) break
+      if (this.frames().length === n && !lazy && !reloaded) break
     }
     await this.idle()
   }
 
   async idle() {
-    await this.eachFrame(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))))
+    await this.eachFrame(() => new Promise((r) => { const rf = window.__parityRAF ?? requestAnimationFrame; rf(() => rf(r)) }))
   }
 
   async freeze(on) {
@@ -586,6 +860,14 @@ class Side {
     const force = s.force ? { force: true } : {}
     const before = p.url()
     const t = { timeout: 10000 }
+    // Playwright scrolls a target into view itself, with alignment retries
+    // that depend on timing (an obscured first attempt is retried with
+    // another block alignment). Center a target that is not fully in the
+    // viewport first, instantly, so both sides scroll to the same place.
+    // Content can change size when it scrolls into view (lazily rendered
+    // previews, IntersectionObserver effects), so settle after scrolling and
+    // repeat until the target stays in view.
+    if (target && ["hover", "click", "dblclick", "focus"].includes(s.do)) await this.bringIntoView(s)
     switch (s.do) {
       case "hover": await target.hover({ ...force, ...t }); break
       case "click": await target.click({ ...force, ...t }); break
@@ -603,6 +885,7 @@ class Side {
         }, s)
         break
       case "settle": await this.settle(); break
+      case "timers": await this.eachFrame(() => window.__parityFlushTimers?.()); break
       case "clipboard": this.clipboard = await p.evaluate(() => window.__parityClipboard); break
       case "eval": await p.evaluate(s.js); break
       default: throw new Error(`unknown step ${JSON.stringify(s)}`)
@@ -611,6 +894,21 @@ class Side {
       await p.waitForURL((u) => u.toString() !== before, { timeout: 15000 })
       await this.settle()
       await this.freeze(true) // a full navigation starts a new document timeline
+    }
+  }
+
+  async bringIntoView(s) {
+    const target = this.locator(s)
+    const t = { timeout: 10000 }
+    for (let i = 0; i < 4; i++) {
+      const scrolled = await target.evaluate((el) => {
+        const r = el.getBoundingClientRect()
+        if (r.top >= 0 && r.left >= 0 && r.bottom <= innerHeight && r.right <= innerWidth) return false
+        el.scrollIntoView({ block: "center", inline: "center", behavior: "instant" })
+        return true
+      }, null, t)
+      if (!scrolled) break
+      await this.settle()
     }
   }
 
@@ -626,8 +924,15 @@ class Side {
   }
 
   async shot(full) {
-    await this.page.evaluate(forceRepaint)
-    return this.page.screenshot({ fullPage: full, animations: "allow", caret: "hide", timeout: 60000 })
+    await this.eachFrame(forceRepaint)
+    if (!full) return this.page.screenshot({ animations: "allow", caret: "hide", timeout: 60000 })
+    await this.eachFrame(() => { window.__parityHoldResize = true })
+    try {
+      return await this.page.screenshot({ fullPage: true, animations: "allow", caret: "hide", timeout: 60000 })
+    } finally {
+      await this.idle()
+      await this.eachFrame(() => { window.__parityHoldResize = false })
+    }
   }
 
   async snapshot(origins) {
@@ -813,11 +1118,19 @@ async function runJob(browser, page, theme, vp) {
       if (!pending[0] && !pending[1]) break
     }
     let r, g, cmp, rd, gd
+    // A real mismatch is deterministic: a capture that differs is taken
+    // again (after another settle) up to twice, and the last one is reported.
     for (let attempt = 0; attempt < 3; attempt++) {
+      if (attempt) {
+        await both((s) => s.eachFrame(domQuiet, { quiet: QUIET, frames: 8, max: 5000 }))
+        await both((s) => s.eachFrame(settleAnimations))
+        await both((s) => s.idle())
+      }
       ;[rd, gd] = await both((s) => s.snapshot(origins))
       ;[r, g] = await both((s) => s.shot(full))
       cmp = comparePNG(r, g)
-      if (cmp.pixels === 0) break
+      if (cmp.pixels === 0 && rd.lines.join("\n") === gd.lines.join("\n")) break
+      cap.retries = attempt + 1
     }
     cap.pixels = cmp.pixels
     if (cmp.size) cap.size = cmp.size
@@ -865,8 +1178,9 @@ async function runJob(browser, page, theme, vp) {
         // both sides, so any scrolling it does stays symmetric.
         const first = sc.steps[0]
         if (first?.target && ["click", "hover", "dblclick"].includes(first.do) && !first.force) {
-          const trial = await Promise.allSettled([ref, tgt].map((s) => s.locator(first).click({ trial: true, timeout: 2000 })))
-          if (trial[0].status === "rejected") {
+          await Promise.allSettled([ref, tgt].map((s) => s.bringIntoView(first)))
+          const trial = await Promise.allSettled([ref, tgt].map((s) => s.locator(first).click({ trial: true, timeout: 5000 })))
+          if (trial[0].status === "rejected" && /intercepts pointer events/.test(String(trial[0].reason?.message))) {
             report.skipped = [...(report.skipped ?? []), `${sc.label}: ${String(trial[0].reason?.message ?? "").split("\n").find((l) => l.includes("intercepts")) ?? "not actionable"}`.slice(0, 300)]
             continue
           }
@@ -897,6 +1211,7 @@ async function runJob(browser, page, theme, vp) {
     report.errors.run = String(e.stack ?? e)
     report.pass = false
   } finally {
+    if (ref.settleTimeouts || tgt.settleTimeouts) report.settleTimeouts = { ref: ref.settleTimeouts ?? [], target: tgt.settleTimeouts ?? [] }
     report.errors.ref = ref.errors ?? []
     report.errors.target = tgt.errors ?? []
     if (report.status) report.pass = false
@@ -947,12 +1262,23 @@ function summaryLine(r) {
 
 async function main() {
   if (!TARGET) throw new Error("--target URL is required (or --self)")
-  const pages = selectPages()
+  let pages
   const jobs = []
-  for (const p of pages) for (const vp of viewports) for (const theme of themes) jobs.push({ page: p, theme, vp })
-  console.log(`${pages.length} pages x ${themes.length} themes x ${viewports.length} viewports = ${jobs.length} jobs; ref ${REF} vs target ${TARGET}${SELF ? " (self)" : ""}`)
+  if (opt("--rerun")) {
+    // Only the failed jobs of a previous run's summary.json.
+    const prev = JSON.parse(fs.readFileSync(opt("--rerun"), "utf8"))
+    const known = new Map(allPages().map((p) => [p.path, p]))
+    for (const f of prev.failures) jobs.push({ page: known.get(f.path) ?? { path: f.path, group: "app" }, theme: f.theme, vp: f.viewport })
+    pages = [...new Set(jobs.map((j) => j.page.path))]
+  } else {
+    pages = selectPages()
+    for (const p of pages) for (const vp of viewports) for (const theme of themes) jobs.push({ page: p, theme, vp })
+  }
+  console.log(`${opt("--rerun") ? `rerun of ${opt("--rerun")}: ${pages.length} pages,` : `${pages.length} pages x ${themes.length} themes x ${viewports.length} viewports =`} ${jobs.length} jobs; ref ${REF} vs target ${TARGET}${SELF ? " (self)" : ""}`)
   fs.mkdirSync(outRoot, { recursive: true })
-  const browser = await chromium.launch({ executablePath: chromiumPath() })
+  // D8: no partial raster, so a re-raster never keeps anti-aliased edges
+  // from an earlier paint (1-gray-level differences in iframes otherwise).
+  const browser = await chromium.launch({ executablePath: chromiumPath(), args: LAUNCH_ARGS })
   const reports = []
   const queue = [...jobs]
   const t0 = Date.now()
@@ -960,11 +1286,20 @@ async function main() {
     while (queue.length) {
       const j = queue.shift()
       let r
-      try {
-        r = await runJob(browser, j.page, j.theme, j.vp)
-      } catch (e) {
-        r = { path: j.page.path, theme: j.theme, viewport: j.vp, pass: false, captures: [], errors: { run: String(e.stack ?? e) } }
+      // A harness error (a timeout on an overloaded machine, a crashed
+      // context) is retried once; a difference never is.
+      let retried = false
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          r = await runJob(browser, j.page, j.theme, j.vp)
+        } catch (e) {
+          r = { path: j.page.path, theme: j.theme, viewport: j.vp, pass: false, captures: [], errors: { run: String(e.stack ?? e) } }
+        }
+        if (!r.errors?.run || attempt === 1) break
+        console.log(`     retrying ${j.page.path} ${j.theme}/${j.vp} after a harness error: ${r.errors.run.split("\n")[0]}`)
+        retried = true
       }
+      if (retried) r.retried = true
       reports.push(r)
       console.log(`[${reports.length}/${jobs.length}] ${summaryLine(r)}`)
     }
@@ -974,6 +1309,9 @@ async function main() {
   const captures = reports.reduce((n, r) => n + r.captures.length, 0)
   const summary = {
     ref: REF, target: TARGET, self: SELF, jobs: reports.length, captures, failed: failed.length, seconds: Math.round((Date.now() - t0) / 1000),
+    retriedCaptures: reports.reduce((n, r) => n + r.captures.filter((c) => c.pass && c.retries).length, 0),
+    retriedJobs: reports.filter((r) => r.retried).length,
+    skippedScenarios: reports.reduce((n, r) => n + (r.skipped?.length ?? 0), 0),
     failures: failed.map((r) => ({ path: r.path, theme: r.theme, viewport: r.viewport, captures: r.captures.filter((c) => !c.pass).map((c) => c.label), error: r.errors?.run?.split("\n")[0] })),
   }
   fs.writeFileSync(path.join(outRoot, "summary.json"), JSON.stringify(summary, null, 2))

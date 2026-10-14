@@ -1,0 +1,11 @@
+[
+  { "label": "hover-no-delay", "steps": [{ "do": "hover", "target": "[data-slot=navigation-menu-trigger]", "nth": 0 }, { "do": "wait", "ms": 30 }] },
+  { "label": "hover-next-rtl-motion", "steps": [{ "do": "hover", "target": "[data-slot=navigation-menu-trigger]", "nth": 2 }, { "do": "wait", "ms": 30 }] },
+  { "label": "leave", "steps": [{ "do": "mouse", "x": 1000, "y": 700, "steps": 3 }, { "do": "wait", "ms": 200 }] },
+  { "label": "kb-focus", "frames": false, "steps": [{ "do": "focus", "target": "[data-slot=navigation-menu-trigger]", "nth": 1 }] },
+  { "label": "kb-arrow-left-rtl", "frames": false, "steps": [{ "do": "press", "key": "ArrowLeft" }, { "do": "wait", "ms": 50 }] },
+  { "label": "kb-arrow-right-rtl", "frames": false, "steps": [{ "do": "press", "key": "ArrowRight" }, { "do": "wait", "ms": 50 }] },
+  { "label": "kb-open", "steps": [{ "do": "press", "key": "Enter" }] },
+  { "label": "kb-entry", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }, { "do": "wait", "ms": 50 }] },
+  { "label": "kb-escape-from-link", "steps": [{ "do": "press", "key": "Escape" }] }
+]

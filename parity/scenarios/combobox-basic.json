@@ -1,0 +1,334 @@
+[
+ {
+  "label": "click-input-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "input[role=combobox]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "arrowdown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrowdown-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrowup",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrowup-escape-list",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrowup-loop-end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "arrowdown-loop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "home-end-caret",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "hover-item",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[role=option]",
+    "nth": 3
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "pointer-leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 10,
+    "y": 700
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "hover-item-2",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[role=option]",
+    "nth": 1
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "enter-select",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "reopen-arrowdown-selected",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "type-filter",
+  "steps": [
+   {
+    "do": "type",
+    "text": "n"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "type-no-match",
+  "steps": [
+   {
+    "do": "type",
+    "text": "zz"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "backspace",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Backspace"
+   },
+   {
+    "do": "press",
+    "key": "Backspace"
+   },
+   {
+    "do": "press",
+    "key": "Backspace"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "escape-close",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-clears",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "type-opens",
+  "steps": [
+   {
+    "do": "type",
+    "text": "e"
+   }
+  ]
+ },
+ {
+  "label": "click-item",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[role=option]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "click-trigger-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-button]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "click-trigger-close",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-group-button]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "reopen-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "input[role=combobox]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "outside-press",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 10,
+    "y": 10
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "reopen-enter-no-highlight",
+  "steps": [
+   {
+    "do": "click",
+    "target": "input[role=combobox]",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "tab-out",
+  "steps": [
+   {
+    "do": "click",
+    "target": "input[role=combobox]",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "select-all-delete",
+  "steps": [
+   {
+    "do": "click",
+    "target": "input[role=combobox]",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   },
+   {
+    "do": "press",
+    "key": "Escape"
+   },
+   {
+    "do": "press",
+    "key": "Control+a"
+   },
+   {
+    "do": "press",
+    "key": "Backspace"
+   }
+  ],
+  "frames": false
+ }
+]

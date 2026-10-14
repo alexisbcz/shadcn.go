@@ -1,0 +1,692 @@
+[
+ {
+  "label": "hover-open",
+  "reset": true,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-trigger]"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "move-to-next",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 1
+   },
+   {
+    "do": "wait",
+    "ms": 30
+   }
+  ]
+ },
+ {
+  "label": "move-back",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 30
+   }
+  ]
+ },
+ {
+  "label": "into-content",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-content] [data-slot=navigation-menu-link]",
+    "nth": 1
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "leave-close",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700,
+    "steps": 3
+   },
+   {
+    "do": "wait",
+    "ms": 250
+   }
+  ]
+ },
+ {
+  "label": "hover-skip-delay",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 20
+   },
+   {
+    "do": "wait",
+    "ms": 200
+   },
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 3
+   },
+   {
+    "do": "wait",
+    "ms": 30
+   }
+  ]
+ },
+ {
+  "label": "click-close",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "move-after-click-close",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-trigger] svg",
+    "nth": 3
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "click-open",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 4
+   }
+  ]
+ },
+ {
+  "label": "link-click-dismiss",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=navigation-menu-content] a[href='#']",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "outside-open",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "outside-click",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "up"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-tab",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "kb-arrow-right",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-home",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-arrow-left-wraps-not",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-enter-open",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "kb-arrow-down-entry",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-content-arrows",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-tab-in-content",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "kb-tab-out",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-shift-tab-back",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-shift-tab-again",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "kb-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "kb-space-open",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "kb-switch-item",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "kb-escape-on-trigger",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "hover-after-escape",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 1
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "v-kb-focus-first",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=navigation-menu-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "v-kb-closed-arrow-down-moves",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "v-kb-closed-arrow-up-moves",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "v-kb-arrow-right-to-link",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "v-kb-arrow-left-back",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "v-kb-open-components",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "v-kb-entry",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "v-kb-content-end",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "v-kb-content-arrow-up",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "v-kb-content-arrow-left",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "v-kb-content-home",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "v-kb-content-arrow-down",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "v-kb-escape-focus-return",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "v-hover-open-escape",
+  "reset": true,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 1
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   },
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "v-hover-same-after-escape",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-trigger] svg",
+    "nth": 1
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "v-hover-other-after-escape",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 0
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "v-click-trigger-close",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "v-click-trigger-reopen",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 900,
+    "y": 700
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=navigation-menu-trigger]",
+    "nth": 0
+   }
+  ]
+ }
+]

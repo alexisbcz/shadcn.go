@@ -50,7 +50,7 @@ export const scenarios = [
 
   // Search: open with a click, type a query, close; then open with Cmd+K.
   { label: "search-open-click", when: S.searchTrigger, steps: [{ do: "click", target: S.searchTrigger }, { do: "settle" }] },
-  { label: "search-type", when: S.searchTrigger, frames: false, steps: [{ do: "type", text: "button" }, { do: "wait", ms: 700 }, { do: "settle" }] },
+  { label: "search-type", when: S.searchTrigger, frames: false, steps: [{ do: "type", text: "button" }, { do: "wait", ms: 1200 }, { do: "settle" }] },
   { label: "search-arrow", when: S.searchTrigger, frames: false, steps: [{ do: "press", key: "ArrowDown" }, { do: "press", key: "ArrowDown" }, { do: "settle" }] },
   { label: "search-close", when: S.searchTrigger, steps: [{ do: "press", key: "Escape" }, { do: "settle" }] },
   { label: "search-cmdk", when: S.searchTrigger, steps: [{ do: "press", key: "ControlOrMeta+k" }, { do: "settle" }] },

@@ -1,0 +1,176 @@
+[
+ {
+  "label": "click-disabled",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "click-disabled-trigger",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]",
+    "nth": 1,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "open-icons",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "select-icon-item",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-item]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "open-custom",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "select-custom",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-item]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "open-rtl",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]",
+    "nth": 4
+   }
+  ]
+ },
+ {
+  "label": "rtl-arrow",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=select-item]",
+    "nth": 0
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "rtl-select",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "open-disabled-first",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]",
+    "nth": 5
+   }
+  ]
+ },
+ {
+  "label": "hover-disabled-item",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=select-item]",
+    "nth": 2,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "arrows",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "trigger-typeahead",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "f"
+   }
+  ]
+ },
+ {
+  "label": "tab-away",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ }
+]

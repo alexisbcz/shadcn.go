@@ -1,0 +1,157 @@
+[
+ {
+  "label": "tab-focus-trigger",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=tabs-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "tabs-arrowleft",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "tabs-arrowright",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "radio-click",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=radio-group-item]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "radio-arrowleft",
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', code: 'ArrowLeft', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft', code: 'ArrowLeft', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "toggle-focus",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=toggle-group-item]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "toggle-arrowleft",
+  "frames": false,
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "slider-arrowright",
+  "frames": false,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=slider-thumb]",
+    "nth": 0
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "slider-drag",
+  "frames": false,
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[data-slot=slider-thumb]",
+    "nth": 0,
+    "dx": -80,
+    "dy": 0
+   }
+  ]
+ },
+ {
+  "label": "ltr-toggle-arrowright",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=toggle-group-item]",
+    "nth": 3
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "ltr-slider-arrowright",
+  "frames": false,
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=slider-thumb]",
+    "nth": 1
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ }
+]

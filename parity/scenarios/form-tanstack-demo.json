@@ -1,0 +1,102 @@
+[
+ {
+  "label": "submit-empty",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "type-title",
+  "steps": [
+   {
+    "do": "type",
+    "target": "input",
+    "text": "Login broken"
+   }
+  ]
+ },
+ {
+  "label": "submit-partial",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "type-description-short",
+  "steps": [
+   {
+    "do": "type",
+    "target": "textarea",
+    "text": "Too short"
+   }
+  ]
+ },
+ {
+  "label": "tab-out",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "submit-short",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "type-description",
+  "steps": [
+   {
+    "do": "type",
+    "target": "textarea",
+    "text": " but now it is long enough."
+   }
+  ]
+ },
+ {
+  "label": "submit-valid",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ },
+ {
+  "label": "reset",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=card-footer] button[type=button]"
+   }
+  ]
+ },
+ {
+  "label": "title-too-long",
+  "reset": true,
+  "steps": [
+   {
+    "do": "type",
+    "target": "input",
+    "text": "This bug title is definitely way too long"
+   },
+   {
+    "do": "click",
+    "target": "button[type=submit]"
+   }
+  ]
+ }
+]
