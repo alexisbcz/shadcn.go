@@ -1,0 +1,4 @@
+[
+  { "label": "top-left", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 0 }, { "do": "wait", "ms": 600 }] },
+  { "label": "bottom-center", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 4 }, { "do": "wait", "ms": 600 }] }
+]

@@ -1,0 +1,527 @@
+[
+ {
+  "label": "show",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "hover-expand",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sonner-toast]"
+   }
+  ]
+ },
+ {
+  "label": "hover-action",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sonner-toast] [data-action]"
+   }
+  ]
+ },
+ {
+  "label": "leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 10,
+    "y": 10
+   }
+  ]
+ },
+ {
+  "label": "auto-dismiss",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 4600
+   }
+  ]
+ },
+ {
+  "label": "show-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "action-undo",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-sonner-toast] [data-action]"
+   }
+  ]
+ },
+ {
+  "label": "action-removed",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "stack-1",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "stack-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "stack-3",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "stack-4",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "stack-hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sonner-toast]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "stack-hover-second",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sonner-toast]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "hotkey",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Alt+KeyT"
+   }
+  ]
+ },
+ {
+  "label": "hotkey-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hotkey-tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hotkey-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "stack-leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 10,
+    "y": 10
+   }
+  ]
+ },
+ {
+  "label": "stack-dismiss",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 10,
+    "y": 10
+   },
+   {
+    "do": "wait",
+    "ms": 4800
+   }
+  ]
+ },
+ {
+  "label": "swipe-show",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "swipe-out",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[data-sonner-toast] [data-title]",
+    "dx": 120,
+    "dy": 0
+   }
+  ]
+ },
+ {
+  "label": "swipe-gone",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "swipe-show-2",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "swipe-small",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sonner-toast] [data-title]"
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 690,
+    "steps": 2
+   },
+   {
+    "do": "wait",
+    "ms": 600
+   },
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "swipe-down",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[data-sonner-toast] [data-title]",
+    "dx": 0,
+    "dy": 80
+   }
+  ]
+ },
+ {
+  "label": "pause-show",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   },
+   {
+    "do": "wait",
+    "ms": 1500
+   }
+  ]
+ },
+ {
+  "label": "pause-hover",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sonner-toast]"
+   },
+   {
+    "do": "wait",
+    "ms": 3000
+   }
+  ]
+ },
+ {
+  "label": "pause-resume",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 10,
+    "y": 10
+   },
+   {
+    "do": "wait",
+    "ms": 1000
+   }
+  ]
+ },
+ {
+  "label": "pause-expired",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 2500
+   }
+  ]
+ },
+ {
+  "label": "kbd-show",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   },
+   {
+    "do": "mouse",
+    "x": 10,
+    "y": 10
+   }
+  ]
+ },
+ {
+  "label": "kbd-hotkey",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Alt+KeyT"
+   }
+  ]
+ },
+ {
+  "label": "kbd-tab-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "kbd-tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "kbd-enter-action",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "kbd-after",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "swipe-left-hold",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   },
+   {
+    "do": "hover",
+    "target": "[data-sonner-toast] [data-title]"
+   },
+   {
+    "do": "down"
+   },
+   {
+    "do": "mouse",
+    "x": 560,
+    "y": 700,
+    "steps": 4
+   }
+  ]
+ },
+ {
+  "label": "swipe-left-release",
+  "steps": [
+   {
+    "do": "up"
+   }
+  ]
+ },
+ {
+  "label": "swipe-up",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[data-sonner-toast] [data-title]",
+    "dx": 0,
+    "dy": -100
+   }
+  ]
+ },
+ {
+  "label": "swipe-fast-small",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[data-sonner-toast] [data-title]",
+    "dx": 30,
+    "dy": 0,
+    "steps": 3
+   }
+  ]
+ },
+ {
+  "label": "swipe-fast-gone",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "exp-stack",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "exp-hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sonner-toast]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "exp-action-middle",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-sonner-toast] [data-action]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "exp-action-settle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "exp-swipe-back",
+  "steps": [
+   {
+    "do": "drag",
+    "target": "[data-sonner-toast] [data-title]",
+    "nth": 1,
+    "dx": 150,
+    "dy": 0
+   }
+  ]
+ },
+ {
+  "label": "exp-swipe-settle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ }
+]

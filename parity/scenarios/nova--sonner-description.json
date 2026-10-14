@@ -1,0 +1,4 @@
+[
+  { "label": "show", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=button]" }, { "do": "wait", "ms": 600 }] },
+  { "label": "hover-expand", "steps": [{ "do": "hover", "target": "[data-sonner-toast]" }, { "do": "wait", "ms": 600 }] }
+]

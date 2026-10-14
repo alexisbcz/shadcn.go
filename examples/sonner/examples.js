@@ -43,6 +43,24 @@ const handlers = {
   Sticky: () => toast.warning("Cannot be swiped", { dismissible: false, invert: true }),
 }
 
+// The docs previews (ui/apps/v4/examples/radix/sonner-*.tsx) that reuse a
+// label with another handler, by the marker's data-example-sonner value.
+const variants = {
+  description: {
+    "Show Toast": () => toast("Event has been created", { description: "Monday, January 3rd at 6:00pm" }),
+  },
+}
+for (const [label, position] of [
+  ["Top Left", "top-left"],
+  ["Top Center", "top-center"],
+  ["Top Right", "top-right"],
+  ["Bottom Left", "bottom-left"],
+  ["Bottom Center", "bottom-center"],
+  ["Bottom Right", "bottom-right"],
+]) {
+  handlers[label] = () => toast("Event has been created", { position })
+}
+
 define("example-sonner", {
   // The marker template rendered inside each example: the buttons next to
   // it get the example's onClick handlers.
@@ -52,7 +70,8 @@ define("example-sonner", {
     if (!root) return
     const bound = []
     for (const button of root.querySelectorAll('[data-slot="button"]')) {
-      const handler = handlers[button.textContent.trim()]
+      const label = button.textContent.trim()
+      const handler = variants[tpl.dataset.exampleSonner]?.[label] ?? handlers[label]
       if (!handler) continue
       button.addEventListener("click", handler)
       bound.push([button, handler])
