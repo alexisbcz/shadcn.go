@@ -1,0 +1,5 @@
+[
+ {"label": "open-second", "reset": true, "steps": [{"do": "click", "target": "[data-slot=dropdown-menu-trigger]", "nth": 1}]},
+ {"label": "hover-item", "frames": false, "steps": [{"do": "hover", "target": "[data-slot=dropdown-menu-item]", "nth": 1}]},
+ {"label": "select-item", "steps": [{"do": "click", "target": "[data-slot=dropdown-menu-item]", "nth": 1}]}
+]

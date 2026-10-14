@@ -1,0 +1,6 @@
+[
+ {"label": "open-year", "reset": true, "steps": [{"do": "click", "target": "[data-slot=select-trigger]", "nth": 1}]},
+ {"label": "pick-year", "steps": [{"do": "press", "key": "ArrowDown"}, {"do": "press", "key": "Enter"}]},
+ {"label": "toggle-checkbox", "frames": false, "steps": [{"do": "click", "target": "[data-slot=checkbox]"}]},
+ {"label": "type-name", "frames": false, "steps": [{"do": "click", "target": "#checkout-7j9-card-name-43j"}, {"do": "type", "text": "Ada"}]}
+]

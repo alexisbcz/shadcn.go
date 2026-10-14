@@ -1,0 +1,5 @@
+[
+ {"label": "open", "reset": true, "steps": [{"do": "click", "target": "[data-slot=select-trigger]"}]},
+ {"label": "arrow-down", "frames": false, "steps": [{"do": "press", "key": "ArrowDown"}, {"do": "press", "key": "ArrowDown"}]},
+ {"label": "select-enter", "steps": [{"do": "press", "key": "Enter"}]}
+]
