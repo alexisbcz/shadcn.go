@@ -37,8 +37,10 @@ import (
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	inputgroup "shadcn.go/components/ui/input-group"
+	"shadcn.go/components/ui/internal/styled"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/uid"
 	"shadcn.go/components/ui/runtime"
@@ -175,6 +177,46 @@ func (s *state) selectedLabel() string {
 		return sel[0].Label
 	}
 	return ""
+}
+
+// The classes of registry/bases/radix/ui/combobox.tsx, used inside a
+// style.Scope (see package style).
+var (
+	file            = style.NewFile("ui/combobox.tsx")
+	stTrigger       = file.Cn("cn-combobox-trigger", style.Arg)
+	stTriggerIcon   = file.Attr("cn-combobox-trigger-icon pointer-events-none")
+	stClear         = file.Cn("cn-combobox-clear", style.Arg)
+	stClearIcon     = file.Attr("cn-combobox-clear-icon pointer-events-none")
+	stInput         = file.Cn("cn-combobox-input w-auto", style.Arg)
+	stContent       = file.Cn("cn-combobox-content cn-combobox-content-logical cn-menu-target cn-menu-translucent group/combobox-content relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[calc(var(--anchor-width)+--spacing(7))] origin-(--transform-origin) data-[chips=true]:min-w-(--anchor-width)", style.Arg)
+	stList          = file.Cn("cn-combobox-list overflow-y-auto overscroll-contain", style.Arg)
+	stItem          = file.Cn("cn-combobox-item relative flex w-full cursor-default items-center outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0", style.Arg)
+	stIndicator     = file.Attr("cn-combobox-item-indicator")
+	stIndicatorIcon = file.Attr("cn-combobox-item-indicator-icon pointer-events-none")
+	stGroup         = file.Cn("cn-combobox-group", style.Arg)
+	stLabel         = file.Cn("cn-combobox-label", style.Arg)
+	stEmpty         = file.Cn("cn-combobox-empty", style.Arg)
+	stSeparator     = file.Cn("cn-combobox-separator", style.Arg)
+	stChips         = file.Cn("cn-combobox-chips", style.Arg)
+	stChip          = file.Cn("cn-combobox-chip has-disabled:pointer-events-none has-disabled:cursor-not-allowed has-disabled:opacity-50", style.Arg)
+	stChipRemove    = file.Attr("cn-combobox-chip-remove")
+	stChipIcon      = file.Attr("cn-combobox-chip-indicator-icon pointer-events-none")
+	stChipsInput    = file.Cn("cn-combobox-chip-input min-w-16 flex-1 outline-none", style.Arg)
+)
+
+// styleOf is the style of an enclosing style.Scope ("" outside one, or
+// for a nil writer).
+func styleOf(w io.Writer) style.Style {
+	st, _ := style.FromWriter(w)
+	return st
+}
+
+// elementIn resolves a component in w's style.
+func elementIn(n h.Node, w io.Writer) *h.Element {
+	if e, ok := n.(interface{ ElementIn(io.Writer) *h.Element }); ok {
+		return e.ElementIn(w)
+	}
+	return n.(h.Elementer).Element()
 }
 
 type part struct{ st *state }
@@ -349,8 +391,12 @@ func (b *InputBuilder) AcceptChild(c any) bool {
 }
 
 // Element resolves the input group.
-func (b *InputBuilder) Element() *h.Element {
+func (b *InputBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the input group in w's style.
+func (b *InputBuilder) ElementIn(w io.Writer) *h.Element {
 	s := b.state()
+	st := styleOf(w)
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	props.SetClass("")
@@ -366,7 +412,7 @@ func (b *InputBuilder) Element() *h.Element {
 	if !s.inputIn && !s.multiple {
 		value = s.selectedLabel()
 	}
-	in := inputgroup.Input(h.Prop(func(e *h.Element) { e.Bool("disabled", disabled) })).Element()
+	in := elementIn(inputgroup.Input(h.Prop(func(e *h.Element) { e.Bool("disabled", disabled) })), w)
 	in = h.Spread(in, comboboxInputAttrs(inputID, value), nil)
 	in = h.Spread(in, props, nil)
 	mark(in, s, "input")
@@ -376,21 +422,25 @@ func (b *InputBuilder) Element() *h.Element {
 
 	var addon []any
 	if b.showTrigger {
-		addon = append(addon, inputTrigger(s, disabled))
+		addon = append(addon, inputTrigger(w, s, disabled))
 	}
 	if b.showClear {
-		addon = append(addon, clearButton(s, disabled, b.disabled))
+		addon = append(addon, clearButton(w, s, disabled, b.disabled))
 	}
-	group := inputgroup.InputGroup(h.Class(lib.Cn("w-auto", className)),
+	groupClass := lib.Cn("w-auto", className)
+	if st != "" {
+		groupClass = stInput.Class(st, className)
+	}
+	group := inputgroup.InputGroup(h.Class(groupClass),
 		in,
 		inputgroup.Addon(append([]any{inputgroup.AlignInlineEnd}, addon...)...),
 		kids,
 	)
-	return group.Element()
+	return group.ElementIn(w)
 }
 
 // Render renders the input group.
-func (b *InputBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *InputBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 func comboboxInputAttrs(id, value string) *h.Element {
 	return h.Input(
@@ -410,15 +460,27 @@ func comboboxInputAttrs(id, value string) *h.Element {
 
 const triggerClass = "[&_svg:not([class*='size-'])]:size-4"
 
-func triggerIcon() h.Node {
+func triggerIcon(st style.Style) h.Node {
+	if st != "" {
+		return lucide.ChevronDown(h.Class(stTriggerIcon.Class(st)))
+	}
 	return lucide.ChevronDown(h.Data("slot", "combobox-trigger-icon"), h.Class("pointer-events-none size-4 text-muted-foreground"))
+}
+
+// triggerClassIn is cn("cn-combobox-trigger", className).
+func triggerClassIn(st style.Style, className string) string {
+	if st != "" {
+		return stTrigger.Class(st, className)
+	}
+	return lib.Cn(triggerClass, className)
 }
 
 // inputTrigger is <InputGroupButton size="icon-xs" variant="ghost" asChild
 // ...><ComboboxTrigger /></InputGroupButton>.
-func inputTrigger(s *state, disabled bool) *h.Element {
+func inputTrigger(w io.Writer, s *state, disabled bool) *h.Element {
+	st := styleOf(w)
 	slot := inputgroup.Button(inputgroup.ButtonSizeIconXs, button.VariantGhost,
-		h.Class("group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent")).Element()
+		h.Class("group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent")).ElementIn(w)
 	el := h.Button(
 		h.Type("button"),
 		h.TabIndex(-1),
@@ -427,8 +489,8 @@ func inputTrigger(s *state, disabled bool) *h.Element {
 		h.Data("slot", "input-group-button"),
 		h.Data("variant", "ghost"),
 		h.Data("size", "icon-xs"),
-		h.Class(lib.Cn(triggerClass, slot.ClassName())),
-		triggerIcon(),
+		h.Class(triggerClassIn(st, slot.ClassName())),
+		triggerIcon(st),
 	)
 	if !s.multiple && !s.hasSelection() {
 		el.Attr("data-placeholder", "")
@@ -440,12 +502,18 @@ func inputTrigger(s *state, disabled bool) *h.Element {
 	return el
 }
 
-func clearButton(s *state, disabled, local bool) h.Node {
+func clearButton(w io.Writer, s *state, disabled, local bool) h.Node {
+	st := styleOf(w)
+	iconClass, cls := "pointer-events-none", ""
+	if st != "" {
+		iconClass, cls = stClearIcon.Class(st), stClear.Class(st, "")
+	}
 	el := inputgroup.Button(inputgroup.ButtonSizeIconXs, button.VariantGhost,
+		h.If(cls != "", h.Class(cls)),
 		h.Data("slot", "combobox-clear"),
 		h.TabIndex(-1),
-		lucide.X(h.Class("pointer-events-none")),
-	).Element()
+		lucide.X(h.Class(iconClass)),
+	).ElementIn(w)
 	if disabled {
 		el.Attr("data-disabled", "").Bool("disabled", true)
 	}
@@ -491,29 +559,33 @@ func (b *TriggerBuilder) AcceptChild(c any) bool {
 }
 
 // Element resolves the trigger.
-func (b *TriggerBuilder) Element() *h.Element {
+func (b *TriggerBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the trigger in w's style.
+func (b *TriggerBuilder) ElementIn(w io.Writer) *h.Element {
 	s := b.state()
+	st := styleOf(w)
 	props := b.Elem().Clone()
 	kids := props.ChildNodes()
 	var render *h.Element
 	var rest []any
 	for _, k := range kids {
-		if e, ok := k.(h.Elementer); ok && render == nil && isRender(k) {
-			render = e.Element()
+		if r, ok := k.(renderFlag); ok && render == nil {
+			render = r.ElementIn(w)
 			continue
 		}
 		rest = append(rest, k)
 	}
-	props.SetChildren(append(rest, triggerIcon())...)
+	props.SetChildren(append(rest, triggerIcon(st))...)
 	className := props.ClassName()
 	props.SetClass("")
 	var el *h.Element
 	if render != nil {
 		el = render.Clone()
 		el.SetChildren()
-		el.SetClass(lib.Cn(triggerClass, lib.Cn(render.ClassName(), className)))
+		el.SetClass(triggerClassIn(st, lib.Cn(render.ClassName(), className)))
 	} else {
-		el = h.Button(h.Class(lib.Cn(triggerClass, className)))
+		el = h.Button(h.Class(triggerClassIn(st, className)))
 	}
 	el = h.Spread(el, props, nil)
 	el.Attr("data-slot", "combobox-trigger")
@@ -536,20 +608,26 @@ func (b *TriggerBuilder) Element() *h.Element {
 }
 
 // Render renders the trigger.
-func (b *TriggerBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TriggerBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // renderFlag wraps the element a Trigger renders as (upstream's render
 // prop).
 type renderFlag struct{ el any }
 
-func (r renderFlag) Element() *h.Element {
+func (r renderFlag) Element() *h.Element { return r.ElementIn(nil) }
+
+// ElementIn resolves the element in w's style.
+func (r renderFlag) ElementIn(w io.Writer) *h.Element {
+	if e, ok := r.el.(interface{ ElementIn(io.Writer) *h.Element }); ok {
+		return e.ElementIn(w)
+	}
 	if e, ok := r.el.(h.Elementer); ok {
 		return e.Element()
 	}
 	return h.Button()
 }
 
-func (r renderFlag) Render(w io.Writer) error { return r.Element().Render(w) }
+func (r renderFlag) Render(w io.Writer) error { return r.ElementIn(w).Render(w) }
 
 func isRender(n any) bool { _, ok := n.(renderFlag); return ok }
 
@@ -594,11 +672,11 @@ func (b *ValueBuilder) Render(w io.Writer) error {
 	}
 	if chip != nil {
 		chip.setState(s)
-		tpl := h.Template(h.Data("parity-ignore", ""), chip.Element())
+		tpl := h.Template(h.Data("parity-ignore", ""), chip.ElementIn(w))
 		mark(tpl, s, "chip-template")
 		out := []any{tpl}
 		for _, it := range s.selected() {
-			out = append(out, chip.withLabel(it.Label))
+			out = append(out, chip.withLabel(w, it.Label))
 		}
 		out = append(out, rest...)
 		return h.Group(out...).Render(w)
@@ -665,13 +743,20 @@ func (b *ContentBuilder) AcceptChild(c any) bool {
 const contentClass = "group/combobox-content relative max-h-96 w-(--anchor-width) max-w-(--available-width) min-w-[calc(var(--anchor-width)+--spacing(7))] origin-(--transform-origin) overflow-hidden rounded-md bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[chips=true]:min-w-(--anchor-width) data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-8 *:data-[slot=input-group]:border-input/30 *:data-[slot=input-group]:bg-input/30 *:data-[slot=input-group]:shadow-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95"
 
 // Element resolves the content's template.
-func (b *ContentBuilder) Element() *h.Element {
+func (b *ContentBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the content's template in w's style.
+func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element {
 	s := b.state()
+	cls := lib.Cn(contentClass)
+	if st := styleOf(w); st != "" {
+		cls = stContent.Class(st, "")
+	}
 	chips := "false"
 	if b.anchor != nil {
 		chips = "true"
 	}
-	popup := h.Spread(h.Div(h.Data("slot", "combobox-content"), h.Data("chips", chips), h.Class(lib.Cn(contentClass))), b.Elem(), lib.Cn)
+	popup := h.Spread(h.Div(h.Data("slot", "combobox-content"), h.Data("chips", chips), h.Class(cls)), b.Elem(), lib.Cn)
 	positioner := h.Div(h.Role("presentation"), h.Class("isolate z-50"), popup)
 	opts := map[string]any{
 		"side":        string(b.side),
@@ -689,7 +774,7 @@ func (b *ContentBuilder) Element() *h.Element {
 }
 
 // Render renders the content's template.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ContentBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // --- List, Item, Group, Label, Collection, Empty, Separator --------------------------------------
 
@@ -701,24 +786,30 @@ var (
 	sepBase   = h.Div(h.Data("slot", "combobox-separator"), h.Class(lib.Cn("-mx-1 my-1 h-px bg-border")))
 )
 
+// simplePart is a part with a fixed element, whose class in a style is
+// site's.
+func simplePart(base *h.Element, site *style.Site, marker string, children []any) *styled.Node {
+	return styled.Lazy(h.Div(children...),
+		func(p *h.Element) h.Node { return h.Spread(base, p, lib.Cn).Attr(marker, "") },
+		func(st style.Style, p *h.Element) h.Node {
+			alt := base.Clone().SetClass(site.Class(st, ""))
+			return h.Spread(alt, p, lib.Cn).Attr(marker, "")
+		})
+}
+
 // List holds the Items (or Groups of items).
-func List(children ...any) *h.Element {
-	el := h.Spread(listBase, h.Div(children...), lib.Cn)
-	return el.Attr("data-combobox-list", "")
+func List(children ...any) *styled.Node {
+	return simplePart(listBase, stList, "data-combobox-list", children)
 }
 
 // Group groups items under a Label.
-func Group(children ...any) *h.Element {
-	el := h.Spread(groupBase, h.Div(children...), lib.Cn)
-	if c := el.ClassName(); c != "" {
-		el.SetClass(lib.Cn(c))
-	}
-	return el.Attr("data-combobox-group", "")
+func Group(children ...any) *styled.Node {
+	return simplePart(groupBase, stGroup, "data-combobox-group", children)
 }
 
 // Label is a Group's heading.
-func Label(children ...any) *h.Element {
-	return h.Spread(labelBase, h.Div(children...), lib.Cn).Attr("data-combobox-label", "")
+func Label(children ...any) *styled.Node {
+	return simplePart(labelBase, stLabel, "data-combobox-label", children)
 }
 
 // Collection renders its children (upstream ComboboxCollection, which maps
@@ -727,13 +818,13 @@ func Label(children ...any) *h.Element {
 func Collection(children ...any) h.Node { return h.Group(children...) }
 
 // Empty is shown (its children rendered) while no item matches.
-func Empty(children ...any) *h.Element {
-	return h.Spread(emptyBase, h.Div(children...), lib.Cn).Attr("data-combobox-empty", "")
+func Empty(children ...any) *styled.Node {
+	return simplePart(emptyBase, stEmpty, "data-combobox-empty", children)
 }
 
 // Separator separates groups.
-func Separator(children ...any) *h.Element {
-	return h.Spread(sepBase, h.Div(children...), lib.Cn).Attr("data-combobox-separator", "")
+func Separator(children ...any) *styled.Node {
+	return simplePart(sepBase, stSeparator, "data-combobox-separator", children)
 }
 
 // ItemBuilder is returned by Item.
@@ -776,13 +867,26 @@ func (b *ItemBuilder) item() item {
 }
 
 // Element resolves the item (inside the content's template).
-func (b *ItemBuilder) Element() *h.Element {
-	base := h.Div(h.Role("option"), h.Data("slot", "combobox-item"), h.Class(lib.Cn(itemClass)))
+func (b *ItemBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the item in w's style.
+func (b *ItemBuilder) ElementIn(w io.Writer) *h.Element {
+	st := styleOf(w)
+	cls := lib.Cn(itemClass)
+	if st != "" {
+		cls = stItem.Class(st, "")
+	}
+	base := h.Div(h.Role("option"), h.Data("slot", "combobox-item"), h.Class(cls))
 	el := h.Spread(base, b.Elem(), lib.Cn)
 	indicator := h.Span(h.Data("slot", "combobox-item-indicator"), h.Aria("hidden", "true"),
 		h.Class("pointer-events-none absolute right-2 flex size-4 items-center justify-center"),
 		h.Attr("data-combobox-indicator", ""),
 		lucide.Check(h.Class("pointer-events-none size-4 pointer-coarse:size-5")))
+	if st != "" {
+		indicator = h.Span(h.Aria("hidden", "true"), h.Class(stIndicator.Class(st)),
+			h.Attr("data-combobox-indicator", ""),
+			lucide.Check(h.Class(stIndicatorIcon.Class(st))))
+	}
 	el.SetChildren(append(append([]any{}, el.ChildNodes()...), indicator)...)
 	it := b.item()
 	js, _ := json.Marshal(it)
@@ -791,7 +895,7 @@ func (b *ItemBuilder) Element() *h.Element {
 }
 
 // Render renders the item.
-func (b *ItemBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ItemBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // --- Chips -------------------------------------------------------------------------------------
 
@@ -823,9 +927,16 @@ func (b *ChipsBuilder) AcceptChild(c any) bool {
 }
 
 // Element resolves the chips box.
-func (b *ChipsBuilder) Element() *h.Element {
+func (b *ChipsBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the chips box in w's style.
+func (b *ChipsBuilder) ElementIn(w io.Writer) *h.Element {
 	s := b.state()
-	base := h.Div(h.Data("slot", "combobox-chips"), h.Class(lib.Cn(chipsClass)))
+	cls := lib.Cn(chipsClass)
+	if st := styleOf(w); st != "" {
+		cls = stChips.Class(st, "")
+	}
+	base := h.Div(h.Data("slot", "combobox-chips"), h.Class(cls))
 	if s.hasSelection() {
 		base.Role("toolbar")
 	}
@@ -838,7 +949,7 @@ func (b *ChipsBuilder) Element() *h.Element {
 }
 
 // Render renders the chips box.
-func (b *ChipsBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ChipsBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // ChipBuilder is returned by Chip.
 type ChipBuilder struct {
@@ -867,28 +978,36 @@ func (b *ChipBuilder) AcceptChild(c any) bool {
 	return false
 }
 
-func (b *ChipBuilder) withLabel(label string) *h.Element {
-	el := b.Element()
+func (b *ChipBuilder) withLabel(w io.Writer, label string) *h.Element {
+	el := b.ElementIn(w)
 	kids := append([]any{label}, el.ChildNodes()...)
 	el.SetChildren(kids...)
 	return el
 }
 
 // Element resolves the chip (without its label).
-func (b *ChipBuilder) Element() *h.Element {
+func (b *ChipBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the chip (without its label) in w's style.
+func (b *ChipBuilder) ElementIn(w io.Writer) *h.Element {
 	s := b.state()
-	base := h.Div(h.TabIndex(-1), h.Data("slot", "combobox-chip"), h.Class(lib.Cn(chipClass)))
+	st := styleOf(w)
+	cls, rmClass, rmIcon := lib.Cn(chipClass), "-ml-1 opacity-50 hover:opacity-100", "pointer-events-none"
+	if st != "" {
+		cls, rmClass, rmIcon = stChip.Class(st, ""), stChipRemove.Class(st), stChipIcon.Class(st)
+	}
+	base := h.Div(h.TabIndex(-1), h.Data("slot", "combobox-chip"), h.Class(cls))
 	if s.disabled {
 		base.Aria("disabled", "true")
 	}
 	el := h.Spread(base, b.Elem(), lib.Cn)
 	if b.showRemove {
 		rm := button.Button(button.VariantGhost, button.SizeIconXs,
-			h.Class("-ml-1 opacity-50 hover:opacity-100"),
+			h.Class(rmClass),
 			h.Data("slot", "combobox-chip-remove"),
 			h.Type("button"), h.TabIndex(-1), h.Aria("disabled", "false"),
-			lucide.X(h.Class("pointer-events-none")),
-		).Element()
+			lucide.X(h.Class(rmIcon)),
+		).ElementIn(w)
 		if s.disabled {
 			rm.Attr("aria-disabled", "true").Attr("data-disabled", "")
 		}
@@ -898,7 +1017,7 @@ func (b *ChipBuilder) Element() *h.Element {
 }
 
 // Render renders a chip.
-func (b *ChipBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ChipBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // ChipsInputBuilder is returned by ChipsInput.
 type ChipsInputBuilder struct {
@@ -914,10 +1033,17 @@ func ChipsInput(children ...any) *ChipsInputBuilder {
 }
 
 // Element resolves the input.
-func (b *ChipsInputBuilder) Element() *h.Element {
+func (b *ChipsInputBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the input in w's style.
+func (b *ChipsInputBuilder) ElementIn(w io.Writer) *h.Element {
 	s := b.state()
 	base := comboboxInputAttrs(s.id, "")
-	base.Data("slot", "combobox-chip-input").Class(lib.Cn("min-w-16 flex-1 outline-none"))
+	cls := lib.Cn("min-w-16 flex-1 outline-none")
+	if st := styleOf(w); st != "" {
+		cls = stChipsInput.Class(st, "")
+	}
+	base.Data("slot", "combobox-chip-input").Class(cls)
 	el := h.Spread(base, b.Elem(), lib.Cn)
 	if s.disabled {
 		el.Bool("disabled", true).Attr("data-disabled", "")
@@ -927,4 +1053,4 @@ func (b *ChipsInputBuilder) Element() *h.Element {
 }
 
 // Render renders the input.
-func (b *ChipsInputBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ChipsInputBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
