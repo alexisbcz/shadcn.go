@@ -222,12 +222,23 @@ func (s *Site) page(fn func(r *http.Request) (h.Node, error)) http.HandlerFunc {
 	}
 }
 
-// notFound renders the 404 page (app/not-found.tsx). TODO: upstream markup.
+// notFound renders the 404 page: the app has no not-found.tsx, so Next.js
+// renders its default one inside the root layout.
 func (s *Site) notFound(w http.ResponseWriter, r *http.Request) {
-	doc := s.Document(r, Meta{Title: "404: This page could not be found."},
-		s.AppLayout(r, h.Div(h.Class("flex flex-1 flex-col items-center justify-center gap-2 py-24"),
-			h.H1(h.Class("text-2xl font-semibold"), "404"),
-			h.P(h.Class("text-muted-foreground"), "This page could not be found."),
-		)))
-	_ = h.WriteHTTP(w, http.StatusNotFound, doc)
+	const font = `system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"`
+	// The document title stays the root one: Next.js hoists the error page's
+	// <title> before the metadata's, which wins.
+	doc := s.Document(r, Meta{},
+		h.Div(h.UnsafeAttr("style", "font-family:"+font+";height:100vh;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center"),
+			h.Div(
+				h.StyleEl(h.UnsafeCSS("body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}")),
+				h.H1(h.Class("next-error-h1"), h.Style("display:inline-block;margin:0 20px 0 0;padding:0 23px 0 0;font-size:24px;font-weight:500;vertical-align:top;line-height:49px"), "404"),
+				h.Div(h.Style("display:inline-block"),
+					h.H2(h.Style("font-size:14px;font-weight:400;line-height:49px;margin:0"), "This page could not be found."),
+				),
+			),
+		))
+	if err := h.WriteHTTP(w, http.StatusNotFound, doc); err != nil {
+		s.logf("%s: %v", r.URL.Path, err)
+	}
 }
