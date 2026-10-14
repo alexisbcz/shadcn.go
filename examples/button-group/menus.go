@@ -33,7 +33,9 @@ func init() {
 	)
 }
 
-func Demo() h.Node {
+func Demo() h.Node { return demo("w-52") }
+
+func demo(contentClass string) h.Node {
 	return buttongroup.ButtonGroup(
 		buttongroup.ButtonGroup(h.Class("hidden sm:flex"),
 			button.Button(button.VariantOutline, button.SizeIcon, h.Aria("label", "Go Back"), lucide.ArrowLeft()),
@@ -46,7 +48,7 @@ func Demo() h.Node {
 			button.Button(button.VariantOutline, "Snooze"),
 			dm.DropdownMenu(
 				dm.Trigger(lib.AsChild, button.Button(button.VariantOutline, button.SizeIcon, h.Aria("label", "More Options"), lucide.Ellipsis())),
-				dm.Content(dm.AlignEnd, h.Class("w-52"),
+				dm.Content(dm.AlignEnd, h.Class(contentClass),
 					dm.Group(
 						dm.Item(lucide.MailCheck(), "Mark as Read"),
 						dm.Item(lucide.Archive(), "Archive"),
@@ -77,12 +79,14 @@ func Demo() h.Node {
 	)
 }
 
-func Dropdown() h.Node {
+func Dropdown() h.Node { return dropdown("[--radius:1rem]") }
+
+func dropdown(contentClass string) h.Node {
 	return buttongroup.ButtonGroup(
 		button.Button(button.VariantOutline, "Follow"),
 		dm.DropdownMenu(
 			dm.Trigger(lib.AsChild, button.Button(button.VariantOutline, h.Class("pl-2!"), lucide.ChevronDown())),
-			dm.Content(dm.AlignEnd, h.Class("[--radius:1rem]"),
+			dm.Content(dm.AlignEnd, h.Class(contentClass),
 				dm.Group(
 					dm.Item(lucide.VolumeOff(), "Mute Conversation"),
 					dm.Item(lucide.Check(), "Mark as Read"),
