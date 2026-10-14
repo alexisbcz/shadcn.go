@@ -98,22 +98,38 @@ func Icon() h.Node {
 	)
 }
 
-func Spinner() h.Node {
+func Spinner() h.Node { return spinnerEx(true) }
+
+// spinnerEx is input-group-spinner; the radix docs version has no disabled
+// state.
+func spinnerEx(disabled bool) h.Node {
+	dis := func() []any {
+		if disabled {
+			return []any{h.Disabled()}
+		}
+		return nil
+	}
+	group := func(children ...any) h.Node {
+		if disabled {
+			children = append([]any{h.Data("disabled", "true")}, children...)
+		}
+		return ig.InputGroup(children...)
+	}
 	return h.Div(h.Class("grid w-full max-w-sm gap-4"),
-		ig.InputGroup(h.Data("disabled", "true"),
-			ig.Input(h.Placeholder("Searching..."), h.Disabled()),
+		group(
+			ig.Input(append([]any{h.Placeholder("Searching...")}, dis()...)...),
 			ig.Addon(ig.AlignInlineEnd, spinner.Spinner()),
 		),
-		ig.InputGroup(h.Data("disabled", "true"),
-			ig.Input(h.Placeholder("Processing..."), h.Disabled()),
+		group(
+			ig.Input(append([]any{h.Placeholder("Processing...")}, dis()...)...),
 			ig.Addon(spinner.Spinner()),
 		),
-		ig.InputGroup(h.Data("disabled", "true"),
-			ig.Input(h.Placeholder("Saving changes..."), h.Disabled()),
+		group(
+			ig.Input(append([]any{h.Placeholder("Saving changes...")}, dis()...)...),
 			ig.Addon(ig.AlignInlineEnd, ig.Text("Saving..."), spinner.Spinner()),
 		),
-		ig.InputGroup(h.Data("disabled", "true"),
-			ig.Input(h.Placeholder("Refreshing data..."), h.Disabled()),
+		group(
+			ig.Input(append([]any{h.Placeholder("Refreshing data...")}, dis()...)...),
 			ig.Addon(lucide.Loader(h.Class("animate-spin"))),
 			ig.Addon(ig.AlignInlineEnd, ig.Text(h.Class("text-muted-foreground"), "Please wait...")),
 		),
