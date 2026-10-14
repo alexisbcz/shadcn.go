@@ -42,6 +42,7 @@ import (
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/internal/aschild"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/uid"
@@ -119,6 +120,46 @@ var triggerStyle = cva.New(
 	cva.Config{},
 )
 
+// The classes of registry/bases/radix/ui/navigation-menu.tsx, used inside a
+// style.Scope (see package style).
+var (
+	file              = style.NewFile("ui/navigation-menu.tsx")
+	stTriggerStyle    = file.CVA("cn-navigation-menu-trigger group/navigation-menu-trigger inline-flex h-9 w-max items-center justify-center outline-none disabled:pointer-events-none", nil, nil)
+	stRoot            = file.Cn("cn-navigation-menu group/navigation-menu relative flex max-w-max flex-1 items-center justify-center", style.Arg)
+	stList            = file.Cn("cn-navigation-menu-list group flex flex-1 list-none items-center justify-center", style.Arg)
+	stItem            = file.Cn("cn-navigation-menu-item relative", style.Arg)
+	stTrigger         = file.Cn(style.Arg, "group", style.Arg)
+	stTriggerIcon     = file.Attr("cn-navigation-menu-trigger-icon")
+	stContent         = file.Cn("cn-navigation-menu-content top-0 left-0 w-full group-data-[viewport=false]/navigation-menu:top-full group-data-[viewport=false]/navigation-menu:mt-1.5 group-data-[viewport=false]/navigation-menu:overflow-hidden **:data-[slot=navigation-menu-link]:focus:ring-0 **:data-[slot=navigation-menu-link]:focus:outline-none md:absolute md:w-auto", style.Arg)
+	stViewportWrapper = file.Cn("cn-navigation-menu-viewport-wrapper absolute top-full left-0 isolate z-50 flex justify-center")
+	stViewport        = file.Cn("cn-navigation-menu-viewport origin-top-center relative mt-1.5 h-(--radix-navigation-menu-viewport-height) w-full overflow-hidden md:w-(--radix-navigation-menu-viewport-width)", style.Arg)
+	stLink            = file.Cn("cn-navigation-menu-link", style.Arg)
+	stIndicator       = file.Cn("cn-navigation-menu-indicator top-full z-1 flex h-1.5 items-end justify-center overflow-hidden", style.Arg)
+	stIndicatorArrow  = file.Attr("cn-navigation-menu-indicator-arrow relative top-[60%] h-2 w-2 rotate-45")
+)
+
+// styled records the enclosing style.Scope ("" for new-york-v4).
+type styled struct{ st style.Style }
+
+func (s *styled) setStyle(w io.Writer) { s.st, _ = style.FromWriter(w) }
+
+// pick returns nova (resolved for the style) inside a style.Scope, else
+// the new-york-v4 classes.
+func (s *styled) pick(newYork string, site *style.Site, values ...string) string {
+	if s.st == "" {
+		return newYork
+	}
+	return site.Class(s.st, values...)
+}
+
+// TriggerStyleFor is TriggerStyle in style st ("" is new-york-v4).
+func TriggerStyleFor(st style.Style, className ...string) string {
+	if st == "" {
+		return TriggerStyle(className...)
+	}
+	return lib.Cn(stTriggerStyle.Classes(st, cva.Selection{}, className...))
+}
+
 // TriggerStyle returns navigationMenuTriggerStyle(): the trigger classes,
 // for links styled as triggers.
 func TriggerStyle(className ...string) string {
@@ -192,6 +233,7 @@ func resolve(name string, asChild bool, defaults, user *h.Element) *h.Element {
 // RootBuilder is returned by NavigationMenu.
 type RootBuilder struct {
 	h.Builder[RootBuilder]
+	styled
 	scope     Scope
 	delay     int
 	skipDelay int
@@ -249,26 +291,28 @@ func (b *RootBuilder) Element() *h.Element {
 		h.Dir(sc.dir()),
 		h.Data("slot", "navigation-menu"),
 		h.Data("viewport", fmt.Sprint(sc.Viewport)),
-		h.Class(lib.Cn(rootClass)),
+		h.Class(b.pick(lib.Cn(rootClass), stRoot, "")),
 	)
 	el := h.Spread(d, user, lib.Cn)
 	el.Children(kids...)
 	if sc.Viewport {
 		vp := Viewport()
 		vp.setScope(&sc)
+		vp.st = b.st
 		el.Children(vp)
 	}
 	return el
 }
 
 // Render renders the <nav>.
-func (b *RootBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *RootBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
 
 // --- List, Item ----------------------------------------------------------------------------
 
 // ListBuilder is returned by List.
 type ListBuilder struct {
 	h.Builder[ListBuilder]
+	styled
 	scoped
 }
 
@@ -285,18 +329,19 @@ func (b *ListBuilder) Element() *h.Element {
 	d := h.Ul(
 		h.Data("orientation", sc.orientation()),
 		h.Data("slot", "navigation-menu-list"),
-		h.Class(lib.Cn(listClass)),
+		h.Class(b.pick(lib.Cn(listClass), stList, "")),
 		h.Dir(sc.dir()),
 	)
 	return h.Div(h.Style("position: relative;"), h.Spread(d, b.Elem(), lib.Cn))
 }
 
 // Render renders the list.
-func (b *ListBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ListBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
 
 // ItemBuilder is returned by Item.
 type ItemBuilder struct {
 	h.Builder[ItemBuilder]
+	styled
 	scoped
 	value string
 }
@@ -336,18 +381,19 @@ func (b *ItemBuilder) Element() *h.Element {
 		}
 		return true
 	})
-	d := h.Li(h.Attr(markerItem, b.value), h.Data("slot", "navigation-menu-item"), h.Class(lib.Cn(itemClass)))
+	d := h.Li(h.Attr(markerItem, b.value), h.Data("slot", "navigation-menu-item"), h.Class(b.pick(lib.Cn(itemClass), stItem, "")))
 	return h.Spread(d, b.Elem(), lib.Cn)
 }
 
 // Render renders the item.
-func (b *ItemBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ItemBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
 
 // --- Trigger -------------------------------------------------------------------------------
 
 // TriggerBuilder is returned by Trigger.
 type TriggerBuilder struct {
 	h.Builder[TriggerBuilder]
+	styled
 	scoped
 	item     string
 	disabled bool
@@ -385,22 +431,23 @@ func (b *TriggerBuilder) Element() *h.Element {
 		h.Aria("expanded", fmt.Sprint(open)),
 		h.Aria("controls", sc.contentID(b.item)),
 		h.Data("slot", "navigation-menu-trigger"),
-		h.Class(lib.Cn(TriggerStyle(), "group")),
+		h.Class(b.pick(lib.Cn(TriggerStyle(), "group"), stTrigger, TriggerStyleFor(b.st), "")),
 		h.Data("radix-collection-item", ""),
 	)
 	el := h.Spread(d, b.Elem(), lib.Cn)
-	el.Children(" ", lucide.ChevronDown(h.Class(chevronClass), h.Aria("hidden", "true")))
+	el.Children(" ", lucide.ChevronDown(h.Class(b.pick(chevronClass, stTriggerIcon)), h.Aria("hidden", "true")))
 	return el
 }
 
 // Render renders the trigger.
-func (b *TriggerBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TriggerBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
 
 // --- Content -------------------------------------------------------------------------------
 
 // ContentBuilder is returned by Content.
 type ContentBuilder struct {
 	h.Builder[ContentBuilder]
+	styled
 	scoped
 	item string
 }
@@ -421,7 +468,7 @@ func (b *ContentBuilder) Element() *h.Element {
 		h.Data("orientation", sc.orientation()),
 		h.If(!sc.Viewport, h.Data("state", "open")),
 		h.Data("slot", "navigation-menu-content"),
-		h.Class(lib.Cn(contentClass, contentClass2)),
+		h.Class(b.pick(lib.Cn(contentClass, contentClass2), stContent, "")),
 		h.Dir(sc.dir()),
 	)
 	return h.Template(
@@ -432,13 +479,14 @@ func (b *ContentBuilder) Element() *h.Element {
 }
 
 // Render renders the template.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ContentBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
 
 // --- Link ----------------------------------------------------------------------------------
 
 // LinkBuilder is returned by Link.
 type LinkBuilder struct {
 	h.Builder[LinkBuilder]
+	styled
 	active  bool
 	asChild bool
 }
@@ -474,20 +522,21 @@ func (b *LinkBuilder) Element() *h.Element {
 		h.If(b.active, h.Data("active", "")),
 		h.If(b.active, h.Aria("current", "page")),
 		h.Data("slot", "navigation-menu-link"),
-		h.Class(lib.Cn(linkClass)),
+		h.Class(b.pick(lib.Cn(linkClass), stLink, "")),
 		h.Data("radix-collection-item", ""),
 	)
 	return resolve("Link", b.asChild, d, b.Elem())
 }
 
 // Render renders the link.
-func (b *LinkBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *LinkBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
 
 // --- Indicator -----------------------------------------------------------------------------
 
 // IndicatorBuilder is returned by Indicator.
 type IndicatorBuilder struct {
 	h.Builder[IndicatorBuilder]
+	styled
 	scoped
 }
 
@@ -506,21 +555,22 @@ func (b *IndicatorBuilder) Element() *h.Element {
 		h.Data("state", "visible"),
 		h.Data("orientation", sc.orientation()),
 		h.Data("slot", "navigation-menu-indicator"),
-		h.Class(lib.Cn(indicatorClass)),
+		h.Class(b.pick(lib.Cn(indicatorClass), stIndicator, "")),
 	)
 	el := h.Spread(d, b.Elem(), lib.Cn)
-	el.Children(h.Div(h.Class("relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md")))
+	el.Children(h.Div(h.Class(b.pick("relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md", stIndicatorArrow))))
 	return h.Template(h.Data("parity-ignore", ""), h.Attr(markerIndicator, ""), el)
 }
 
 // Render renders the template.
-func (b *IndicatorBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *IndicatorBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
 
 // --- Viewport ------------------------------------------------------------------------------
 
 // ViewportBuilder is returned by Viewport.
 type ViewportBuilder struct {
 	h.Builder[ViewportBuilder]
+	styled
 	scoped
 }
 
@@ -540,12 +590,12 @@ func (b *ViewportBuilder) Element() *h.Element {
 		h.Data("state", "open"),
 		h.Data("orientation", sc.orientation()),
 		h.Data("slot", "navigation-menu-viewport"),
-		h.Class(lib.Cn(viewportClass)),
+		h.Class(b.pick(lib.Cn(viewportClass), stViewport, "")),
 	)
-	return h.Div(h.Class(lib.Cn(viewportOuter)),
+	return h.Div(h.Class(b.pick(lib.Cn(viewportOuter), stViewportWrapper)),
 		h.Template(h.Data("parity-ignore", ""), h.Attr(markerViewport, ""), h.Spread(d, b.Elem(), lib.Cn)),
 	)
 }
 
 // Render renders the viewport wrapper.
-func (b *ViewportBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ViewportBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
