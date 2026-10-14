@@ -200,3 +200,14 @@ For each assigned component:
 If something cannot reach exact parity (for example an upstream bug that
 depends on React internals), document it precisely in the report with the
 harness output; do not loosen the harness.
+
+## Styles (radix-nova and the other upstream styles)
+
+Docs previews render components inside `style.Scope(style.Nova, ...)`.
+A component reads the style in its `Render(w)` with `style.FromWriter(w)`.
+When a component's element depends on the style, implement
+`ElementIn(w io.Writer) *h.Element` (interface `h.ElementerIn`) next to
+`Element()`. Components that take a child through asChild resolve it with
+`h.ResolveIn(w, child)` or `h.SlotIn(w, slot, child, lib.Cn)` inside their
+Render method (not in `Element()`, which has no writer), so the child keeps
+the style in scope. Use this one mechanism; do not add parallel ones.
