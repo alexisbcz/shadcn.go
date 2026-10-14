@@ -7,3 +7,4 @@ node_modules/
 /parity/reference/dist
 /parity/reference/.dist-*
 /parity/.lock
+/parity/.slots/

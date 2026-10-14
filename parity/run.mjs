@@ -50,6 +50,44 @@ const auto = !flag("--no-auto")
 const keep = flag("--keep")
 const positional = args.filter((a, i) => !a.startsWith("--") && !["--themes", "--jobs", "--component"].includes(args[i - 1]))
 
+// --- machine-wide slots ---------------------------------------------------------------
+
+// Many agents run the harness at once. Each run starts a Chromium and a Go
+// server; unbounded, they oversubscribe CPU and memory and every run gets
+// slower. A run holds one of PARITY_SLOTS (default 4) slots for its whole
+// duration; others wait. Slots of dead processes are reclaimed.
+async function acquireSlot() {
+  const dir = path.join(repo, "parity/.slots")
+  fs.mkdirSync(dir, { recursive: true })
+  const slots = Number(process.env.PARITY_SLOTS ?? 4)
+  let waited = false
+  for (;;) {
+    for (let i = 0; i < slots; i++) {
+      const slot = path.join(dir, `slot-${i}`)
+      try {
+        fs.mkdirSync(slot)
+        fs.writeFileSync(path.join(slot, "pid"), String(process.pid))
+        const release = () => fs.rmSync(slot, { recursive: true, force: true })
+        process.on("exit", release)
+        return release
+      } catch {
+        let pid = 0
+        try { pid = Number(fs.readFileSync(path.join(slot, "pid"), "utf8")) } catch {}
+        let alive = false
+        try { if (pid) { process.kill(pid, 0); alive = true } } catch {}
+        // A slot without pid file may be mid-creation: only reclaim it if old.
+        const stale = !pid ? Date.now() - fs.statSync(slot, { throwIfNoEntry: false })?.mtimeMs > 10000 : !alive
+        if (stale) fs.rmSync(slot, { recursive: true, force: true })
+      }
+    }
+    if (!waited) {
+      console.error(`waiting for a free harness slot (${slots} in use)...`)
+      waited = true
+    }
+    await new Promise((r) => setTimeout(r, 1000))
+  }
+}
+
 // --- server ----------------------------------------------------------------------
 
 // Several agents may run the harness at once: regenerating the example
@@ -511,6 +549,7 @@ async function checkExample(browser, base, name) {
 
 // --- main --------------------------------------------------------------------------------
 
+const releaseSlot = await acquireSlot()
 const server = await startServer()
 let exitCode = 0
 try {
@@ -550,5 +589,6 @@ try {
   exitCode = 2
 } finally {
   server.stop()
+  releaseSlot()
 }
 process.exit(exitCode)

@@ -12,9 +12,12 @@
 package main
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"flag"
 	"fmt"
+	"io/fs"
 	"log"
 	"net"
 	"net/http"
@@ -53,11 +56,11 @@ func main() {
 		return
 	}
 	start := time.Now()
-	css, err := tailwind.Build(tailwind.Options{Input: filepath.Join(rootAbs, "parity/styles.css"), Dir: rootAbs})
+	css, err := cachedCSS(rootAbs)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("css: %d bytes from %d files in %s", len(css.CSS), len(css.Files), time.Since(start).Round(time.Millisecond))
+	log.Printf("css: %d bytes in %s", len(css), time.Since(start).Round(time.Millisecond))
 
 	reference := filepath.Join(rootAbs, "parity/reference/dist")
 	refs := loadReferences(reference)
@@ -78,7 +81,7 @@ func main() {
 	mux.HandleFunc("GET /assets/app.css", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/css; charset=utf-8")
 		w.Header().Set("Cache-Control", "no-cache")
-		_, _ = w.Write([]byte(css.CSS))
+		_, _ = w.Write([]byte(css))
 	})
 	mux.Handle("GET /reference/", http.StripPrefix("/reference/", http.FileServer(http.Dir(reference))))
 	mux.Handle("GET "+runtime.Prefix, runtime.Handler())
@@ -211,4 +214,45 @@ func loadReferences(dist string) []reference {
 		log.Fatal(err)
 	}
 	return refs
+}
+
+// cachedCSS builds parity/styles.css, reusing the previous result while no
+// source file changed. Building scans thousands of files and runs the
+// Tailwind compiler; every harness run starts a server, so the cache saves
+// seconds of CPU per run when many agents run the harness at once. The key
+// covers path, size and modification time of every file under the
+// stylesheet's @source directories and the stylesheet itself.
+func cachedCSS(root string) (string, error) {
+	sum := sha256.New()
+	for _, dir := range []string{"parity/styles.css", "ui/apps/v4/registry/new-york-v4", "components", "examples", "cmd/parity", "parity/fixtures"} {
+		_ = filepath.WalkDir(filepath.Join(root, dir), func(p string, d fs.DirEntry, err error) error {
+			if err != nil || d.IsDir() {
+				return nil
+			}
+			if info, err := d.Info(); err == nil {
+				fmt.Fprintf(sum, "%s\x00%d\x00%d\n", p, info.Size(), info.ModTime().UnixNano())
+			}
+			return nil
+		})
+	}
+	fmt.Fprintf(sum, "tailwind %s\n", tailwind.Version)
+	cacheDir, err := os.UserCacheDir()
+	if err != nil {
+		cacheDir = os.TempDir()
+	}
+	cacheFile := filepath.Join(cacheDir, "shadcn-parity", hex.EncodeToString(sum.Sum(nil))+".css")
+	if b, err := os.ReadFile(cacheFile); err == nil {
+		return string(b), nil
+	}
+	res, err := tailwind.Build(tailwind.Options{Input: filepath.Join(root, "parity/styles.css"), Dir: root})
+	if err != nil {
+		return "", err
+	}
+	if err := os.MkdirAll(filepath.Dir(cacheFile), 0o755); err == nil {
+		tmp := cacheFile + fmt.Sprintf(".%d.tmp", os.Getpid())
+		if os.WriteFile(tmp, []byte(res.CSS), 0o644) == nil {
+			_ = os.Rename(tmp, cacheFile)
+		}
+	}
+	return res.CSS, nil
 }
