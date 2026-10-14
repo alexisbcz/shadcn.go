@@ -174,7 +174,9 @@ func (s *Site) Document(r *http.Request, m Meta, body ...any) h.Node {
 		h.Class(fontClasses+" [--header-height:calc(var(--spacing)*14)] lg:[--header-height:calc(var(--spacing)*16)]"),
 		h.Head(head...),
 		h.Body(
-			h.Class("group/body overscroll-none antialiased [--footer-height:calc(var(--spacing)*14)] xl:[--footer-height:calc(var(--spacing)*24)]"),
+			// theme-default: added on the client by ActiveThemeProvider
+			// (components/active-theme.tsx) for the default theme.
+			h.Class("group/body overscroll-none antialiased theme-default [--footer-height:calc(var(--spacing)*14)] xl:[--footer-height:calc(var(--spacing)*24)]"),
 			h.Script(themeScript),
 			h.Group(body...),
 		),

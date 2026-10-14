@@ -116,3 +116,15 @@ document.addEventListener("click", (e) => {
     navigator.clipboard?.writeText(fig?.querySelector("code")?.textContent ?? "")
   }
 })
+
+// Chart gallery (components/chart-iframe.tsx, chart-copy-button.tsx): the
+// iframe fades in once loaded; copy buttons copy their code.
+for (const f of document.querySelectorAll("iframe[data-chart-iframe]")) {
+  const show = () => f.classList.replace("opacity-0", "opacity-100")
+  f.addEventListener("load", show)
+  if (f.contentDocument?.readyState === "complete" && f.contentDocument.URL !== "about:blank") show()
+}
+document.addEventListener("click", (e) => {
+  const b = e.target instanceof Element ? e.target.closest("[data-copy-text]") : null
+  if (b) navigator.clipboard?.writeText(b.dataset.copyText)
+})

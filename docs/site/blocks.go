@@ -323,8 +323,10 @@ func blockToolbar(it *registryItem) h.Node {
 }
 
 // openInV0Button is components/open-in-v0-button.tsx.
-func openInV0Button(name string) h.Node {
-	return button.Button(button.SizeSm, lib.AsChild, h.Class("h-[1.8rem] gap-1"),
+func openInV0Button(name string) h.Node { return openInV0ButtonClass(name, "") }
+
+func openInV0ButtonClass(name, class string) h.Node {
+	return button.Button(button.SizeSm, lib.AsChild, h.Class(lib.Cn("h-[1.8rem] gap-1", class)),
 		// NEXT_PUBLIC_V0_URL and NEXT_PUBLIC_APP_URL are unset in the
 		// reference build, which renders "undefined" for both.
 		h.A(h.Href("undefined/chat/api/open?url=undefined/r/styles/new-york-v4/"+name+".json"), h.Target("_blank"),
