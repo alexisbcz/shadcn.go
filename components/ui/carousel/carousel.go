@@ -32,6 +32,7 @@ import (
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/runtime"
@@ -285,19 +286,62 @@ func (b *ItemBuilder) Element() *h.Element {
 // Render renders the item.
 func (b *ItemBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
 
+// The classes of registry/bases/radix/ui/carousel.tsx, used inside a
+// style.Scope (see package style).
+var (
+	file       = style.NewFile("ui/carousel.tsx")
+	stPrevious = file.Cn("cn-carousel-previous absolute touch-manipulation", style.Arg, style.Arg)
+	stNext     = file.Cn("cn-carousel-next absolute touch-manipulation", style.Arg, style.Arg)
+	stIcon     = file.Attr("cn-rtl-flip")
+)
+
+// navStyle is how Previous or Next renders in a style.
+type navStyle struct {
+	site                 *style.Site
+	horizontal, vertical string
+	icon                 func(...any) *h.Element
+}
+
+var (
+	novaPrevious = navStyle{stPrevious, "inset-y-0 -left-12 my-auto", "-top-12 left-1/2 -translate-x-1/2 rotate-90", lucide.ChevronLeft}
+	novaNext     = navStyle{stNext, "inset-y-0 -right-12 my-auto", "-bottom-12 left-1/2 -translate-x-1/2 rotate-90", lucide.ChevronRight}
+)
+
+// elementIn resolves a button in the style of the writer's style.Scope
+// when the button package supports it.
+func elementIn(b *button.Builder, w io.Writer) *h.Element {
+	if e, ok := any(b).(interface{ ElementIn(io.Writer) *h.Element }); ok && w != nil {
+		return e.ElementIn(w)
+	}
+	return b.Element()
+}
+
 // navButton renders Previous and Next.
-func navButton(ctx *context, props *h.Element, variant button.Variant, size button.Size, slot, horizontal, vertical string, icon h.Node, label string) *h.Element {
+func navButton(w io.Writer, ns navStyle, sizeSet bool, ctx *context, props *h.Element, variant button.Variant, size button.Size, slot, horizontal, vertical string, icon h.Node, label string) *h.Element {
+	vert := orientationOf(ctx) == OrientationVertical
 	cls := horizontal
-	if orientationOf(ctx) == OrientationVertical {
+	if vert {
 		cls = vertical
 	}
-	base := button.Button(variant, size,
+	class := lib.Cn("absolute size-8 rounded-full", cls, props.ClassName())
+	if st, _ := style.FromWriter(w); st != "" {
+		cls = ns.horizontal
+		if vert {
+			cls = ns.vertical
+		}
+		class = ns.site.Class(st, cls, props.ClassName())
+		icon = ns.icon(h.Class(stIcon.Class(st)))
+		if !sizeSet {
+			size = button.SizeIconSm
+		}
+	}
+	base := elementIn(button.Button(variant, size,
 		h.Data("slot", slot),
-		h.Class(lib.Cn("absolute size-8 rounded-full", cls, props.ClassName())),
+		h.Class(class),
 		h.Disabled(), // canScroll* is false on React's first render
 		icon,
 		h.Span(h.Class("sr-only"), label),
-	).Element()
+	), w)
 	userProps := props.Clone().SetClass("")
 	out := h.Spread(base, userProps.SetChildren(), nil)
 	if kids := props.ChildNodes(); len(kids) > 0 {
@@ -312,6 +356,7 @@ type PreviousBuilder struct {
 	ctx     *context
 	variant button.Variant
 	size    button.Size
+	sizeSet bool
 }
 
 // Previous returns the button that scrolls to the previous slide.
@@ -328,21 +373,25 @@ func (b *PreviousBuilder) AcceptChild(c any) bool {
 		b.variant = v
 	case button.Size:
 		b.size = v
+		b.sizeSet = true
 	default:
 		return false
 	}
 	return true
 }
 
-// Element resolves the button.
-func (b *PreviousBuilder) Element() *h.Element {
-	return navButton(b.ctx, b.Elem(), b.variant, b.size, "carousel-previous",
+// Element resolves the button (new-york-v4).
+func (b *PreviousBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the button in the style of an enclosing style.Scope.
+func (b *PreviousBuilder) ElementIn(w io.Writer) *h.Element {
+	return navButton(w, novaPrevious, b.sizeSet, b.ctx, b.Elem(), b.variant, b.size, "carousel-previous",
 		"top-1/2 -left-12 -translate-y-1/2", "-top-12 left-1/2 -translate-x-1/2 rotate-90",
 		lucide.ArrowLeft(), "Previous slide")
 }
 
 // Render renders the button.
-func (b *PreviousBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *PreviousBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // NextBuilder is returned by Next.
 type NextBuilder struct {
@@ -350,6 +399,7 @@ type NextBuilder struct {
 	ctx     *context
 	variant button.Variant
 	size    button.Size
+	sizeSet bool
 }
 
 // Next returns the button that scrolls to the next slide.
@@ -366,18 +416,22 @@ func (b *NextBuilder) AcceptChild(c any) bool {
 		b.variant = v
 	case button.Size:
 		b.size = v
+		b.sizeSet = true
 	default:
 		return false
 	}
 	return true
 }
 
-// Element resolves the button.
-func (b *NextBuilder) Element() *h.Element {
-	return navButton(b.ctx, b.Elem(), b.variant, b.size, "carousel-next",
+// Element resolves the button (new-york-v4).
+func (b *NextBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the button in the style of an enclosing style.Scope.
+func (b *NextBuilder) ElementIn(w io.Writer) *h.Element {
+	return navButton(w, novaNext, b.sizeSet, b.ctx, b.Elem(), b.variant, b.size, "carousel-next",
 		"top-1/2 -right-12 -translate-y-1/2", "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
 		lucide.ArrowRight(), "Next slide")
 }
 
 // Render renders the button.
-func (b *NextBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *NextBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
