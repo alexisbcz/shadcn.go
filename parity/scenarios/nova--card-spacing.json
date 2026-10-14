@@ -1,0 +1,5 @@
+[
+  { "label": "spacing-32", "steps": [{ "do": "click", "target": "[data-slot=toggle-group-item]", "nth": 3 }] },
+  { "label": "spacing-20", "steps": [{ "do": "click", "target": "[data-slot=toggle-group-item]", "nth": 1 }] },
+  { "label": "reselect-keeps", "steps": [{ "do": "click", "target": "[data-slot=toggle-group-item]", "nth": 1 }] }
+]
