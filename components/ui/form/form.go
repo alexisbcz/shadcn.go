@@ -187,7 +187,7 @@ func resolvePart(p *part, ids partIDs, err string) h.Node {
 	switch p.kind {
 	case "label":
 		return h.Spread(
-			label.Label(h.Data("slot", "form-label"), h.Data("error", boolString(err != "")), h.Class("data-[error=true]:text-destructive"), h.For(ids.item)),
+			label.Label(h.Data("slot", "form-label"), h.Data("error", boolString(err != "")), h.Class("data-[error=true]:text-destructive"), h.For(ids.item)).Element(),
 			h.Label(p.children...), lib.Cn)
 	case "control":
 		// Upstream's Slot hands these props to the child component, which

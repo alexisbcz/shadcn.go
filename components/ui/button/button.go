@@ -153,10 +153,12 @@ func (b *Builder) AutoFocus(on bool) *Builder {
 }
 
 // Element resolves the button to the element it renders.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element(buttonDefaults(b.variant, b.size), nil) }
+
+func (b *Builder) element(defaults *h.Element, w io.Writer) *h.Element {
 	// User attributes override the defaults; classes are merged with the
 	// user's last, exactly like cn(buttonVariants({ variant, size, className })).
-	btn, err := h.Slot(buttonDefaults(b.variant, b.size), b.Elem(), lib.Cn)
+	btn, err := h.Slot(defaults, b.Elem(), lib.Cn)
 	if err != nil {
 		return h.Errored(err)
 	}
@@ -167,15 +169,12 @@ func (b *Builder) Element() *h.Element {
 	if len(kids) != 1 {
 		return h.Errored(fmt.Errorf("button: AsChild needs exactly one element child, got %d children", len(kids)))
 	}
-	out, err := h.Slot(btn.Clone().SetChildren(), kids[0], lib.Cn)
+	out, err := h.SlotIn(w, btn.Clone().SetChildren(), kids[0], lib.Cn)
 	if err != nil {
 		return h.Errored(fmt.Errorf("button: AsChild: %w", err))
 	}
 	return out
 }
-
-// Render renders the button.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
 
 // buttonDefaults returns the element carrying a variant and size's classes
 // and data attributes. Slot only reads it, so the known combinations are

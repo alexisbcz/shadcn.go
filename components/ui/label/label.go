@@ -9,6 +9,8 @@ package label
 
 import (
 	_ "embed"
+	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/scoped"
 
 	"shadcn.go/components/lib"
 	"shadcn.go/components/ui/runtime"
@@ -25,4 +27,9 @@ var base = h.Label(h.Data("slot", "label"), h.Class(lib.Cn(
 )))
 
 // Label returns a <label>.
-func Label(children ...any) *h.Element { return h.Spread(base, h.Label(children...), lib.Cn) }
+func Label(children ...any) *scoped.Node {
+	return scoped.Spread(base, h.Label(children...), scoped.Slot("label", "label", baseLabel))
+}
+
+// registry/bases/radix/ui/label.tsx, used inside a style.Scope.
+var baseLabel = style.Cn("cn-label flex items-center select-none group-data-[disabled=true]:pointer-events-none peer-disabled:cursor-not-allowed", style.Arg)

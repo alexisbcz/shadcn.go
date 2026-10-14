@@ -6,6 +6,8 @@ package textarea
 
 import (
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/scoped"
 	h "shadcn.go/libhtml"
 )
 
@@ -14,4 +16,9 @@ var base = h.Textarea(h.Data("slot", "textarea"), h.Class(lib.Cn(
 )))
 
 // Textarea returns a <textarea>.
-func Textarea(children ...any) *h.Element { return h.Spread(base, h.Textarea(children...), lib.Cn) }
+func Textarea(children ...any) *scoped.Node {
+	return scoped.Spread(base, h.Textarea(children...), scoped.Slot("textarea", "textarea", baseTextarea))
+}
+
+// registry/bases/radix/ui/textarea.tsx, used inside a style.Scope.
+var baseTextarea = style.Cn("cn-textarea flex field-sizing-content min-h-16 w-full outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50", style.Arg)

@@ -9,6 +9,8 @@ package table
 
 import (
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/scoped"
 	h "shadcn.go/libhtml"
 )
 
@@ -30,29 +32,63 @@ var (
 
 // Table returns a <table> inside a horizontally scrolling container <div>.
 // Attributes apply to the <table>.
-func Table(children ...any) *h.Element {
-	return containerBase.Clone().Children(h.Spread(tableBase, h.Table(children...), lib.Cn))
+func Table(children ...any) *scoped.Node {
+	props := h.Table(children...)
+	return scoped.New(
+		func() *h.Element { return containerBase.Clone().Children(h.Spread(tableBase, props, lib.Cn)) },
+		func(st style.Style) *h.Element {
+			return h.Div(h.Data("slot", "table-container"), h.Class(baseFile.Attr("cn-table-container").Class(st)),
+				h.Spread(scoped.Slot("table", "table", baseTable)(st), props, lib.Cn))
+		},
+	)
+}
+
+func part(base *h.Element, props *h.Element, slot string, site *style.Site) *scoped.Node {
+	return scoped.Spread(base, props, scoped.Slot(props.Tag(), slot, site))
 }
 
 // Header returns a <thead>.
-func Header(children ...any) *h.Element { return h.Spread(headerBase, h.Thead(children...), lib.Cn) }
+func Header(children ...any) *scoped.Node {
+	return part(headerBase, h.Thead(children...), "table-header", baseHeader)
+}
 
 // Body returns a <tbody>.
-func Body(children ...any) *h.Element { return h.Spread(bodyBase, h.Tbody(children...), lib.Cn) }
+func Body(children ...any) *scoped.Node {
+	return part(bodyBase, h.Tbody(children...), "table-body", baseBody)
+}
 
 // Footer returns a <tfoot>.
-func Footer(children ...any) *h.Element { return h.Spread(footerBase, h.Tfoot(children...), lib.Cn) }
+func Footer(children ...any) *scoped.Node {
+	return part(footerBase, h.Tfoot(children...), "table-footer", baseFooter)
+}
 
 // Row returns a <tr>.
-func Row(children ...any) *h.Element { return h.Spread(rowBase, h.Tr(children...), lib.Cn) }
+func Row(children ...any) *scoped.Node { return part(rowBase, h.Tr(children...), "table-row", baseRow) }
 
 // Head returns a <th>.
-func Head(children ...any) *h.Element { return h.Spread(headBase, h.Th(children...), lib.Cn) }
+func Head(children ...any) *scoped.Node {
+	return part(headBase, h.Th(children...), "table-head", baseHead)
+}
 
 // Cell returns a <td>.
-func Cell(children ...any) *h.Element { return h.Spread(cellBase, h.Td(children...), lib.Cn) }
+func Cell(children ...any) *scoped.Node {
+	return part(cellBase, h.Td(children...), "table-cell", baseCell)
+}
 
 // Caption returns a <caption>.
-func Caption(children ...any) *h.Element {
-	return h.Spread(captionBase, h.Caption(children...), lib.Cn)
+func Caption(children ...any) *scoped.Node {
+	return part(captionBase, h.Caption(children...), "table-caption", baseCaption)
 }
+
+// registry/bases/radix/ui/table.tsx, used inside a style.Scope.
+var (
+	baseFile    = style.NewFile("ui/table.tsx")
+	baseTable   = baseFile.Cn("cn-table", style.Arg)
+	baseHeader  = baseFile.Cn("cn-table-header", style.Arg)
+	baseBody    = baseFile.Cn("cn-table-body", style.Arg)
+	baseFooter  = baseFile.Cn("cn-table-footer", style.Arg)
+	baseRow     = baseFile.Cn("cn-table-row has-aria-expanded:bg-muted/50", style.Arg)
+	baseHead    = baseFile.Cn("cn-table-head", style.Arg)
+	baseCell    = baseFile.Cn("cn-table-cell", style.Arg)
+	baseCaption = baseFile.Cn("cn-table-caption", style.Arg)
+)

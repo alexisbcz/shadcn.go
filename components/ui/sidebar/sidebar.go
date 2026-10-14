@@ -426,7 +426,7 @@ func Input(children ...any) *h.Element {
 		h.Data("slot", "sidebar-input"),
 		h.Data("sidebar", "input"),
 		spreadProp(withClass(user, lib.Cn("h-8 w-full bg-background shadow-none", user.ClassName()))),
-	)
+	).Element()
 }
 
 func simple(el *h.Element, slot, class string, children []any) *h.Element {

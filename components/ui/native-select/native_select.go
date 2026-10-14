@@ -90,9 +90,6 @@ func (b *Builder) Element() *h.Element {
 	)
 }
 
-// Render renders the component.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
-
 // OptionBuilder is returned by Option and OptGroup.
 type OptionBuilder struct {
 	h.Builder[OptionBuilder]

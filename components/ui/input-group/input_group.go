@@ -124,14 +124,14 @@ func Text(children ...any) *h.Element {
 func Input(children ...any) *h.Element {
 	props := h.Input(children...)
 	props.SetClass(lib.Cn(inputCls, props.ClassName()))
-	return input.Input(h.Data("slot", "input-group-control"), spreadProp(props))
+	return input.Input(h.Data("slot", "input-group-control"), spreadProp(props)).Element()
 }
 
 // Textarea is the group's <textarea> (upstream InputGroupTextarea).
 func Textarea(children ...any) *h.Element {
 	props := h.Textarea(children...)
 	props.SetClass(lib.Cn(areaCls, props.ClassName()))
-	return textarea.Textarea(h.Data("slot", "input-group-control"), spreadProp(props))
+	return textarea.Textarea(h.Data("slot", "input-group-control"), spreadProp(props)).Element()
 }
 
 // Builder is returned by Addon and Button.

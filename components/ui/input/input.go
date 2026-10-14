@@ -5,6 +5,8 @@ package input
 
 import (
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/scoped"
 	h "shadcn.go/libhtml"
 )
 
@@ -15,4 +17,9 @@ var base = h.Input(h.Data("slot", "input"), h.Class(lib.Cn(
 )))
 
 // Input returns an <input>. Pass its type, placeholder, etc. as attributes.
-func Input(children ...any) *h.Element { return h.Spread(base, h.Input(children...), lib.Cn) }
+func Input(children ...any) *scoped.Node {
+	return scoped.Spread(base, h.Input(children...), scoped.Slot("input", "input", baseInput))
+}
+
+// registry/bases/radix/ui/input.tsx, used inside a style.Scope.
+var baseInput = style.Cn("cn-input w-full min-w-0 outline-none file:inline-flex file:border-0 file:bg-transparent file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50", style.Arg)

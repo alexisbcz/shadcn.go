@@ -126,7 +126,7 @@ func dataInvalid() h.Prop { return h.Data("invalid", "false") }
 func ariaInvalid() h.Prop { return h.Aria("invalid", "false") }
 
 // footer is the examples' CardFooter: Reset and Submit.
-func footer(formID, submit string, children ...any) *h.Element {
+func footer(formID, submit string, children ...any) h.Node {
 	return card.Footer(append(children,
 		field.Field(field.Horizontal,
 			button.Button(h.Type("button"), button.VariantOutline, "Reset"),
@@ -135,7 +135,7 @@ func footer(formID, submit string, children ...any) *h.Element {
 	)...)
 }
 
-func header(title, description string, children ...any) *h.Element {
+func header(title, description string, children ...any) h.Node {
 	return card.Header(append(children, card.Title(title), card.Description(description))...)
 }
 

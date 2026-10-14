@@ -12,8 +12,6 @@
 package empty
 
 import (
-	"io"
-
 	"shadcn.go/components/lib"
 	"shadcn.go/cva"
 	h "shadcn.go/libhtml"
@@ -126,6 +124,3 @@ func (b *Builder) Element() *h.Element {
 	}
 	return h.Spread(b.base, b.Elem(), lib.Cn)
 }
-
-// Render renders the component.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }

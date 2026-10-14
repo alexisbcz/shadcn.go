@@ -85,7 +85,7 @@ func NextDemo(state NextDemoState, pending bool) h.Node {
 	)
 	submit := button.Button(h.Type("submit"), h.FormAttr("bug-report-form"))
 	if pending {
-		title.Bool("disabled", true)
+		title.Props().Bool("disabled", true)
 		desc.Bool("disabled", true)
 		submit.Disabled(true)
 		submit.Children(spinner.Spinner())

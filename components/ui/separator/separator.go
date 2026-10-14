@@ -8,6 +8,7 @@ package separator
 
 import (
 	"io"
+	"shadcn.go/components/style"
 
 	"shadcn.go/components/lib"
 	h "shadcn.go/libhtml"
@@ -72,7 +73,15 @@ const class = "shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orien
 var cnClass = lib.Cn(class)
 
 // Element resolves the separator to its <div>.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element(cnClass) }
+
+// styledElement resolves the separator in style st
+// (registry/bases/radix/ui/separator.tsx).
+func (b *Builder) styledElement(st style.Style) *h.Element { return b.element(baseClass) }
+
+var baseClass = lib.Cn("shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch")
+
+func (b *Builder) element(class string) *h.Element {
 	base := h.Div(h.Data("orientation", string(b.orientation)))
 	if b.decorative {
 		base.Attr("role", "none")
@@ -82,9 +91,18 @@ func (b *Builder) Element() *h.Element {
 		}
 		base.Attr("role", "separator")
 	}
-	base.Children(h.Data("slot", "separator"), h.Class(cnClass))
+	base.Children(h.Data("slot", "separator"), h.Class(class))
 	return h.Spread(base, b.Elem(), lib.Cn)
 }
 
-// Render renders the separator.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+// Render renders the separator, in the style in scope (style.Scope) if any.
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn resolves the element as it renders inside w: in the style in
+// scope (style.Scope), if any.
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	if st, ok := style.FromWriter(w); ok {
+		return b.styledElement(st)
+	}
+	return b.Element()
+}

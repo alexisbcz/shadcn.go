@@ -5,6 +5,8 @@ package kbd
 
 import (
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/scoped"
 	h "shadcn.go/libhtml"
 )
 
@@ -18,8 +20,19 @@ var (
 )
 
 // Kbd returns a <kbd> key.
-func Kbd(children ...any) *h.Element { return h.Spread(kbdBase, h.Kbd(children...), lib.Cn) }
+func Kbd(children ...any) *scoped.Node {
+	return scoped.Spread(kbdBase, h.Kbd(children...), scoped.Slot("kbd", "kbd", baseKbd))
+}
+
+// registry/bases/radix/ui/kbd.tsx, used inside a style.Scope.
+var (
+	baseFile  = style.NewFile("ui/kbd.tsx")
+	baseKbd   = baseFile.Cn("cn-kbd pointer-events-none inline-flex items-center justify-center select-none", style.Arg)
+	baseGroup = baseFile.Cn("cn-kbd-group inline-flex items-center", style.Arg)
+)
 
 // Group returns a <kbd> grouping several keys (upstream KbdGroup, which
 // renders a <kbd> too).
-func Group(children ...any) *h.Element { return h.Spread(groupBase, h.Kbd(children...), lib.Cn) }
+func Group(children ...any) *scoped.Node {
+	return scoped.Spread(groupBase, h.Kbd(children...), scoped.Slot("kbd", "kbd-group", baseGroup))
+}

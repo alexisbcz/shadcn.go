@@ -10,6 +10,7 @@ package card
 
 import (
 	"shadcn.go/components/lib"
+	"shadcn.go/components/ui/internal/scoped"
 	h "shadcn.go/libhtml"
 )
 
@@ -27,27 +28,45 @@ var (
 	footerBase      = slot("card-footer", "flex items-center px-6 [.border-t]:pt-6")
 )
 
-func spread(base *h.Element, children []any) *h.Element {
-	return h.Spread(base, h.Div(children...), lib.Cn)
+// Card returns the card's root <div>.
+func Card(children ...any) *scoped.Node {
+	size := SizeDefault
+	var rest []any
+	for _, c := range children {
+		if v, ok := c.(Size); ok {
+			size = v
+			continue
+		}
+		rest = append(rest, c)
+	}
+	props := h.Div(rest...)
+	return scoped.Spread(cardBase, props, scoped.Slot("div", "card", baseCard, h.Data("size", string(size))))
 }
 
-// Card returns the card's root <div>.
-func Card(children ...any) *h.Element { return spread(cardBase, children) }
-
 // Header returns the card's header <div>.
-func Header(children ...any) *h.Element { return spread(headerBase, children) }
+func Header(children ...any) *scoped.Node {
+	return spread(headerBase, "card-header", baseHeader, children)
+}
 
 // Title returns the card's title <div>.
-func Title(children ...any) *h.Element { return spread(titleBase, children) }
+func Title(children ...any) *scoped.Node { return spread(titleBase, "card-title", baseTitle, children) }
 
 // Description returns the card's description <div>.
-func Description(children ...any) *h.Element { return spread(descriptionBase, children) }
+func Description(children ...any) *scoped.Node {
+	return spread(descriptionBase, "card-description", baseDescription, children)
+}
 
 // Action returns the card's action <div>, placed at the header's end.
-func Action(children ...any) *h.Element { return spread(actionBase, children) }
+func Action(children ...any) *scoped.Node {
+	return spread(actionBase, "card-action", baseAction, children)
+}
 
 // Content returns the card's content <div>.
-func Content(children ...any) *h.Element { return spread(contentBase, children) }
+func Content(children ...any) *scoped.Node {
+	return spread(contentBase, "card-content", baseContent, children)
+}
 
 // Footer returns the card's footer <div>.
-func Footer(children ...any) *h.Element { return spread(footerBase, children) }
+func Footer(children ...any) *scoped.Node {
+	return spread(footerBase, "card-footer", baseFooter, children)
+}

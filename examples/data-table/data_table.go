@@ -90,7 +90,7 @@ func rowActions() h.Node {
 
 // row renders a payment's row (cells in column order: select, status,
 // email, amount, actions).
-func row(p Payment) *h.Element {
+func row(p Payment) h.Node {
 	return table.Row(h.Data("state", "false"),
 		table.Cell(checkbox.Checkbox(h.Aria("label", "Select row"))),
 		table.Cell(h.Div(h.Class("capitalize"), p.Status)),

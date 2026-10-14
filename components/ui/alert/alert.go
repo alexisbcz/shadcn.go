@@ -8,8 +8,6 @@
 package alert
 
 import (
-	"io"
-
 	"shadcn.go/components/lib"
 	"shadcn.go/cva"
 	h "shadcn.go/libhtml"
@@ -84,18 +82,7 @@ func (b *Builder) Element() *h.Element {
 	return h.Spread(base, b.Elem(), lib.Cn)
 }
 
-// Render renders the alert.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
-
 var (
 	titleBase       = h.Div(h.Data("slot", "alert-title"), h.Class(lib.Cn("col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight")))
 	descriptionBase = h.Div(h.Data("slot", "alert-description"), h.Class(lib.Cn("col-start-2 grid justify-items-start gap-1 text-sm text-muted-foreground [&_p]:leading-relaxed")))
 )
-
-// Title returns the alert's title <div>.
-func Title(children ...any) *h.Element { return h.Spread(titleBase, h.Div(children...), lib.Cn) }
-
-// Description returns the alert's description <div>.
-func Description(children ...any) *h.Element {
-	return h.Spread(descriptionBase, h.Div(children...), lib.Cn)
-}

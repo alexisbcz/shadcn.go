@@ -6,9 +6,6 @@
 package badge
 
 import (
-	"fmt"
-	"io"
-
 	"shadcn.go/components/lib"
 	"shadcn.go/cva"
 	h "shadcn.go/libhtml"
@@ -94,27 +91,3 @@ func (b *Builder) Variant(v Variant) *Builder {
 
 // AsChild renders the badge's single element child in place of a <span>.
 func (b *Builder) AsChild() *Builder { b.asChild = true; return b }
-
-// Element resolves the badge to the element it renders.
-func (b *Builder) Element() *h.Element {
-	base := h.Span(h.Data("slot", "badge"), h.Data("variant", string(b.variant)), h.Class(Variants(b.variant)))
-	el, err := h.Slot(base, b.Elem(), lib.Cn)
-	if err != nil {
-		return h.Errored(err)
-	}
-	if !b.asChild {
-		return el
-	}
-	kids := el.ChildNodes()
-	if len(kids) != 1 {
-		return h.Errored(fmt.Errorf("badge: AsChild needs exactly one element child, got %d children", len(kids)))
-	}
-	out, err := h.Slot(el.Clone().SetChildren(), kids[0], lib.Cn)
-	if err != nil {
-		return h.Errored(fmt.Errorf("badge: AsChild: %w", err))
-	}
-	return out
-}
-
-// Render renders the badge.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
