@@ -12,6 +12,7 @@ package toggle
 import (
 	_ "embed"
 	"io"
+	"shadcn.go/components/ui/internal/part"
 
 	"shadcn.go/components/lib"
 	"shadcn.go/components/style"
@@ -93,6 +94,16 @@ func StyleVariantClasses(st style.Style, variant Variant, size Size, className .
 	return styleVariants.Classes(st, cva.Selection{"variant": string(variant), "size": string(size)}, className...)
 }
 
+// StyleVariantClassesDir is StyleVariantClasses without className, in the
+// ui-rtl variant when rtl is true (style.ScopeRTL).
+func StyleVariantClassesDir(st style.Style, rtl bool, variant Variant, size Size) string {
+	c := StyleVariantClasses(st, variant, size)
+	if rtl {
+		return style.RTLClass(c)
+	}
+	return c
+}
+
 // VariantClasses returns toggleVariants({ variant, size }) followed by
 // className, unmerged (cva output). Empty values select the defaults.
 func VariantClasses(variant Variant, size Size, className ...string) string {
@@ -109,6 +120,7 @@ func Variants(variant Variant, size Size, className ...string) string {
 // Builder is returned by Toggle.
 type Builder struct {
 	h.Builder[Builder]
+	rtl     bool // inside style.ScopeRTL, set by ElementIn
 	variant Variant
 	size    Size
 	pressed bool
@@ -156,7 +168,7 @@ func (b *Builder) element(st style.Style) *h.Element {
 	props := b.Elem()
 	cls := Variants(b.variant, b.size, props.ClassName())
 	if st != "" {
-		cls = lib.Cn(StyleVariantClasses(st, b.variant, b.size, props.ClassName()))
+		cls = lib.Cn(StyleVariantClassesDir(st, b.rtl, b.variant, b.size), props.ClassName())
 	}
 	base := Root(b.pressed, props.Has("disabled"))
 	base.Data("slot", "toggle")
@@ -171,6 +183,7 @@ func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 // ElementIn is Element in the style of an enclosing style.Scope.
 func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
+	b.rtl = part.RTL(w)
 	return b.element(st)
 }
 

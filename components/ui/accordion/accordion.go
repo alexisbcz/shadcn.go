@@ -31,6 +31,7 @@ import (
 	"fmt"
 	"io"
 	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/part"
 	"slices"
 
 	"shadcn.go/components/icons/lucide"
@@ -302,6 +303,7 @@ func (b *ItemBuilder) ElementIn(w io.Writer) *h.Element {
 // TriggerBuilder is returned by Trigger.
 type TriggerBuilder struct {
 	h.Builder[TriggerBuilder]
+	rtl  bool // inside style.ScopeRTL, set by ElementIn
 	item *itemContext
 }
 
@@ -365,7 +367,7 @@ func (b *TriggerBuilder) element(st style.Style) *h.Element {
 	props := b.Elem()
 	out := h.Spread(btn, props, nil).SetClass(lib.Cn(triggerClass, props.ClassName()))
 	if st := it.root.style; st != "" {
-		out.SetClass(styleTrigger.Class(st, props.ClassName()))
+		out.SetClass(part.Class(b.rtl, styleTrigger, st, props.ClassName()))
 		out.Children(
 			lucide.ChevronDown(h.Data("slot", "accordion-trigger-icon"), h.Class(styleIconDown.Class(st))),
 			lucide.ChevronUp(h.Data("slot", "accordion-trigger-icon"), h.Class(styleIconUp.Class(st))),
@@ -382,6 +384,7 @@ func (b *TriggerBuilder) Render(w io.Writer) error { return b.ElementIn(w).Rende
 // ElementIn is Element in the style of an enclosing style.Scope.
 func (b *TriggerBuilder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
+	b.rtl = part.RTL(w)
 	return b.element(st)
 }
 

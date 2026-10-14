@@ -32,6 +32,7 @@ import (
 	"fmt"
 	"io"
 	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/part"
 	"strconv"
 
 	"shadcn.go/components/icons/lucide"
@@ -78,11 +79,13 @@ type context struct {
 	disabled bool
 	orient   Orientation
 	style    style.Style
+	rtl      bool
 }
 
 // Builder is returned by RadioGroup.
 type Builder struct {
 	h.Builder[Builder]
+	rtl  bool // inside style.ScopeRTL, set by ElementIn
 	ctx  context
 	loop bool
 }
@@ -141,6 +144,7 @@ func (b *Builder) Element() *h.Element { return b.element("") }
 func (b *Builder) element(st style.Style) *h.Element {
 	ctx := b.ctx
 	ctx.style = st
+	ctx.rtl = b.rtl
 	focusable := 0
 	tree.Walk(b.Elem().ChildNodes(), func(n any) bool {
 		switch c := n.(type) {
@@ -186,6 +190,7 @@ func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 // ElementIn is Element in the style of an enclosing style.Scope.
 func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
+	b.rtl = part.RTL(w)
 	return b.element(st)
 }
 
@@ -261,7 +266,7 @@ func (b *ItemBuilder) Element() *h.Element {
 			h.Data("state", state(checked)),
 			h.Data("slot", "radio-group-indicator"),
 			h.Class(styleIndicator.Class(st)),
-			h.Span(h.Class(styleIndicatorIcon.Class(st))),
+			h.Span(h.Class(part.Class(b.ctx.rtl, styleIndicatorIcon, st))),
 		).When(disabled, func(e *h.Element) { e.Data("disabled", "") })
 	}
 	if checked {

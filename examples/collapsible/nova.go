@@ -85,7 +85,7 @@ func NovaDemo() h.Node {
 	return novaOrder(orderText{"Order #4189", "Status", "Shipped", "Shipping address", "100 Market St, San Francisco", "Items", "2x Studio Headphones"})
 }
 
-func NovaRtl() h.Node {
+func novaRtl() h.Node {
 	return novaOrder(orderText{"الطلب #4189", "الحالة", "تم الشحن", "عنوان الشحن", "100 Market St, San Francisco", "العناصر", "2x سماعات الاستوديو"}, h.Dir("rtl"))
 }
 
@@ -186,3 +186,6 @@ func NovaSettings() h.Node {
 		),
 	)
 }
+
+// NovaRtl uses the ui-rtl components (styles/radix-nova/ui-rtl).
+func NovaRtl() h.Node { return style.ScopeRTL(novaRtl()) }

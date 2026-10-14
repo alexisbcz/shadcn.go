@@ -209,10 +209,10 @@ var (
 
 // Badge returns a <span> badge in the avatar's bottom-right corner.
 func Badge(children ...any) *part.Part {
-	return part.New("span", func(st style.Style, props *h.Element) *h.Element {
+	return part.New("span", func(st style.Style, rtl bool, props *h.Element) *h.Element {
 		e := h.Spread(h.Span(h.Data("slot", "avatar-badge")), props, nil)
 		if st != "" {
-			return e.SetClass(styleBadge.Class(st, props.ClassName()))
+			return e.SetClass(part.Class(rtl, styleBadge, st, props.ClassName()))
 		}
 		return e.SetClass(lib.Cn(
 			"absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground ring-2 ring-background select-none",
@@ -226,7 +226,7 @@ func Badge(children ...any) *part.Part {
 
 // Group returns a <div> stacking avatars.
 func Group(children ...any) *part.Part {
-	return part.New("div", func(st style.Style, props *h.Element) *h.Element {
+	return part.New("div", func(st style.Style, rtl bool, props *h.Element) *h.Element {
 		e := h.Spread(h.Div(h.Data("slot", "avatar-group")), props, nil)
 		if st != "" {
 			return e.SetClass(styleGroup.Class(st, props.ClassName()))
@@ -238,7 +238,7 @@ func Group(children ...any) *part.Part {
 // GroupCount returns a <div> showing the number of avatars not shown in a
 // Group.
 func GroupCount(children ...any) *part.Part {
-	return part.New("div", func(st style.Style, props *h.Element) *h.Element {
+	return part.New("div", func(st style.Style, rtl bool, props *h.Element) *h.Element {
 		e := h.Spread(h.Div(h.Data("slot", "avatar-group-count")), props, nil)
 		if st != "" {
 			return e.SetClass(styleGroupCount.Class(st, props.ClassName()))

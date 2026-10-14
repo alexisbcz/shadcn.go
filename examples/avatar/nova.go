@@ -84,7 +84,7 @@ func novaDemo(more string, attrs ...any) h.Node {
 
 func NovaDemo() h.Node { return novaDemo("+3") }
 
-func NovaRtl() h.Node { return novaDemo("+٣", h.Dir("rtl")) }
+func novaRtl() h.Node { return novaDemo("+٣", h.Dir("rtl")) }
 
 func NovaDropdown() h.Node {
 	return dm.DropdownMenu(
@@ -123,3 +123,6 @@ func NovaSize() h.Node {
 		gh("shadcn", "CN", avatar.SizeLg),
 	)
 }
+
+// NovaRtl uses the ui-rtl components (styles/radix-nova/ui-rtl).
+func NovaRtl() h.Node { return style.ScopeRTL(novaRtl()) }

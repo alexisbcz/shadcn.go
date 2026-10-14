@@ -91,7 +91,7 @@ func NovaDropdown() h.Node {
 	return novaDropdown(dropdownText{"Home", "Components", "Documentation", "Themes", "GitHub", "Breadcrumb"}, nil, dm.AlignStart)
 }
 
-func NovaRtl() h.Node {
+func novaRtl() h.Node {
 	return novaDropdown(dropdownText{"الرئيسية", "المكونات", "التوثيق", "السمات", "جيت هاب", "مسار التنقل"},
 		[]any{h.Dir("rtl")}, h.Data("lang", "ar"))
 }
@@ -105,3 +105,6 @@ func NovaSeparator() h.Node {
 		breadcrumb.Item(breadcrumb.Page("Breadcrumb")),
 	))
 }
+
+// NovaRtl uses the ui-rtl components (styles/radix-nova/ui-rtl).
+func NovaRtl() h.Node { return style.ScopeRTL(novaRtl()) }

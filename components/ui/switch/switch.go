@@ -24,6 +24,7 @@ import (
 	_ "embed"
 	"io"
 	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/part"
 	"strconv"
 
 	"shadcn.go/components/lib"
@@ -66,6 +67,7 @@ type Form string
 // Builder is returned by Switch.
 type Builder struct {
 	h.Builder[Builder]
+	rtl      bool // inside style.ScopeRTL, set by ElementIn
 	checked  bool
 	size     Size
 	name     string
@@ -218,7 +220,7 @@ func (b *Builder) element(st style.Style) *h.Element {
 	}
 	if st != "" {
 		out.SetClass(styleRoot.Class(st, props.ClassName()))
-		thumb.SetClass(styleThumb.Class(st))
+		thumb.SetClass(part.Class(b.rtl, styleThumb, st))
 	}
 	return out.SetChildren(thumb)
 }
@@ -270,5 +272,6 @@ func state(checked bool) string {
 // ElementIn is Element in the style of an enclosing style.Scope.
 func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
+	b.rtl = part.RTL(w)
 	return b.element(st)
 }

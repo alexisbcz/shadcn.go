@@ -64,15 +64,18 @@ func NovaChoiceCard() h.Node {
 func described(dir string, items [][4]string, attrs ...any) h.Node {
 	var kids []any
 	for _, it := range items {
-		var d []any
+		var d, desc []any
 		if dir != "" {
 			d = []any{h.Dir(dir)}
+			// field does not map its classes under style.ScopeRTL yet:
+			// text-start is the ui-rtl FieldDescription's text-left.
+			desc = []any{h.Class("text-start")}
 		}
 		kids = append(kids, field.Field(field.Horizontal,
 			rg.Item(append([]any{rg.Value(it[0]), h.ID(it[1])}, d...)...),
 			field.Content(
 				field.Label(append([]any{h.For(it[1])}, append(d, it[2])...)...),
-				field.Description(append(d, it[3])...),
+				field.Description(append(append(d, desc...), it[3])...),
 			),
 		))
 	}
@@ -87,7 +90,7 @@ func NovaDescription() h.Node {
 	})
 }
 
-func NovaRtl() h.Node {
+func novaRtl() h.Node {
 	return described("rtl", [][4]string{
 		{"default", "r1-rtl", "افتراضي", "تباعد قياسي لمعظم حالات الاستخدام."},
 		{"comfortable", "r2-rtl", "مريح", "مساحة أكبر بين العناصر."},
@@ -152,3 +155,6 @@ func NovaInvalid() h.Node {
 		})...)...),
 	)
 }
+
+// NovaRtl uses the ui-rtl components (styles/radix-nova/ui-rtl).
+func NovaRtl() h.Node { return style.ScopeRTL(novaRtl()) }

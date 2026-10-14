@@ -50,7 +50,7 @@ func NovaBasic() h.Node {
 	return accordion.Accordion(append([]any{accordion.TypeSingle, accordion.Collapsible(true), accordion.Value("item-1"), h.Class("max-w-lg")}, items(basicItems)...)...)
 }
 
-func NovaRtl() h.Node {
+func novaRtl() h.Node {
 	return accordion.Accordion(append([]any{accordion.TypeSingle, accordion.Collapsible(true), accordion.Value("item-1"), h.Class("max-w-md")}, items([][3]string{
 		{"item-1", "كيف يمكنني إعادة تعيين كلمة المرور؟", "انقر على 'نسيت كلمة المرور' في صفحة تسجيل الدخول، أدخل عنوان بريدك الإلكتروني، وسنرسل لك رابطًا لإعادة تعيين كلمة المرور. سينتهي صلاحية الرابط خلال 24 ساعة."},
 		{"item-2", "هل يمكنني تغيير خطة الاشتراك الخاصة بي؟", "نعم، يمكنك ترقية أو تخفيض خطتك في أي وقت من إعدادات حسابك. ستظهر التغييرات في دورة الفوترة التالية."},
@@ -114,3 +114,6 @@ func NovaMultiple() h.Node {
 		{"billing", "Billing & Subscription", "View your current plan, payment history, and upcoming invoices. Update your payment method, change your subscription tier, or cancel your subscription."},
 	})...)...)
 }
+
+// NovaRtl uses the ui-rtl components (styles/radix-nova/ui-rtl).
+func NovaRtl() h.Node { return style.ScopeRTL(novaRtl()) }

@@ -42,7 +42,7 @@ func NovaLabel() h.Node {
 	)
 }
 
-func NovaRtl() h.Node {
+func novaRtl() h.Node {
 	return field.Field(h.Class("w-full max-w-sm"), h.Dir("rtl"),
 		field.Label(h.For("progress-upload"),
 			h.Span("تقدم الرفع"),
@@ -51,3 +51,6 @@ func NovaRtl() h.Node {
 		progress.Progress(progress.Value(66), h.ID("progress-upload"), h.Class("rtl:rotate-180")),
 	)
 }
+
+// NovaRtl uses the ui-rtl components (styles/radix-nova/ui-rtl).
+func NovaRtl() h.Node { return style.ScopeRTL(novaRtl()) }

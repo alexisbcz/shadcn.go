@@ -12,6 +12,7 @@ import (
 	"fmt"
 	"io"
 	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/part"
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
@@ -148,6 +149,15 @@ func (b *Builder) element(w io.Writer, st style.Style) *h.Element {
 	base, defaultKid := b.base, b.defaultKid
 	if st != "" && b.alt != nil {
 		base, defaultKid = b.alt(st)
+		if part.RTL(w) {
+			// The ui-rtl variant: the part's own classes mapped (the
+			// default separator's cn-rtl-flip included).
+			base = base.Clone().SetClass(style.RTLClass(base.ClassName()))
+			if defaultKid != nil {
+				k := defaultKid
+				defaultKid = func() *h.Element { e := k(); return e.SetClass(style.RTLClass(e.ClassName())) }
+			}
+		}
 	}
 	if b.fixedKids {
 		props = props.Clone().SetChildren()

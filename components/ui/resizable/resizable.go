@@ -34,6 +34,7 @@ import (
 	"io"
 	"math"
 	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/part"
 	"strconv"
 	"strings"
 
@@ -156,13 +157,14 @@ func (b *GroupBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(
 // ElementIn is Element in the style of an enclosing style.Scope.
 func (b *GroupBuilder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
-	return b.element(&idScope{st: st})
+	return b.element(&idScope{st: st, rtl: part.RTL(w)})
 }
 
 // idScope numbers ids like React's useId and carries the style in scope.
 type idScope struct {
-	n  int
-	st style.Style
+	n   int
+	st  style.Style
+	rtl bool // inside style.ScopeRTL
 }
 
 // styleFile is registry/bases/radix/ui/resizable.tsx (style.Scope).
@@ -233,7 +235,7 @@ func (b *GroupBuilder) element(ids *idScope) *h.Element {
 			if ok {
 				aria = separatorAria(kids, v, layout, constraints)
 			}
-			v.b.st = ids.st
+			v.b.st, v.b.rtl = ids.st, ids.rtl
 			el.Children(v.b.render(v.id, b.orientation, aria))
 		default:
 			el.Children(k)
@@ -363,7 +365,7 @@ func (b *PanelBuilder) AcceptChild(c any) bool {
 // resize).
 func (b *PanelBuilder) Render(w io.Writer) error {
 	st, _ := style.FromWriter(w)
-	ids := &idScope{st: st}
+	ids := &idScope{st: st, rtl: part.RTL(w)}
 	id := ids.next()
 	return b.render(id, "1", resolveNested(b.Elem().ChildNodes(), ids)).Render(w)
 }
@@ -422,6 +424,7 @@ type HandleBuilder struct {
 	h.Builder[HandleBuilder]
 	withHandle bool
 	st         style.Style // style in scope, set before rendering
+	rtl        bool        // inside style.ScopeRTL
 }
 
 // Handle returns the separator between two panels. Pass WithHandle to show
@@ -444,6 +447,7 @@ func (b *HandleBuilder) AcceptChild(c any) bool {
 // Render renders the handle on its own.
 func (b *HandleBuilder) Render(w io.Writer) error {
 	b.st, _ = style.FromWriter(w)
+	b.rtl = part.RTL(w)
 	return b.render((&idScope{}).next(), Horizontal, nil).Render(w)
 }
 
@@ -476,7 +480,7 @@ func (b *HandleBuilder) render(id string, groupOrientation Orientation, aria *ha
 	el.Aria("orientation", orientation)
 	el.SetClass(lib.Cn(handleClass, props.ClassName()))
 	if b.st != "" {
-		el.SetClass(styleHandle.Class(b.st, props.ClassName()))
+		el.SetClass(part.Class(b.rtl, styleHandle, b.st, props.ClassName()))
 	}
 	el.Data("separator", "inactive")
 	el.Data("testid", id)

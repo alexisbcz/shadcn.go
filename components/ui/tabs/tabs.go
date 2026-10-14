@@ -34,6 +34,7 @@ import (
 	"fmt"
 	"io"
 	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/part"
 
 	"shadcn.go/components/lib"
 	"shadcn.go/components/ui/internal/tree"
@@ -310,6 +311,7 @@ func (b *ListBuilder) ElementIn(w io.Writer) *h.Element {
 // TriggerBuilder is returned by Trigger.
 type TriggerBuilder struct {
 	h.Builder[TriggerBuilder]
+	rtl   bool // inside style.ScopeRTL, set by ElementIn
 	ctx   *context
 	value string
 }
@@ -369,7 +371,7 @@ func (b *TriggerBuilder) element(st style.Style) *h.Element {
 		base.Data("disabled", "")
 	}
 	if st != "" {
-		return h.Spread(base, props, nil).SetClass(styleTrigger.Class(st, props.ClassName()))
+		return h.Spread(base, props, nil).SetClass(part.Class(b.rtl, styleTrigger, st, props.ClassName()))
 	}
 	return h.Spread(base, props, nil).SetClass(lib.Cn(triggerClass, triggerLineClass, triggerActiveClass, triggerAfterClass, props.ClassName()))
 }
@@ -381,6 +383,7 @@ func (b *TriggerBuilder) Render(w io.Writer) error { return b.ElementIn(w).Rende
 // ElementIn is Element in the style of an enclosing style.Scope.
 func (b *TriggerBuilder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
+	b.rtl = part.RTL(w)
 	return b.element(st)
 }
 

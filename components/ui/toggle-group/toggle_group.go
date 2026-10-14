@@ -26,6 +26,7 @@ import (
 	_ "embed"
 	"fmt"
 	"io"
+	"shadcn.go/components/ui/internal/part"
 	"strconv"
 	"strings"
 
@@ -104,11 +105,13 @@ type context struct {
 	orientation Orientation
 	rovingFocus bool
 	style       style.Style
+	rtl         bool
 }
 
 // Builder is returned by ToggleGroup.
 type Builder struct {
 	h.Builder[Builder]
+	rtl  bool // inside style.ScopeRTL, set by ElementIn
 	ctx  context
 	loop bool
 }
@@ -198,6 +201,7 @@ func (b *Builder) element(st style.Style) *h.Element {
 	}
 	ctx := b.ctx
 	ctx.style = st
+	ctx.rtl = b.rtl
 	orientation := ctx.orientation
 	if st != "" {
 		if !ctx.spacingSet {
@@ -271,6 +275,7 @@ func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 // ElementIn is Element in the style of an enclosing style.Scope.
 func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
+	b.rtl = part.RTL(w)
 	return b.element(st)
 }
 
@@ -377,7 +382,7 @@ func (b *ItemBuilder) Element() *h.Element {
 	props := b.Elem()
 	out := h.Spread(base, props, nil)
 	if ctx.style != "" {
-		return out.SetClass(styleItem.Class(ctx.style, toggle.StyleVariantClasses(ctx.style, variant, size), props.ClassName()))
+		return out.SetClass(part.Class(ctx.rtl, styleItem, ctx.style, toggle.StyleVariantClassesDir(ctx.style, ctx.rtl, variant, size), props.ClassName()))
 	}
 	return out.SetClass(lib.Cn(toggle.VariantClasses(variant, size), itemClass, itemSpacingClass, props.ClassName()))
 }

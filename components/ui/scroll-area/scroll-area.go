@@ -31,6 +31,7 @@ import (
 	"fmt"
 	"io"
 	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/part"
 	"strconv"
 
 	"shadcn.go/components/lib"
@@ -205,6 +206,7 @@ func (b *Builder) ElementIn(w io.Writer) *h.Element {
 // ScrollBarBuilder is returned by ScrollBar.
 type ScrollBarBuilder struct {
 	h.Builder[ScrollBarBuilder]
+	rtl         bool // inside style.ScopeRTL, set by ElementIn
 	orientation Orientation
 }
 
@@ -258,7 +260,7 @@ func (b *ScrollBarBuilder) element(st style.Style) *h.Element {
 	bar := h.Spread(base, props, nil).SetClass(class)
 	thumbClass := "relative flex-1 rounded-full bg-border"
 	if st != "" {
-		bar.SetClass(styleScrollbar.Class(st, props.ClassName()))
+		bar.SetClass(part.Class(b.rtl, styleScrollbar, st, props.ClassName()))
 		thumbClass = styleThumb.Class(st)
 	}
 	bar.Children(h.Div(h.Data("slot", "scroll-area-thumb"), h.Class(thumbClass)))
@@ -271,5 +273,6 @@ func (b *ScrollBarBuilder) Render(w io.Writer) error { return b.ElementIn(w).Ren
 // ElementIn is Element in the style of an enclosing style.Scope.
 func (b *ScrollBarBuilder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
+	b.rtl = part.RTL(w)
 	return b.element(st)
 }

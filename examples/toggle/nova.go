@@ -51,9 +51,12 @@ func NovaText() h.Node {
 	return toggle.Toggle(h.Aria("label", "Toggle italic"), lucide.Italic(), "Italic")
 }
 
-func NovaRtl() h.Node {
+func novaRtl() h.Node {
 	return toggle.Toggle(h.Aria("label", "Toggle bookmark"), toggle.SizeSm, toggle.VariantOutline, h.Dir("rtl"),
 		lucide.Bookmark(h.Class("group-aria-pressed/toggle:fill-foreground")),
 		"إشارة مرجعية",
 	)
 }
+
+// NovaRtl uses the ui-rtl components (styles/radix-nova/ui-rtl).
+func NovaRtl() h.Node { return style.ScopeRTL(novaRtl()) }

@@ -60,6 +60,9 @@ func NovaVertical() h.Node {
 	)
 }
 
-func NovaRtl() h.Node {
+func novaRtl() h.Node {
 	return slider.Slider(slider.DefaultValue(75), slider.Max(100), slider.Step(1), h.Class("mx-auto w-full max-w-xs"), h.Dir("rtl"))
 }
+
+// NovaRtl uses the ui-rtl components (styles/radix-nova/ui-rtl).
+func NovaRtl() h.Node { return style.ScopeRTL(novaRtl()) }

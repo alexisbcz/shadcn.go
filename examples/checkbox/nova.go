@@ -45,6 +45,12 @@ type demoText struct {
 }
 
 func novaDemo(t demoText, suffix string, attrs ...any) h.Node {
+	// field does not map its classes under style.ScopeRTL yet: text-start
+	// is the ui-rtl FieldDescription's text-left.
+	var desc []any
+	if suffix == "-rtl" {
+		desc = []any{h.Class("text-start")}
+	}
 	return field.Group(append(attrs,
 		field.Field(field.Horizontal,
 			checkbox.Checkbox(h.ID("terms-checkbox"+suffix), h.Name("terms-checkbox")),
@@ -54,7 +60,7 @@ func novaDemo(t demoText, suffix string, attrs ...any) h.Node {
 			checkbox.Checkbox(h.ID("terms-checkbox-2"+suffix), h.Name("terms-checkbox-2"), checkbox.Checked(true)),
 			field.Content(
 				field.Label(h.For("terms-checkbox-2"+suffix), t.acceptTerms),
-				field.Description(t.acceptTermsDescription),
+				field.Description(append(desc, t.acceptTermsDescription)...),
 			),
 		),
 		field.Field(field.Horizontal, h.Data("disabled", "true"),
@@ -66,7 +72,7 @@ func novaDemo(t demoText, suffix string, attrs ...any) h.Node {
 				checkbox.Checkbox(h.ID("toggle-checkbox-2"), h.Name("toggle-checkbox-2")),
 				field.Content(
 					field.Title(t.enableNotifications),
-					field.Description(t.enableNotificationsDescription),
+					field.Description(append(desc, t.enableNotificationsDescription)...),
 				),
 			),
 		),
@@ -82,7 +88,7 @@ func NovaDemo() h.Node {
 	}, "", h.Class("max-w-sm"))
 }
 
-func NovaRtl() h.Node {
+func novaRtl() h.Node {
 	return novaDemo(demoText{
 		"قبول الشروط والأحكام",
 		"بالنقر على هذا المربع، فإنك توافق على الشروط.",
@@ -176,3 +182,6 @@ func NovaTable() h.Node {
 		table.Body(body...),
 	)
 }
+
+// NovaRtl uses the ui-rtl components (styles/radix-nova/ui-rtl).
+func NovaRtl() h.Node { return style.ScopeRTL(novaRtl()) }

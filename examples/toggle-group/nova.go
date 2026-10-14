@@ -86,10 +86,13 @@ func NovaFontWeightSelector() h.Node {
 	)
 }
 
-func NovaRtl() h.Node {
+func novaRtl() h.Node {
 	return tg.ToggleGroup(tg.VariantOutline, tg.TypeSingle, tg.Value("list"),
 		tg.Item(tg.Value("list"), h.Aria("label", "قائمة"), "قائمة"),
 		tg.Item(tg.Value("grid"), h.Aria("label", "شبكة"), "شبكة"),
 		tg.Item(tg.Value("cards"), h.Aria("label", "بطاقات"), "بطاقات"),
 	)
 }
+
+// NovaRtl uses the ui-rtl components (styles/radix-nova/ui-rtl).
+func NovaRtl() h.Node { return style.ScopeRTL(novaRtl()) }

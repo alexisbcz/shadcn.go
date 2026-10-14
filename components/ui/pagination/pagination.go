@@ -81,7 +81,7 @@ var buttonVariants = buttonFile.CVA(
 
 // Pagination is the root <nav>.
 func Pagination(children ...any) *part.Part {
-	return part.New("nav", func(st style.Style, props *h.Element) *h.Element {
+	return part.New("nav", func(st style.Style, rtl bool, props *h.Element) *h.Element {
 		if st != "" {
 			base := navBase.Clone().SetClass(styleRoot.Class(st, ""))
 			return h.Spread(base, props, lib.Cn)
@@ -92,7 +92,7 @@ func Pagination(children ...any) *part.Part {
 
 // Content is the <ul> of items.
 func Content(children ...any) *part.Part {
-	return part.New("ul", func(st style.Style, props *h.Element) *h.Element {
+	return part.New("ul", func(st style.Style, rtl bool, props *h.Element) *h.Element {
 		if st != "" {
 			base := contentBase.Clone().SetClass(styleContent.Class(st, ""))
 			return h.Spread(base, props, lib.Cn)
@@ -177,18 +177,18 @@ func (b *Builder) Active(on bool) *Builder { b.active, b.activeSet = on, true; r
 func (b *Builder) Size(s button.Size) *Builder { b.AcceptChild(s); return b }
 
 // Element resolves the component to its <a>.
-func (b *Builder) Element() *h.Element { return b.element("") }
+func (b *Builder) Element() *h.Element { return b.element("", false) }
 
 // ElementIn is Element in the style of an enclosing style.Scope.
 func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
-	return b.element(st)
+	return b.element(st, part.RTL(w))
 }
 
-func (b *Builder) element(st style.Style) *h.Element {
+func (b *Builder) element(st style.Style, rtl bool) *h.Element {
 	props := b.Elem().Clone()
 	if st != "" {
-		return b.styled(st, props)
+		return b.styled(st, rtl, props)
 	}
 	switch b.kind {
 	case kindPrevious:
@@ -227,34 +227,38 @@ func link(active, activeSet bool, size button.Size, props *h.Element) *h.Element
 func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // styled is the bases PaginationLink / Previous / Next in style st.
-func (b *Builder) styled(st style.Style, props *h.Element) *h.Element {
+func (b *Builder) styled(st style.Style, rtl bool, props *h.Element) *h.Element {
 	switch b.kind {
 	case kindPrevious:
-		props.SetClass(stylePrevious.Class(st, props.ClassName()))
+		props.SetClass(part.Class(rtl, stylePrevious, st, props.ClassName()))
 		props.SetChildren(
-			lucide.ChevronLeft(h.Data("icon", "inline-start"), h.Class(styleFlip.Class(st))),
+			lucide.ChevronLeft(h.Data("icon", "inline-start"), h.Class(part.Class(rtl, styleFlip, st))),
 			h.Span(h.Class(stylePreviousText.Class(st)), cmp.Or(b.text, "Previous")),
 		)
-		return styledLink(st, b.active, b.activeSet, b.size, h.Spread(h.A(h.Aria("label", "Go to previous page")), props, nil))
+		return styledLink(st, rtl, b.active, b.activeSet, b.size, h.Spread(h.A(h.Aria("label", "Go to previous page")), props, nil))
 	case kindNext:
-		props.SetClass(styleNext.Class(st, props.ClassName()))
+		props.SetClass(part.Class(rtl, styleNext, st, props.ClassName()))
 		props.SetChildren(
 			h.Span(h.Class(styleNextText.Class(st)), cmp.Or(b.text, "Next")),
-			lucide.ChevronRight(h.Data("icon", "inline-end"), h.Class(styleFlip.Class(st))),
+			lucide.ChevronRight(h.Data("icon", "inline-end"), h.Class(part.Class(rtl, styleFlip, st))),
 		)
-		return styledLink(st, b.active, b.activeSet, b.size, h.Spread(h.A(h.Aria("label", "Go to next page")), props, nil))
+		return styledLink(st, rtl, b.active, b.activeSet, b.size, h.Spread(h.A(h.Aria("label", "Go to next page")), props, nil))
 	}
-	return styledLink(st, b.active, b.activeSet, b.size, props)
+	return styledLink(st, rtl, b.active, b.activeSet, b.size, props)
 }
 
 // styledLink is <Button asChild variant size className={cn("cn-pagination-link",
 // className)}><a aria-current data-slot data-active {...props} /></Button>.
-func styledLink(st style.Style, active, activeSet bool, size button.Size, props *h.Element) *h.Element {
+func styledLink(st style.Style, rtl bool, active, activeSet bool, size button.Size, props *h.Element) *h.Element {
 	variant := button.VariantGhost
 	if active {
 		variant = button.VariantOutline
 	}
-	cls := lib.Cn(buttonVariants.Classes(st, cva.Selection{"variant": string(variant), "size": string(size)}, styleLink.Class(st, props.ClassName())))
+	bv := buttonVariants.Classes(st, cva.Selection{"variant": string(variant), "size": string(size)})
+	if rtl {
+		bv = style.RTLClass(bv) // the ui-rtl Button
+	}
+	cls := lib.Cn(bv, part.Class(rtl, styleLink, st, props.ClassName()))
 	base := h.A(h.Data("slot", "pagination-link"), h.Data("variant", string(variant)), h.Data("size", string(size)))
 	if active {
 		base.Aria("current", "page").Data("active", "true")
@@ -269,7 +273,7 @@ func styledLink(st style.Style, active, activeSet bool, size button.Size, props 
 // Ellipsis stands for skipped pages. Like upstream, it always renders its
 // icon and "More pages" label: child nodes are ignored, attributes apply.
 func Ellipsis(children ...any) *part.Part {
-	return part.New("span", func(st style.Style, props *h.Element) *h.Element {
+	return part.New("span", func(st style.Style, rtl bool, props *h.Element) *h.Element {
 		props = props.Clone().SetChildren()
 		if st != "" {
 			base := h.Span(h.Aria("hidden", "true"), h.Data("slot", "pagination-ellipsis"), h.Class(styleEllipsis.Class(st, "")),

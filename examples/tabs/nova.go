@@ -57,7 +57,7 @@ func NovaDemo() h.Node {
 	}, "", tabs.Value("overview"), h.Class("w-[400px]"))
 }
 
-func NovaRtl() h.Node {
+func novaRtl() h.Node {
 	return novaPanels([][5]string{
 		{"overview", "نظرة عامة", "نظرة عامة", "عرض مقاييسك الرئيسية وأنشطة المشروع الأخيرة. تتبع التقدم عبر جميع مشاريعك النشطة.", "لديك ١٢ مشروعًا نشطًا و٣ مهام معلقة."},
 		{"analytics", "التحليلات", "التحليلات", "تتبع مقاييس الأداء ومشاركة المستخدمين. راقب الاتجاهات وحدد فرص النمو.", "زادت مشاهدات الصفحة بنسبة ٢٥٪ مقارنة بالشهر الماضي."},
@@ -103,3 +103,6 @@ func NovaVertical() h.Node {
 		),
 	)
 }
+
+// NovaRtl uses the ui-rtl components (styles/radix-nova/ui-rtl).
+func NovaRtl() h.Node { return style.ScopeRTL(novaRtl()) }

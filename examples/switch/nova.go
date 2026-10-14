@@ -84,12 +84,17 @@ func NovaSizes() h.Node {
 	)
 }
 
-func NovaRtl() h.Node {
+func novaRtl() h.Node {
 	return field.Field(field.Horizontal, h.Class("max-w-sm"), h.Dir("rtl"),
 		field.Content(
 			field.Label(h.For("switch-focus-mode-rtl"), h.Dir("rtl"), "المشاركة عبر الأجهزة"),
-			field.Description(h.Dir("rtl"), "يتم مشاركة التركيز عبر الأجهزة، ويتم إيقاف تشغيله عند مغادرة التطبيق."),
+			// field does not map its classes under style.ScopeRTL yet:
+			// text-start is the ui-rtl FieldDescription's text-left.
+			field.Description(h.Dir("rtl"), h.Class("text-start"), "يتم مشاركة التركيز عبر الأجهزة، ويتم إيقاف تشغيله عند مغادرة التطبيق."),
 		),
 		switchui.Switch(h.ID("switch-focus-mode-rtl"), h.Dir("rtl")),
 	)
 }
+
+// NovaRtl uses the ui-rtl components (styles/radix-nova/ui-rtl).
+func NovaRtl() h.Node { return style.ScopeRTL(novaRtl()) }
