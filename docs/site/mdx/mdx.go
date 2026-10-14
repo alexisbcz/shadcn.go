@@ -16,6 +16,8 @@
 package mdx
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"net/http"
 	"sort"
 	"sync"
@@ -97,4 +99,11 @@ func nodes(children []h.Node) []any {
 		out[i] = c
 	}
 	return out
+}
+
+// newID returns a unique element id (Radix useId style).
+func newID(prefix string) string {
+	var b [6]byte
+	_, _ = rand.Read(b[:])
+	return prefix + "-" + hex.EncodeToString(b[:])
 }
