@@ -53,9 +53,11 @@ import (
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/input"
 	"shadcn.go/components/ui/internal/aschild"
+	"shadcn.go/components/ui/internal/styled"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/runtime"
 	"shadcn.go/components/ui/separator"
@@ -125,8 +127,8 @@ func spreadProp(user *h.Element) h.Prop {
 // asChild resolves props rendered with lib.AsChild (Radix Slot): props are
 // merged into the single child, the child's props winning and classes
 // joined.
-func asChild(part string, props *h.Element) *h.Element {
-	return aschild.Resolve("sidebar "+part, props)
+func asChild(w io.Writer, part string, props *h.Element) *h.Element {
+	return aschild.ResolveIn(w, "sidebar "+part, props)
 }
 
 // --- Provider --------------------------------------------------------------------------------
@@ -275,7 +277,12 @@ const (
 )
 
 // Element resolves the sidebar.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the sidebar as it renders inside w (in the style of an
+// enclosing style.Scope).
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	st := styleOf(w)
 	user := b.Elem()
 	if b.collapsible == CollapsibleNone {
 		base := h.Div(h.Data("slot", "sidebar"), h.Class(lib.Cn(noneClass)))
@@ -312,15 +319,30 @@ func (b *Builder) Element() *h.Element {
 		container = append(container, "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l")
 	}
 	container = append(container, user.ClassName())
+	containerClass, inner, gapClass := lib.Cn(container...), innerClass, lib.Cn(gap...)
+	if st != "" {
+		pad := "group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l"
+		icon := "group-data-[collapsible=icon]:w-(--sidebar-width-icon)"
+		if floating {
+			pad = "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
+			icon = "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]"
+		}
+		containerClass = sContainer.Class(st, pad, user.ClassName())
+		inner = sInner.Class(st)
+		gapClass = sGap.Class(st, icon)
+	}
 
 	props := user.Clone().SetChildren()
-	props.SetClass(lib.Cn(container...))
+	props.SetClass(containerClass)
 	cont := h.Spread(h.Div(h.Data("slot", "sidebar-container")), props, nil)
-	cont.SetClass(lib.Cn(container...))
+	cont.SetClass(containerClass)
+	if st != "" {
+		cont.Data("side", string(b.side))
+	}
 	cont.Children(h.Div(
 		h.Data("sidebar", "sidebar"),
 		h.Data("slot", "sidebar-inner"),
-		h.Class(innerClass),
+		h.Class(inner),
 		h.Group(user.ChildNodes()...),
 	))
 
@@ -331,7 +353,7 @@ func (b *Builder) Element() *h.Element {
 		h.Data("variant", string(b.variant)),
 		h.Data("side", string(b.side)),
 		h.Data("slot", "sidebar"),
-		h.Div(h.Data("slot", "sidebar-gap"), h.Class(lib.Cn(gap...))),
+		h.Div(h.Data("slot", "sidebar-gap"), h.Class(gapClass)),
 		cont,
 		b.mobileTemplate(),
 	)
@@ -366,23 +388,37 @@ func (b *Builder) mobileTemplate() *h.Element {
 }
 
 // Render renders the sidebar.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // --- Trigger, Rail, Inset ----------------------------------------------------------------------
 
 // Trigger is the button toggling the sidebar (a ghost icon Button).
-func Trigger(children ...any) *h.Element {
-	user := h.Div(children...)
-	kids := user.ChildNodes()
-	if len(kids) == 0 {
-		kids = []any{lucide.PanelLeft(), h.Span(h.Class("sr-only"), "Toggle Sidebar")}
-	}
-	return button.Button(button.VariantGhost, button.SizeIcon,
-		h.Data("sidebar", "trigger"),
-		h.Data("slot", "sidebar-trigger"),
-		spreadProp(withClass(user, lib.Cn("size-7", user.ClassName()))),
-		h.Group(kids...),
-	).Element()
+func Trigger(children ...any) *styled.Node {
+	return styled.Lazy(h.Div(children...),
+		func(user *h.Element) h.Node {
+			kids := user.ChildNodes()
+			if len(kids) == 0 {
+				kids = []any{lucide.PanelLeft(), h.Span(h.Class("sr-only"), "Toggle Sidebar")}
+			}
+			return button.Button(button.VariantGhost, button.SizeIcon,
+				h.Data("sidebar", "trigger"),
+				h.Data("slot", "sidebar-trigger"),
+				spreadProp(withClass(user, lib.Cn("size-7", user.ClassName()))),
+				h.Group(kids...),
+			).Element()
+		},
+		func(st style.Style, user *h.Element) h.Node {
+			kids := user.ChildNodes()
+			if len(kids) == 0 {
+				kids = []any{lucide.PanelLeft(h.Class("cn-rtl-flip")), h.Span(h.Class("sr-only"), "Toggle Sidebar")}
+			}
+			return button.Button(button.VariantGhost, button.SizeIconSm,
+				h.Data("sidebar", "trigger"),
+				h.Data("slot", "sidebar-trigger"),
+				spreadProp(withClass(user, sTrigger.Class(st, user.ClassName()))),
+				h.Group(kids...),
+			)
+		})
 }
 
 func withClass(el *h.Element, class string) *h.Element {
@@ -399,7 +435,7 @@ const railClass = "absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transitio
 	"[[data-side=right][data-collapsible=offcanvas]_&]:-left-2"
 
 // Rail is the thin hit area along the sidebar's edge toggling it.
-func Rail(children ...any) *h.Element {
+func Rail(children ...any) *styled.Node {
 	base := h.Button(
 		h.Data("sidebar", "rail"),
 		h.Data("slot", "sidebar-rail"),
@@ -408,98 +444,122 @@ func Rail(children ...any) *h.Element {
 		h.Attr("title", "Toggle Sidebar"),
 		h.Class(lib.Cn(railClass)),
 	)
-	return h.Spread(base, h.Button(children...), lib.Cn)
+	return styled.Spread(base, h.Button(children...), func(st style.Style) *h.Element {
+		return base.Clone().SetClass(sRail.Class(st, ""))
+	})
 }
 
 const insetClass = "relative flex w-full flex-1 flex-col bg-background " +
 	"md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2"
 
 // Inset is the <main> next to the sidebar (styled for VariantInset).
-func Inset(children ...any) *h.Element {
-	return h.Spread(h.Main(h.Data("slot", "sidebar-inset"), h.Class(lib.Cn(insetClass))), h.Main(children...), lib.Cn)
+func Inset(children ...any) *styled.Node {
+	return styled.Spread(h.Main(h.Data("slot", "sidebar-inset"), h.Class(lib.Cn(insetClass))), h.Main(children...),
+		styled.Slot("main", "sidebar-inset", sInset))
 }
 
 // Input is an Input styled for the sidebar.
-func Input(children ...any) *h.Element {
-	user := h.Input(children...)
-	return input.Input(
-		h.Data("slot", "sidebar-input"),
-		h.Data("sidebar", "input"),
-		spreadProp(withClass(user, lib.Cn("h-8 w-full bg-background shadow-none", user.ClassName()))),
-	).Element()
+func Input(children ...any) *styled.Node {
+	return styled.Lazy(h.Input(children...),
+		func(user *h.Element) h.Node {
+			return input.Input(
+				h.Data("slot", "sidebar-input"),
+				h.Data("sidebar", "input"),
+				spreadProp(withClass(user, lib.Cn("h-8 w-full bg-background shadow-none", user.ClassName()))),
+			).Element()
+		},
+		func(st style.Style, user *h.Element) h.Node {
+			return input.Input(
+				h.Data("slot", "sidebar-input"),
+				h.Data("sidebar", "input"),
+				spreadProp(withClass(user, sInput.Class(st, user.ClassName()))),
+			)
+		})
 }
 
-func simple(el *h.Element, slot, class string, children []any) *h.Element {
+func simple(el *h.Element, slot, class string, site *style.Site, children []any) *styled.Node {
 	base := el.Clone().Children(h.Data("slot", slot), h.Data("sidebar", slot[len("sidebar-"):]), h.Class(lib.Cn(class)))
-	return h.Spread(base, el.Clone().Children(children...), lib.Cn)
+	return styled.Spread(base, el.Clone().Children(children...), func(st style.Style) *h.Element {
+		return base.Clone().SetClass(site.Class(st, ""))
+	})
 }
 
 // Header is the sticky top of the sidebar.
-func Header(children ...any) *h.Element {
-	return simple(h.Div(), "sidebar-header", "flex flex-col gap-2 p-2", children)
+func Header(children ...any) *styled.Node {
+	return simple(h.Div(), "sidebar-header", "flex flex-col gap-2 p-2", sHeader, children)
 }
 
 // Footer is the sticky bottom of the sidebar.
-func Footer(children ...any) *h.Element {
-	return simple(h.Div(), "sidebar-footer", "flex flex-col gap-2 p-2", children)
+func Footer(children ...any) *styled.Node {
+	return simple(h.Div(), "sidebar-footer", "flex flex-col gap-2 p-2", sFooter, children)
 }
 
 // Separator is a Separator styled for the sidebar.
-func Separator(children ...any) *separator.Builder {
-	user := h.Div(children...)
-	return separator.Separator(
-		h.Data("slot", "sidebar-separator"),
-		h.Data("sidebar", "separator"),
-		spreadProp(withClass(user, lib.Cn("mx-2 w-auto bg-sidebar-border", user.ClassName()))),
-		h.Group(user.ChildNodes()...),
-	)
+func Separator(children ...any) *styled.Node {
+	return styled.Lazy(h.Div(children...),
+		func(user *h.Element) h.Node {
+			return separator.Separator(
+				h.Data("slot", "sidebar-separator"),
+				h.Data("sidebar", "separator"),
+				spreadProp(withClass(user, lib.Cn("mx-2 w-auto bg-sidebar-border", user.ClassName()))),
+				h.Group(user.ChildNodes()...),
+			)
+		},
+		func(st style.Style, user *h.Element) h.Node {
+			return separator.Separator(
+				h.Data("slot", "sidebar-separator"),
+				h.Data("sidebar", "separator"),
+				spreadProp(withClass(user, sSeparator.Class(st, user.ClassName()))),
+				h.Group(user.ChildNodes()...),
+			)
+		})
 }
 
 // Content is the scrollable middle of the sidebar.
-func Content(children ...any) *h.Element {
-	return simple(h.Div(), "sidebar-content", "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden", children)
+func Content(children ...any) *styled.Node {
+	return simple(h.Div(), "sidebar-content", "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden", sContent, children)
 }
 
 // Group is a section of the sidebar.
-func Group(children ...any) *h.Element {
-	return simple(h.Div(), "sidebar-group", "relative flex w-full min-w-0 flex-col p-2", children)
+func Group(children ...any) *styled.Node {
+	return simple(h.Div(), "sidebar-group", "relative flex w-full min-w-0 flex-col p-2", sGroup, children)
 }
 
 // GroupContent holds a group's items.
-func GroupContent(children ...any) *h.Element {
-	return simple(h.Div(), "sidebar-group-content", "w-full text-sm", children)
+func GroupContent(children ...any) *styled.Node {
+	return simple(h.Div(), "sidebar-group-content", "w-full text-sm", sGroupContent, children)
 }
 
 // Menu is the list of menu items.
-func Menu(children ...any) *h.Element {
-	return simple(h.Ul(), "sidebar-menu", "flex w-full min-w-0 flex-col gap-1", children)
+func Menu(children ...any) *styled.Node {
+	return simple(h.Ul(), "sidebar-menu", "flex w-full min-w-0 flex-col gap-1", sMenu, children)
 }
 
 // MenuItem is a menu entry.
-func MenuItem(children ...any) *h.Element {
-	return simple(h.Li(), "sidebar-menu-item", "group/menu-item relative", children)
+func MenuItem(children ...any) *styled.Node {
+	return simple(h.Li(), "sidebar-menu-item", "group/menu-item relative", sMenuItem, children)
 }
 
 // MenuBadge is a badge next to a menu button.
-func MenuBadge(children ...any) *h.Element {
+func MenuBadge(children ...any) *styled.Node {
 	return simple(h.Div(), "sidebar-menu-badge",
 		"pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium text-sidebar-foreground tabular-nums select-none "+
 			"peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground "+
 			"peer-data-[size=sm]/menu-button:top-1 "+
 			"peer-data-[size=default]/menu-button:top-1.5 "+
 			"peer-data-[size=lg]/menu-button:top-2.5 "+
-			"group-data-[collapsible=icon]:hidden", children)
+			"group-data-[collapsible=icon]:hidden", sMenuBadge, children)
 }
 
 // MenuSub is a nested list of sub-items.
-func MenuSub(children ...any) *h.Element {
+func MenuSub(children ...any) *styled.Node {
 	return simple(h.Ul(), "sidebar-menu-sub",
-		"mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5 group-data-[collapsible=icon]:hidden", children)
+		"mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5 group-data-[collapsible=icon]:hidden", sMenuSub, children)
 }
 
 // MenuSubItem is a sub-menu entry.
-func MenuSubItem(children ...any) *h.Element {
-	return simple(h.Li(), "sidebar-menu-sub-item", "group/menu-sub-item relative", children)
+func MenuSubItem(children ...any) *styled.Node {
+	return simple(h.Li(), "sidebar-menu-sub-item", "group/menu-sub-item relative", sMenuSubItem, children)
 }
 
 // --- slottable parts ---------------------------------------------------------------------------
@@ -518,9 +578,9 @@ func (s *slottable) accept(c any) bool {
 	return false
 }
 
-func (s *slottable) resolve(part string, props *h.Element) *h.Element {
+func (s *slottable) resolve(w io.Writer, part string, props *h.Element) *h.Element {
 	if s.asChild {
-		return asChild(part, props)
+		return asChild(w, part, props)
 	}
 	return props
 }
@@ -545,16 +605,23 @@ func (b *GroupLabelBuilder) AcceptChild(c any) bool { return b.accept(c) }
 func (b *GroupLabelBuilder) AsChild() *GroupLabelBuilder { b.asChild = true; return b }
 
 // Element resolves the label.
-func (b *GroupLabelBuilder) Element() *h.Element {
-	base := h.Div(h.Data("slot", "sidebar-group-label"), h.Data("sidebar", "group-label"), h.Class(lib.Cn(
+func (b *GroupLabelBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the label as it renders inside w.
+func (b *GroupLabelBuilder) ElementIn(w io.Writer) *h.Element {
+	class := lib.Cn(
 		"flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 ring-sidebar-ring outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
 		"group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
-	)))
-	return b.resolve("GroupLabel", h.Spread(base, b.Elem(), lib.Cn))
+	)
+	if st := styleOf(w); st != "" {
+		class = sGroupLabel.Class(st, "")
+	}
+	base := h.Div(h.Data("slot", "sidebar-group-label"), h.Data("sidebar", "group-label"), h.Class(class))
+	return b.resolve(w, "GroupLabel", h.Spread(base, b.Elem(), lib.Cn))
 }
 
 // Render renders the label.
-func (b *GroupLabelBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *GroupLabelBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // GroupActionBuilder is returned by GroupAction.
 type GroupActionBuilder struct {
@@ -576,17 +643,24 @@ func (b *GroupActionBuilder) AcceptChild(c any) bool { return b.accept(c) }
 func (b *GroupActionBuilder) AsChild() *GroupActionBuilder { b.asChild = true; return b }
 
 // Element resolves the action.
-func (b *GroupActionBuilder) Element() *h.Element {
-	base := h.Button(h.Data("slot", "sidebar-group-action"), h.Data("sidebar", "group-action"), h.Class(lib.Cn(
+func (b *GroupActionBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the action as it renders inside w.
+func (b *GroupActionBuilder) ElementIn(w io.Writer) *h.Element {
+	class := lib.Cn(
 		"absolute top-3.5 right-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground ring-sidebar-ring outline-hidden transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
 		"after:absolute after:-inset-2 md:after:hidden",
 		"group-data-[collapsible=icon]:hidden",
-	)))
-	return b.resolve("GroupAction", h.Spread(base, b.Elem(), lib.Cn))
+	)
+	if st := styleOf(w); st != "" {
+		class = sGroupAction.Class(st, "")
+	}
+	base := h.Button(h.Data("slot", "sidebar-group-action"), h.Data("sidebar", "group-action"), h.Class(class))
+	return b.resolve(w, "GroupAction", h.Spread(base, b.Elem(), lib.Cn))
 }
 
 // Render renders the action.
-func (b *GroupActionBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *GroupActionBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // --- MenuButton --------------------------------------------------------------------------------
 
@@ -696,7 +770,7 @@ func (b *MenuButtonBuilder) AsChild() *MenuButtonBuilder { b.asChild = true; ret
 // IsActive marks the button as the current page.
 func (b *MenuButtonBuilder) IsActive(on bool) *MenuButtonBuilder { b.active = on; return b }
 
-func (b *MenuButtonBuilder) button() *h.Element {
+func (b *MenuButtonBuilder) button(w io.Writer) *h.Element {
 	v, s := b.variant, b.size
 	if v == "" {
 		v = ButtonVariantDefault
@@ -711,14 +785,17 @@ func (b *MenuButtonBuilder) button() *h.Element {
 		h.Data("active", strconv.FormatBool(b.active)),
 	)
 	props := h.Spread(base, b.Elem(), nil)
-	props.SetClass(MenuButtonVariants(v, s, b.Elem().ClassName()))
-	return b.resolve("MenuButton", props)
+	props.SetClass(menuButtonClass(styleOf(w), v, s, b.Elem().ClassName()))
+	return b.resolve(w, "MenuButton", props)
 }
 
 // Element resolves the button. With a Tooltip, the tooltip's inert
 // template is placed first inside the button (Render places it after).
-func (b *MenuButtonBuilder) Element() *h.Element {
-	btn := b.button()
+func (b *MenuButtonBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the button as it renders inside w.
+func (b *MenuButtonBuilder) ElementIn(w io.Writer) *h.Element {
+	btn := b.button(w)
 	if b.tooltip == nil {
 		return btn
 	}
@@ -760,7 +837,7 @@ func (b *MenuButtonBuilder) withTooltip(btn *h.Element, fn func(trigger, content
 
 // Render renders the button, followed by its tooltip when it has one.
 func (b *MenuButtonBuilder) Render(w io.Writer) error {
-	btn := b.button()
+	btn := b.button(w)
 	if b.tooltip == nil {
 		return btn.Render(w)
 	}
@@ -803,7 +880,10 @@ func (b *MenuActionBuilder) AcceptChild(c any) bool {
 func (b *MenuActionBuilder) AsChild() *MenuActionBuilder { b.asChild = true; return b }
 
 // Element resolves the action.
-func (b *MenuActionBuilder) Element() *h.Element {
+func (b *MenuActionBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the action as it renders inside w.
+func (b *MenuActionBuilder) ElementIn(w io.Writer) *h.Element {
 	classes := []string{
 		"absolute top-1.5 right-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground ring-sidebar-ring outline-hidden transition-transform peer-hover/menu-button:text-sidebar-accent-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
 		"after:absolute after:-inset-2 md:after:hidden",
@@ -815,12 +895,20 @@ func (b *MenuActionBuilder) Element() *h.Element {
 	if b.showOnHover {
 		classes = append(classes, "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground data-[state=open]:opacity-100 md:opacity-0")
 	}
-	base := h.Button(h.Data("slot", "sidebar-menu-action"), h.Data("sidebar", "menu-action"), h.Class(lib.Cn(classes...)))
-	return b.resolve("MenuAction", h.Spread(base, b.Elem(), lib.Cn))
+	class := lib.Cn(classes...)
+	if st := styleOf(w); st != "" {
+		hover := ""
+		if b.showOnHover {
+			hover = menuActionHoverClass
+		}
+		class = sMenuAction.Class(st, hover, "")
+	}
+	base := h.Button(h.Data("slot", "sidebar-menu-action"), h.Data("sidebar", "menu-action"), h.Class(class))
+	return b.resolve(w, "MenuAction", h.Spread(base, b.Elem(), lib.Cn))
 }
 
 // Render renders the action.
-func (b *MenuActionBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *MenuActionBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // --- MenuSkeleton ------------------------------------------------------------------------------
 
@@ -829,7 +917,7 @@ type ShowIcon bool
 
 // MenuSkeleton is a loading placeholder for a menu item, its text a
 // random width between 50 and 90% (like upstream). Accepts ShowIcon.
-func MenuSkeleton(children ...any) *h.Element {
+func MenuSkeleton(children ...any) *styled.Node {
 	showIcon := false
 	var rest []any
 	for _, c := range children {
@@ -840,17 +928,33 @@ func MenuSkeleton(children ...any) *h.Element {
 		rest = append(rest, c)
 	}
 	width := fmt.Sprintf("%d%%", rand.IntN(40)+50)
-	base := h.Div(h.Data("slot", "sidebar-menu-skeleton"), h.Data("sidebar", "menu-skeleton"), h.Class(lib.Cn("flex h-8 items-center gap-2 rounded-md px-2")))
-	out := h.Spread(base, h.Div(rest...), lib.Cn)
-	if showIcon {
-		out.Children(skeleton.Skeleton(h.Class("size-4 rounded-md"), h.Data("sidebar", "menu-skeleton-icon")))
-	}
-	out.Children(skeleton.Skeleton(
-		h.Class("h-4 max-w-(--skeleton-width) flex-1"),
-		h.Data("sidebar", "menu-skeleton-text"),
-		h.Style("--skeleton-width: "+width),
-	))
-	return out
+	return styled.Lazy(h.Div(rest...),
+		func(props *h.Element) h.Node {
+			base := h.Div(h.Data("slot", "sidebar-menu-skeleton"), h.Data("sidebar", "menu-skeleton"), h.Class(lib.Cn("flex h-8 items-center gap-2 rounded-md px-2")))
+			out := h.Spread(base, props, lib.Cn)
+			if showIcon {
+				out.Children(skeleton.Skeleton(h.Class("size-4 rounded-md"), h.Data("sidebar", "menu-skeleton-icon")))
+			}
+			out.Children(skeleton.Skeleton(
+				h.Class("h-4 max-w-(--skeleton-width) flex-1"),
+				h.Data("sidebar", "menu-skeleton-text"),
+				h.Style("--skeleton-width: "+width),
+			))
+			return out
+		},
+		func(st style.Style, props *h.Element) h.Node {
+			base := h.Div(h.Data("slot", "sidebar-menu-skeleton"), h.Data("sidebar", "menu-skeleton"), h.Class(sMenuSkeleton.Class(st, "")))
+			out := h.Spread(base, props, lib.Cn)
+			if showIcon {
+				out.Children(skeleton.Skeleton(h.Class(sMenuSkeletonIcon.Class(st)), h.Data("sidebar", "menu-skeleton-icon")))
+			}
+			out.Children(skeleton.Skeleton(
+				h.Class(sMenuSkeletonText.Class(st)),
+				h.Data("sidebar", "menu-skeleton-text"),
+				h.Style("--skeleton-width: "+width),
+			))
+			return out
+		})
 }
 
 // --- MenuSubButton -----------------------------------------------------------------------------
@@ -897,7 +1001,10 @@ func (b *MenuSubButtonBuilder) AcceptChild(c any) bool {
 func (b *MenuSubButtonBuilder) AsChild() *MenuSubButtonBuilder { b.asChild = true; return b }
 
 // Element resolves the sub button.
-func (b *MenuSubButtonBuilder) Element() *h.Element {
+func (b *MenuSubButtonBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the sub button as it renders inside w.
+func (b *MenuSubButtonBuilder) ElementIn(w io.Writer) *h.Element {
 	classes := []string{
 		"flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground ring-sidebar-ring outline-hidden hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
 		"data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
@@ -916,8 +1023,11 @@ func (b *MenuSubButtonBuilder) Element() *h.Element {
 		h.Data("active", strconv.FormatBool(b.active)),
 		h.Class(lib.Cn(classes...)),
 	)
-	return b.resolve("MenuSubButton", h.Spread(base, b.Elem(), lib.Cn))
+	if st := styleOf(w); st != "" {
+		base.SetClass(sMenuSubButton.Class(st, ""))
+	}
+	return b.resolve(w, "MenuSubButton", h.Spread(base, b.Elem(), lib.Cn))
 }
 
 // Render renders the sub button.
-func (b *MenuSubButtonBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *MenuSubButtonBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }

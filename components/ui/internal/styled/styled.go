@@ -85,6 +85,9 @@ func (n *Node) Element() *h.Element {
 
 // Render renders the node in the style in scope, if any.
 func (n *Node) Render(w io.Writer) error {
+	if n == nil {
+		return nil
+	}
 	if st, ok := style.FromWriter(w); ok {
 		if a := n.altNode(st); a != nil {
 			return a.Render(w)
@@ -110,6 +113,9 @@ func (n *Node) ElementIn(w io.Writer) *h.Element {
 // handing context to their parts): the props of a Lazy node, or the
 // new-york-v4 element otherwise.
 func (n *Node) Elem() *h.Element {
+	if n == nil {
+		return nil
+	}
 	if n.props != nil {
 		return n.props
 	}
