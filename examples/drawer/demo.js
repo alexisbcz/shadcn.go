@@ -108,7 +108,7 @@ function layout(width, height) {
   })
 }
 
-function renderBars(groups, rects, t) {
+function renderBars(groups, rects, t, barStyle) {
   rects.forEach((r, i) => {
     const g = groups[i]
     if (!g) return
@@ -123,7 +123,7 @@ function renderBars(groups, rects, t) {
       path = document.createElementNS("http://www.w3.org/2000/svg", "path")
       path.setAttribute("name", "undefined")
       path.setAttribute("class", "recharts-rectangle")
-      path.setAttribute("style", "fill: hsl(var(--foreground)); opacity: 0.9;")
+      path.setAttribute("style", barStyle)
       g.appendChild(path)
     }
     path.setAttribute("x", String(roundN(r.x)))
@@ -142,7 +142,9 @@ define("example-drawer-demo-chart", {
     const groups = [...container.querySelectorAll(".recharts-inactive-bar")]
     if (!wrapper || groups.length !== DATA.length) return
     const rects = layout(Number(wrapper.getAttribute("width")), Number(wrapper.getAttribute("height")))
-    renderBars(groups, rects, 0)
+    // The server-rendered bars carry the example's style prop.
+    const barStyle = container.querySelector(".recharts-rectangle")?.getAttribute("style") ?? "fill: hsl(var(--foreground)); opacity: 0.9;"
+    renderBars(groups, rects, 0, barStyle)
     const stops = []
     let started = false
     const start = () => {
@@ -155,9 +157,9 @@ define("example-drawer-demo-chart", {
               const timingUpdate = (now) => {
                 if (!beginTime) beginTime = now
                 const t = (now - beginTime) / 400
-                renderBars(groups, rects, ease(t))
+                renderBars(groups, rects, ease(t), barStyle)
                 if (t < 1) stops.push(rafTimeout(timingUpdate))
-                else renderBars(groups, rects, 1)
+                else renderBars(groups, rects, 1, barStyle)
               }
               stops.push(rafTimeout(timingUpdate))
             }, 0),

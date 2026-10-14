@@ -47,7 +47,15 @@ func init() {
 
 var goals = []float64{400, 300, 200, 300, 200, 278, 189, 239, 300, 200, 278, 189, 349}
 
-func Demo() h.Node {
+func Demo() h.Node { return demo(foregroundBars) }
+
+// The bars' style prop: new-york-v4's, and the docs' (var(--chart-1)).
+const (
+	foregroundBars = "fill: hsl(var(--foreground)); opacity: 0.9;"
+	chartBars      = "fill: var(--chart-1);"
+)
+
+func demo(barStyle string) h.Node {
 	return drawer.Drawer(
 		drawer.Trigger(lib.AsChild, button.Button(button.VariantOutline, "Open Drawer")),
 		drawer.Content(
@@ -71,7 +79,7 @@ func Demo() h.Node {
 							h.Span(h.Class("sr-only"), "Increase"),
 						),
 					),
-					h.Div(h.Class("mt-3 h-[120px]"), barChart(352, 120, goals)),
+					h.Div(h.Class("mt-3 h-[120px]"), barChart(352, 120, goals, barStyle)),
 				),
 				drawer.Footer(
 					button.Button("Submit"),
@@ -88,7 +96,7 @@ func Demo() h.Node {
 // </BarChart></ResponsiveContainer> once the container measured width x height
 // (default 5px margins, a band category axis with a 10% category gap and a
 // [0, nice max] number axis, neither drawn).
-func barChart(width, height float64, data []float64) h.Node {
+func barChart(width, height float64, data []float64, barStyle string) h.Node {
 	const margin = 5
 	plotW, plotH := width-2*margin, height-2*margin
 	maxV := 0.0
@@ -109,7 +117,7 @@ func barChart(width, height float64, data []float64) h.Node {
 		bars = append(bars, h.G(h.Class("recharts-layer recharts-bar-rectangle"),
 			h.G(h.Class("recharts-layer recharts-inactive-bar"),
 				h.Path(h.Attr("name", "undefined"), h.Attr("x", num(x)), h.Attr("y", num(y)), h.Attr("width", num(barW)), h.Attr("height", num(hgt)),
-					h.Attr("radius", "0"), h.Class("recharts-rectangle"), h.Attr("d", d), h.Style("fill: hsl(var(--foreground)); opacity: 0.9;")),
+					h.Attr("radius", "0"), h.Class("recharts-rectangle"), h.Attr("d", d), h.Style(barStyle)),
 			),
 		))
 	}
