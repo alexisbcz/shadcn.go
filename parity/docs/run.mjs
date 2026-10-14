@@ -2,7 +2,8 @@
 //
 // Compares two servers page by page: the reference (the upstream Next.js
 // docs site, parity/docs/reference.sh, default http://localhost:4000) and a
-// candidate (--target, the Go docs server). The bar is exact equality.
+// candidate (--target, the Go docs server). The default bar is visual
+// closeness (--tolerance, 1% of content pixels); --exact is strict equality.
 //
 // Usage
 //
@@ -27,6 +28,8 @@
 //   --only label,..       run only these scenarios (plus "initial")
 //   --no-frames           skip the animation comparison in scenarios
 //   --jobs N              page jobs in parallel (default 3); each job is one page x theme x viewport
+//   --tolerance F         fraction of content pixels allowed to differ (default 0.01)
+//   --exact               strict bar: 0 pixels, identical DOM, animations and frames
 //   --keep                keep images and DOM dumps of passing captures too
 //   --out DIR             reports (default parity/docs/out)
 //   --rerun FILE          only the failed jobs listed in a previous summary.json
@@ -235,7 +238,7 @@ const here = import.meta.dirname
 // --- arguments -------------------------------------------------------------------------
 
 const args = process.argv.slice(2)
-const VALUED = ["--rerun", "--quiet", "--ref", "--target", "--group", "--grep", "--shard", "--themes", "--viewports", "--only", "--jobs", "--out"]
+const VALUED = ["--tolerance", "--rerun", "--quiet", "--ref", "--target", "--group", "--grep", "--shard", "--themes", "--viewports", "--only", "--jobs", "--out"]
 const flag = (n) => args.includes(n)
 const opt = (n, d) => (args.includes(n) ? args[args.indexOf(n) + 1] : d)
 const positional = args.filter((a, i) => !a.startsWith("--") && !VALUED.includes(args[i - 1]))
@@ -253,7 +256,17 @@ const viewports = opt("--viewports", "desktop,laptop,mobile").split(",")
 const jobsN = Number(opt("--jobs", "3"))
 const keep = flag("--keep")
 const withScenarios = !flag("--no-scenarios")
-const withFrames = !flag("--no-frames")
+// Default bar: visually close. A capture passes when at most --tolerance
+// (default 1%) of its content pixels (pixels differing from the page
+// background, the top-left pixel, in either image) differ, and the state
+// matches. DOM differences are reported but do not fail; animation frames
+// are not sampled. Screenshots of different sizes are compared on the
+// larger size, the smaller one padded with its background. --exact restores
+// the strict bar described above.
+const EXACT = flag("--exact")
+const TOLERANCE = EXACT ? 0 : Number(opt("--tolerance", "0.01"))
+const tooDifferent = (cmp) => cmp.pixels > Math.floor(TOLERANCE * (cmp.total ?? Infinity))
+const withFrames = EXACT && !flag("--no-frames")
 const only = opt("--only") ? new Set(opt("--only").split(",")) : null
 const outRoot = path.resolve(opt("--out", path.join(here, "out")))
 const QUIET = Number(opt("--quiet", "200"))
@@ -946,15 +959,41 @@ export class Side {
 
 // --- comparison ---------------------------------------------------------------------------
 
+function padPNG(P, width, height) {
+  if (P.width === width && P.height === height) return P
+  const Q = new PNG({ width, height })
+  const bg = P.data.readUInt32BE(0)
+  for (let i = 0; i < Q.data.length; i += 4) Q.data.writeUInt32BE(bg, i)
+  PNG.bitblt(P, Q, 0, 0, P.width, P.height, 0, 0)
+  return Q
+}
+
 function comparePNG(a, b) {
-  const A = PNG.sync.read(a)
-  const B = PNG.sync.read(b)
+  let A = PNG.sync.read(a)
+  let B = PNG.sync.read(b)
+  const size = A.width !== B.width || A.height !== B.height ? `${A.width}x${A.height} vs ${B.width}x${B.height}` : undefined
+  if (!EXACT && size) {
+    const w = Math.max(A.width, B.width)
+    const hh = Math.max(A.height, B.height)
+    A = padPNG(A, w, hh)
+    B = padPNG(B, w, hh)
+  }
   if (A.width !== B.width || A.height !== B.height) {
     return { pixels: Math.max(A.width * A.height, B.width * B.height), size: `${A.width}x${A.height} vs ${B.width}x${B.height}`, diff: null, regions: [] }
   }
   const diff = new PNG({ width: A.width, height: A.height })
   const pixels = pixelmatch(A.data, B.data, diff.data, A.width, A.height, { threshold: 0, includeAA: true })
-  return { pixels, diff: pixels ? PNG.sync.write(diff) : null, regions: pixels ? regionsOf(A, B) : [] }
+  let total
+  if (!EXACT) {
+    let content = 0
+    const bgA = A.data.readUInt32BE(0)
+    const bgB = B.data.readUInt32BE(0)
+    for (let i = 0; i < A.data.length; i += 4) {
+      if (A.data.readUInt32BE(i) !== bgA || B.data.readUInt32BE(i) !== bgB) content++
+    }
+    total = Math.max(content, 1)
+  }
+  return { pixels, total, size, diff: pixels ? PNG.sync.write(diff) : null, regions: pixels ? regionsOf(A, B) : [] }
 }
 
 // Clusters differing pixels on a 32px grid (8-connected cells), largest first.
@@ -1129,10 +1168,11 @@ async function runJob(browser, page, theme, vp) {
       ;[rd, gd] = await both((s) => s.snapshot(origins))
       ;[r, g] = await both((s) => s.shot(full))
       cmp = comparePNG(r, g)
-      if (cmp.pixels === 0 && rd.lines.join("\n") === gd.lines.join("\n")) break
+      if (EXACT ? cmp.pixels === 0 && rd.lines.join("\n") === gd.lines.join("\n") : !tooDifferent(cmp)) break
       cap.retries = attempt + 1
     }
     cap.pixels = cmp.pixels
+    if (cmp.total) cap.content = cmp.total
     if (cmp.size) cap.size = cmp.size
     if (cmp.pixels) {
       cap.regions = cmp.regions
@@ -1143,7 +1183,7 @@ async function runJob(browser, page, theme, vp) {
     const [rs, gs] = await both((s) => s.state())
     if (JSON.stringify(rs) !== JSON.stringify(gs)) cap.state = { ref: rs, target: gs }
     else cap.stateEqual = rs
-    if (cmp.pixels || cap.dom.length || cap.state) cap.pass = false
+    if (EXACT ? cmp.pixels || cap.dom.length || cap.state : tooDifferent(cmp) || cap.state) cap.pass = false
     if (!cap.pass || keep) {
       save(`${label}-ref.png`, r)
       save(`${label}-target.png`, g)
