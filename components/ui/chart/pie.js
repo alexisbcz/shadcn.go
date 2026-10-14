@@ -452,7 +452,21 @@ export class PieChart extends CartesianChart {
     }
     this.slot(rendered, DefaultZIndexes.label, `${key}-label-children`, childLabels)
     this.slot(rendered, DefaultZIndexes.label, `${key}-labellists`, childLists)
-    this.slot(rendered, props.zIndex, key, Layer({ tabIndex: props.rootTabIndex, className: clsx("recharts-pie", props.className) }, ...inPlace))
+    const [pieLayer] = this.slot(rendered, props.zIndex, key, Layer({ tabIndex: props.rootTabIndex, className: clsx("recharts-pie", props.className) }, ...inPlace))
+    // React keys each sector by its angles: a sector whose angles change
+    // (every animation frame) is a new element, so a hovered sector that
+    // is replaced never receives mouseout (and the item stays hovered).
+    const keys = stepData.filter((entry) => !(entry?.startAngle === 0 && entry?.endAngle === 0 && stepData.length !== 1)).map((entry, i) => `sector-${entry.startAngle}-${entry.endAngle}-${entry.midAngle}`)
+    const groups = pieLayer?.firstElementChild ? [...pieLayer.firstElementChild.children] : []
+    groups.forEach((g, i) => {
+      const k = keys[i]
+      if (g.__sectorKey !== undefined && g.__sectorKey !== k) {
+        const fresh = g.cloneNode(true)
+        g.replaceWith(fresh)
+        g = fresh
+      }
+      g.__sectorKey = k
+    })
   }
 
   // LabelList with the polar entries of the sectors.
@@ -579,6 +593,20 @@ export class PieChart extends CartesianChart {
   attachEvents() {
     super.attachEvents()
     const w = this.wrapper
+    // React emulates mouseleave from mouseout/mouseover pairs: when the
+    // element last under the pointer was removed (a sector replaced during
+    // the animation), no mouseout reaches React and the chart never sees
+    // the pointer leave. Swallow the native mouseleave in that case.
+    let lastOver = null
+    w.addEventListener("mouseover", (e) => (lastOver = e.target), true)
+    w.addEventListener("mouseout", (e) => (lastOver = e.relatedTarget), true)
+    this.inner.addEventListener(
+      "mouseleave",
+      (e) => {
+        if (e.target === w && lastOver && !lastOver.isConnected) e.stopPropagation()
+      },
+      true,
+    )
     const sectorOf = (el) => (el instanceof Element ? el.closest(".recharts-pie-sector") : null)
     const enter = (g) => {
       const path = g.querySelector("[data-recharts-item-index]")
