@@ -56,7 +56,7 @@ func ComponentPreview(env *Env, _ *content.Context, props content.Props, _ []h.N
 			preview = ex.Render(env.Request)
 		}
 	} else if ex, ok := LookupExample(name); ok {
-		preview = ex(env)
+		preview = nextPreview(env, name, ex(env))
 	}
 	if preview == nil {
 		preview = h.P(h.Class("text-sm text-muted-foreground"), "Example ", h.Code(name), " is not ported yet.")

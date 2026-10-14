@@ -17,6 +17,10 @@ const nextImagePath = "/_next/image"
 func (s *Site) serveNextImage(w http.ResponseWriter, r *http.Request) {
 	src := r.URL.Query().Get("url")
 	width, err := strconv.Atoi(r.URL.Query().Get("w"))
+	if err == nil && (strings.HasPrefix(src, "https://") || strings.HasPrefix(src, "http://")) {
+		s.serveRemoteNextImage(w, r, src, width)
+		return
+	}
 	if err != nil || !strings.HasPrefix(src, "/") || strings.Contains(src, "..") {
 		http.Error(w, `"url" parameter is invalid`, http.StatusBadRequest)
 		return
