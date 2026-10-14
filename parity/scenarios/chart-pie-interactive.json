@@ -1,0 +1,122 @@
+[
+ {
+  "label": "select-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "select-march",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-item]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "select-march-settle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 2200
+   }
+  ]
+ },
+ {
+  "label": "select-keyboard",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "select-keyboard-settle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 2200
+   }
+  ]
+ },
+ {
+  "label": "wide-settle",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.querySelector('[data-slot=card]').style.width = '400px'"
+   },
+   {
+    "do": "wait",
+    "ms": 2500
+   }
+  ]
+ },
+ {
+  "label": "wide-select-april",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=select-trigger]"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=select-item]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "wide-select-april-settle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 2500
+   }
+  ]
+ },
+ {
+  "label": "wide-sector-hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": ".recharts-pie-sector",
+    "nth": 1,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "wide-sector-leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   }
+  ]
+ }
+]

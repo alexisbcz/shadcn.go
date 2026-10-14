@@ -1,0 +1,108 @@
+[
+ {
+  "label": "settle",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 2200
+   }
+  ]
+ },
+ {
+  "label": "sector-enter",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "hover",
+    "target": ".recharts-pie-sector",
+    "nth": 0,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "sector-move-2",
+  "steps": [
+   {
+    "do": "hover",
+    "target": ".recharts-pie-sector",
+    "nth": 2,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "sector-leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   }
+  ]
+ },
+ {
+  "label": "keyboard-focus",
+  "steps": [
+   {
+    "do": "focus",
+    "target": ".recharts-surface"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-arrows",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-enter-again",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "blur",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.blur()"
+   }
+  ]
+ }
+]

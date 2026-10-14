@@ -1611,7 +1611,8 @@ export class CartesianChart {
           break
         case "Area":
         case "Bar":
-        case "Line": {
+        case "Line":
+        case "Pie": {
           const item = this.items.find((i) => i.node === child)
           if (item) this.renderItem(state, item, rendered)
           break
@@ -2983,6 +2984,6 @@ define("chart", {
 })
 
 function countItems(spec) {
-  return (spec?.children ?? []).filter((c) => c.type === "Area" || c.type === "Bar" || c.type === "Line" || c.type === "Radar").length
+  return (spec?.children ?? []).filter((c) => c.type === "Area" || c.type === "Bar" || c.type === "Line" || c.type === "Pie" || c.type === "Radar").length
 }
 

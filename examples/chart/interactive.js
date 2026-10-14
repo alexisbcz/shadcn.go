@@ -36,7 +36,7 @@ define("chart-example-interactive", {
 // kept entries are the same as React's in every time zone. The full data
 // is the chart's initial data ("90d" keeps every entry of the example).
 define("chart-example-time-range", {
-  selector: '[data-slot="card"]:has(> [data-slot="card-header"] [data-slot="select-trigger"]):has([data-slot="chart"])',
+  selector: '[data-slot="card"]:not([data-chart]):has(> [data-slot="card-header"] [data-slot="select-trigger"]):has([data-slot="chart"])',
   mount(root) {
     let all = null
     const onChange = (e) => {
