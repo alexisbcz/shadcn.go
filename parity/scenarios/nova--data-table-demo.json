@@ -1,0 +1,379 @@
+[
+  {
+    "label": "select-row",
+    "reset": true,
+    "steps": [
+      {
+        "do": "click",
+        "target": "tbody [data-slot=checkbox]",
+        "nth": 1
+      }
+    ]
+  },
+  {
+    "label": "select-another",
+    "steps": [
+      {
+        "do": "click",
+        "target": "tbody [data-slot=checkbox]",
+        "nth": 3
+      }
+    ]
+  },
+  {
+    "label": "select-all",
+    "steps": [
+      {
+        "do": "click",
+        "target": "thead [data-slot=checkbox]"
+      }
+    ]
+  },
+  {
+    "label": "deselect-all",
+    "steps": [
+      {
+        "do": "click",
+        "target": "thead [data-slot=checkbox]"
+      }
+    ]
+  },
+  {
+    "label": "select-row-again",
+    "steps": [
+      {
+        "do": "click",
+        "target": "tbody [data-slot=checkbox]",
+        "nth": 0
+      }
+    ]
+  },
+  {
+    "label": "sort-asc",
+    "steps": [
+      {
+        "do": "click",
+        "target": "thead [data-slot=button]"
+      }
+    ]
+  },
+  {
+    "label": "sort-desc",
+    "steps": [
+      {
+        "do": "click",
+        "target": "thead [data-slot=button]"
+      }
+    ]
+  },
+  {
+    "label": "sort-asc-again",
+    "steps": [
+      {
+        "do": "click",
+        "target": "thead [data-slot=button]"
+      }
+    ]
+  },
+  {
+    "label": "filter",
+    "steps": [
+      {
+        "do": "type",
+        "target": "input[placeholder='Filter emails...']",
+        "text": "ken"
+      }
+    ]
+  },
+  {
+    "label": "select-all-filtered",
+    "steps": [
+      {
+        "do": "click",
+        "target": "thead [data-slot=checkbox]"
+      }
+    ]
+  },
+  {
+    "label": "filter-none",
+    "steps": [
+      {
+        "do": "type",
+        "target": "input[placeholder='Filter emails...']",
+        "text": "zzz"
+      }
+    ]
+  },
+  {
+    "label": "clear-filter",
+    "steps": [
+      {
+        "do": "press",
+        "target": "input[placeholder='Filter emails...']",
+        "key": "ControlOrMeta+a"
+      },
+      {
+        "do": "press",
+        "target": "input[placeholder='Filter emails...']",
+        "key": "Backspace"
+      }
+    ]
+  },
+  {
+    "label": "filter-uppercase",
+    "steps": [
+      {
+        "do": "type",
+        "target": "input[placeholder='Filter emails...']",
+        "text": "MON"
+      }
+    ]
+  },
+  {
+    "label": "clear-again",
+    "frames": false,
+    "steps": [
+      {
+        "do": "press",
+        "target": "input[placeholder='Filter emails...']",
+        "key": "ControlOrMeta+a"
+      },
+      {
+        "do": "press",
+        "target": "input[placeholder='Filter emails...']",
+        "key": "Backspace"
+      }
+    ]
+  },
+  {
+    "label": "columns-open",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button:has-text('Columns')"
+      }
+    ]
+  },
+  {
+    "label": "hide-email",
+    "steps": [
+      {
+        "do": "click",
+        "target": "[data-slot=dropdown-menu-checkbox-item]:has-text(\"email\")"
+      }
+    ]
+  },
+  {
+    "label": "hide-status-keyboard",
+    "reset": true,
+    "steps": [
+      {
+        "do": "focus",
+        "target": "button:has-text('Columns')"
+      },
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  },
+  {
+    "label": "keyboard-arrow",
+    "steps": [
+      {
+        "do": "press",
+        "key": "ArrowDown"
+      }
+    ]
+  },
+  {
+    "label": "keyboard-toggle",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  },
+  {
+    "label": "hide-status",
+    "reset": true,
+    "steps": [
+      {
+        "do": "click",
+        "target": "button:has-text('Columns')"
+      },
+      {
+        "do": "click",
+        "target": "[data-slot=dropdown-menu-checkbox-item]:has-text(\"status\")"
+      }
+    ]
+  },
+  {
+    "label": "show-status",
+    "steps": [
+      {
+        "do": "click",
+        "target": "button:has-text('Columns')"
+      },
+      {
+        "do": "click",
+        "target": "[data-slot=dropdown-menu-checkbox-item]:has-text(\"status\")"
+      }
+    ]
+  },
+  {
+    "label": "row-actions",
+    "reset": true,
+    "steps": [
+      {
+        "do": "click",
+        "target": "tbody [data-slot=dropdown-menu-trigger]",
+        "nth": 2
+      }
+    ]
+  },
+  {
+    "label": "row-actions-arrow",
+    "steps": [
+      {
+        "do": "press",
+        "key": "ArrowDown"
+      }
+    ]
+  },
+  {
+    "label": "row-actions-close",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Escape"
+      }
+    ]
+  },
+  {
+    "label": "hidden-columns-select",
+    "reset": true,
+    "steps": [
+      {
+        "do": "click",
+        "target": "button:has-text('Columns')"
+      },
+      {
+        "do": "click",
+        "target": "[data-slot=dropdown-menu-checkbox-item]:has-text(\"amount\")"
+      },
+      {
+        "do": "click",
+        "target": "tbody [data-slot=checkbox]",
+        "nth": 2
+      },
+      {
+        "do": "click",
+        "target": "thead [data-slot=checkbox]"
+      }
+    ]
+  },
+  {
+    "label": "hidden-columns-filter",
+    "steps": [
+      {
+        "do": "type",
+        "target": "input[placeholder='Filter emails...']",
+        "text": "@"
+      }
+    ]
+  },
+  {
+    "label": "sort-keyboard",
+    "reset": true,
+    "steps": [
+      {
+        "do": "focus",
+        "target": "thead [data-slot=button]"
+      },
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  },
+  {
+    "label": "sort-keyboard-desc",
+    "steps": [
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  },
+  {
+    "label": "copy-payment-id",
+    "reset": true,
+    "steps": [
+      {
+        "do": "eval",
+        "js": "navigator.clipboard.writeText = (t) => { const s = document.createElement('span'); s.hidden = true; s.setAttribute('data-copied', t); document.body.appendChild(s); return Promise.resolve() }"
+      },
+      {
+        "do": "click",
+        "target": "tbody [data-slot=dropdown-menu-trigger]",
+        "nth": 1
+      },
+      {
+        "do": "click",
+        "target": "[data-slot=dropdown-menu-item]:has-text(\"Copy payment ID\")"
+      }
+    ]
+  },
+  {
+    "label": "copy-payment-id-keyboard",
+    "reset": true,
+    "steps": [
+      {
+        "do": "eval",
+        "js": "navigator.clipboard.writeText = (t) => { const s = document.createElement('span'); s.hidden = true; s.setAttribute('data-copied', t); document.body.appendChild(s); return Promise.resolve() }"
+      },
+      {
+        "do": "focus",
+        "target": "tbody [data-slot=dropdown-menu-trigger]",
+        "nth": 3
+      },
+      {
+        "do": "press",
+        "key": "Enter"
+      },
+      {
+        "do": "press",
+        "key": "ArrowDown"
+      },
+      {
+        "do": "press",
+        "key": "Enter"
+      }
+    ]
+  },
+  {
+    "label": "copy-after-sort",
+    "reset": true,
+    "steps": [
+      {
+        "do": "eval",
+        "js": "navigator.clipboard.writeText = (t) => { const s = document.createElement('span'); s.hidden = true; s.setAttribute('data-copied', t); document.body.appendChild(s); return Promise.resolve() }"
+      },
+      {
+        "do": "click",
+        "target": "thead [data-slot=button]"
+      },
+      {
+        "do": "click",
+        "target": "tbody [data-slot=dropdown-menu-trigger]",
+        "nth": 0
+      },
+      {
+        "do": "click",
+        "target": "[data-slot=dropdown-menu-item]:has-text(\"Copy payment ID\")"
+      }
+    ]
+  }
+]
