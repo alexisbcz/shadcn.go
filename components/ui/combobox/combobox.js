@@ -314,6 +314,7 @@ function createCombobox(hidden) {
   let pendingQueryHighlight = null
   let domReference = inputInsidePopup ? triggers[0] ?? null : input
   let openEvent = null
+  const FLOATING_REASONS = new Set(["trigger-press", "outside-press", "escape-key", "focus-out", "cancel-open"])
   let lastHighlight = null
 
   // list navigation refs
@@ -804,7 +805,13 @@ function createCombobox(hidden) {
       }
     }
     open = next
-    if (next) openEvent = event ?? null
+    // The floating root's openEvent (FloatingRootStore.syncOpenEvent) only
+    // follows changes made through floating-ui hooks (useClick, useDismiss);
+    // the combobox's own changes (typing, items, list navigation) leave it
+    // as it was, stale included.
+    if (FLOATING_REASONS.has(reason)) openEvent = next ? (event ?? null) : null
+    // useTypeahead's layout effect also runs on open changes.
+    resetTypeaheadOnChange()
     onOpenChangeLocal(next, reason, event)
     if (next) {
       if (!mounted) {
@@ -1644,7 +1651,11 @@ function createCombobox(hidden) {
   let typeTimer = 0
   let prevTypeIndex = -1
   let matchTypeIndex = null
-  const forceMount = () => (typeaheadLabels = filteredItems().map((it) => it.label))
+  let typeaheadItems = []
+  const forceMount = () => {
+    typeaheadItems = filteredItems()
+    typeaheadLabels = typeaheadItems.map((it) => it.label)
+  }
   function typeaheadKeyDown(event) {
     if (open || comboboxDisabled) return
     const list = typeaheadLabels
@@ -1679,7 +1690,8 @@ function createCombobox(hidden) {
     const prev = isNew ? selectedIndex ?? activeIndex ?? -1 : prevTypeIndex
     const index = matching(typeString, (prev ?? 0) + 1)
     if (index !== -1) {
-      const value = filteredItems()[index]
+      // The labels and the items they name come from the same render.
+      const value = typeaheadItems[index]
       if (value !== undefined) setSelectedValue(value, "none")
       matchTypeIndex = index
     } else if (event.key !== " ") typeString = ""
@@ -1739,6 +1751,8 @@ function createCombobox(hidden) {
       requestAnimationFrame(() => setOpen(nextOpen, "trigger-press", event))
     })
     t.addEventListener("keydown", (event) => {
+      // useClick onKeyDown: a keyboard press is not a pointer press.
+      pointerType = undefined
       if (comboboxDisabled || t.disabled) return
       if (inputInsidePopup && single) typeaheadKeyDown(event)
       if (event.key === "ArrowDown" || event.key === "ArrowUp") {
@@ -1760,7 +1774,12 @@ function createCombobox(hidden) {
         if (!open) {
           openMethod = event.detail === 0 ? "keyboard" : ""
           setOpen(true, "trigger-press", event)
-        } else if (!(openEvent && ["click", "mousedown", "keydown", "keyup"].includes(openEvent.type))) setOpen(false, "trigger-press", event)
+        } else if (!openEvent || ["click", "mousedown", "keydown", "keyup"].includes(openEvent.type)) {
+          // useClick getNextOpen (stickIfOpen): a popup opened by a
+          // click-like event closes on the next press; one opened by focus
+          // or hover stays open.
+          setOpen(false, "trigger-press", event)
+        }
       })
     }
   }
