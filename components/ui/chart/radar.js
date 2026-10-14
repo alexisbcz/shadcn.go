@@ -613,7 +613,8 @@ registerFn("radarStackedTick", ([rows, a, b, label]) => ({ x, y, textAnchor, ind
   const yValue = typeof y === "number" ? y : 0
   return h(
     "text",
-    { x, y: yValue + (index === 0 ? -10 : 0), textAnchor, fontSize: 13, fontWeight: 500, ...svgProps(props) },
+    // React writes the spread's unknown props too (verticalAnchor, payload).
+    { x, y: yValue + (index === 0 ? -10 : 0), textAnchor, fontSize: 13, fontWeight: 500, ...svgProps(props), verticalAnchor: props.verticalAnchor, payload: props.payload == null ? undefined : String(props.payload) },
     h("tspan", null, String(d[a])),
     h("tspan", { className: "fill-muted-foreground" }, "/"),
     h("tspan", null, String(d[b])),

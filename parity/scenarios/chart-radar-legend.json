@@ -1,0 +1,194 @@
+[
+ {
+  "label": "pointer-enter-settle",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "pointer-enter",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "mouse",
+    "x": 555,
+    "y": 245,
+    "steps": 4
+   }
+  ]
+ },
+ {
+  "label": "pointer-move",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 320,
+    "steps": 4
+   }
+  ]
+ },
+ {
+  "label": "pointer-move-left",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 467,
+    "y": 250,
+    "steps": 3
+   }
+  ]
+ },
+ {
+  "label": "pointer-outside-radius",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 617,
+    "y": 375,
+    "steps": 2
+   }
+  ]
+ },
+ {
+  "label": "pointer-back",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 502,
+    "y": 230,
+    "steps": 2
+   }
+  ]
+ },
+ {
+  "label": "pointer-leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   }
+  ]
+ },
+ {
+  "label": "keyboard-focus-settle",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "keyboard-focus",
+  "steps": [
+   {
+    "do": "focus",
+    "target": ".recharts-surface"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-arrow-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-arrow-left",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-arrow-right-edge",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-enter-off",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-enter-on",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "escape-dismiss",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "blur",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.blur()"
+   }
+  ]
+ }
+]
