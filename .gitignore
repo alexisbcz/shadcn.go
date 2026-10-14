@@ -8,3 +8,5 @@ node_modules/
 /parity/reference/.dist-*
 /parity/.lock
 /parity/.slots/
+/parity/docs/out/
+/parity/docs/out-stub/
