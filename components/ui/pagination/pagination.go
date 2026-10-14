@@ -11,7 +11,6 @@
 package pagination
 
 import (
-	"cmp"
 	"io"
 	"shadcn.go/components/style"
 	"shadcn.go/components/ui/internal/part"
@@ -117,6 +116,7 @@ type Builder struct {
 	size      button.Size
 	kind      int
 	text      string
+	textSet   bool
 }
 
 // Text, passed to Previous or Next, replaces its label ("Previous",
@@ -158,7 +158,7 @@ func (b *Builder) AcceptChild(c any) bool {
 	case ActiveFlag:
 		b.active, b.activeSet = true, true
 	case Text:
-		b.text = string(v)
+		b.text, b.textSet = string(v), true
 	case button.Size:
 		b.size = v
 		if v == "" {
@@ -168,6 +168,15 @@ func (b *Builder) AcceptChild(c any) bool {
 		return false
 	}
 	return true
+}
+
+// label is the Previous/Next text: an explicit Text (even empty, like
+// text="") or the default.
+func (b *Builder) label(def string) string {
+	if b.textSet {
+		return b.text
+	}
+	return def
 }
 
 // Active sets whether the link is the current page.
@@ -196,12 +205,12 @@ func (b *Builder) element(st style.Style, rtl bool) *h.Element {
 		// children</PaginationLink>: the explicit children win.
 		className := lib.Cn("gap-1 px-2.5 sm:pl-2.5", props.ClassName())
 		props.SetClass(className)
-		props.SetChildren(lucide.ChevronLeft(), h.Span(h.Class("hidden sm:block"), cmp.Or(b.text, "Previous")))
+		props.SetChildren(lucide.ChevronLeft(), h.Span(h.Class("hidden sm:block"), b.label("Previous")))
 		return link(b.active, b.activeSet, b.size, h.Spread(h.A(h.Aria("label", "Go to previous page")), props, nil))
 	case kindNext:
 		className := lib.Cn("gap-1 px-2.5 sm:pr-2.5", props.ClassName())
 		props.SetClass(className)
-		props.SetChildren(h.Span(h.Class("hidden sm:block"), cmp.Or(b.text, "Next")), lucide.ChevronRight())
+		props.SetChildren(h.Span(h.Class("hidden sm:block"), b.label("Next")), lucide.ChevronRight())
 		return link(b.active, b.activeSet, b.size, h.Spread(h.A(h.Aria("label", "Go to next page")), props, nil))
 	}
 	return link(b.active, b.activeSet, b.size, props)
@@ -233,13 +242,13 @@ func (b *Builder) styled(st style.Style, rtl bool, props *h.Element) *h.Element 
 		props.SetClass(part.Class(rtl, stylePrevious, st, props.ClassName()))
 		props.SetChildren(
 			lucide.ChevronLeft(h.Data("icon", "inline-start"), h.Class(part.Class(rtl, styleFlip, st))),
-			h.Span(h.Class(stylePreviousText.Class(st)), cmp.Or(b.text, "Previous")),
+			h.Span(h.Class(stylePreviousText.Class(st)), b.label("Previous")),
 		)
 		return styledLink(st, rtl, b.active, b.activeSet, b.size, h.Spread(h.A(h.Aria("label", "Go to previous page")), props, nil))
 	case kindNext:
 		props.SetClass(part.Class(rtl, styleNext, st, props.ClassName()))
 		props.SetChildren(
-			h.Span(h.Class(styleNextText.Class(st)), cmp.Or(b.text, "Next")),
+			h.Span(h.Class(styleNextText.Class(st)), b.label("Next")),
 			lucide.ChevronRight(h.Data("icon", "inline-end"), h.Class(part.Class(rtl, styleFlip, st))),
 		)
 		return styledLink(st, rtl, b.active, b.activeSet, b.size, h.Spread(h.A(h.Aria("label", "Go to next page")), props, nil))
