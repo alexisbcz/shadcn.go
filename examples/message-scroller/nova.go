@@ -1,6 +1,7 @@
 package messagescroller
 
 import (
+	_ "embed"
 	"fmt"
 	"regexp"
 	"strings"
@@ -18,6 +19,7 @@ import (
 	"shadcn.go/components/ui/marker"
 	"shadcn.go/components/ui/message"
 	ms "shadcn.go/components/ui/message-scroller"
+	"shadcn.go/components/ui/runtime"
 	selectui "shadcn.go/components/ui/select"
 	"shadcn.go/components/ui/slider"
 	"shadcn.go/components/ui/tabs"
@@ -32,7 +34,12 @@ import (
 // state (upstream simulates chats with the AI SDK; the Go ports render the
 // opening transcript and the controls). Upstream's examples import the
 // radix-rhea components, so they render in style.Rhea.
+//
+//go:embed docs.js
+var docsScript string
+
 func init() {
+	runtime.Module("example-message-scroller-docs", docsScript)
 	docs := func(name string, fn func() h.Node) registry.Example {
 		return registry.Example{Name: "nova--" + name, Component: "message-scroller", Render: registry.Static(func() h.Node {
 			return style.Scope(style.Rhea, fn())
@@ -434,7 +441,7 @@ func DocsOpeningPosition() h.Node {
 				ms.Provider(ms.PositionLastAnchor, scroller(nil, transcript(msgs, userAnchor)...)),
 			),
 			card.Footer(h.Class("flex items-center justify-center border-t"),
-				tabs.Tabs(tabs.Value("last-anchor"), h.Class("w-full"),
+				tabs.Tabs(tabs.Value("last-anchor"), h.Class("w-full"), h.Data("example-message-scroller-position", ""),
 					tabs.List(append([]any{h.Class("w-full")}, triggers...)...),
 				),
 			),
