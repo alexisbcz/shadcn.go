@@ -1,0 +1,6 @@
+[
+  { "label": "open", "steps": [{ "do": "click", "target": "[data-slot=popover-trigger]" }] },
+  { "label": "select-start", "steps": [{ "do": "click", "target": "[data-slot=calendar] tbody button", "nth": 3 }] },
+  { "label": "select-end", "steps": [{ "do": "click", "target": "[data-slot=calendar] tbody button", "nth": 15 }] },
+  { "label": "after-escape", "steps": [{ "do": "press", "key": "Escape" }] }
+]
