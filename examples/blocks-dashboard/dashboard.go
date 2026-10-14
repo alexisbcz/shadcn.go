@@ -28,7 +28,6 @@ import (
 	selectui "shadcn.go/components/ui/select"
 	"shadcn.go/components/ui/separator"
 	"shadcn.go/components/ui/sidebar"
-	"shadcn.go/components/ui/sonner"
 	"shadcn.go/components/ui/table"
 	"shadcn.go/components/ui/tabs"
 	togglegroup "shadcn.go/components/ui/toggle-group"
@@ -45,8 +44,10 @@ func init() {
 	registry.Register(registry.Example{
 		Name:      "dashboard-01",
 		Component: "sidebar",
-		Render:    Page,
-		Extra:     func(*http.Request) h.Node { return sonner.Toaster(sonner.ThemeLight) },
+		// No Toaster: the reference mounts sonner's only for examples whose
+		// own file imports sonner (page.tsx does not), so the cells' save
+		// toasts are queued without being shown, as there.
+		Render: Page,
 	})
 }
 

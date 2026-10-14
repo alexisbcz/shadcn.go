@@ -287,7 +287,12 @@ define("example-dashboard-table", {
 
     // --- drag and drop (dnd-kit) ---
     let drag = null
-    const TRANSITION = "transform 250ms ease"
+    const TRANSITION = "transform 200ms ease"
+    const liveRegion = root.querySelector('[id^="DndLiveRegion"]')
+    const announce = (text) => {
+      if (liveRegion) liveRegion.textContent = text
+    }
+    let lastOver = null
     const center = (r) => ({ x: r.left + r.width / 2, y: r.top + r.height / 2 })
     const startDrag = (handle, mode, clientY) => {
       const tr = handle.closest("tr")
@@ -308,6 +313,8 @@ define("example-dashboard-table", {
         dy: 0,
       }
       document.getSelection()?.removeAllRanges()
+      lastOver = null
+      announce(`Picked up draggable item ${ids[activeIndex]}.`)
       setAttr(tr, "data-dragging", "true")
       setAttr(handle, "aria-pressed", "true")
       layout()
@@ -328,6 +335,10 @@ define("example-dashboard-table", {
         }
       })
       d.overIndex = best < 0 ? d.activeIndex : best
+      if (lastOver !== d.overIndex) {
+        lastOver = d.overIndex
+        announce(`Draggable item ${d.ids[d.activeIndex]} was moved over droppable area ${d.ids[d.overIndex]}.`)
+      }
       d.rows.forEach((row, i) => {
         let y = 0
         if (i === d.activeIndex) y = d.dy
@@ -348,6 +359,12 @@ define("example-dashboard-table", {
       }
       setAttr(d.tr, "data-dragging", "false")
       d.handle.removeAttribute("aria-pressed")
+      const activeId = d.ids[d.activeIndex]
+      announce(
+        drop
+          ? `Draggable item ${activeId} was dropped over droppable area ${d.ids[d.overIndex]}`
+          : `Dragging was cancelled. Draggable item ${activeId} was dropped.`,
+      )
       if (drop && d.overIndex !== d.activeIndex) {
         const from = state.order.indexOf(d.ids[d.activeIndex])
         const to = state.order.indexOf(d.ids[d.overIndex])
