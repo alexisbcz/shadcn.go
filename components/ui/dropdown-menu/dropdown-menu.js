@@ -6,7 +6,8 @@
 // data-trigger-id ...> (see menu.js) holds the content; the trigger is the
 // element whose id is data-trigger-id.
 //
-// Scripts can observe and drive a menu:
+// Scripts can observe and drive a menu (and set data-anchor, a selector,
+// on the template to anchor the content on another element):
 //   template.addEventListener("shadcn:open-change", (e) => e.detail.open)  // cancelable
 //   import { getDropdownMenu } from "/_shadcn/dropdown-menu.js"
 //   getDropdownMenu(contentIdOrTemplateOrTrigger)?.setOpen(true)   // .open, .toggle()
@@ -37,7 +38,9 @@ function createDropdownMenu(tpl) {
 
   const menu = createMenu(tpl, {
     modal,
-    anchor: trigger,
+    // A data-anchor selector on the template anchors the content elsewhere
+    // (Base UI Menu's anchor prop); read when the menu opens.
+    anchor: () => (tpl.dataset.anchor && document.querySelector(tpl.dataset.anchor)) || trigger(),
     layerParent: trigger,
     onOpenChange: (next) => setOpen(next),
     onCloseAutoFocus(event) {

@@ -9,18 +9,7 @@ const root = document.documentElement
 
 function resolved(theme) {
   if (theme === "system") {
-    return // ThemeShortcut (components/theme-provider.tsx): "d" toggles the theme
-// outside editable fields.
-document.addEventListener("keydown", (e) => {
-  if ((e.key === "d" || e.key === "D") && !e.metaKey && !e.ctrlKey && !e.altKey) {
-    const t = e.target
-    if ((t instanceof HTMLElement && t.isContentEditable) || t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement || t instanceof HTMLSelectElement) return
-    e.preventDefault()
-    toggleTheme()
-  }
-})
-
-matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+    return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
   }
   return theme
 }

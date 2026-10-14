@@ -30,8 +30,8 @@ type component interface {
 // defaults (e.g. DialogTrigger's data-slot="dialog-trigger" replaces the
 // Button's data-slot="button") while the component still merges classes
 // with cn. Slot does the same by adding the slot's props to the
-// component's user props before resolving it. This mutates the child
-// builder; a builder is meant to be rendered once.
+// component's user props while resolving it (they are removed again
+// afterwards, so the child can be resolved more than once).
 func Slot(slot *h.Element, child any) (*h.Element, error) { return slotIn(nil, slot, child) }
 
 // SlotIn is Slot inside a Render method: a child component whose element
@@ -57,6 +57,30 @@ func slotIn(w io.Writer, slot *h.Element, child any) (*h.Element, error) {
 	if err != nil {
 		return nil, err
 	}
+	// The slot's props are added to the child's user props for this
+	// resolution only: restoring them afterwards keeps the builder
+	// resolvable again (e.g. by direction.Provider's walk before the
+	// compound root hands its parts their scope) without a stale slot prop
+	// winning as if the caller had set it.
+	var added []string
+	origClass, origStyle := user.ClassName(), ""
+	hadStyle := user.Has("style")
+	if hadStyle {
+		origStyle, _ = user.GetAttr("style")
+	}
+	defer func() {
+		for _, n := range added {
+			user.Remove(n)
+		}
+		if origClass == "" {
+			user.Remove("class")
+		} else {
+			user.SetClass(origClass)
+		}
+		if hadStyle {
+			user.Attr("style", origStyle)
+		}
+	}()
 	for _, n := range names {
 		ln := strings.ToLower(n)
 		if ln == "class" || user.Has(n) || strings.HasPrefix(ln, "on") {
@@ -64,6 +88,7 @@ func slotIn(w io.Writer, slot *h.Element, child any) (*h.Element, error) {
 		}
 		if v, ok := slot.GetAttr(n); ok {
 			user.Attr(n, v)
+			added = append(added, n)
 		}
 	}
 	if sc := slot.ClassName(); sc != "" {
