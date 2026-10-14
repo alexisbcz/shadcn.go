@@ -1,0 +1,268 @@
+[
+ {
+  "label": "click-first",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=radio-group-item]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "click-first-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=radio-group-item]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "arrow-down",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowDown', code: 'ArrowDown', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "arrow-right",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', code: 'ArrowRight', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowRight', code: 'ArrowRight', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "arrow-down-loop",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowDown', code: 'ArrowDown', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "arrow-up-loop",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', code: 'ArrowUp', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowUp', code: 'ArrowUp', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "arrow-left",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', code: 'ArrowLeft', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft', code: 'ArrowLeft', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "end-focus-only",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "home-focus-only",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "page-down-focus-only",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageDown"
+   }
+  ]
+ },
+ {
+  "label": "page-up-focus-only",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   }
+  ]
+ },
+ {
+  "label": "shift-arrow-ignored",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "click-label-compact",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "enter-ignored",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=radio-group-item]",
+    "nth": 1
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "space-checks",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-out",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-in-checked",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-out",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-item",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=radio-group-item]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "reset-tab-in",
+  "reset": true,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "reset-arrow-up",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', code: 'ArrowUp', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowUp', code: 'ArrowUp', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "mouse-away",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   }
+  ]
+ }
+]

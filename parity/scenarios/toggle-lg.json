@@ -1,0 +1,9 @@
+[
+  { "label": "click-on", "steps": [{ "do": "click", "target": "[data-slot=toggle]" }] },
+  { "label": "click-off", "steps": [{ "do": "click", "target": "[data-slot=toggle]" }] },
+  { "label": "space-on", "steps": [{ "do": "press", "key": "Space", "target": "[data-slot=toggle]" }] },
+  { "label": "enter-off", "steps": [{ "do": "press", "key": "Enter", "target": "[data-slot=toggle]" }] },
+  { "label": "enter-on", "steps": [{ "do": "press", "key": "Enter", "target": "[data-slot=toggle]" }] },
+  { "label": "mouse-away", "steps": [{ "do": "mouse", "x": 1000, "y": 700 }] },
+  { "label": "blur", "steps": [{ "do": "press", "key": "Tab" }] }
+]

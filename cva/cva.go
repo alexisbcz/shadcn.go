@@ -74,7 +74,7 @@ func New(base string, cfg Config) *CVA {
 // Classes returns the base classes, the classes of the selected (or
 // default) option of each variant, matching compound classes and finally
 // extra. Unknown options select nothing. The result is not merged: pass it
-// through twmerge.Merge to resolve conflicts, as shadcn's cn() does.
+// through lib.Cn (package cn) to resolve conflicts, as shadcn's cn() does.
 func (c *CVA) Classes(sel Selection, extra ...string) string {
 	parts := make([]string, 0, 2+len(c.names)+len(c.cfg.Compound)+len(extra))
 	parts = append(parts, c.base)

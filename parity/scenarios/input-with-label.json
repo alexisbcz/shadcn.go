@@ -1,0 +1,8 @@
+[
+  { "label": "label-dblclick", "steps": [{ "do": "eval", "js": "const l=document.querySelector(\"[data-slot=label]\");const e=new MouseEvent(\"mousedown\",{bubbles:true,cancelable:true,detail:2});l.dispatchEvent(e);const s=new MouseEvent(\"mousedown\",{bubbles:true,cancelable:true,detail:1});l.dispatchEvent(s);document.body.dataset.dblPrevented=String(e.defaultPrevented);document.body.dataset.singlePrevented=String(s.defaultPrevented)" }] },
+  { "label": "label-click-focuses", "steps": [{ "do": "click", "target": "[data-slot=label]" }] },
+  { "label": "type", "steps": [{ "do": "type", "text": "m@example.com" }] },
+  { "label": "select-all", "steps": [{ "do": "press", "key": "ControlOrMeta+a" }] },
+  { "label": "delete", "steps": [{ "do": "press", "key": "Backspace" }] },
+  { "label": "blur", "steps": [{ "do": "press", "key": "Tab" }] }
+]

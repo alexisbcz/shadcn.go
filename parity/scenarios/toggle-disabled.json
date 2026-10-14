@@ -1,0 +1,4 @@
+[
+  { "label": "hover-disabled", "steps": [{ "do": "mouse", "x": 0, "y": 0 }, { "do": "eval", "js": "document.querySelector('[data-slot=toggle]').click()" }] },
+  { "label": "tab-skips-disabled", "steps": [{ "do": "press", "key": "Tab" }] }
+]

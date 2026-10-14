@@ -1,0 +1,144 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-outer",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "open-inner",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-content] [data-slot=dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "inner-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "inner-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "inner-escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-inner-2",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=dialog-content] [data-slot=dialog-trigger]",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "inner-outside-click",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(10, 10); const o = { bubbles: true, cancelable: true, composed: true, clientX: 10, clientY: 10, button: 0, buttons: 1, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('click', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "inner-outside-click-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-inner-3",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-content] [data-slot=dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "inner-footer-close",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-footer] button:last-child",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "inner-footer-close-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "outer-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "outer-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "outer-escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ }
+]

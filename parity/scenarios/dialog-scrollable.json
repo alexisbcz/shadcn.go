@@ -1,0 +1,144 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "wheel-inside",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 400
+   },
+   {
+    "do": "scroll",
+    "y": 200
+   },
+   {
+    "do": "wait",
+    "ms": 600
+   }
+  ]
+ },
+ {
+  "label": "wheel-outside",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 30,
+    "y": 700
+   },
+   {
+    "do": "scroll",
+    "y": 300
+   },
+   {
+    "do": "wait",
+    "ms": 600
+   }
+  ]
+ },
+ {
+  "label": "wheel-inside-up",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 400
+   },
+   {
+    "do": "scroll",
+    "y": -500
+   },
+   {
+    "do": "wait",
+    "ms": 600
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "page-wheel",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 30,
+    "y": 700
+   },
+   {
+    "do": "scroll",
+    "y": 300
+   },
+   {
+    "do": "wait",
+    "ms": 600
+   }
+  ]
+ },
+ {
+  "label": "open-enter-scrolled",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "decline",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-footer] [data-slot=dialog-close]"
+   }
+  ]
+ },
+ {
+  "label": "decline-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ }
+]

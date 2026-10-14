@@ -1,0 +1,6 @@
+[
+  { "label": "click-disabled", "steps": [{ "do": "eval", "js": "document.querySelectorAll('[data-slot=toggle-group-item]').forEach(b => b.click())" }] },
+  { "label": "tab-skips", "steps": [{ "do": "mouse", "x": 0, "y": 0 }, { "do": "press", "key": "Tab" }] },
+  { "label": "focus-group", "steps": [{ "do": "eval", "js": "document.querySelector('[data-slot=toggle-group]').focus()" }] },
+  { "label": "arrow", "steps": [{ "do": "press", "key": "ArrowRight" }] }
+]

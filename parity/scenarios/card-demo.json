@@ -1,0 +1,210 @@
+[
+ {
+  "label": "tab-from-first",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "focus",
+    "target": "[data-slot=card-action] [data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-3",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-4",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-5",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-6",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "label-dblclick",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "const l=document.querySelector(\"[data-slot=label]\");const e=new MouseEvent(\"mousedown\",{bubbles:true,cancelable:true,detail:2});l.dispatchEvent(e);const s=new MouseEvent(\"mousedown\",{bubbles:true,cancelable:true,detail:1});l.dispatchEvent(s);document.body.dataset.dblPrevented=String(e.defaultPrevented);document.body.dataset.singlePrevented=String(s.defaultPrevented)"
+   }
+  ]
+ },
+ {
+  "label": "click-email-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]"
+   }
+  ]
+ },
+ {
+  "label": "type-email",
+  "steps": [
+   {
+    "do": "type",
+    "text": "m@example.com"
+   }
+  ]
+ },
+ {
+  "label": "click-password-label",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "type-password",
+  "steps": [
+   {
+    "do": "type",
+    "text": "secret"
+   }
+  ]
+ },
+ {
+  "label": "hover-forgot",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "a[href='#']"
+   }
+  ]
+ },
+ {
+  "label": "hover-signup",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=card-action] [data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "hover-login",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=card-footer] [data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "hover-google",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=card-footer] [data-slot=button]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "enter-in-password",
+  "steps": [
+   {
+    "do": "click",
+    "target": "#password"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "enter-in-email",
+  "steps": [
+   {
+    "do": "click",
+    "target": "#email"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "click-forgot",
+  "steps": [
+   {
+    "do": "click",
+    "target": "a[href='#']"
+   }
+  ]
+ },
+ {
+  "label": "click-login",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=card-footer] [data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "space-google",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ }
+]

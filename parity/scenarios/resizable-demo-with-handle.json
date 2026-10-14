@@ -1,0 +1,812 @@
+[
+ {
+  "label": "outer-hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=resizable-handle]",
+    "nth": 0
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-hover-near",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "hover",
+    "target": "[data-slot=resizable-handle]",
+    "nth": 0
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-click-focus",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=resizable-handle]",
+    "nth": 0
+   },
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-key-shrink",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-key-shrink-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-key-grow",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-key-cross-axis",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-key-home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-key-end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-key-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-key-home-again",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-key-f6",
+  "steps": [
+   {
+    "do": "press",
+    "key": "F6"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-key-shift-f6",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+F6"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-dblclick-reset",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); s.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true, composed: true, detail: 2, clientX: r.left + r.width / 2, clientY: r.top + r.height / 2 })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-drag-start",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 0, movementX: 0, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointerdown', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-drag-move",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 40, clientY: r.top + r.height / 2 + 0, movementX: 40, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointermove', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-drag-move-2",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 40, clientY: r.top + r.height / 2 + 0, movementX: 40, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointermove', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-drag-end",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 0, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 0, movementX: 0, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointerup', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-drag-far",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 0, movementX: 0, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointerdown', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + -2000, clientY: r.top + r.height / 2 + 0, movementX: -2000, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointermove', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 0, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 0, movementX: 0, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointerup', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-dblclick-reset-2",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); s.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true, composed: true, detail: 2, clientX: r.left + r.width / 2, clientY: r.top + r.height / 2 })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "outer-drag-release-outside",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 0, movementX: 0, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointerdown', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 40, clientY: r.top + r.height / 2 + 0, movementX: 40, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointermove', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 0, clientX: r.left + r.width / 2 + 40, clientY: r.top + r.height / 2 + 0, movementX: 40, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointermove', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=resizable-handle]",
+    "nth": 1
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-hover-near",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "hover",
+    "target": "[data-slot=resizable-handle]",
+    "nth": 1
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-click-focus",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=resizable-handle]",
+    "nth": 1
+   },
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-key-shrink",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-key-shrink-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-key-grow",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-key-cross-axis",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-key-home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-key-end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-key-enter",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-key-home-again",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-key-f6",
+  "steps": [
+   {
+    "do": "press",
+    "key": "F6"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-key-shift-f6",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+F6"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-dblclick-reset",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[1]; const r = s.getBoundingClientRect(); s.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true, composed: true, detail: 2, clientX: r.left + r.width / 2, clientY: r.top + r.height / 2 })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-drag-start",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[1]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 0, movementX: 0, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointerdown', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-drag-move",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[1]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 30, movementX: 0, movementY: 30 }; s.dispatchEvent(new PointerEvent('pointermove', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-drag-move-2",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[1]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 30, movementX: 0, movementY: 30 }; s.dispatchEvent(new PointerEvent('pointermove', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-drag-end",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[1]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 0, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 0, movementX: 0, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointerup', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-drag-far",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[1]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 0, movementX: 0, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointerdown', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[1]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + -2000, movementX: 0, movementY: -2000 }; s.dispatchEvent(new PointerEvent('pointermove', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[1]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 0, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 0, movementX: 0, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointerup', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-dblclick-reset-2",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[1]; const r = s.getBoundingClientRect(); s.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true, composed: true, detail: 2, clientX: r.left + r.width / 2, clientY: r.top + r.height / 2 })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "inner-drag-release-outside",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[1]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 0, movementX: 0, movementY: 0 }; s.dispatchEvent(new PointerEvent('pointerdown', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[1]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 30, movementX: 0, movementY: 30 }; s.dispatchEvent(new PointerEvent('pointermove', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[1]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 0, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 + 30, movementX: 0, movementY: 30 }; s.dispatchEvent(new PointerEvent('pointermove', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "tab-through",
+  "reset": true,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "wait",
+    "ms": 150
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "junction-hover",
+  "reset": true,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "wait",
+    "ms": 150
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "junction-drag-start",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const a = document.querySelectorAll('[data-slot=resizable-handle]')[0].getBoundingClientRect(); const b = document.querySelectorAll('[data-slot=resizable-handle]')[1].getBoundingClientRect(); const x = a.left + a.width / 2 + 0, y = b.top + b.height / 2 + 0; const t = document.elementFromPoint(x, y) || document.body; t.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 0, clientX: x, clientY: y, movementX: 0, movementY: 0 })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const a = document.querySelectorAll('[data-slot=resizable-handle]')[0].getBoundingClientRect(); const b = document.querySelectorAll('[data-slot=resizable-handle]')[1].getBoundingClientRect(); const x = a.left + a.width / 2 + 0, y = b.top + b.height / 2 + 0; const t = document.elementFromPoint(x, y) || document.body; t.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: x, clientY: y, movementX: 0, movementY: 0 })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "junction-drag-move",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const a = document.querySelectorAll('[data-slot=resizable-handle]')[0].getBoundingClientRect(); const b = document.querySelectorAll('[data-slot=resizable-handle]')[1].getBoundingClientRect(); const x = a.left + a.width / 2 + 30, y = b.top + b.height / 2 + 25; const t = document.elementFromPoint(x, y) || document.body; t.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: x, clientY: y, movementX: 30, movementY: 25 })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "junction-drag-end",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const a = document.querySelectorAll('[data-slot=resizable-handle]')[0].getBoundingClientRect(); const b = document.querySelectorAll('[data-slot=resizable-handle]')[1].getBoundingClientRect(); const x = a.left + a.width / 2 + 30, y = b.top + b.height / 2 + 25; const t = document.elementFromPoint(x, y) || document.body; t.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 0, clientX: x, clientY: y, movementX: 30, movementY: 25 })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "near-handle-drag",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 4, clientY: r.top + 20 }; (document.elementFromPoint(o.clientX, o.clientY) || document.body).dispatchEvent(new PointerEvent('pointerdown', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 - 60, clientY: r.top + 20 }; (document.elementFromPoint(o.clientX, o.clientY) || document.body).dispatchEvent(new PointerEvent('pointermove', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelectorAll('[data-slot=resizable-handle]')[0]; const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 0, clientX: r.left + r.width / 2, clientY: r.top + 20 }; (document.elementFromPoint(o.clientX, o.clientY) || document.body).dispatchEvent(new PointerEvent('pointerup', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "junction2-drag-start",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const a = document.querySelectorAll('[data-slot=resizable-handle]')[0].getBoundingClientRect(); const b = document.querySelectorAll('[data-slot=resizable-handle]')[1].getBoundingClientRect(); const x = a.left + a.width / 2 + 3 + 0, y = b.top + b.height / 2 + 0; const t = document.elementFromPoint(x, y) || document.body; t.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 0, clientX: x, clientY: y, movementX: 0, movementY: 0 })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const a = document.querySelectorAll('[data-slot=resizable-handle]')[0].getBoundingClientRect(); const b = document.querySelectorAll('[data-slot=resizable-handle]')[1].getBoundingClientRect(); const x = a.left + a.width / 2 + 3 + 0, y = b.top + b.height / 2 + 0; const t = document.elementFromPoint(x, y) || document.body; t.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: x, clientY: y, movementX: 0, movementY: 0 })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "junction2-drag-move",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const a = document.querySelectorAll('[data-slot=resizable-handle]')[0].getBoundingClientRect(); const b = document.querySelectorAll('[data-slot=resizable-handle]')[1].getBoundingClientRect(); const x = a.left + a.width / 2 + 3 + 30, y = b.top + b.height / 2 + 25; const t = document.elementFromPoint(x, y) || document.body; t.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: x, clientY: y, movementX: 30, movementY: 25 })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "junction2-drag-end",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const a = document.querySelectorAll('[data-slot=resizable-handle]')[0].getBoundingClientRect(); const b = document.querySelectorAll('[data-slot=resizable-handle]')[1].getBoundingClientRect(); const x = a.left + a.width / 2 + 3 + 30, y = b.top + b.height / 2 + 25; const t = document.elementFromPoint(x, y) || document.body; t.dispatchEvent(new PointerEvent('pointerup', { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 0, clientX: x, clientY: y, movementX: 30, movementY: 25 })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ }
+]

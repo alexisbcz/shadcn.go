@@ -7,21 +7,30 @@ Two layers make up the project:
 - **libhtml**: a library that builds HTML in Go with a JSX-like API. It
   escapes and sanitizes output by default and ships CSRF and
   security-header middleware.
-- **components/ui**: the shadcn components, written with libhtml. So far
-  this is **Button** only.
+- **components/ui**: the shadcn components, one Go package each, written
+  with libhtml. Their client-side behavior is vanilla JavaScript served by
+  `components/ui/runtime`.
+- **tailwind**: Tailwind CSS v4.3.0 with Go only. `go generate` produces
+  the exact stylesheet, with no Node.js required.
 
 ```go
 import (
-    "shadcn.go/components/ui"
+    "shadcn.go/components/icons/lucide"
+    "shadcn.go/components/lib"
+    "shadcn.go/components/ui/button"
     h "shadcn.go/libhtml"
 )
 
 h.Div(h.Class("flex gap-2"),
-    ui.Button(ui.ButtonVariantOutline, "Button"),
-    ui.Button(ui.ButtonVariantOutline, ui.ButtonSizeIcon, h.Aria("label", "Submit"), icons.ArrowUp()),
-    ui.Button(ui.AsChild, h.A(h.Href("/login"), "Login")),
+    button.Button(button.VariantOutline, "Button"),
+    button.Button(button.VariantOutline, button.SizeIcon, h.Aria("label", "Submit"), lucide.ArrowUp()),
+    button.Button(lib.AsChild, h.A(h.Href("/login"), "Login")),
 )
 ```
+
+The port is in progress. `PORTING.md` is the porting contract,
+`parity/manifest.json` is the plan, and `node parity/status.mjs` shows
+progress.
 
 Run the demo. It shows every shadcn Button example, plus a CSRF form and an
 XSS test:
@@ -37,10 +46,15 @@ go run ./cmd/demo -dev        # http://localhost:8080
 | `libhtml/` | The HTML builder: elements, props, control flow, escaping, rendering |
 | `libhtml/csrf/` | CSRF middleware with origin checks and signed, masked tokens |
 | `libhtml/secure/` | Security headers with a per-request CSP nonce |
-| `twmerge/` | A port of tailwind-merge. It resolves Tailwind class conflicts and backs `cn()` |
+| `tailwind/`, `cmd/tailwind/` | Tailwind CSS v4.3.0 compiler, scanner and CLI, written in Go only |
+| `twmerge/` | A port of tailwind-merge. It resolves Tailwind class conflicts |
 | `cva/` | A port of class-variance-authority |
-| `components/ui/` | The shadcn components (`Button`) and `Cn` |
-| `components/icons/` | The Lucide icons used so far |
+| `components/lib/` | `Cn` (shadcn's `cn()`) and `AsChild` |
+| `components/ui/<name>/` | One package per shadcn component |
+| `components/ui/runtime/` | The client runtime: vanilla JS replacing Radix UI, served with CSP nonces |
+| `components/icons/` | Every Lucide icon (lucide-react 0.474.0) and the Tabler icons the registry uses, generated |
+| `examples/` | Go ports of the upstream examples, charts and blocks |
+| `parity/`, `cmd/parity/` | The parity harness: React reference vs Go, compared on pixels, DOM and animations |
 | `cmd/demo/` | The demo server |
 | `bench/` | Benchmarks against `html/template` and gomponents. It is a separate module, so the library has no dependencies |
 | `scripts/jsref/` | Produces reference outputs from the real JavaScript libraries, for the fidelity tests |
@@ -160,9 +174,9 @@ HSTS. Use `secure.Script(r, …)` to emit a script that carries the nonce.
 Under this CSP the browser also blocks inline `on*` handlers. Attach
 listeners from a nonced script instead, as the demo does.
 
-## Fidelity to shadcn
+## Fidelity of class merging
 
-`components/ui/testdata/button_ref.json` holds
+`components/ui/button/testdata/button_ref.json` holds
 `cn(buttonVariants({variant, size, className}))` for all 6 variants × 8
 sizes × 6 `className` overrides, computed with the real
 `class-variance-authority` and `tailwind-merge`. The Go output matches all
@@ -170,22 +184,66 @@ sizes × 6 `className` overrides, computed with the real
 
 ```sh
 cd scripts/jsref && npm install
-node button.mjs ../../ui/apps/v4/registry/new-york-v4/ui/button.tsx > ../../components/ui/testdata/button_ref.json
+node button.mjs ../../ui/apps/v4/registry/new-york-v4/ui/button.tsx > ../../components/ui/button/testdata/button_ref.json
 ```
 
-## Tailwind
+## Tailwind, with Go only
 
-The class strings are literals in `.go` files, so Tailwind v4 finds them
-with `@source`:
+`shadcn.go/tailwind` runs Tailwind's own compiler, the vendored `tailwindcss`
+4.3.0 package, unmodified, inside goja, a JavaScript engine written in Go.
+The CSS generated for any class is therefore exactly what Tailwind
+generates. The surrounding steps are Go:
 
-```css
-@import "tailwindcss";
-@source "../path/to/components/**/*.go";
-@source "../path/to/your/app/**/*.go";
+- source discovery: `@source`, `source(...)`, `.gitignore`, and automatic
+  detection;
+- class-candidate extraction, which reproduces the official Rust scanner's
+  rules;
+- an optional minifier.
+
+`tw-animate-css` and `shadcn/tailwind.css` are embedded, so
+`@import "tw-animate-css"` works without npm.
+
+```go
+//go:generate go run shadcn.go/cmd/tailwind -i styles/app.css -o static/app.css
 ```
 
-The demo's stylesheet is built with `cmd/demo/build-css.sh`. The build
-needs Node.js. The Go program does not.
+The output is **byte-identical to the official CLI**
+(`@tailwindcss/cli -i in.css -o out.css`, unminified). That holds for the
+golden fixture in `tailwind/testdata`, for the demo, and for a stress build
+over the 1,856 files of the upstream shadcn app (350 KB of CSS). Reaching
+that required fixing two bugs in goja, both worked around in the prelude:
+`Number(bigint)` truncates to 64 bits, and `Array.prototype.sort` treats `-0`
+as "less than". Both changed Tailwind's rule order. `--minify` is a
+conservative whitespace and comment minifier, not Lightning CSS, so it does
+not add vendor prefixes or lower CSS nesting. The demo has a test that fails
+when its committed stylesheet is stale.
+
+## Parity with upstream
+
+Every component is held to exact parity with shadcn/ui `new-york-v4`, and
+`parity/` proves it:
+
+- `parity/reference/build.mjs` bundles all 349 upstream references:
+  examples, charts, blocks and internal demos. It resolves them against
+  upstream's own lockfile-pinned dependencies (pnpm, frozen lockfile).
+- `cmd/parity` serves `/react/<name>` and `/go/<name>` in an identical shell,
+  with one stylesheet built by the Go Tailwind from both codebases. The Go
+  pages run under the production CSP.
+- `parity/run.mjs` drives both sides in headless Chromium, in light and dark
+  mode. It compares full-page pixels (0 differences allowed) and the
+  normalized DOM. It then replays interactions: automatic hover, focus, open
+  and Escape, plus the per-reference scenarios in `parity/scenarios/`. For
+  animations, it freezes the document timeline through the DevTools
+  protocol, compares the animation definitions, and compares frames at 0,
+  25, 50 and 75% of each animation's duration.
+
+```sh
+node parity/run.mjs --component button     # 13/13 pixel-, DOM- and animation-identical
+node parity/status.mjs --todo
+```
+
+The harness is verification tooling only. It needs Node.js and the upstream
+clone in `./ui`; applications built with shadcn.go need neither.
 
 ## Benchmarks
 
@@ -208,7 +266,7 @@ M-series machine with Go 1.27.
 | libhtml | **361 µs** (~470 MB/s) | **0.3 KB** | **4** |
 | gomponents | 780 µs (~185 MB/s) | 390 KB | 29.4 k |
 
-| ui.Button | ns/op | B/op | allocs/op |
+| button.Button | ns/op | B/op | allocs/op |
 | --- | ---: | ---: | ---: |
 | plain | 1.4 µs | 656 | 10 |
 | with a `className` override (`rounded-full`) | 1.8 µs | 801 | 14 |
@@ -224,6 +282,7 @@ construction.
 ## Tests
 
 ```sh
-go test ./...                       # libhtml, csrf, secure, twmerge, cva, components
+go test ./...                       # libhtml, csrf, secure, tailwind, twmerge, cva, components
+go generate ./...                   # stylesheets, example index
 cd bench && go test ./...           # checks that all three renderers produce the same markup
 ```

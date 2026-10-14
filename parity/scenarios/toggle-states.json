@@ -1,0 +1,54 @@
+[
+ {
+  "label": "click-unpress",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=toggle]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "space-unpress-outline",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=toggle]",
+    "nth": 1
+   },
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "click-disabled-ignored",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.querySelectorAll('[data-slot=toggle]')[2].click()"
+   }
+  ]
+ },
+ {
+  "label": "tab-skips-disabled",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "mouse-away",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   }
+  ]
+ }
+]

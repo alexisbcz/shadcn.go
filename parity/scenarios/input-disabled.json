@@ -1,0 +1,57 @@
+[
+ {
+  "label": "focus-attempt",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=input]"
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-disabled",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 175
+   },
+   {
+    "do": "eval",
+    "js": "document.body.dataset.hovered=String(document.querySelector('[data-slot=input]').matches(':hover'))"
+   }
+  ]
+ },
+ {
+  "label": "click-disabled",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.querySelector('[data-slot=input]').dispatchEvent(new MouseEvent('mousedown',{bubbles:true}))"
+   }
+  ]
+ },
+ {
+  "label": "type-disabled",
+  "steps": [
+   {
+    "do": "type",
+    "text": "abc"
+   }
+  ]
+ }
+]

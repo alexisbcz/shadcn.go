@@ -1,0 +1,586 @@
+[
+ {
+  "label": "hover-input",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=input-otp]"
+   }
+  ]
+ },
+ {
+  "label": "click-focus",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-otp]"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "type-1",
+  "steps": [
+   {
+    "do": "type",
+    "text": "1"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "type-23",
+  "steps": [
+   {
+    "do": "type",
+    "text": "2"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "type",
+    "text": "3"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "arrow-left",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "arrow-left-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "replace-middle",
+  "steps": [
+   {
+    "do": "type",
+    "text": "9"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "arrow-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "end-again",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "type-rest",
+  "steps": [
+   {
+    "do": "type",
+    "text": "4"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "type",
+    "text": "5"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "type",
+    "text": "6"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "type-overflow",
+  "steps": [
+   {
+    "do": "type",
+    "text": "7"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "backspace",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Backspace"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "backspace-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Backspace"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "arrow-left-delete",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "press",
+    "key": "Delete"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "select-all",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ControlOrMeta+a"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "delete-all",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Backspace"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "blur",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "refocus-shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "type-full",
+  "steps": [
+   {
+    "do": "type",
+    "text": "1"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "type",
+    "text": "2"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "type",
+    "text": "3"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "type",
+    "text": "4"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "type",
+    "text": "5"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "type",
+    "text": "6"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "blur-programmatic",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement && document.activeElement.blur()"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "click-then-arrows",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-otp]"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "type-after-arrows",
+  "steps": [
+   {
+    "do": "type",
+    "text": "4"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "type",
+    "text": "2"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "letters",
+  "steps": [
+   {
+    "do": "type",
+    "text": "a"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "type",
+    "text": "b"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "settle-pwm",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "paste-full",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-otp]"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "eval",
+    "js": "document.execCommand('insertText', false, '123456')"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "paste-blur-refocus",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "shift-arrow-select",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "press",
+    "key": "Shift+ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "type-over-range",
+  "steps": [
+   {
+    "do": "type",
+    "text": "8"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "paste-partial",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input-otp]"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "type",
+    "text": "1"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   },
+   {
+    "do": "eval",
+    "js": "document.execCommand('insertText', false, '23')"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "paste-overflow",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.execCommand('insertText', false, '456789')"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ },
+ {
+  "label": "mouse-leave",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ }
+]

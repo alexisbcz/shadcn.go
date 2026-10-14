@@ -1,0 +1,146 @@
+[
+ {
+  "label": "hover-select",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=native-select]"
+   }
+  ]
+ },
+ {
+  "label": "focus-keyboard",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "arrow-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "arrow-down-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "arrow-up",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   }
+  ]
+ },
+ {
+  "label": "end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   }
+  ]
+ },
+ {
+  "label": "home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   }
+  ]
+ },
+ {
+  "label": "blur",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "click",
+  "frames": false,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=native-select]"
+   },
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "typeahead",
+  "reset": true,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "type",
+    "text": "d"
+   },
+   {
+    "do": "wait",
+    "ms": 1100
+   }
+  ]
+ },
+ {
+  "label": "typeahead-2",
+  "steps": [
+   {
+    "do": "type",
+    "text": "c"
+   },
+   {
+    "do": "wait",
+    "ms": 1100
+   }
+  ]
+ },
+ {
+  "label": "page-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   },
+   {
+    "do": "press",
+    "key": "PageDown"
+   }
+  ]
+ }
+]

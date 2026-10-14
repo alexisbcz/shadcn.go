@@ -1,0 +1,52 @@
+[
+ {
+  "label": "focus-attempt",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=textarea]"
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-disabled",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=textarea]"
+   }
+  ]
+ },
+ {
+  "label": "click-disabled",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.querySelector('[data-slot=textarea]').dispatchEvent(new MouseEvent('mousedown',{bubbles:true}))"
+   }
+  ]
+ },
+ {
+  "label": "type-disabled",
+  "steps": [
+   {
+    "do": "type",
+    "text": "abc"
+   }
+  ]
+ }
+]

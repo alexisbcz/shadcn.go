@@ -3,12 +3,14 @@
 package lib
 
 import (
-	"shadcn.go/twmerge"
+	"shadcn.go/cn"
 )
 
 // Cn combines class lists and resolves Tailwind conflicts, later classes
-// winning. It is shadcn's cn() helper.
-func Cn(classes ...string) string { return twmerge.Merge(classes...) }
+// winning. It is shadcn's cn() helper: upstream imports it from the cn npm
+// package, and package cn is a byte-for-byte port of it. Empty arguments are
+// skipped, like falsy arguments upstream.
+func Cn(classes ...string) string { return cn.Cn(classes...) }
 
 // AsChildFlag is the type of AsChild.
 type AsChildFlag struct{}

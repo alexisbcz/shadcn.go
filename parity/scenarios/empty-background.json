@@ -1,0 +1,5 @@
+[
+  { "label": "hover-button", "steps": [{ "do": "hover", "target": "[data-slot=button]" }] },
+  { "label": "tab", "steps": [{ "do": "mouse", "x": 0, "y": 0 }, { "do": "press", "key": "Tab" }] },
+  { "label": "click", "steps": [{ "do": "click", "target": "[data-slot=button]" }] }
+]

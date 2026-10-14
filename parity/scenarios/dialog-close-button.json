@@ -1,0 +1,274 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "type-readonly",
+  "frames": false,
+  "steps": [
+   {
+    "do": "type",
+    "text": "abc"
+   }
+  ]
+ },
+ {
+  "label": "tab-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-3",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-close-x",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dialog-content] > [data-slot=dialog-close]"
+   }
+  ]
+ },
+ {
+  "label": "wheel-locked",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 20,
+    "y": 20
+   },
+   {
+    "do": "scroll",
+    "y": 300
+   }
+  ]
+ },
+ {
+  "label": "outside-right-click",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(10, 10); const o = { bubbles: true, cancelable: true, composed: true, clientX: 10, clientY: 10, button: 2, buttons: 2, ctrlKey: false, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('contextmenu', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "outside-ctrl-click",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(10, 10); const o = { bubbles: true, cancelable: true, composed: true, clientX: 10, clientY: 10, button: 0, buttons: 1, ctrlKey: true, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('click', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "outside-click",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(10, 10); const o = { bubbles: true, cancelable: true, composed: true, clientX: 10, clientY: 10, button: 0, buttons: 1, ctrlKey: false, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('click', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "outside-click-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "reopen-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-enter",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=dialog-trigger]",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "close-x-pre-hover",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=dialog-content] > [data-slot=dialog-close]"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "close-x",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-content] > [data-slot=dialog-close]"
+   }
+  ]
+ },
+ {
+  "label": "close-x-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 760
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-space",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=dialog-trigger]",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "close-footer",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-footer] [data-slot=dialog-close]"
+   }
+  ]
+ },
+ {
+  "label": "close-footer-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "close-footer-enter",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=dialog-footer] [data-slot=dialog-close]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "close-footer-enter-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ }
+]

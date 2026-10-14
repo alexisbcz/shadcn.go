@@ -1,0 +1,86 @@
+[
+ {
+  "label": "label-dblclick",
+  "reset": true,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "const l=document.querySelector(\"[data-slot=label]\");const e=new MouseEvent(\"mousedown\",{bubbles:true,cancelable:true,detail:2});l.dispatchEvent(e);const s=new MouseEvent(\"mousedown\",{bubbles:true,cancelable:true,detail:1});l.dispatchEvent(s);document.body.dataset.dblPrevented=String(e.defaultPrevented);document.body.dataset.singlePrevented=String(s.defaultPrevented)"
+   }
+  ]
+ },
+ {
+  "label": "label-click-focuses",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]"
+   }
+  ]
+ },
+ {
+  "label": "hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=input]"
+   }
+  ]
+ },
+ {
+  "label": "choose-file",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "const i=document.querySelector('[data-slot=input]');const dt=new DataTransfer();dt.items.add(new File(['x'],'photo.png',{type:'image/png'}));i.files=dt.files;i.dispatchEvent(new Event('input',{bubbles:true}));i.dispatchEvent(new Event('change',{bubbles:true}))"
+   }
+  ]
+ },
+ {
+  "label": "blur",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.blur()"
+   }
+  ]
+ },
+ {
+  "label": "tab-focus-visible",
+  "reset": true,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-focused",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=input]"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-out",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ }
+]

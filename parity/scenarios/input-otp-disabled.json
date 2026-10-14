@@ -1,0 +1,29 @@
+[
+ {
+  "label": "hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-input-otp-container]"
+   }
+  ]
+ },
+ {
+  "label": "tab-skips",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "wait",
+    "ms": 100
+   }
+  ]
+ }
+]

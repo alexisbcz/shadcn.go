@@ -13,7 +13,8 @@ import (
 	g "maragu.dev/gomponents"
 	gh "maragu.dev/gomponents/html"
 
-	"shadcn.go/components/ui"
+	"shadcn.go/components/lib"
+	"shadcn.go/components/ui/button"
 	h "shadcn.go/libhtml"
 )
 
@@ -204,21 +205,21 @@ func BenchmarkButton(b *testing.B) {
 		var buf bytes.Buffer
 		for b.Loop() {
 			buf.Reset()
-			_ = ui.Button(ui.ButtonVariantOutline, ui.ButtonSizeSm, "Save").Render(&buf)
+			_ = button.Button(button.VariantOutline, button.SizeSm, "Save").Render(&buf)
 		}
 	})
 	b.Run("className-override", func(b *testing.B) {
 		var buf bytes.Buffer
 		for b.Loop() {
 			buf.Reset()
-			_ = ui.Button(ui.ButtonVariantOutline, ui.ButtonSizeIcon, h.Class("rounded-full"), h.Aria("label", "Up")).Render(&buf)
+			_ = button.Button(button.VariantOutline, button.SizeIcon, h.Class("rounded-full"), h.Aria("label", "Up")).Render(&buf)
 		}
 	})
 	b.Run("asChild", func(b *testing.B) {
 		var buf bytes.Buffer
 		for b.Loop() {
 			buf.Reset()
-			_ = ui.Button(ui.AsChild, h.A(h.Href("/login"), "Login")).Render(&buf)
+			_ = button.Button(lib.AsChild, h.A(h.Href("/login"), "Login")).Render(&buf)
 		}
 	})
 	b.Run("100-buttons", func(b *testing.B) {
@@ -226,7 +227,7 @@ func BenchmarkButton(b *testing.B) {
 		for b.Loop() {
 			buf.Reset()
 			_ = h.Div(h.Range(100, func(i int) h.Node {
-				return ui.Button(ui.ButtonVariantValues[i%len(ui.ButtonVariantValues)], "Button ", i)
+				return button.Button(button.VariantValues[i%len(button.VariantValues)], "Button ", i)
 			})).Render(&buf)
 		}
 		b.SetBytes(int64(buf.Len()))

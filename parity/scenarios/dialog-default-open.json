@@ -1,0 +1,9 @@
+[
+ {"label": "reset-idle", "reset": true, "frames": false, "steps": [{"do": "wait", "ms": 600}]},
+ {"label": "tab", "steps": [{"do": "press", "key": "Tab"}]},
+ {"label": "close-button", "steps": [{"do": "click", "target": "[data-slot=dialog-footer] [data-slot=dialog-close]"}]},
+ {"label": "close-button-idle", "frames": false, "steps": [{"do": "wait", "ms": 400}]},
+ {"label": "reopen", "steps": [{"do": "click", "target": "[data-slot=dialog-trigger]"}]},
+ {"label": "escape", "steps": [{"do": "press", "key": "Escape"}]},
+ {"label": "escape-idle", "frames": false, "steps": [{"do": "wait", "ms": 400}]}
+]

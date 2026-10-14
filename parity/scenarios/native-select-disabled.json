@@ -1,0 +1,4 @@
+[
+  { "label": "hover-disabled", "steps": [{ "do": "hover", "target": "[data-slot=native-select-wrapper]" }] },
+  { "label": "tab-skips-disabled", "steps": [{ "do": "mouse", "x": 0, "y": 0 }, { "do": "press", "key": "Tab" }] }
+]

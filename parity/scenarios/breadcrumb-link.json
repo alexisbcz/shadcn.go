@@ -1,0 +1,9 @@
+[
+  { "label": "hover-link-1", "steps": [{ "do": "hover", "target": "[data-slot=breadcrumb-link]", "nth": 0 }] },
+  { "label": "hover-link-2", "steps": [{ "do": "hover", "target": "[data-slot=breadcrumb-link]", "nth": 1 }] },
+  { "label": "hover-page", "steps": [{ "do": "hover", "target": "[data-slot=breadcrumb-page]" }] },
+  { "label": "tab-1", "steps": [{ "do": "mouse", "x": 0, "y": 0 }, { "do": "press", "key": "Tab" }] },
+  { "label": "tab-2", "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "tab-3", "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "shift-tab", "steps": [{ "do": "press", "key": "Shift+Tab" }] }
+]

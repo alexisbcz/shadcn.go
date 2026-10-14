@@ -1,0 +1,290 @@
+[
+ {
+  "label": "click-password",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=tabs-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "click-account",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=tabs-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "type-name",
+  "steps": [
+   {
+    "do": "click",
+    "target": "#tabs-demo-name"
+   },
+   {
+    "do": "type",
+    "text": " Jr"
+   }
+  ]
+ },
+ {
+  "label": "arrow-right-activates",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "[data-slot=tabs-trigger]",
+    "nth": 0
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "arrow-right-loop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "name-remounted-fresh",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   }
+  ]
+ },
+ {
+  "label": "arrow-left-loop",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "arrow-down-ignored",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "arrow-up-ignored",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowUp"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "home",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "end",
+  "steps": [
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "page-up",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageUp"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "page-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "PageDown"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "shift-arrow-ignored",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   }
+  ]
+ },
+ {
+  "label": "tab-to-panel",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-back",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-out",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-in-selected",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "space-select",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "enter-select",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "hover-trigger",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=tabs-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "right-click-ignored",
+  "reset": true,
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.querySelectorAll('[data-slot=tabs-trigger]')[1].dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, button: 2 }))"
+   }
+  ]
+ },
+ {
+  "label": "ctrl-click-ignored",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.querySelectorAll('[data-slot=tabs-trigger]')[1].dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true, button: 0, ctrlKey: true }))"
+   }
+  ]
+ },
+ {
+  "label": "tab-in-after-prevented-mousedown",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "mouse-away",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   }
+  ]
+ }
+]

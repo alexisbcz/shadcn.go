@@ -1,0 +1,9 @@
+[
+  { "label": "hover-create", "steps": [{ "do": "hover", "target": "[data-slot=button]", "nth": 0 }] },
+  { "label": "hover-import", "steps": [{ "do": "hover", "target": "[data-slot=button]", "nth": 1 }] },
+  { "label": "hover-learn-more", "steps": [{ "do": "hover", "target": "[data-slot=button]", "nth": 2 }] },
+  { "label": "tab-1", "steps": [{ "do": "mouse", "x": 0, "y": 0 }, { "do": "press", "key": "Tab" }] },
+  { "label": "tab-2", "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "tab-3", "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "press-button", "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 0 }] }
+]

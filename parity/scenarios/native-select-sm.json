@@ -1,0 +1,47 @@
+[
+ {
+  "label": "hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=native-select]"
+   }
+  ]
+ },
+ {
+  "label": "focus",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "arrow-down",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   }
+  ]
+ },
+ {
+  "label": "typeahead",
+  "steps": [
+   {
+    "do": "type",
+    "text": "m"
+   },
+   {
+    "do": "wait",
+    "ms": 1100
+   }
+  ]
+ }
+]

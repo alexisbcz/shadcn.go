@@ -1,0 +1,87 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-sm",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=alert-dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-media",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=alert-dialog-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "hover-action",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=alert-dialog-action]"
+   }
+  ]
+ },
+ {
+  "label": "click-action",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=alert-dialog-action]"
+   }
+  ]
+ },
+ {
+  "label": "click-action-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ }
+]

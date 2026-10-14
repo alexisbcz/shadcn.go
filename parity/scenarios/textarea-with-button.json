@@ -1,0 +1,72 @@
+[
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=textarea]"
+   },
+   {
+    "do": "type",
+    "text": "Hi"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "type",
+    "text": "Bye"
+   }
+  ]
+ },
+ {
+  "label": "tab-to-button",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-button",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "click-button",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "space-on-button",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab-back",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ }
+]

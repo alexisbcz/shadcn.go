@@ -1,0 +1,7 @@
+[
+  { "label": "hover-accept", "steps": [{ "do": "hover", "target": "[data-slot=button]" }] },
+  { "label": "hover-cancel", "steps": [{ "do": "hover", "target": "[data-slot=button]", "nth": 1 }] },
+  { "label": "tab-1", "steps": [{ "do": "mouse", "x": 0, "y": 0 }, { "do": "press", "key": "Tab" }] },
+  { "label": "tab-2", "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "click-cancel", "steps": [{ "do": "click", "target": "[data-slot=button]", "nth": 1 }] }
+]

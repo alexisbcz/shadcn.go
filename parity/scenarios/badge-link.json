@@ -1,0 +1,17 @@
+[
+  { "label": "hover-default", "steps": [{ "do": "hover", "target": "[data-slot=badge]", "nth": 0 }] },
+  { "label": "hover-secondary", "steps": [{ "do": "hover", "target": "[data-slot=badge]", "nth": 1 }] },
+  { "label": "hover-destructive", "steps": [{ "do": "hover", "target": "[data-slot=badge]", "nth": 2 }] },
+  { "label": "hover-outline", "steps": [{ "do": "hover", "target": "[data-slot=badge]", "nth": 3 }] },
+  { "label": "hover-ghost", "steps": [{ "do": "hover", "target": "[data-slot=badge]", "nth": 4 }] },
+  { "label": "hover-link", "steps": [{ "do": "hover", "target": "[data-slot=badge]", "nth": 5 }] },
+  { "label": "hover-invalid", "steps": [{ "do": "hover", "target": "[data-slot=badge]", "nth": 6 }] },
+  { "label": "tab-1", "steps": [{ "do": "mouse", "x": 0, "y": 0 }, { "do": "press", "key": "Tab" }] },
+  { "label": "tab-2", "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "tab-3", "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "tab-4", "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "tab-5", "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "tab-6", "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "shift-tab", "steps": [{ "do": "press", "key": "Shift+Tab" }] },
+  { "label": "focused-and-hovered", "steps": [{ "do": "hover", "target": "[data-slot=badge]", "nth": 4 }] }
+]

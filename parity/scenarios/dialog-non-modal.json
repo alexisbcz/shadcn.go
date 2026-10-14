@@ -1,0 +1,242 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "tab-1",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "tab-2",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "click-outside-button",
+  "steps": [
+   {
+    "do": "click",
+    "target": "button[data-variant=secondary]"
+   }
+  ]
+ },
+ {
+  "label": "click-outside-button-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "reopen-click",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "trigger-toggles-closed",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "trigger-toggles-closed-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-enter",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=dialog-trigger]",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-space",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=dialog-trigger]",
+    "key": " "
+   }
+  ]
+ },
+ {
+  "label": "focus-outside",
+  "steps": [
+   {
+    "do": "focus",
+    "target": "button[data-variant=secondary]"
+   }
+  ]
+ },
+ {
+  "label": "focus-outside-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "open-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "footer-close",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-footer] button:last-child"
+   }
+  ]
+ },
+ {
+  "label": "footer-close-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "v-open",
+  "reset": true,
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "v-click-title",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-title]"
+   }
+  ]
+ },
+ {
+  "label": "v-reopen-during-exit",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=dialog-trigger]"
+   }
+  ]
+ },
+ {
+  "label": "v-reopen-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "v-outside-pointer-eval",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(10, 10); const o = { bubbles: true, cancelable: true, composed: true, clientX: 10, clientY: 10, button: 0, buttons: 1, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('click', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "v-outside-pointer-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ }
+]

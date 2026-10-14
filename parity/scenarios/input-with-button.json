@@ -1,0 +1,82 @@
+[
+ {
+  "label": "type",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input]"
+   },
+   {
+    "do": "type",
+    "text": "me@example.com"
+   }
+  ]
+ },
+ {
+  "label": "tab-to-button",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "shift-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Shift+Tab"
+   }
+  ]
+ },
+ {
+  "label": "hover-button",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "click-button",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=button]"
+   }
+  ]
+ },
+ {
+  "label": "space-on-button",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "enter-on-button",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "enter-in-input",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=input]"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ }
+]

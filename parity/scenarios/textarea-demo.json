@@ -1,0 +1,9 @@
+[
+  { "label": "focus", "steps": [{ "do": "click", "target": "[data-slot=textarea]" }] },
+  { "label": "type", "steps": [{ "do": "type", "text": "Hello there" }] },
+  { "label": "grow-lines", "steps": [{ "do": "press", "key": "Enter" }, { "do": "type", "text": "second line" }, { "do": "press", "key": "Enter" }, { "do": "press", "key": "Enter" }, { "do": "type", "text": "fourth line" }] },
+  { "label": "wrap", "steps": [{ "do": "type", "text": " and a very long sentence that keeps going and going until it has to wrap onto another line of the textarea" }] },
+  { "label": "shrink", "steps": [{ "do": "press", "key": "ControlOrMeta+a" }, { "do": "press", "key": "Backspace" }] },
+  { "label": "blur", "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "invalid", "reset": true, "steps": [{ "do": "eval", "js": "document.querySelector('[data-slot=textarea]').setAttribute('aria-invalid','true')" }, { "do": "focus", "target": "[data-slot=textarea]" }] }
+]

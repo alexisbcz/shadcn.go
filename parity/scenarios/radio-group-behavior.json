@@ -1,0 +1,230 @@
+[
+ {
+  "label": "tab-in-checked",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "arrow-right-skips-disabled-loops",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', code: 'ArrowRight', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowRight', code: 'ArrowRight', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "arrow-down-ignored-horizontal",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', code: 'ArrowDown', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowDown', code: 'ArrowDown', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "arrow-left-loop",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', code: 'ArrowLeft', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft', code: 'ArrowLeft', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "space-on-checked",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Space"
+   }
+  ]
+ },
+ {
+  "label": "enter-ignored",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "click-label-free",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=label]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "click-disabled-ignored",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.querySelectorAll('[data-slot=radio-group-item]')[2].click()"
+   }
+  ]
+ },
+ {
+  "label": "tab-into-rtl-first",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "rtl-arrow-left-next",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', code: 'ArrowLeft', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft', code: 'ArrowLeft', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "rtl-arrow-left-no-loop",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', code: 'ArrowLeft', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowLeft', code: 'ArrowLeft', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "rtl-arrow-right-prev",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', code: 'ArrowRight', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowRight', code: 'ArrowRight', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "rtl-arrow-up-no-loop",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', code: 'ArrowUp', bubbles: true, cancelable: true }))"
+   },
+   {
+    "do": "wait",
+    "ms": 50
+   },
+   {
+    "do": "eval",
+    "js": "document.activeElement.dispatchEvent(new KeyboardEvent('keyup', { key: 'ArrowUp', code: 'ArrowUp', bubbles: true, cancelable: true }))"
+   }
+  ]
+ },
+ {
+  "label": "tab-skips-disabled-group",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "click-disabled-group-ignored",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "document.querySelectorAll('[data-slot=radio-group-item]')[5].click()"
+   }
+  ]
+ },
+ {
+  "label": "click-rtl-second",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=radio-group-item]",
+    "nth": 4
+   }
+  ]
+ },
+ {
+  "label": "hover-item",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=radio-group-item]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "mouse-away",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 1000,
+    "y": 700
+   }
+  ]
+ }
+]

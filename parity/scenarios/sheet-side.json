@@ -1,0 +1,628 @@
+[
+ {
+  "label": "start-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "top-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "top-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "top-hover-x",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sheet-content] > button:not([data-slot])"
+   }
+  ]
+ },
+ {
+  "label": "top-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "top-escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "top-open-enter",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 0,
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "top-close-x-pre-hover",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sheet-content] > button:not([data-slot])"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "top-close-x",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-content] > button:not([data-slot])"
+   }
+  ]
+ },
+ {
+  "label": "top-close-x-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 760
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "top-open-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "top-outside",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(512, 700); const o = { bubbles: true, cancelable: true, composed: true, clientX: 512, clientY: 700, button: 0, buttons: 1, ctrlKey: false, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('click', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "top-outside-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "top-open-3",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 0
+   }
+  ]
+ },
+ {
+  "label": "top-save-close",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-close]"
+   }
+  ]
+ },
+ {
+  "label": "top-save-close-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "right-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "right-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "right-hover-x",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sheet-content] > button:not([data-slot])"
+   }
+  ]
+ },
+ {
+  "label": "right-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "right-escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "right-open-enter",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 1,
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "right-close-x-pre-hover",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sheet-content] > button:not([data-slot])"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "right-close-x",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-content] > button:not([data-slot])"
+   }
+  ]
+ },
+ {
+  "label": "right-close-x-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 760
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "right-open-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "right-outside",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(10, 384); const o = { bubbles: true, cancelable: true, composed: true, clientX: 10, clientY: 384, button: 0, buttons: 1, ctrlKey: false, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('click', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "right-outside-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "right-open-3",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 1
+   }
+  ]
+ },
+ {
+  "label": "right-save-close",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-close]"
+   }
+  ]
+ },
+ {
+  "label": "right-save-close-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "bottom-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "bottom-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "bottom-hover-x",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sheet-content] > button:not([data-slot])"
+   }
+  ]
+ },
+ {
+  "label": "bottom-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "bottom-escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "bottom-open-enter",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 2,
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "bottom-close-x-pre-hover",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sheet-content] > button:not([data-slot])"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "bottom-close-x",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-content] > button:not([data-slot])"
+   }
+  ]
+ },
+ {
+  "label": "bottom-close-x-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 760
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "bottom-open-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "bottom-outside",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(512, 10); const o = { bubbles: true, cancelable: true, composed: true, clientX: 512, clientY: 10, button: 0, buttons: 1, ctrlKey: false, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('click', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "bottom-outside-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "bottom-open-3",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 2
+   }
+  ]
+ },
+ {
+  "label": "bottom-save-close",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-close]"
+   }
+  ]
+ },
+ {
+  "label": "bottom-save-close-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "left-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "left-tab",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Tab"
+   }
+  ]
+ },
+ {
+  "label": "left-hover-x",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sheet-content] > button:not([data-slot])"
+   }
+  ]
+ },
+ {
+  "label": "left-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "left-escape-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "left-open-enter",
+  "steps": [
+   {
+    "do": "press",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 3,
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "left-close-x-pre-hover",
+  "frames": false,
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=sheet-content] > button:not([data-slot])"
+   },
+   {
+    "do": "wait",
+    "ms": 300
+   }
+  ]
+ },
+ {
+  "label": "left-close-x",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-content] > button:not([data-slot])"
+   }
+  ]
+ },
+ {
+  "label": "left-close-x-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 760
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "left-open-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "left-outside",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const el = document.elementFromPoint(1000, 384); const o = { bubbles: true, cancelable: true, composed: true, clientX: 1000, clientY: 384, button: 0, buttons: 1, ctrlKey: false, pointerType: 'mouse', isPrimary: true, pointerId: 1 }; el.dispatchEvent(new PointerEvent('pointerdown', o)); el.dispatchEvent(new MouseEvent('mousedown', o)); el.dispatchEvent(new PointerEvent('pointerup', o)); el.dispatchEvent(new MouseEvent('mouseup', o)); el.dispatchEvent(new MouseEvent('click', o)); })()"
+   }
+  ]
+ },
+ {
+  "label": "left-outside-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
+  "label": "left-open-3",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-trigger]",
+    "nth": 3
+   }
+  ]
+ },
+ {
+  "label": "left-save-close",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sheet-close]"
+   }
+  ]
+ },
+ {
+  "label": "left-save-close-idle",
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ }
+]

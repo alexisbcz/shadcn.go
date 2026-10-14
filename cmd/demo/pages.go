@@ -5,8 +5,11 @@ import (
 	"net/mail"
 	"strings"
 
-	"shadcn.go/components/icons"
-	"shadcn.go/components/ui"
+	"shadcn.go/components/icons/lucide"
+	"shadcn.go/components/icons/tabler"
+	"shadcn.go/components/lib"
+	"shadcn.go/components/ui/button"
+	"shadcn.go/components/ui/spinner"
 	h "shadcn.go/libhtml"
 	"shadcn.go/libhtml/csrf"
 	"shadcn.go/libhtml/secure"
@@ -50,10 +53,6 @@ func example(title, description string, children ...any) *h.Element {
 	)
 }
 
-// spinner mirrors shadcn's Spinner, used by the "Loading" example.
-func spinner(children ...any) *h.Element {
-	return icons.LoaderCircle(h.Role("status"), h.Aria("label", "Loading"), h.Class("size-4 animate-spin"), h.Group(children...))
-}
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("name")
@@ -64,48 +63,48 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 				h.H1(h.Class("text-3xl font-bold tracking-tight"), "Button"),
 				h.P(h.Class("text-muted-foreground"), "Displays a button or a component that looks like a button. Rendered in Go with libhtml."),
 			),
-			ui.Button(ui.ButtonVariantOutline, ui.ButtonSizeSm, h.Data("theme-toggle", ""), h.Type("button"), "Toggle theme"),
+			button.Button(button.VariantOutline, button.SizeSm, h.Data("theme-toggle", ""), h.Type("button"), "Toggle theme"),
 		),
 
 		example("Demo", "",
-			ui.Button(ui.ButtonVariantOutline, "Button"),
-			ui.Button(ui.ButtonVariantOutline, ui.ButtonSizeIcon, h.Aria("label", "Submit"), icons.ArrowUp()),
+			button.Button(button.VariantOutline, "Button"),
+			button.Button(button.VariantOutline, button.SizeIcon, h.Aria("label", "Submit"), lucide.ArrowUp()),
 		),
 		example("Variants", "",
-			h.Map(ui.ButtonVariantValues, func(v ui.ButtonVariant) h.Node {
-				return ui.Button(v, strings.ToUpper(string(v[:1]))+string(v[1:]))
+			h.Map(button.VariantValues, func(v button.Variant) h.Node {
+				return button.Button(v, strings.ToUpper(string(v[:1]))+string(v[1:]))
 			}),
 		),
 		example("Size", "",
 			h.Div(h.Class("flex flex-col items-start gap-8 sm:flex-row"),
 				h.Div(h.Class("flex items-start gap-2"),
-					ui.Button(ui.ButtonSizeSm, ui.ButtonVariantOutline, "Small"),
-					ui.Button(ui.ButtonSizeIconSm, h.Aria("label", "Submit"), ui.ButtonVariantOutline, icons.ArrowUpRight()),
+					button.Button(button.SizeSm, button.VariantOutline, "Small"),
+					button.Button(button.SizeIconSm, h.Aria("label", "Submit"), button.VariantOutline, lucide.ArrowUpRight()),
 				),
 				h.Div(h.Class("flex items-start gap-2"),
-					ui.Button(ui.ButtonVariantOutline, "Default"),
-					ui.Button(ui.ButtonSizeIcon, h.Aria("label", "Submit"), ui.ButtonVariantOutline, icons.ArrowUpRight()),
+					button.Button(button.VariantOutline, "Default"),
+					button.Button(button.SizeIcon, h.Aria("label", "Submit"), button.VariantOutline, lucide.ArrowUpRight()),
 				),
 				h.Div(h.Class("flex items-start gap-2"),
-					ui.Button(ui.ButtonVariantOutline, ui.ButtonSizeLg, "Large"),
-					ui.Button(ui.ButtonSizeIconLg, h.Aria("label", "Submit"), ui.ButtonVariantOutline, icons.ArrowUpRight()),
+					button.Button(button.VariantOutline, button.SizeLg, "Large"),
+					button.Button(button.SizeIconLg, h.Aria("label", "Submit"), button.VariantOutline, lucide.ArrowUpRight()),
 				),
 			),
 		),
 		example("Icon", "",
-			ui.Button(ui.ButtonVariantOutline, ui.ButtonSizeIcon, h.Aria("label", "Upgrade"), icons.CircleFadingArrowUp()),
+			button.Button(button.VariantOutline, button.SizeIcon, h.Aria("label", "Upgrade"), lucide.CircleFadingArrowUp()),
 		),
 		example("With Icon", "",
-			ui.Button(ui.ButtonVariantOutline, ui.ButtonSizeSm, icons.GitBranch(), " New Branch"),
+			button.Button(button.VariantOutline, button.SizeSm, tabler.IconGitBranch(), " New Branch"),
 		),
 		example("Rounded", "A className override: twmerge replaces rounded-md with rounded-full.",
-			ui.Button(ui.ButtonVariantOutline, ui.ButtonSizeIcon, h.Class("rounded-full"), h.Aria("label", "Up"), icons.ArrowUp()),
+			button.Button(button.VariantOutline, button.SizeIcon, h.Class("rounded-full"), h.Aria("label", "Up"), lucide.ArrowUp()),
 		),
 		example("Loading", "",
-			ui.Button(ui.ButtonSizeSm, ui.ButtonVariantOutline, h.Disabled(), spinner(), "Submit"),
+			button.Button(button.SizeSm, button.VariantOutline, h.Disabled(), spinner.Spinner(), "Submit"),
 		),
 		example("As Child", "The button's classes and attributes are merged into the link.",
-			ui.Button(ui.AsChild, h.A(h.Href("#login"), "Login")),
+			button.Button(lib.AsChild, h.A(h.Href("#login"), "Login")),
 		),
 
 		example("Security: CSRF", "This form carries a masked CSRF token. Remove it in the devtools and the POST is rejected with 403.",
@@ -114,13 +113,13 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 				h.Input(h.Type("email"), h.Name("email"), h.Required(), h.Placeholder("you@example.com"),
 					h.Aria("label", "Email"),
 					h.Class("h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50")),
-				ui.Button(h.Type("submit"), "Subscribe"),
+				button.Button(h.Type("submit"), "Subscribe"),
 			),
 		),
 		example("Security: XSS", "Whatever you put in ?name= is escaped. Try the link.",
 			h.Div(h.Class("flex flex-col items-center gap-3 text-sm"),
 				h.P("Hello, ", h.Code(h.Class("rounded bg-muted px-1 py-0.5"), h.IfElse(name != "", name, "stranger")), "!"),
-				ui.Button(ui.AsChild, ui.ButtonVariantLink,
+				button.Button(lib.AsChild, button.VariantLink,
 					h.A(h.Href(`/?name=<img src=x onerror=alert(1)><script>alert(1)</script>`), "Inject a script tag"),
 				),
 			),
@@ -146,7 +145,7 @@ func handleSubscribe(w http.ResponseWriter, r *http.Request) {
 					return h.P(h.Class("text-lg text-destructive"), "That email address is not valid.")
 				},
 			),
-			ui.Button(ui.AsChild, ui.ButtonVariantOutline, h.A(h.Href("/"), "Back")),
+			button.Button(lib.AsChild, button.VariantOutline, h.A(h.Href("/"), "Back")),
 		),
 	)
 	status := http.StatusOK

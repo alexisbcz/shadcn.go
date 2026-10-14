@@ -1,0 +1,8 @@
+[
+  { "label": "hover-header-row", "steps": [{ "do": "hover", "target": "[data-slot=table-header] [data-slot=table-row]" }] },
+  { "label": "hover-body-row-1", "steps": [{ "do": "hover", "target": "[data-slot=table-body] [data-slot=table-row]" }] },
+  { "label": "hover-body-row-4", "steps": [{ "do": "hover", "target": "[data-slot=table-body] [data-slot=table-row]", "nth": 3 }] },
+  { "label": "hover-last-row", "steps": [{ "do": "hover", "target": "[data-slot=table-body] [data-slot=table-row]", "nth": 6 }] },
+  { "label": "hover-footer", "steps": [{ "do": "hover", "target": "[data-slot=table-footer] [data-slot=table-row]" }] },
+  { "label": "selected-row", "steps": [{ "do": "eval", "js": "document.querySelectorAll('[data-slot=table-body] [data-slot=table-row]')[1].setAttribute('data-state','selected')" }, { "do": "mouse", "x": 0, "y": 0 }] }
+]

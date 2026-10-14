@@ -1,0 +1,10 @@
+[
+  { "label": "focus", "steps": [{ "do": "click", "target": "[data-slot=input]" }] },
+  { "label": "type", "steps": [{ "do": "type", "text": "hello@example.com" }] },
+  { "label": "backspace", "steps": [{ "do": "press", "key": "Backspace" }, { "do": "press", "key": "Backspace" }] },
+  { "label": "arrows", "steps": [{ "do": "press", "key": "ArrowLeft" }, { "do": "press", "key": "Home" }, { "do": "press", "key": "End" }] },
+  { "label": "select-all", "steps": [{ "do": "press", "key": "ControlOrMeta+a" }] },
+  { "label": "overflow", "steps": [{ "do": "press", "key": "End" }, { "do": "type", "text": "-a-very-long-address-that-overflows-the-field-width@example.com" }] },
+  { "label": "blur", "steps": [{ "do": "press", "key": "Tab" }] },
+  { "label": "invalid", "reset": true, "steps": [{ "do": "eval", "js": "document.querySelector('[data-slot=input]').setAttribute('aria-invalid','true')" }, { "do": "focus", "target": "[data-slot=input]" }] }
+]

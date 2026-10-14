@@ -1,0 +1,97 @@
+[
+ {
+  "label": "hover",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=resizable-handle]"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "focus",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "wait",
+    "ms": 150
+   },
+   {
+    "do": "press",
+    "key": "Tab"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "keys",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowLeft"
+   },
+   {
+    "do": "press",
+    "key": "Home"
+   },
+   {
+    "do": "press",
+    "key": "End"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "drag",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelector('[data-slot=resizable-handle]'); const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 0, clientY: r.top + r.height / 2 }; s.dispatchEvent(new PointerEvent('pointerdown', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelector('[data-slot=resizable-handle]'); const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 1, clientX: r.left + r.width / 2 + 60, clientY: r.top + r.height / 2 }; s.dispatchEvent(new PointerEvent('pointermove', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelector('[data-slot=resizable-handle]'); const r = s.getBoundingClientRect(); const o = { bubbles: true, cancelable: true, composed: true, pointerType: 'mouse', isPrimary: true, pointerId: 1, button: 0, buttons: 0, clientX: r.left + r.width / 2 + 60, clientY: r.top + r.height / 2 }; s.dispatchEvent(new PointerEvent('pointerup', o)) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ },
+ {
+  "label": "dblclick",
+  "steps": [
+   {
+    "do": "eval",
+    "js": "(() => { const s = document.querySelector('[data-slot=resizable-handle]'); const r = s.getBoundingClientRect(); s.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true, composed: true, detail: 2, clientX: r.left + r.width / 2, clientY: r.top + r.height / 2 })) })()"
+   },
+   {
+    "do": "eval",
+    "js": "new Promise((done) => { const b = document.body; const had = b.hasAttribute('style'); const raf = (f) => requestAnimationFrame(() => requestAnimationFrame(f)); b.style.setProperty('will-change', 'transform'); raf(() => { b.style.removeProperty('will-change'); if (!had) b.removeAttribute('style'); raf(done) }) })"
+   }
+  ]
+ }
+]
