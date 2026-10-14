@@ -1,0 +1,3 @@
+[
+  { "label": "replay", "frames": false, "steps": [{ "do": "click", "target": "[data-slot=button]" }] }
+]

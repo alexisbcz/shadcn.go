@@ -1,0 +1,4 @@
+[
+  { "label": "scrolled-middle", "frames": false, "steps": [{ "do": "scroll", "y": 150, "target": ".scroll-fade" }] },
+  { "label": "scrolled-end", "frames": false, "steps": [{ "do": "scroll", "y": 2000, "target": ".scroll-fade" }] }
+]
