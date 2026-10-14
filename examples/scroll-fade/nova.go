@@ -22,8 +22,10 @@ func init() {
 		nova("scroll-fade-horizontal", func() h.Node {
 			return frame("scroll-fade-x scrollbar-none overflow-x-auto", tags("rounded-lg px-3", horizontalTags))
 		}),
+		// The reference serves this one without w-full (its registry build
+		// output differs from examples/radix/scroll-fade-none.tsx).
 		nova("scroll-fade-none", func() h.Node {
-			return column("w-full ",
+			return column("",
 				labeled("h-48 scroll-fade scrollbar-none overflow-y-auto", "scroll-fade", numbered(8)),
 				labeled("h-48 scroll-fade scrollbar-none overflow-y-auto scroll-fade-none", "scroll-fade scroll-fade-none", numbered(8)),
 			)
