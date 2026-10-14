@@ -25,8 +25,8 @@ var (
 )
 
 // styledElement resolves the alert in style st.
-func (b *Builder) styledElement(st style.Style) *h.Element {
-	class := lib.Cn(baseVariants.Classes(st, cva.Selection{"variant": string(b.variant)}))
+func (b *Builder) styledElement(st style.Style, w io.Writer) *h.Element {
+	class := scoped.Class(w, lib.Cn(baseVariants.Classes(st, cva.Selection{"variant": string(b.variant)})))
 	base := h.Div(h.Data("slot", "alert"), h.Role("alert"), h.Class(class))
 	return h.Spread(base, b.Elem(), lib.Cn)
 }
@@ -38,7 +38,7 @@ func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 // scope (style.Scope), if any.
 func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	if st, ok := style.FromWriter(w); ok {
-		return b.styledElement(st)
+		return b.styledElement(st, w)
 	}
 	return b.Element()
 }

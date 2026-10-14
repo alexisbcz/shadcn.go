@@ -6,6 +6,7 @@ import (
 
 	"shadcn.go/components/lib"
 	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/scoped"
 	"shadcn.go/cva"
 	h "shadcn.go/libhtml"
 )
@@ -38,7 +39,7 @@ func StyleVariants(st style.Style, variant Variant, className ...string) string 
 // scope (style.Scope), if any.
 func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	if st, ok := style.FromWriter(w); ok {
-		return b.element(StyleVariants(st, b.variant), w)
+		return b.element(scoped.Class(w, StyleVariants(st, b.variant)), w)
 	}
 	return b.element(Variants(b.variant), w)
 }

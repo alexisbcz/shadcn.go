@@ -5,6 +5,7 @@ import (
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/scoped"
 	h "shadcn.go/libhtml"
 )
 
@@ -18,17 +19,17 @@ var (
 
 // styledElement resolves the component in style st. Unlike new-york-v4,
 // the className goes to the wrapper and the other props to the <select>.
-func (b *Builder) styledElement(st style.Style) *h.Element {
+func (b *Builder) styledElement(st style.Style, w io.Writer) *h.Element {
 	props := b.Elem()
 	sel := h.Spread(h.Select(h.Data("slot", "native-select"), h.Data("size", string(b.size))), props.Clone().SetClass(""), nil)
-	sel.SetClass(baseSelect.Class(st))
+	sel.SetClass(scoped.Class(w, baseSelect.Class(st)))
 	return h.Div(
-		h.Class(baseWrapper.Class(st, props.ClassName())),
+		h.Class(baseWrapper.Class(st, props.ClassName())), // className is the user's: not mapped
 		h.Data("slot", "native-select-wrapper"),
 		h.Data("size", string(b.size)),
 		sel,
 		lucide.ChevronDown(
-			h.Class(baseIcon.Class(st)),
+			h.Class(scoped.Class(w, baseIcon.Class(st))),
 			h.Aria("hidden", "true"),
 			h.Data("slot", "native-select-icon"),
 		),
@@ -42,7 +43,7 @@ func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 // scope (style.Scope), if any.
 func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	if st, ok := style.FromWriter(w); ok {
-		return b.styledElement(st)
+		return b.styledElement(st, w)
 	}
 	return b.Element()
 }

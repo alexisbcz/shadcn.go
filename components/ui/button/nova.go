@@ -5,6 +5,7 @@ import (
 
 	"shadcn.go/components/lib"
 	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/scoped"
 	"shadcn.go/cva"
 	h "shadcn.go/libhtml"
 )
@@ -58,7 +59,7 @@ func (b *Builder) ElementIn(w io.Writer) *h.Element {
 		return b.element(buttonDefaults(b.variant, b.size), w)
 	}
 	return b.element(h.Button(
-		h.Class(StyleVariants(st, b.variant, b.size)),
+		h.Class(scoped.Class(w, StyleVariants(st, b.variant, b.size))),
 		h.Data("slot", "button"),
 		h.Data("variant", string(b.variant)),
 		h.Data("size", string(b.size)),

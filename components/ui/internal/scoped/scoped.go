@@ -17,9 +17,10 @@ import (
 
 // Node renders def(), or alt(st) inside a style.Scope(st, ...).
 type Node struct {
-	def   func() *h.Element
-	alt   func(style.Style) *h.Element
-	props *h.Element
+	def     func() *h.Element
+	alt     func(style.Style) *h.Element
+	props   *h.Element
+	altBase func(style.Style) *h.Element // Spread nodes
 }
 
 // Props returns the user props element of a Spread node (nil otherwise),
@@ -42,10 +43,31 @@ func (n *Node) Element() *h.Element { return n.def() }
 
 // ElementIn returns the element in the style in scope in w, if any.
 func (n *Node) ElementIn(w io.Writer) *h.Element {
-	if st, ok := style.FromWriter(w); ok {
-		return n.alt(st)
+	st, ok := style.FromWriter(w)
+	if !ok {
+		return n.def()
 	}
-	return n.def()
+	if n.altBase != nil {
+		return h.Spread(Dir(w, n.altBase(st)), n.props, lib.Cn)
+	}
+	return n.alt(st)
+}
+
+// Class returns class, mapped to the ui-rtl variant (style.RTLClass)
+// inside style.ScopeRTL.
+func Class(w io.Writer, class string) string {
+	if style.RTLFromWriter(w) {
+		return style.RTLClass(class)
+	}
+	return class
+}
+
+// Dir returns el with its class mapped by Class (a copy when it changes).
+func Dir(w io.Writer, el *h.Element) *h.Element {
+	if !style.RTLFromWriter(w) {
+		return el
+	}
+	return el.Clone().SetClass(style.RTLClass(el.ClassName()))
 }
 
 // Render renders the node in the style in scope, if any.
@@ -59,6 +81,7 @@ func Spread(base *h.Element, props *h.Element, alt func(style.Style) *h.Element)
 		func(st style.Style) *h.Element { return h.Spread(alt(st), props, lib.Cn) },
 	)
 	n.props = props
+	n.altBase = alt
 	return n
 }
 
