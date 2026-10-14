@@ -182,3 +182,14 @@ func Lookup(w io.Writer, key any) (any, bool) {
 	}
 	return nil, false
 }
+
+// Children returns the children of a WithValue node, so code that walks a
+// component tree before rendering can descend into it.
+func (s scopeNode) Children() []any { return s.children }
+
+// Scoped is implemented by WithValue nodes: they render their Children in a
+// scope. Tree walkers use it to descend into them.
+type Scoped interface {
+	Node
+	Children() []any
+}

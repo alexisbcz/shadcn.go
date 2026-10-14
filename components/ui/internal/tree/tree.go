@@ -45,6 +45,10 @@ func walk(c any, visit func(n any) bool) {
 	case []any:
 		Walk(v, visit)
 		return
+	case h.Scoped:
+		// WithValue / style.Scope: no element of its own.
+		Walk(v.Children(), visit)
+		return
 	}
 	if !visit(c) {
 		return

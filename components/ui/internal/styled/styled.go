@@ -22,7 +22,7 @@ type Node struct {
 	props  *h.Element
 	spread bool // a Spread node: alt(st, nil) is its RTL rendering
 	def    func(props *h.Element) h.Node
-	alt   func(st style.Style, props *h.Element) h.Node
+	alt    func(st style.Style, props *h.Element) h.Node
 }
 
 // New returns a Node of fixed renderings. alt may return nil to fall back

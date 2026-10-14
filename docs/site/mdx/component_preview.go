@@ -1,6 +1,7 @@
 package mdx
 
 import (
+	"shadcn.go/components/ui/direction"
 	"strings"
 
 	"shadcn.go/cn"
@@ -64,6 +65,10 @@ func ComponentPreview(env *Env, _ *content.Context, props content.Props, _ []h.N
 	dir := "ltr"
 	if rtl {
 		dir = "rtl"
+		// Upstream wraps RTL previews in Radix's DirectionProvider
+		// (component-preview-tabs.tsx): direction-aware components below
+		// render dir="rtl" instead of their default dir="ltr".
+		preview = direction.Provider(direction.RTL, preview)
 	}
 	previewDiv := h.Div(h.Data("slot", "preview"), h.Attr("dir", dir),
 		h.Div(h.Data("align", align), h.Data("chromeless", chromeless),
