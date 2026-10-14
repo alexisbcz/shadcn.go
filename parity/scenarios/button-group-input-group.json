@@ -44,6 +44,25 @@
   ]
  },
  {
+  "label": "click-voice-off-again",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=tooltip-trigger]",
+    "nth": 0
+   },
+   {
+    "do": "mouse",
+    "x": 5,
+    "y": 5
+   },
+   {
+    "do": "wait",
+    "ms": 400
+   }
+  ]
+ },
+ {
   "label": "focus-input",
   "steps": [
    {
