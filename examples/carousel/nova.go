@@ -26,6 +26,7 @@ func init() {
 		nova("carousel-size", NovaSize),
 		nova("carousel-spacing", NovaSpacing),
 		nova("carousel-multiple", NovaMultiple),
+		nova("carousel-rtl", NovaRtl),
 	)
 }
 
@@ -106,4 +107,21 @@ func NovaMultiple() h.Node {
 		carousel.Previous(h.Class("hidden sm:inline-flex")),
 		carousel.Next(h.Class("hidden sm:inline-flex")),
 	)
+}
+
+// NovaRtl is examples/radix/carousel-rtl.tsx in its default language
+// (Arabic: right to left, Arabic-Indic numerals).
+func NovaRtl() h.Node {
+	numerals := []string{"١", "٢", "٣", "٤", "٥"}
+	items := make([]any, len(numerals))
+	for i, n := range numerals {
+		items[i] = carousel.Item(h.Div(h.Class("p-1"),
+			card.Card(h.Dir("rtl"), card.Content(h.Class(square), h.Span(h.Class("text-4xl font-semibold"), n))),
+		))
+	}
+	return style.ScopeRTL(carousel.Carousel(h.Dir("rtl"), h.Class("w-full max-w-[12rem] sm:max-w-xs"), carousel.Opts{Direction: "rtl"},
+		carousel.Content(items...),
+		carousel.Previous(),
+		carousel.Next(),
+	))
 }

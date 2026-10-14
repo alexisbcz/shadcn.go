@@ -246,8 +246,12 @@ func Content(children ...any) *ContentBuilder {
 }
 
 // Element resolves the content to the viewport <div>.
-func (b *ContentBuilder) Element() *h.Element {
-	cls := "-ml-4"
+func (b *ContentBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the content; inside style.ScopeRTL with the ui-rtl
+// classes.
+func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element {
+	cls := rtlIn(w, "-ml-4")
 	if orientationOf(b.ctx) == OrientationVertical {
 		cls = "-mt-4 flex-col"
 	}
@@ -257,7 +261,15 @@ func (b *ContentBuilder) Element() *h.Element {
 }
 
 // Render renders the content.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ContentBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// rtlIn maps a style's class to its ui-rtl variant inside style.ScopeRTL.
+func rtlIn(w io.Writer, class string) string {
+	if st, _ := style.FromWriter(w); st != "" && style.RTLFromWriter(w) {
+		return style.RTLClass(class)
+	}
+	return class
+}
 
 // ItemBuilder is returned by Item.
 type ItemBuilder struct {
@@ -273,8 +285,12 @@ func Item(children ...any) *ItemBuilder {
 }
 
 // Element resolves the item to its <div>.
-func (b *ItemBuilder) Element() *h.Element {
-	cls := "pl-4"
+func (b *ItemBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the item; inside style.ScopeRTL with the ui-rtl
+// classes.
+func (b *ItemBuilder) ElementIn(w io.Writer) *h.Element {
+	cls := rtlIn(w, "pl-4")
 	if orientationOf(b.ctx) == OrientationVertical {
 		cls = "pt-4"
 	}
@@ -284,7 +300,7 @@ func (b *ItemBuilder) Element() *h.Element {
 }
 
 // Render renders the item.
-func (b *ItemBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ItemBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // The classes of registry/bases/radix/ui/carousel.tsx, used inside a
 // style.Scope (see package style).
@@ -329,8 +345,8 @@ func navButton(w io.Writer, ns navStyle, sizeSet bool, ctx *context, props *h.El
 		if vert {
 			cls = ns.vertical
 		}
-		class = ns.site.Class(st, cls, props.ClassName())
-		icon = ns.icon(h.Class(stIcon.Class(st)))
+		class = ns.site.Class(st, rtlIn(w, cls), props.ClassName())
+		icon = ns.icon(h.Class(rtlIn(w, stIcon.Class(st))))
 		if !sizeSet {
 			size = button.SizeIconSm
 		}
