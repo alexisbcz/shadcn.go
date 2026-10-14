@@ -32,7 +32,7 @@ const defaultColorFormat = "hsl"
 
 type colorSwatch struct {
 	Name, ID, ClassName, Hex, RGB, HSL, Foreground, OKLCH, Var string
-	Scale                                                       int
+	Scale                                                      int
 }
 
 type colorPalette struct {

@@ -87,4 +87,3 @@ func examplesNav(pathname string) h.Node {
 var themeSelector = func(class string) h.Node {
 	return h.Div(h.Class(lib.Cn("flex items-center gap-2", class)))
 }
-
