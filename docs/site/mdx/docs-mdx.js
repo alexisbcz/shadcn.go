@@ -114,6 +114,8 @@ function checkIcon(like) {
 }
 
 function codeFor(button) {
+  const value = button.getAttribute("data-docs-value")
+  if (value !== null) return value
   const scope = button.parentElement
   if (!scope) return ""
   const active = scope.querySelector('[role="tabpanel"][data-state="active"] code')

@@ -49,9 +49,16 @@ func ComponentPreview(env *Env, _ *content.Context, props content.Props, _ []h.N
 	rtl := props.String("direction") == "rtl"
 
 	var preview h.Node
-	if ex, ok := LookupExample(name); ok {
+	if styleName == "new-york-v4" {
+		// The legacy style: the Go example as is (new-york-v4 is the Go
+		// components' default style).
+		if ex, ok := registry.Get(name); ok {
+			preview = ex.Render(env.Request)
+		}
+	} else if ex, ok := LookupExample(name); ok {
 		preview = ex(env)
-	} else {
+	}
+	if preview == nil {
 		preview = h.P(h.Class("text-sm text-muted-foreground"), "Example ", h.Code(name), " is not ported yet.")
 	}
 	dir := "ltr"

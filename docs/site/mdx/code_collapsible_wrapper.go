@@ -21,7 +21,10 @@ func codeCollapsibleWrapper(class string, children ...any) h.Node {
 		return el.Attr("type", "button").Aria("controls", id).Aria("expanded", "false").
 			Data("state", "closed").Data("slot", "collapsible-trigger")
 	}
-	return h.Div(h.Data("state", "closed"), h.Data("slot", "collapsible"), h.Data("docs-collapsible", ""),
+	// The root's data-slot is not "collapsible" (upstream's): the Go
+	// collapsible behavior would take it over and unmount the content,
+	// which CodeCollapsibleWrapper force-mounts.
+	return h.Div(h.Data("state", "closed"), h.Data("slot", "code-collapsible"), h.Data("docs-collapsible", ""),
 		h.Class(cn.Cn("group/collapsible relative md:-mx-1", class)),
 		trigger(h.Div(h.Class("absolute top-1.5 right-9 z-10 flex items-center"),
 			button.Button("Expand").Variant(button.VariantGhost).Size(button.SizeSm).

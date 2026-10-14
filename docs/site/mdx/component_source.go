@@ -75,7 +75,7 @@ func componentCode(code, lang, title string) h.Node {
 			Children(content.LanguageIcon(lang), title))
 	}
 	return fig.Children(
-		copyButton("", ""),
+		copyButton("", "", code),
 		h.Div(h.Data("not-typeset", "true"), highlightCode(code, lang)),
 	)
 }

@@ -1,11 +1,30 @@
 package mdx
 
-// Alert, AlertTitle, AlertDescription: new-york-v4 alert.
-//
-// Placeholder: content.Placeholder (an <mdx-component> element with the
-// props). Replace with the real rendering.
+import (
+	"shadcn.go/components/ui/alert"
+	"shadcn.go/docs/content"
+	h "shadcn.go/libhtml"
+)
+
+// Alert, AlertTitle, AlertDescription: the new-york-v4 alert.
+func Alert(_ *Env, _ *content.Context, props content.Props, children []h.Node) (h.Node, error) {
+	b := alert.Alert(nodes(children)...).Class(className(props))
+	if v := props.String("variant"); v != "" {
+		b.Variant(alert.Variant(v))
+	}
+	return b, nil
+}
+
+func AlertTitle(_ *Env, _ *content.Context, props content.Props, children []h.Node) (h.Node, error) {
+	return alert.Title(append([]any{h.Class(className(props))}, nodes(children)...)...), nil
+}
+
+func AlertDescription(_ *Env, _ *content.Context, props content.Props, children []h.Node) (h.Node, error) {
+	return alert.Description(append([]any{h.Class(className(props))}, nodes(children)...)...), nil
+}
+
 func init() {
-	Register("Alert", placeholder("Alert"))
-	Register("AlertTitle", placeholder("AlertTitle"))
-	Register("AlertDescription", placeholder("AlertDescription"))
+	Register("Alert", Alert)
+	Register("AlertTitle", AlertTitle)
+	Register("AlertDescription", AlertDescription)
 }
