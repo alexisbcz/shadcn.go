@@ -139,7 +139,10 @@ func Responsive() h.Node {
 		breadcrumb.Separator(),
 		breadcrumb.Item(
 			breadcrumb.Link(lib.AsChild, h.Class("max-w-20 truncate md:max-w-none"), h.A(h.Href("#"), "Data Fetching")),
-			breadcrumb.Separator(),
+			// Upstream nests a BreadcrumbSeparator (an <li>) inside this item;
+			// React keeps it nested, but the HTML parser would hoist an <li>
+			// out, so the nested separator is a <span> with the same layout.
+			h.Span(h.Data("slot", "breadcrumb-separator"), h.Role("presentation"), h.Aria("hidden", "true"), h.Class("[&>svg]:size-3.5"), lucide.ChevronRight()),
 		),
 		breadcrumb.Item(breadcrumb.Page(h.Class("max-w-20 truncate md:max-w-none"), "Caching and Revalidating")),
 	))
