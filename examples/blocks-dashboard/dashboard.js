@@ -48,6 +48,9 @@ define("example-dashboard-chart", {
         spec.props.data = filterRange(all, range)
       })
     }
+    // data-dashboard-chart names the initial range of examples/dashboard,
+    // which has no isMobile effect; empty is dashboard-01 (90 days).
+    const initial = card.getAttribute("data-dashboard-chart")
     let range = "90d"
     const renderToggles = () => {
       for (const it of items()) {
@@ -81,6 +84,11 @@ define("example-dashboard-chart", {
       else setRange(event.detail?.value ?? "")
     }
     action.addEventListener("shadcn:value-change", onChange)
+    if (initial) {
+      range = initial
+      apply(range)
+      return () => action.removeEventListener("shadcn:value-change", onChange)
+    }
     // useIsMobile: on a narrow viewport the range becomes the last 7 days.
     const mql = window.matchMedia("(max-width: 767px)")
     const onMedia = () => {

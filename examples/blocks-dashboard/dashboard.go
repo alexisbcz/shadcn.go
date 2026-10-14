@@ -62,16 +62,22 @@ func nonce(r *http.Request) chart.Nonce { return chart.Nonce(secure.Nonce(r)) }
 func Page(r *http.Request) h.Node {
 	return sidebar.Provider(
 		h.Style("--sidebar-width: calc(var(--spacing) * 72); --header-height: calc(var(--spacing) * 12)"),
-		appSidebar(),
-		sidebar.Inset(
-			siteHeader(),
-			h.Div(h.Class("flex flex-1 flex-col"),
-				h.Div(h.Class("@container/main flex flex-1 flex-col gap-2"),
-					h.Div(h.Class("flex flex-col gap-4 py-4 md:gap-6 md:py-6"),
-						sectionCards(),
-						h.Div(h.Class("px-4 lg:px-6"), chartAreaInteractive(r)),
-						dataTable(r, items),
-					),
+		appSidebar(false),
+		inset(r, false),
+	)
+}
+
+// inset is the page's SidebarInset; example selects the variant of
+// app/(app)/examples/dashboard.
+func inset(r *http.Request, example bool) h.Node {
+	return sidebar.Inset(
+		siteHeader(example),
+		h.Div(h.Class("flex flex-1 flex-col"),
+			h.Div(h.Class("@container/main flex flex-1 flex-col gap-2"),
+				h.Div(h.Class("flex flex-col gap-4 py-4 md:gap-6 md:py-6"),
+					sectionCards(example),
+					h.Div(h.Class("px-4 lg:px-6"), chartAreaInteractive(r, example)),
+					dataTable(r, items),
 				),
 			),
 		),
@@ -85,7 +91,7 @@ type navItem struct {
 	icon  func(...any) *h.Element
 }
 
-func appSidebar() h.Node {
+func appSidebar(example bool) h.Node {
 	navMain := []navItem{
 		{"Dashboard", tabler.IconDashboard},
 		{"Lifecycle", tabler.IconListDetails},
@@ -103,8 +109,14 @@ func appSidebar() h.Node {
 		{"Get Help", tabler.IconHelp},
 		{"Search", tabler.IconSearch},
 	}
-	return sidebar.Sidebar(sidebar.CollapsibleOffcanvas, sidebar.VariantInset,
-		sidebar.Header(
+	props := []any{sidebar.CollapsibleOffcanvas, sidebar.VariantInset}
+	headerClass := ""
+	if example {
+		props = []any{sidebar.CollapsibleNone, h.Class("h-auto border-r")}
+		headerClass = "border-b"
+	}
+	return sidebar.Sidebar(h.Group(props...),
+		sidebar.Header(h.Class(headerClass),
 			sidebar.Menu(sidebar.MenuItem(
 				sidebar.MenuButton(lib.AsChild, h.Class("data-[slot=sidebar-menu-button]:p-1.5!"),
 					h.A(h.Href("#"),
@@ -115,7 +127,7 @@ func appSidebar() h.Node {
 			)),
 		),
 		sidebar.Content(
-			navMainGroup(navMain),
+			navMainGroup(navMain, example),
 			navDocuments(documents),
 			navSecondaryGroup(navSecondary, h.Class("mt-auto")),
 		),
@@ -123,7 +135,17 @@ func appSidebar() h.Node {
 	)
 }
 
-func navMainGroup(items []navItem) h.Node {
+func navMainGroup(items []navItem, example bool) h.Node {
+	if example {
+		return sidebar.Group(
+			sidebar.GroupContent(
+				sidebar.GroupLabel("Home"),
+				sidebar.Menu(h.Map(items, func(it navItem) h.Node {
+					return sidebar.MenuItem(sidebar.MenuButton(sidebar.Tooltip(it.title), it.icon(), h.Span(it.title)))
+				})),
+			),
+		)
+	}
 	return sidebar.Group(
 		sidebar.GroupContent(h.Class("flex flex-col gap-2"),
 			sidebar.Menu(
@@ -232,7 +254,20 @@ func navUser() h.Node {
 
 // --- header and cards ----------------------------------------------------------------
 
-func siteHeader() h.Node {
+func siteHeader(example bool) h.Node {
+	if example {
+		return h.Header(h.Class("sticky top-0 z-10 flex h-(--header-height) shrink-0 items-center gap-2 border-b bg-background/90 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)"),
+			h.Div(h.Class("flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6"),
+				h.H1(h.Class("text-base font-medium"), "Documents"),
+				h.Div(h.Class("ml-auto flex items-center gap-2"),
+					button.Button(button.SizeSm, h.Class("hidden h-7 sm:flex"),
+						tabler.IconCirclePlusFilled(),
+						h.Span("Quick Create"),
+					),
+				),
+			),
+		)
+	}
 	return h.Header(h.Class("flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)"),
 		h.Div(h.Class("flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6"),
 			sidebar.Trigger(h.Class("-ml-1")),
@@ -256,14 +291,18 @@ type stat struct {
 	footer, muted             string
 }
 
-func sectionCards() h.Node {
+func sectionCards(example bool) h.Node {
+	class := "grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card"
+	if example {
+		class = "grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4"
+	}
 	stats := []stat{
 		{"Total Revenue", "$1,250.00", "+12.5%", true, "Trending up this month", "Visitors for the last 6 months"},
 		{"New Customers", "1,234", "-20%", false, "Down 20% this period", "Acquisition needs attention"},
 		{"Active Accounts", "45,678", "+12.5%", true, "Strong user retention", "Engagement exceed targets"},
 		{"Growth Rate", "4.5%", "+4.5%", true, "Steady performance increase", "Meets growth projections"},
 	}
-	return h.Div(h.Class("grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4 dark:*:data-[slot=card]:bg-card"),
+	return h.Div(h.Class(class),
 		h.Map(stats, func(s stat) h.Node {
 			icon := tabler.IconTrendingUp
 			if !s.up {
@@ -293,7 +332,16 @@ func gradient(id, key string, top float64) *chart.Node {
 	)
 }
 
-func chartAreaInteractive(r *http.Request) h.Node {
+func chartAreaInteractive(r *http.Request, example bool) h.Node {
+	// The example starts on the last 7 days and has no isMobile effect;
+	// dashboard.js reads the initial range from data-dashboard-chart.
+	initial := "90d"
+	var tooltipExtra []any
+	if example {
+		// defaultIndex={isMobile ? -1 : 10}: the chart is hidden below md,
+		// where isMobile holds.
+		initial, tooltipExtra = "7d", []any{chart.P("defaultIndex", 10)}
+	}
 	config := chart.Config{
 		{Key: "visitors", Label: "Visitors"},
 		{Key: "desktop", Label: "Desktop", Color: "var(--primary)"},
@@ -305,7 +353,7 @@ func chartAreaInteractive(r *http.Request) h.Node {
 		return chart.Area(chart.DataKey(key), chart.Type("natural"), chart.Fill("url(#fill"+strings.ToUpper(key[:1])+key[1:]+")"),
 			chart.Stroke("var(--color-"+key+")"), chart.StackID("a"))
 	}
-	return card.Card(h.Class("@container/card"), h.Data("dashboard-chart", ""),
+	return card.Card(h.Class("@container/card"), h.Data("dashboard-chart", h.IfElse(example, initial, "")),
 		card.Header(
 			card.Title("Total Visitors"),
 			card.Description(
@@ -313,13 +361,13 @@ func chartAreaInteractive(r *http.Request) h.Node {
 				h.Span(h.Class("@[540px]/card:hidden"), "Last 3 months"),
 			),
 			card.Action(
-				togglegroup.ToggleGroup(togglegroup.TypeSingle, togglegroup.Value("90d"), togglegroup.VariantOutline,
+				togglegroup.ToggleGroup(togglegroup.TypeSingle, togglegroup.Value(initial), togglegroup.VariantOutline,
 					h.Class("hidden *:data-[slot=toggle-group-item]:px-4! @[767px]/card:flex"),
 					h.Map(ranges, func(rg [2]string) h.Node {
 						return togglegroup.Item(togglegroup.Value(rg[0]), h.Data("value", rg[0]), rg[1])
 					}),
 				),
-				selectui.Select(selectui.DefaultValue("90d"),
+				selectui.Select(selectui.DefaultValue(initial),
 					selectui.Trigger(selectui.SizeSm, h.Aria("label", "Select a value"),
 						h.Class("flex w-40 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate @[767px]/card:hidden"),
 						selectui.Value(selectui.Placeholder("Last 3 months")),
@@ -338,7 +386,7 @@ func chartAreaInteractive(r *http.Request) h.Node {
 					chart.Defs(gradient("fillDesktop", "desktop", 1.0), gradient("fillMobile", "mobile", 0.8)),
 					chart.CartesianGrid(chart.Vertical(false)),
 					chart.XAxis(chart.DataKey("date"), chart.TickLine(false), chart.AxisLine(false), chart.TickMargin(8), chart.MinTickGap(32), chart.TickFormatter(day)),
-					chart.Tooltip(chart.Cursor(false), chart.TooltipContent(chart.LabelFormatter(day), chart.Indicator("dot"))),
+					chart.Tooltip(append([]any{chart.Cursor(false), chart.TooltipContent(chart.LabelFormatter(day), chart.Indicator("dot"))}, tooltipExtra...)...),
 					area("mobile"),
 					area("desktop"),
 				),
@@ -639,5 +687,17 @@ func cellViewer(r *http.Request, it item) h.Node {
 				drawer.Close(lib.AsChild, button.Button(button.VariantOutline, "Done")),
 			),
 		),
+	)
+}
+
+// ExamplePage is the sidebar of app/(app)/examples/dashboard/page.tsx: the
+// dashboard-01 page with a static (collapsible="none") sidebar, a sticky
+// header, plainer cards and a chart that starts on the last 7 days.
+func ExamplePage(r *http.Request, props ...any) h.Node {
+	return sidebar.Provider(
+		h.Style("--sidebar-width: calc(var(--spacing) * 64); --header-height: calc(var(--spacing) * 12 + 1px)"),
+		h.Group(props...),
+		appSidebar(true),
+		inset(r, true),
 	)
 }
