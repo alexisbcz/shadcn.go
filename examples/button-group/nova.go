@@ -29,6 +29,7 @@ func init() {
 		nova("button-group-demo", func() h.Node { return demo("w-40") }),
 		nova("button-group-dropdown", func() h.Node { return dropdown("w-44") }),
 		nova("button-group-nested", NovaNested),
+		nova("button-group-select", func() h.Node { return currencySelect(true) }),
 		nova("button-group-popover", NovaPopover),
 	)
 }

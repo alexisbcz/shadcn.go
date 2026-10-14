@@ -10,6 +10,8 @@ import (
 	"io"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/styled"
 	"shadcn.go/cva"
 	h "shadcn.go/libhtml"
 )
@@ -88,11 +90,15 @@ func (b *Builder) Variant(v Variant) *Builder {
 func (b *Builder) AsChild() *Builder { b.asChild = true; return b }
 
 // Element resolves the marker.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the marker as it renders inside w (in the style of an
+// enclosing style.Scope).
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	props.SetClass("")
-	base := h.Div(h.Data("slot", "marker"), h.Data("variant", string(b.variant)), h.Class(Variants(b.variant, className)))
+	base := h.Div(h.Data("slot", "marker"), h.Data("variant", string(b.variant)), h.Class(markerClass(w, b.variant, className)))
 	el := h.Spread(base, props, nil)
 	if !b.asChild {
 		return el
@@ -101,7 +107,7 @@ func (b *Builder) Element() *h.Element {
 	if len(kids) != 1 {
 		return h.Errored(fmt.Errorf("marker: AsChild needs exactly one element child, got %d children", len(kids)))
 	}
-	out, err := h.Slot(el.Clone().SetChildren(), kids[0], nil)
+	out, err := h.SlotIn(w, el.Clone().SetChildren(), kids[0], nil)
 	if err != nil {
 		return h.Errored(fmt.Errorf("marker: AsChild: %w", err))
 	}
@@ -109,7 +115,7 @@ func (b *Builder) Element() *h.Element {
 }
 
 // Render renders the marker.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 var (
 	iconBase    = h.Span(h.Data("slot", "marker-icon"), h.Aria("hidden", "true"), h.Class(lib.Cn("size-4 shrink-0 [&_svg:not([class*='size-'])]:size-4")))
@@ -117,7 +123,13 @@ var (
 )
 
 // Icon holds the marker's icon (aria-hidden).
-func Icon(children ...any) *h.Element { return h.Spread(iconBase, h.Span(children...), lib.Cn) }
+func Icon(children ...any) *styled.Node {
+	return styled.Spread(iconBase, h.Span(children...), func(st style.Style) *h.Element {
+		return h.Span(h.Data("slot", "marker-icon"), h.Aria("hidden", "true"), h.Class(sIcon.Class(st, "")))
+	})
+}
 
 // Content holds the marker's text.
-func Content(children ...any) *h.Element { return h.Spread(contentBase, h.Span(children...), lib.Cn) }
+func Content(children ...any) *styled.Node {
+	return styled.Spread(contentBase, h.Span(children...), styled.Slot("span", "marker-content", sContent))
+}

@@ -104,17 +104,25 @@ func dropdown(contentClass string) h.Node {
 	)
 }
 
-func Select() h.Node {
+func Select() h.Node { return currencySelect(false) }
+
+// currencySelect is button-group-select; the radix docs version wraps the
+// items in a SelectGroup.
+func currencySelect(grouped bool) h.Node {
 	currencies := []struct{ value, label string }{
 		{"$", "US Dollar"},
 		{"€", "Euro"},
 		{"£", "British Pound"},
 	}
-	items := []any{h.Class("min-w-24")}
+	var opts []any
 	for _, c := range currencies {
-		items = append(items, selectui.Item(selectui.ItemValue(c.value),
+		opts = append(opts, selectui.Item(selectui.ItemValue(c.value),
 			c.value, " ", h.Span(h.Class("text-muted-foreground"), c.label),
 		))
+	}
+	items := append([]any{h.Class("min-w-24")}, opts...)
+	if grouped {
+		items = []any{h.Class("min-w-24"), selectui.Group(opts...)}
 	}
 	return buttongroup.ButtonGroup(
 		buttongroup.ButtonGroup(
