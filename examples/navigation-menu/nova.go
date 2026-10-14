@@ -24,7 +24,7 @@ func init() {
 
 type novaTexts struct {
 	gettingStarted, introduction, introductionDesc, installation, installationDesc, typography, typographyDesc, components, docs string
-	items                                                                                                                         [6][2]string
+	items                                                                                                                        [6][2]string
 }
 
 var novaEnglish = novaTexts{

@@ -3,6 +3,7 @@ package site
 import (
 	"net/http"
 
+	"shadcn.go/components/style"
 	"shadcn.go/docs/site/mdx"
 	"shadcn.go/examples/registry"
 	h "shadcn.go/libhtml"
@@ -17,12 +18,21 @@ import (
 func (s *Site) View(r *http.Request) (h.Node, error) {
 	styleName, name := r.PathValue("style"), r.PathValue("name")
 	var preview h.Node
-	switch styleName {
-	case "new-york-v4":
+	// An example registered as "view--<name>" overrides <name> here: the
+	// site serves some examples differently from a client render (server
+	// components resolved at build time).
+	if ex, ok := registry.Get("view--" + name); ok && styleName == "new-york-v4" {
+		preview = ex.Render(r)
+	} else if ok {
+		preview = style.Scope(style.Nova, ex.Render(r))
+	}
+	switch {
+	case preview != nil:
+	case styleName == "new-york-v4":
 		if ex, ok := registry.Get(name); ok {
 			preview = ex.Render(r)
 		}
-	case "radix-nova", "base-nova", "aria-nova":
+	case styleName == "radix-nova" || styleName == "base-nova" || styleName == "aria-nova":
 		if ex, ok := mdx.LookupExample(name); ok {
 			preview = ex(s.Env(r))
 		}

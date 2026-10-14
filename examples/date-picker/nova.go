@@ -105,7 +105,9 @@ func NovaDob() h.Node {
 	)
 }
 
-func shortDate(t time.Time) string { return fmt.Sprintf("%s %02d, %d", t.Format("Jan"), t.Day(), t.Year()) }
+func shortDate(t time.Time) string {
+	return fmt.Sprintf("%s %02d, %d", t.Format("Jan"), t.Day(), t.Year())
+}
 
 func NovaRange() h.Node {
 	from := time.Date(time.Now().Year(), 1, 20, 0, 0, 0, 0, time.Local)
@@ -160,7 +162,9 @@ func NovaTime() h.Node {
 	)
 }
 
-func longDate(t time.Time) string { return fmt.Sprintf("%s %02d, %d", t.Format("January"), t.Day(), t.Year()) }
+func longDate(t time.Time) string {
+	return fmt.Sprintf("%s %02d, %d", t.Format("January"), t.Day(), t.Year())
+}
 
 func inputPicker(id, labelText, value, placeholder string, opts dpOptions, content []any, after ...any) h.Node {
 	return field.Field(append([]any{opts.attr()}, append([]any{

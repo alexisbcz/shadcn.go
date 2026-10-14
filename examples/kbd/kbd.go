@@ -7,8 +7,8 @@ import (
 	"shadcn.go/components/ui/button"
 	buttongroup "shadcn.go/components/ui/button-group"
 	ig "shadcn.go/components/ui/input-group"
-	"shadcn.go/components/ui/tooltip"
 	"shadcn.go/components/ui/kbd"
+	"shadcn.go/components/ui/tooltip"
 	"shadcn.go/examples/registry"
 	h "shadcn.go/libhtml"
 )

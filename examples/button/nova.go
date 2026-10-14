@@ -56,4 +56,3 @@ func NovaRtl() h.Node {
 		button.Button(button.VariantSecondary, h.Bool("disabled"), spinner.Spinner(h.Data("icon", "inline-start")), " ", "جاري التحميل"),
 	))
 }
-

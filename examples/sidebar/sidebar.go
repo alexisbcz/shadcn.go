@@ -40,6 +40,7 @@ func init() {
 		ex("sidebar-menu-sub", MenuSub),
 		ex("sidebar-menu-collapsible", MenuCollapsible),
 		ex("sidebar-rsc", RSC),
+		ex("view--sidebar-rsc", RSCResolved),
 		ex("sidebar-header", HeaderExample),
 		ex("sidebar-footer", FooterExample),
 		ex("sidebar-menu-action", MenuAction),
@@ -278,6 +279,38 @@ func RSC() h.Node {
 	var items []any
 	for range 5 {
 		items = append(items, sidebar.MenuItem(sidebar.MenuSkeleton(sidebar.ShowIcon(true))))
+	}
+	return sidebar.Provider(
+		sidebar.Sidebar(
+			sidebar.Content(
+				sidebar.Group(
+					sidebar.GroupLabel("Projects"),
+					sidebar.GroupContent(sidebar.Menu(items...)),
+				),
+			),
+		),
+	)
+}
+
+// RSCResolved is sidebar-rsc as the docs site serves it: there the server
+// component resolves (at build time), so NavProjects replaces the skeleton.
+// The docs /view route uses it ("view--" names override the example there).
+func RSCResolved() h.Node {
+	projects := []struct {
+		name string
+		icon func(...any) *h.Element
+	}{
+		{"Design Engineering", lucide.Frame},
+		{"Sales & Marketing", lucide.ChartPie},
+		{"Travel", lucide.Map},
+		{"Support", lucide.LifeBuoy},
+		{"Feedback", lucide.Send},
+	}
+	var items []any
+	for _, p := range projects {
+		items = append(items, sidebar.MenuItem(
+			sidebar.MenuButton(lib.AsChild, h.A(h.Href("#"), p.icon(), h.Span(p.name))),
+		))
 	}
 	return sidebar.Provider(
 		sidebar.Sidebar(
