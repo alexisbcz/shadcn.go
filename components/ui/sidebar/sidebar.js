@@ -6,7 +6,7 @@
 //     data-sidebar-default-open="true|false" (removed on mount).
 //   - Every Sidebar that can collapse renders its desktop markup
 //     ([data-slot="sidebar"] with data-state, data-collapsible, ...) holding
-//     a <template data-sidebar-mobile data-collapsible="<mode>"> with the
+//     a <template data-sidebar-mobile data-sidebar-collapsible="<mode>"> with the
 //     Sheet it becomes below the md breakpoint; the sheet's
 //     [data-sidebar-mobile-body] receives the sidebar's children.
 //   - MenuButton tooltips are tooltip templates marked
@@ -68,7 +68,7 @@ function createProvider(wrapper) {
       root: tpl.parentElement,
       inner: tpl.parentElement.querySelector(':scope > [data-slot="sidebar-container"] > [data-sidebar="sidebar"]'),
       tpl,
-      mode: tpl.getAttribute("data-collapsible") || "offcanvas",
+      mode: tpl.getAttribute("data-sidebar-collapsible") || "offcanvas",
       mobile: null,
     }))
   for (const s of sidebars) s.pristine = pristine.get(s.inner) ?? snapshot(s.inner)

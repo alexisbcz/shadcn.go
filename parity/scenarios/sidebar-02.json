@@ -1,0 +1,128 @@
+[
+ {
+  "label": "version-open",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "force": true
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "version-select",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 1,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "version-reopen",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "version-keyboard-select",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "ArrowDown"
+   },
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "search-type",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-input]",
+    "force": true
+   },
+   {
+    "do": "type",
+    "text": "rou"
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "collapse-trigger",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "expand-rail",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-rail]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "collapse-section",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-sidebar=group-label]",
+    "nth": 1,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "expand-section",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-sidebar=group-label]",
+    "nth": 1,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "scroll-content",
+  "steps": [
+   {
+    "do": "scroll",
+    "y": 300
+   }
+  ],
+  "frames": false
+ }
+]

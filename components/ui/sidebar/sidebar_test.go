@@ -43,7 +43,7 @@ func TestProviderAndSidebar(t *testing.T) {
 		`data-state="expanded" data-collapsible="" data-variant="sidebar" data-side="left" data-slot="sidebar"`,
 		`data-slot="sidebar-gap"`, `data-slot="sidebar-container"`,
 		`data-sidebar="sidebar" data-slot="sidebar-inner"`,
-		`<template data-parity-ignore="" data-sidebar-mobile="" data-collapsible="offcanvas">`,
+		`<template data-parity-ignore="" data-sidebar-mobile="" data-sidebar-collapsible="offcanvas">`,
 		`data-mobile="true"`, `data-sidebar-mobile-body=""`, `Displays the mobile sidebar.`,
 	)
 }

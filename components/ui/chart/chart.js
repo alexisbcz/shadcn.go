@@ -65,7 +65,7 @@ const UNITLESS = new Set("animationIterationCount aspectRatio borderImageOutset 
 
 // Sets an element's attributes and inline style to exactly the given ones
 // (React semantics), touching the DOM only for actual changes.
-function syncElement(el, props, style) {
+export function syncElement(el, props, style) {
   const scratch = el.namespaceURI === SVG_NS ? document.createElementNS(SVG_NS, el.tagName) : document.createElement(el.tagName)
   setProps(scratch, props)
   for (const attr of [...el.attributes]) {
@@ -2044,6 +2044,9 @@ export class CartesianChart {
     const ts = this.tooltipState
     if (ts.hover.active) return ts.hover
     if (ts.keyboard.active) return ts.keyboard
+    // Tooltip defaultIndex: active until the pointer has activated an index.
+    const di = this.tooltipProps?.defaultIndex
+    if (ts.hover.index == null && di != null) return { active: true, index: String(di), dataKey: undefined, coordinate: undefined, graphicalItemId: undefined }
     return { active: false, index: null, dataKey: undefined, coordinate: ts.hover.coordinate, graphicalItemId: undefined }
   }
 
@@ -2080,6 +2083,8 @@ export class CartesianChart {
     }
     const dataPoints = payload == null ? undefined : Array.from(new Set(payload.map((p) => p.payload).filter((p) => p != null)))
     let coordinate = inter.coordinate
+    // selectActiveTooltipCoordinate: the defaultIndex coordinate otherwise.
+    if (coordinate == null && this.tooltipProps?.defaultIndex != null) coordinate = this.coordinateForIndex(state, String(this.tooltipProps.defaultIndex))
     return { active: inter.active && index != null, index, label, payload, coordinate, dataPoints, axis }
   }
 
@@ -2984,6 +2989,6 @@ define("chart", {
 })
 
 function countItems(spec) {
-  return (spec?.children ?? []).filter((c) => c.type === "Area" || c.type === "Bar" || c.type === "Line" || c.type === "Pie" || c.type === "Radar").length
+  return (spec?.children ?? []).filter((c) => c.type === "Area" || c.type === "Bar" || c.type === "Line" || c.type === "Pie" || c.type === "Radar" || c.type === "RadialBar").length
 }
 

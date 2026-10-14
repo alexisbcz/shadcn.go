@@ -1,0 +1,17 @@
+[
+  {"label": "chart-range-7d", "reset": true, "steps": [{"do": "click", "target": "[data-slot=card-action] [data-slot=select-trigger]"}, {"do": "click", "target": "[data-slot=select-item]:has-text('Last 7 days')"}]},
+  {"label": "chart-range-30d", "steps": [{"do": "click", "target": "[data-slot=card-action] [data-slot=select-trigger]"}, {"do": "click", "target": "[data-slot=select-item]:has-text('Last 30 days')"}]},
+  {"label": "select-row", "reset": true, "steps": [{"do": "click", "target": "[data-slot=table-body] [data-slot=checkbox]", "nth": 1}]},
+  {"label": "select-all-from-indeterminate", "steps": [{"do": "click", "target": "[data-slot=table-header] [data-slot=checkbox]"}]},
+  {"label": "next-page", "steps": [{"do": "click", "target": "button:has-text('Go to next page')"}]},
+  {"label": "last-page", "steps": [{"do": "click", "target": "button:has-text('Go to last page')"}]},
+  {"label": "rows-per-page-20", "steps": [{"do": "click", "target": "#rows-per-page"}, {"do": "click", "target": "[data-slot=select-item]:has-text('20')"}]},
+  {"label": "columns-open", "reset": true, "steps": [{"do": "click", "target": "button:has-text('Customize Columns')"}]},
+  {"label": "columns-hide-type", "steps": [{"do": "click", "target": "[data-slot=dropdown-menu-checkbox-item]", "nth": 0}]},
+  {"label": "row-drawer-open", "reset": true, "steps": [{"do": "click", "target": "[data-slot=table-body] [data-slot=drawer-trigger]", "nth": 0}, {"do": "wait", "ms": 600}]},
+  {"label": "row-drawer-close", "steps": [{"do": "press", "key": "Escape"}, {"do": "wait", "ms": 600}]},
+  {"label": "row-actions-open", "reset": true, "steps": [{"do": "click", "target": "[data-slot=table-body] button:has-text('Open menu')", "nth": 0}]},
+  {"label": "drag-row", "reset": true, "steps": [{"do": "scroll", "y": 500}, {"do": "wait", "ms": 300}, {"do": "drag", "target": "[data-slot=table-body] button:has-text('Drag to reorder')", "nth": 0, "dy": 110, "steps": 12}, {"do": "wait", "ms": 400}]},
+  {"label": "user-menu-open", "reset": true, "steps": [{"do": "click", "target": "[data-sidebar=footer] [data-slot=dropdown-menu-trigger]"}]},
+  {"label": "document-action-open", "reset": true, "steps": [{"do": "hover", "target": "[data-sidebar=menu-action]", "nth": 0}, {"do": "click", "target": "[data-sidebar=menu-action]", "nth": 0}]}
+]

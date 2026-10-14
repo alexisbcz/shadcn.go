@@ -1,0 +1,100 @@
+[
+ {
+  "label": "toggle-models",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=collapsible-trigger]",
+    "nth": 1,
+    "force": true
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "toggle-playground",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=collapsible-trigger]",
+    "nth": 0,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "open-project-menu",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-sidebar=menu-action]",
+    "nth": 4,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "close-project-menu",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "open-user-menu",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 3,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "close-user-menu",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "collapse-trigger",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "expand-trigger",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]",
+    "force": true
+   }
+  ]
+ }
+]

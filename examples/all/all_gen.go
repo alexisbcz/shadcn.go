@@ -13,6 +13,7 @@ import (
 	_ "shadcn.go/examples/badge"
 	_ "shadcn.go/examples/blocks"
 	_ "shadcn.go/examples/blocks-dashboard"
+	_ "shadcn.go/examples/blocks-sidebar-a"
 	_ "shadcn.go/examples/blocks-sidebar-b"
 	_ "shadcn.go/examples/breadcrumb"
 	_ "shadcn.go/examples/bubble"

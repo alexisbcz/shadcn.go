@@ -347,7 +347,7 @@ func (b *Builder) mobileTemplate() *h.Element {
 	return h.Template(
 		h.Data("parity-ignore", ""),
 		h.Data("sidebar-mobile", ""),
-		h.Data("collapsible", string(b.collapsible)),
+		h.Data("sidebar-collapsible", string(b.collapsible)),
 		sheet.Sheet(
 			sheet.Content(side,
 				h.Data("sidebar", "sidebar"),

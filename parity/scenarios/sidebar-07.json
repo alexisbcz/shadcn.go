@@ -1,0 +1,157 @@
+[
+ {
+  "label": "team-select",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "force": true
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-item]",
+    "nth": 2,
+    "force": true
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "team-reopen",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "team-escape",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "expand-models",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=collapsible-trigger]",
+    "nth": 1,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "hover-project",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sidebar=menu-item] [data-sidebar=menu-action]",
+    "nth": 0,
+    "force": true
+   }
+  ],
+  "frames": false
+ },
+ {
+  "label": "open-project-menu",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-sidebar=menu-action]",
+    "nth": 0,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "close-project-menu",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "open-user-menu",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=dropdown-menu-trigger]",
+    "nth": 4,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "close-user-menu",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Escape"
+   }
+  ]
+ },
+ {
+  "label": "collapse-icon",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "hover-collapsed-tooltip",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-slot=collapsible-trigger]",
+    "nth": 0,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   }
+  ]
+ },
+ {
+  "label": "expand-rail",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-rail]",
+    "force": true
+   }
+  ]
+ }
+]

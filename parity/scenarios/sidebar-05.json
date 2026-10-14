@@ -1,0 +1,49 @@
+[
+ {
+  "label": "expand-first",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=collapsible-trigger]",
+    "nth": 0,
+    "force": true
+   }
+  ],
+  "reset": true
+ },
+ {
+  "label": "collapse-second",
+  "steps": [
+   {
+    "do": "click",
+    "target": "[data-slot=collapsible-trigger]",
+    "nth": 1,
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "keyboard-toggle",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Enter"
+   }
+  ]
+ },
+ {
+  "label": "collapse-trigger",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]",
+    "force": true
+   }
+  ]
+ }
+]

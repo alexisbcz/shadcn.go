@@ -1,0 +1,39 @@
+[
+ {
+  "label": "hover-sub",
+  "steps": [
+   {
+    "do": "hover",
+    "target": "[data-sidebar=menu-sub-button]",
+    "nth": 3,
+    "force": true
+   }
+  ],
+  "frames": false,
+  "reset": true
+ },
+ {
+  "label": "collapse-trigger",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 700,
+    "y": 400
+   },
+   {
+    "do": "click",
+    "target": "[data-slot=sidebar-trigger]",
+    "force": true
+   }
+  ]
+ },
+ {
+  "label": "expand-ctrl-b",
+  "steps": [
+   {
+    "do": "press",
+    "key": "Control+b"
+   }
+  ]
+ }
+]

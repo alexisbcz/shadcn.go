@@ -1,0 +1,72 @@
+[
+ {
+  "label": "pointer-settle",
+  "reset": true,
+  "frames": false,
+  "steps": [
+   {
+    "do": "wait",
+    "ms": 1800
+   }
+  ]
+ },
+ {
+  "label": "pointer-enter",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   },
+   {
+    "do": "mouse",
+    "x": 550,
+    "y": 258,
+    "steps": 4
+   }
+  ]
+ },
+ {
+  "label": "pointer-move",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 512,
+    "y": 190,
+    "steps": 4
+   }
+  ]
+ },
+ {
+  "label": "pointer-leave",
+  "steps": [
+   {
+    "do": "mouse",
+    "x": 0,
+    "y": 0
+   }
+  ]
+ },
+ {
+  "label": "keyboard-focus",
+  "steps": [
+   {
+    "do": "focus",
+    "target": ".recharts-surface"
+   }
+  ]
+ },
+ {
+  "label": "keyboard-arrow-right",
+  "steps": [
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   },
+   {
+    "do": "press",
+    "key": "ArrowRight"
+   }
+  ]
+ }
+]

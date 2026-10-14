@@ -48,31 +48,50 @@ define("example-dashboard-chart", {
         spec.props.data = filterRange(all, range)
       })
     }
+    let range = "90d"
+    const renderToggles = () => {
+      for (const it of items()) {
+        const on = it.getAttribute("data-value") === range
+        setAttr(it, "aria-checked", String(on))
+        setAttr(it, "data-state", on ? "on" : "off")
+      }
+    }
+    const renderSelect = () => {
+      const s = getSelect(trigger)
+      if (!s || s.value === range) return
+      syncing = true
+      try {
+        s.setValue(range)
+      } finally {
+        syncing = false
+      }
+    }
+    const setRange = (next) => {
+      if (next === range) return
+      range = next
+      renderToggles()
+      renderSelect()
+      apply(range)
+    }
     const onChange = (event) => {
       // Handled here: nothing above the card's action sees the change.
       event.stopPropagation()
       if (syncing) return
-      let range
-      if (group.contains(event.target)) {
-        range = event.detail?.pressedItems?.[0]?.getAttribute("data-value") ?? ""
-        syncing = true
-        try {
-          getSelect(trigger)?.setValue(range)
-        } finally {
-          syncing = false
-        }
-      } else {
-        range = event.detail?.value ?? ""
-        for (const it of items()) {
-          const on = it.getAttribute("data-value") === range
-          setAttr(it, "aria-checked", String(on))
-          setAttr(it, "data-state", on ? "on" : "off")
-        }
-      }
-      apply(range)
+      if (group.contains(event.target)) setRange(event.detail?.pressedItems?.[0]?.getAttribute("data-value") ?? "")
+      else setRange(event.detail?.value ?? "")
     }
     action.addEventListener("shadcn:value-change", onChange)
-    return () => action.removeEventListener("shadcn:value-change", onChange)
+    // useIsMobile: on a narrow viewport the range becomes the last 7 days.
+    const mql = window.matchMedia("(max-width: 767px)")
+    const onMedia = () => {
+      if (window.innerWidth < 768) setRange("7d")
+    }
+    mql.addEventListener("change", onMedia)
+    onMedia()
+    return () => {
+      action.removeEventListener("shadcn:value-change", onChange)
+      mql.removeEventListener("change", onMedia)
+    }
   },
 })
 
@@ -105,7 +124,7 @@ define("example-dashboard-table", {
     }
 
     const protos = new Map()
-    for (const tr of tpl.content.querySelectorAll(":scope > tr")) protos.set(tr.getAttribute("data-row-id"), tr)
+    for (const tr of tpl.content.children) if (tr.tagName === "TR") protos.set(tr.getAttribute("data-row-id"), tr)
     const indicatorProto = tpl.content.querySelector('[data-proto="checked"] [data-slot="checkbox-indicator"]')
     const live = new Map()
     for (const tr of body.children) live.set(tr.getAttribute("data-row-id"), tr)
