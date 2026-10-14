@@ -22,6 +22,8 @@ import (
 	_ "embed"
 	"fmt"
 	"io"
+	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/part"
 	"strconv"
 
 	"shadcn.go/components/lib"
@@ -80,14 +82,26 @@ func (b *Builder) Size(s Size) *Builder {
 }
 
 // Element resolves the avatar to its <span>.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *Builder) element(st style.Style) *h.Element {
 	base := h.Span(h.Data("slot", "avatar"), h.Data("size", string(b.size)))
 	props := b.Elem()
+	if st != "" {
+		return h.Spread(base, props, nil).SetClass(styleRoot.Class(st, props.ClassName()))
+	}
 	return h.Spread(base, props, nil).SetClass(lib.Cn("group/avatar relative flex size-8 shrink-0 overflow-hidden rounded-full select-none data-[size=lg]:size-10 data-[size=sm]:size-6", props.ClassName()))
 }
 
 // Render renders the avatar.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
+	return b.element(st)
+}
 
 // ImageBuilder is returned by Image.
 type ImageBuilder struct {
@@ -104,15 +118,21 @@ func Image(children ...any) *ImageBuilder {
 }
 
 // Element resolves the image to the <img> it shows once loaded.
-func (b *ImageBuilder) Element() *h.Element {
+func (b *ImageBuilder) Element() *h.Element { return b.element("") }
+
+func (b *ImageBuilder) element(st style.Style) *h.Element {
 	props := b.Elem()
+	if st != "" {
+		return h.Spread(h.Img(h.Data("slot", "avatar-image")), props, nil).SetClass(styleImage.Class(st, props.ClassName()))
+	}
 	return h.Spread(h.Img(h.Data("slot", "avatar-image")), props, nil).SetClass(lib.Cn("aspect-square size-full", props.ClassName()))
 }
 
 // Render writes the image's template: Radix renders nothing until the
 // image has loaded.
 func (b *ImageBuilder) Render(w io.Writer) error {
-	el := b.Element()
+	st, _ := style.FromWriter(w)
+	el := b.element(st)
 	if el.Err() != nil {
 		return el.Render(w)
 	}
@@ -146,14 +166,20 @@ func (b *FallbackBuilder) AcceptChild(c any) bool {
 func (b *FallbackBuilder) DelayMs(ms int) *FallbackBuilder { b.delay = &ms; return b }
 
 // Element resolves the fallback to its <span>.
-func (b *FallbackBuilder) Element() *h.Element {
+func (b *FallbackBuilder) Element() *h.Element { return b.element("") }
+
+func (b *FallbackBuilder) element(st style.Style) *h.Element {
 	props := b.Elem()
+	if st != "" {
+		return h.Spread(h.Span(h.Data("slot", "avatar-fallback")), props, nil).SetClass(styleFallback.Class(st, props.ClassName()))
+	}
 	return h.Spread(h.Span(h.Data("slot", "avatar-fallback")), props, nil).SetClass(lib.Cn("flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground group-data-[size=sm]/avatar:text-xs", props.ClassName()))
 }
 
 // Render renders the fallback, or, with a delay, its template.
 func (b *FallbackBuilder) Render(w io.Writer) error {
-	el := b.Element()
+	st, _ := style.FromWriter(w)
+	el := b.element(st)
 	if el.Err() != nil || b.delay == nil {
 		return el.Render(w)
 	}
@@ -163,30 +189,60 @@ func (b *FallbackBuilder) Render(w io.Writer) error {
 	return h.Template(h.Data("slot", "avatar-fallback-template"), h.Data("delay", strconv.Itoa(*b.delay)), el).Render(w)
 }
 
+// styleFile is registry/bases/radix/ui/avatar.tsx (style.Scope).
+var styleFile = style.NewFile("ui/avatar.tsx")
+
+var (
+	styleRoot     = styleFile.Cn("cn-avatar group/avatar relative flex shrink-0 select-none after:absolute after:inset-0 after:border after:border-border after:mix-blend-darken dark:after:mix-blend-lighten", style.Arg)
+	styleImage    = styleFile.Cn("cn-avatar-image aspect-square size-full object-cover", style.Arg)
+	styleFallback = styleFile.Cn("cn-avatar-fallback flex size-full items-center justify-center text-sm group-data-[size=sm]/avatar:text-xs", style.Arg)
+	styleBadge    = styleFile.Cn(
+		"cn-avatar-badge absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-blend-color ring-2 select-none",
+		"group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden",
+		"group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2",
+		"group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2",
+		style.Arg,
+	)
+	styleGroup      = styleFile.Cn("cn-avatar-group group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background", style.Arg)
+	styleGroupCount = styleFile.Cn("cn-avatar-group-count relative flex shrink-0 items-center justify-center ring-2 ring-background", "", style.Arg)
+)
+
 // Badge returns a <span> badge in the avatar's bottom-right corner.
-func Badge(children ...any) *h.Element {
-	return h.Spread(h.Span(h.Data("slot", "avatar-badge")), h.Span(children...), nil).With(func(e *h.Element) {
-		e.SetClass(lib.Cn(
+func Badge(children ...any) *part.Part {
+	return part.New("span", func(st style.Style, props *h.Element) *h.Element {
+		e := h.Spread(h.Span(h.Data("slot", "avatar-badge")), props, nil)
+		if st != "" {
+			return e.SetClass(styleBadge.Class(st, props.ClassName()))
+		}
+		return e.SetClass(lib.Cn(
 			"absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground ring-2 ring-background select-none",
 			"group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden",
 			"group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2",
 			"group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2",
-			e.ClassName(),
+			props.ClassName(),
 		))
-	})
+	}, children...)
 }
 
 // Group returns a <div> stacking avatars.
-func Group(children ...any) *h.Element {
-	return h.Spread(h.Div(h.Data("slot", "avatar-group")), h.Div(children...), nil).With(func(e *h.Element) {
-		e.SetClass(lib.Cn("group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background", e.ClassName()))
-	})
+func Group(children ...any) *part.Part {
+	return part.New("div", func(st style.Style, props *h.Element) *h.Element {
+		e := h.Spread(h.Div(h.Data("slot", "avatar-group")), props, nil)
+		if st != "" {
+			return e.SetClass(styleGroup.Class(st, props.ClassName()))
+		}
+		return e.SetClass(lib.Cn("group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background", props.ClassName()))
+	}, children...)
 }
 
 // GroupCount returns a <div> showing the number of avatars not shown in a
 // Group.
-func GroupCount(children ...any) *h.Element {
-	return h.Spread(h.Div(h.Data("slot", "avatar-group-count")), h.Div(children...), nil).With(func(e *h.Element) {
-		e.SetClass(lib.Cn("relative flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-sm text-muted-foreground ring-2 ring-background group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 [&>svg]:size-4 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3", e.ClassName()))
-	})
+func GroupCount(children ...any) *part.Part {
+	return part.New("div", func(st style.Style, props *h.Element) *h.Element {
+		e := h.Spread(h.Div(h.Data("slot", "avatar-group-count")), props, nil)
+		if st != "" {
+			return e.SetClass(styleGroupCount.Class(st, props.ClassName()))
+		}
+		return e.SetClass(lib.Cn("relative flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-sm text-muted-foreground ring-2 ring-background group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 [&>svg]:size-4 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3", props.ClassName()))
+	}, children...)
 }

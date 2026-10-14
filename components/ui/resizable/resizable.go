@@ -33,6 +33,7 @@ import (
 	"encoding/json"
 	"io"
 	"math"
+	"shadcn.go/components/style"
 	"strconv"
 	"strings"
 
@@ -149,9 +150,29 @@ func (b *GroupBuilder) Element() *h.Element {
 }
 
 // Render renders the group.
-func (b *GroupBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+// Inside style.Scope it renders that style.
+func (b *GroupBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
-type idScope struct{ n int }
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *GroupBuilder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
+	return b.element(&idScope{st: st})
+}
+
+// idScope numbers ids like React's useId and carries the style in scope.
+type idScope struct {
+	n  int
+	st style.Style
+}
+
+// styleFile is registry/bases/radix/ui/resizable.tsx (style.Scope).
+var styleFile = style.NewFile("ui/resizable.tsx")
+
+var (
+	styleGroup      = styleFile.Cn("cn-resizable-panel-group flex h-full w-full aria-[orientation=vertical]:flex-col", style.Arg)
+	styleHandle     = styleFile.Cn("cn-resizable-handle relative flex w-px items-center justify-center bg-border ring-offset-background after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-hidden aria-[orientation=horizontal]:h-px aria-[orientation=horizontal]:w-full aria-[orientation=horizontal]:after:left-0 aria-[orientation=horizontal]:after:h-1 aria-[orientation=horizontal]:after:w-full aria-[orientation=horizontal]:after:translate-x-0 aria-[orientation=horizontal]:after:-translate-y-1/2 [&[aria-orientation=horizontal]>div]:rotate-90", style.Arg)
+	styleHandleIcon = styleFile.Attr("cn-resizable-handle-icon z-10 flex shrink-0")
+)
 
 // next returns the next id in React's useId format.
 func (s *idScope) next() string {
@@ -186,6 +207,9 @@ func (b *GroupBuilder) element(ids *idScope) *h.Element {
 
 	el := h.Spread(h.Div(), props.Clone().SetChildren(), nil)
 	el.SetClass(lib.Cn("flex h-full w-full aria-[orientation=vertical]:flex-col", props.ClassName()))
+	if ids.st != "" {
+		el.SetClass(styleGroup.Class(ids.st, props.ClassName()))
+	}
 	el.Data("slot", "resizable-panel-group")
 	el.Data("group", "true")
 	el.Data("testid", id)
@@ -209,6 +233,7 @@ func (b *GroupBuilder) element(ids *idScope) *h.Element {
 			if ok {
 				aria = separatorAria(kids, v, layout, constraints)
 			}
+			v.b.st = ids.st
 			el.Children(v.b.render(v.id, b.orientation, aria))
 		default:
 			el.Children(k)
@@ -337,7 +362,8 @@ func (b *PanelBuilder) AcceptChild(c any) bool {
 // Render renders the panel on its own (outside a PanelGroup it cannot
 // resize).
 func (b *PanelBuilder) Render(w io.Writer) error {
-	ids := &idScope{}
+	st, _ := style.FromWriter(w)
+	ids := &idScope{st: st}
 	id := ids.next()
 	return b.render(id, "1", resolveNested(b.Elem().ChildNodes(), ids)).Render(w)
 }
@@ -395,6 +421,7 @@ func (b *PanelBuilder) config() string {
 type HandleBuilder struct {
 	h.Builder[HandleBuilder]
 	withHandle bool
+	st         style.Style // style in scope, set before rendering
 }
 
 // Handle returns the separator between two panels. Pass WithHandle to show
@@ -416,6 +443,7 @@ func (b *HandleBuilder) AcceptChild(c any) bool {
 
 // Render renders the handle on its own.
 func (b *HandleBuilder) Render(w io.Writer) error {
+	b.st, _ = style.FromWriter(w)
 	return b.render((&idScope{}).next(), Horizontal, nil).Render(w)
 }
 
@@ -447,13 +475,18 @@ func (b *HandleBuilder) render(id string, groupOrientation Orientation, aria *ha
 	}
 	el.Aria("orientation", orientation)
 	el.SetClass(lib.Cn(handleClass, props.ClassName()))
+	if b.st != "" {
+		el.SetClass(styleHandle.Class(b.st, props.ClassName()))
+	}
 	el.Data("separator", "inactive")
 	el.Data("testid", id)
 	el.ID(id)
 	el.Role("separator")
 	el.Style(joinStyle("flex-basis: auto;", userStyle, "flex-grow: 0; flex-shrink: 0;"))
 	el.TabIndex(0)
-	if b.withHandle {
+	if b.withHandle && b.st != "" {
+		el.Children(h.Div(h.Class(styleHandleIcon.Class(b.st))))
+	} else if b.withHandle {
 		el.Children(h.Div(h.Class("z-10 flex h-4 w-3 items-center justify-center rounded-xs border bg-border"),
 			lucide.GripVertical(h.Class("size-2.5")),
 		))

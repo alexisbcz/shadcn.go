@@ -266,9 +266,12 @@ func (b *Builder) element(st style.Style) *h.Element {
 }
 
 // Render renders the group, in the style of an enclosing style.Scope.
-func (b *Builder) Render(w io.Writer) error {
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
-	return b.element(st).Render(w)
+	return b.element(st)
 }
 
 // ItemBuilder is returned by Item.

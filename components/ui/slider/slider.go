@@ -34,6 +34,7 @@ import (
 	"fmt"
 	"io"
 	"math"
+	"shadcn.go/components/style"
 	"strconv"
 
 	"shadcn.go/components/lib"
@@ -185,12 +186,25 @@ var (
 	thumbClassCn = lib.Cn(thumbClass)
 )
 
+// styleFile is registry/bases/radix/ui/slider.tsx (style.Scope).
+var styleFile = style.NewFile("ui/slider.tsx")
+
+var (
+	styleRoot  = styleFile.Cn("cn-slider relative flex w-full touch-none items-center select-none data-disabled:opacity-50 data-vertical:h-full data-vertical:w-auto data-vertical:flex-col", style.Arg)
+	styleTrack = styleFile.Attr("cn-slider-track relative grow overflow-hidden data-horizontal:w-full data-vertical:h-full")
+	styleRange = styleFile.Attr("cn-slider-range absolute select-none data-horizontal:h-full data-vertical:w-full")
+	styleThumb = styleFile.Attr("cn-slider-thumb block shrink-0 select-none disabled:pointer-events-none disabled:opacity-50")
+)
+
 // defaultThumbSize is the size of a thumb with the default classes
 // (size-4); the behavior measures the real one, like Radix's useSize.
 const defaultThumbSize = 16
 
 // Element resolves the slider to its root <span>.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *Builder) element(st style.Style) *h.Element {
 	if b.step <= 0 || math.IsNaN(b.step) {
 		return h.Errored(fmt.Errorf("slider: Step must be positive, got %v", b.step))
 	}
@@ -267,6 +281,14 @@ func (b *Builder) Element() *h.Element {
 		base.Data("inverted", "")
 	}
 	root := h.Spread(base, props, nil).SetClass(lib.Cn(rootClass, props.ClassName()))
+	trackCls, rangeCls, thumbCls, thumbSize := trackClassCn, rangeClassCn, thumbClassCn, float64(defaultThumbSize)
+	if st != "" {
+		root.SetClass(styleRoot.Class(st, props.ClassName()))
+		trackCls, rangeCls, thumbCls = styleTrack.Class(st), styleRange.Class(st), styleThumb.Class(st)
+		if st == style.Nova {
+			thumbSize = 12 // size-3
+		}
+	}
 	style, _ := props.GetAttr("style")
 	if style != "" {
 		style += ";"
@@ -288,8 +310,8 @@ func (b *Builder) Element() *h.Element {
 		// invalid length the browser drops.
 		rangeStyle += ";" + end + ":" + num(100-maxOf(pcts)) + "%"
 	}
-	rng := h.Span(h.Data("orientation", orient), h.Data("slot", "slider-range"), h.Class(rangeClassCn), h.Style(rangeStyle))
-	track := h.Span(h.Data("orientation", orient), h.Data("slot", "slider-track"), h.Class(trackClassCn), rng)
+	rng := h.Span(h.Data("orientation", orient), h.Data("slot", "slider-range"), h.Class(rangeCls), h.Style(rangeStyle))
+	track := h.Span(h.Data("orientation", orient), h.Data("slot", "slider-track"), h.Class(trackCls), rng)
 	if disabled {
 		rng.Data("disabled", "")
 		track.Data("disabled", "")
@@ -303,7 +325,7 @@ func (b *Builder) Element() *h.Element {
 		}
 		percent, size := 0.0, 0.0
 		if value != nil {
-			percent, size = percentage(*value, b.min, b.max), defaultThumbSize
+			percent, size = percentage(*value, b.min, b.max), thumbSize
 		}
 		offset := 0.0
 		if size != 0 {
@@ -316,7 +338,7 @@ func (b *Builder) Element() *h.Element {
 			h.Aria("orientation", orient),
 			h.Data("orientation", orient),
 			h.Data("slot", "slider-thumb"),
-			h.Class(thumbClassCn),
+			h.Class(thumbCls),
 			h.Data("radix-collection-item", ""),
 		)
 		if label := thumbLabel(i, len(values)); label != "" {
@@ -361,7 +383,13 @@ func (b *Builder) Element() *h.Element {
 }
 
 // Render renders the slider.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
+	return b.element(st)
+}
 
 func percentage(value, min, max float64) float64 {
 	maxSteps := max - min

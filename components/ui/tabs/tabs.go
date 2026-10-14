@@ -172,9 +172,12 @@ func (b *Builder) element(st style.Style) *h.Element {
 
 // Render renders the tabs.
 // Inside style.Scope it renders that style.
-func (b *Builder) Render(w io.Writer) error {
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
-	return b.element(st).Render(w)
+	return b.element(st)
 }
 
 // styleFile is registry/bases/radix/ui/tabs.tsx, the tabs of the 8 styles
@@ -296,9 +299,12 @@ func (b *ListBuilder) element(st style.Style) *h.Element {
 
 // Render renders the list.
 // Inside style.Scope it renders that style.
-func (b *ListBuilder) Render(w io.Writer) error {
+func (b *ListBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *ListBuilder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
-	return b.element(st).Render(w)
+	return b.element(st)
 }
 
 // TriggerBuilder is returned by Trigger.
@@ -370,9 +376,12 @@ func (b *TriggerBuilder) element(st style.Style) *h.Element {
 
 // Render renders the trigger.
 // Inside style.Scope it renders that style.
-func (b *TriggerBuilder) Render(w io.Writer) error {
+func (b *TriggerBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *TriggerBuilder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
-	return b.element(st).Render(w)
+	return b.element(st)
 }
 
 // ContentBuilder is returned by Content.
@@ -449,7 +458,10 @@ func (b *ContentBuilder) element(st style.Style) *h.Element {
 
 // Render renders the panel.
 // Inside style.Scope it renders that style.
-func (b *ContentBuilder) Render(w io.Writer) error {
+func (b *ContentBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
-	return b.element(st).Render(w)
+	return b.element(st)
 }

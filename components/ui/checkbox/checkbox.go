@@ -282,8 +282,7 @@ func (b *Builder) input() *h.Element {
 
 // Render renders the checkbox's button and hidden input.
 func (b *Builder) Render(w io.Writer) error {
-	st, _ := style.FromWriter(w)
-	el := b.element(st)
+	el := b.ElementIn(w)
 	if el.Err() != nil {
 		return el.Render(w)
 	}
@@ -308,4 +307,10 @@ func ariaChecked(s state) string {
 		return "mixed"
 	}
 	return "false"
+}
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
+	return b.element(st)
 }

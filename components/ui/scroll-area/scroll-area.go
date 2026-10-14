@@ -30,6 +30,7 @@ import (
 	_ "embed"
 	"fmt"
 	"io"
+	"shadcn.go/components/style"
 	"strconv"
 
 	"shadcn.go/components/lib"
@@ -115,10 +116,23 @@ func (b *Builder) ScrollHideDelay(ms int) *Builder { b.hideDelay = ms; return b 
 // Nonce sets the CSP nonce of the <style> element.
 func (b *Builder) Nonce(n string) *Builder { b.nonce = n; return b }
 
+// styleFile is registry/bases/radix/ui/scroll-area.tsx (style.Scope).
+var styleFile = style.NewFile("ui/scroll-area.tsx")
+
+var (
+	styleRoot      = styleFile.Cn("cn-scroll-area relative", style.Arg)
+	styleViewport  = styleFile.Attr("cn-scroll-area-viewport size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1")
+	styleScrollbar = styleFile.Cn("cn-scroll-area-scrollbar flex touch-none p-px transition-colors select-none", style.Arg)
+	styleThumb     = styleFile.Attr("cn-scroll-area-thumb relative flex-1 bg-border")
+)
+
 const viewportClass = "size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1"
 
 // Element resolves the scroll area to its root <div>.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *Builder) element(st style.Style) *h.Element {
 	props := b.Elem()
 	kids := props.ChildNodes()
 	horizontal := false
@@ -149,13 +163,18 @@ func (b *Builder) Element() *h.Element {
 	if b.hideDelay != 600 {
 		base.Data("scroll-hide-delay", strconv.Itoa(b.hideDelay))
 	}
-	style := "position:relative;--radix-scroll-area-corner-width:0px;--radix-scroll-area-corner-height:0px"
+	css := "position:relative;--radix-scroll-area-corner-width:0px;--radix-scroll-area-corner-height:0px"
 	if us, ok := props.GetAttr("style"); ok && us != "" {
-		style += ";" + us
+		css += ";" + us
 	}
 	user := props.Clone().SetChildren()
-	user.Attr("style", style)
+	user.Attr("style", css)
 	root := h.Spread(base, user, nil).SetClass(lib.Cn("relative", props.ClassName()))
+	vpClass := viewportClass
+	if st != "" {
+		root.SetClass(styleRoot.Class(st, props.ClassName()))
+		vpClass = styleViewport.Class(st)
+	}
 
 	if b.nonce != "" {
 		root.Children(h.StyleEl(h.Nonce(b.nonce), h.UnsafeCSS(ViewportCSS)))
@@ -167,7 +186,7 @@ func (b *Builder) Element() *h.Element {
 	viewport := h.Div(
 		h.Data("radix-scroll-area-viewport", ""),
 		h.Data("slot", "scroll-area-viewport"),
-		h.Class(viewportClass),
+		h.Class(vpClass),
 		h.Style("overflow-x:"+overflowX+";overflow-y:scroll"),
 		h.Div(h.Style("min-width:100%;display:table"), kids),
 	)
@@ -175,7 +194,13 @@ func (b *Builder) Element() *h.Element {
 }
 
 // Render renders the scroll area.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
+	return b.element(st)
+}
 
 // ScrollBarBuilder is returned by ScrollBar.
 type ScrollBarBuilder struct {
@@ -211,7 +236,10 @@ func (b *ScrollBarBuilder) Orientation(o Orientation) *ScrollBarBuilder {
 }
 
 // Element resolves the scrollbar to its <template>.
-func (b *ScrollBarBuilder) Element() *h.Element {
+func (b *ScrollBarBuilder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *ScrollBarBuilder) element(st style.Style) *h.Element {
 	o := b.orientation
 	if o != Horizontal {
 		o = Vertical
@@ -228,9 +256,20 @@ func (b *ScrollBarBuilder) Element() *h.Element {
 	)
 	base := h.Div(h.Data("orientation", string(o)), h.Data("slot", "scroll-area-scrollbar"))
 	bar := h.Spread(base, props, nil).SetClass(class)
-	bar.Children(h.Div(h.Data("slot", "scroll-area-thumb"), h.Class("relative flex-1 rounded-full bg-border")))
+	thumbClass := "relative flex-1 rounded-full bg-border"
+	if st != "" {
+		bar.SetClass(styleScrollbar.Class(st, props.ClassName()))
+		thumbClass = styleThumb.Class(st)
+	}
+	bar.Children(h.Div(h.Data("slot", "scroll-area-thumb"), h.Class(thumbClass)))
 	return h.Template(h.Data("slot", "scroll-area-scrollbar-template"), bar)
 }
 
 // Render renders the scrollbar's template.
-func (b *ScrollBarBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ScrollBarBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *ScrollBarBuilder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
+	return b.element(st)
+}

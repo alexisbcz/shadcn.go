@@ -11,6 +11,7 @@ package breadcrumb
 import (
 	"fmt"
 	"io"
+	"shadcn.go/components/style"
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
@@ -25,6 +26,37 @@ type Builder struct {
 	acceptsAs  bool
 	defaultKid func() *h.Element // rendered when the user gives no children
 	fixedKids  bool              // the user's children are ignored (Ellipsis)
+	// alt returns the base element and default child of a style
+	// (registry/bases/radix/ui/breadcrumb.tsx), for style.Scope.
+	alt func(st style.Style) (base *h.Element, defaultKid func() *h.Element)
+}
+
+// styleFile is registry/bases/radix/ui/breadcrumb.tsx (style.Scope).
+var styleFile = style.NewFile("ui/breadcrumb.tsx")
+
+var (
+	styleRoot      = styleFile.Cn("cn-breadcrumb", style.Arg)
+	styleList      = styleFile.Cn("cn-breadcrumb-list flex flex-wrap items-center wrap-break-word", style.Arg)
+	styleItem      = styleFile.Cn("cn-breadcrumb-item inline-flex items-center", style.Arg)
+	styleLink      = styleFile.Cn("cn-breadcrumb-link", style.Arg)
+	stylePage      = styleFile.Cn("cn-breadcrumb-page", style.Arg)
+	styleSeparator = styleFile.Cn("cn-breadcrumb-separator", style.Arg)
+	styleSepIcon   = styleFile.Attr("cn-rtl-flip")
+	styleEllipsis  = styleFile.Cn("cn-breadcrumb-ellipsis flex items-center justify-center", style.Arg)
+)
+
+// withAlt sets the part's style base: the new-york-v4 base with its class
+// replaced by site's (the user's class is merged when spreading).
+func (b *Builder) withAlt(site *style.Site, kid func(st style.Style) func() *h.Element) *Builder {
+	b.alt = func(st style.Style) (*h.Element, func() *h.Element) {
+		base := b.base.Clone().SetClass(site.Class(st, ""))
+		var k func() *h.Element
+		if kid != nil {
+			k = kid(st)
+		}
+		return base, k
+	}
+	return b
 }
 
 func styled(base *h.Element, tag string, children []any) *Builder {
@@ -48,17 +80,17 @@ func (b *Builder) AsChild() *Builder { b.asChild = true; return b }
 
 // Breadcrumb is the root <nav aria-label="breadcrumb">.
 func Breadcrumb(children ...any) *Builder {
-	return styled(h.Nav(h.Aria("label", "breadcrumb"), h.Data("slot", "breadcrumb")), "nav", children)
+	return styled(h.Nav(h.Aria("label", "breadcrumb"), h.Data("slot", "breadcrumb")), "nav", children).withAlt(styleRoot, nil)
 }
 
 // List is the ordered list of items.
 func List(children ...any) *Builder {
-	return styled(h.Ol(h.Data("slot", "breadcrumb-list"), h.Class("flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5")), "ol", children)
+	return styled(h.Ol(h.Data("slot", "breadcrumb-list"), h.Class("flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5")), "ol", children).withAlt(styleList, nil)
 }
 
 // Item is one entry of the list.
 func Item(children ...any) *Builder {
-	return styled(h.Li(h.Data("slot", "breadcrumb-item"), h.Class("inline-flex items-center gap-1.5")), "li", children)
+	return styled(h.Li(h.Data("slot", "breadcrumb-item"), h.Class("inline-flex items-center gap-1.5")), "li", children).withAlt(styleItem, nil)
 }
 
 // Link is a link to an ancestor page. Pass lib.AsChild to style your own
@@ -66,19 +98,22 @@ func Item(children ...any) *Builder {
 func Link(children ...any) *Builder {
 	b := &Builder{base: h.A(h.Data("slot", "breadcrumb-link"), h.Class("transition-colors hover:text-foreground")), acceptsAs: true}
 	b.Builder = h.NewBuilder(b, "a")
+	b.withAlt(styleLink, nil)
 	return b.Children(children...)
 }
 
 // Page is the current page.
 func Page(children ...any) *Builder {
-	return styled(h.Span(h.Data("slot", "breadcrumb-page"), h.Role("link"), h.Aria("disabled", "true"), h.Aria("current", "page"), h.Class("font-normal text-foreground")), "span", children)
+	return styled(h.Span(h.Data("slot", "breadcrumb-page"), h.Role("link"), h.Aria("disabled", "true"), h.Aria("current", "page"), h.Class("font-normal text-foreground")), "span", children).withAlt(stylePage, nil)
 }
 
 // Separator separates two items; it shows a chevron unless given children.
 func Separator(children ...any) *Builder {
 	b := styled(h.Li(h.Data("slot", "breadcrumb-separator"), h.Role("presentation"), h.Aria("hidden", "true"), h.Class("[&>svg]:size-3.5")), "li", children)
 	b.defaultKid = func() *h.Element { return lucide.ChevronRight() }
-	return b
+	return b.withAlt(styleSeparator, func(st style.Style) func() *h.Element {
+		return func() *h.Element { return lucide.ChevronRight(h.Class(styleSepIcon.Class(st))) }
+	})
 }
 
 // Ellipsis stands for collapsed items. Like upstream, it always renders
@@ -89,18 +124,37 @@ func Ellipsis(children ...any) *Builder {
 		h.Span(h.Class("sr-only"), "More"),
 	), "span", children)
 	b.fixedKids = true
+	b.alt = func(st style.Style) (*h.Element, func() *h.Element) {
+		return h.Span(h.Data("slot", "breadcrumb-ellipsis"), h.Role("presentation"), h.Aria("hidden", "true"), h.Class(styleEllipsis.Class(st, "")),
+			lucide.Ellipsis(),
+			h.Span(h.Class("sr-only"), "More"),
+		), nil
+	}
 	return b
 }
 
 // Element resolves the component to its element.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element(nil, "") }
+
+// ElementIn resolves the component as it renders inside w, in the style of
+// an enclosing style.Scope.
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
+	return b.element(w, st)
+}
+
+func (b *Builder) element(w io.Writer, st style.Style) *h.Element {
 	props := b.Elem()
+	base, defaultKid := b.base, b.defaultKid
+	if st != "" && b.alt != nil {
+		base, defaultKid = b.alt(st)
+	}
 	if b.fixedKids {
 		props = props.Clone().SetChildren()
-	} else if b.defaultKid != nil && len(props.ChildNodes()) == 0 {
-		props = props.Clone().SetChildren(b.defaultKid())
+	} else if defaultKid != nil && len(props.ChildNodes()) == 0 {
+		props = props.Clone().SetChildren(defaultKid())
 	}
-	el := h.Spread(b.base, props, lib.Cn)
+	el := h.Spread(base, props, lib.Cn)
 	if !b.asChild {
 		return el
 	}
@@ -109,7 +163,13 @@ func (b *Builder) Element() *h.Element {
 		return h.Errored(fmt.Errorf("breadcrumb: AsChild needs exactly one element child, got %d children", len(kids)))
 	}
 	// Radix Slot: the child's props win, classes are concatenated.
-	out, err := h.Slot(el.Clone().SetChildren(), kids[0], nil)
+	var out *h.Element
+	var err error
+	if w != nil {
+		out, err = h.SlotIn(w, el.Clone().SetChildren(), kids[0], nil)
+	} else {
+		out, err = h.Slot(el.Clone().SetChildren(), kids[0], nil)
+	}
 	if err != nil {
 		return h.Errored(fmt.Errorf("breadcrumb: AsChild: %w", err))
 	}
@@ -117,4 +177,4 @@ func (b *Builder) Element() *h.Element {
 }
 
 // Render renders the component.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }

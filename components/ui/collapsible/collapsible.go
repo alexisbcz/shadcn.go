@@ -157,7 +157,11 @@ func (b *TriggerBuilder) AcceptChild(c any) bool {
 func (b *TriggerBuilder) AsChild() *TriggerBuilder { b.asChild = true; return b }
 
 // Element resolves the trigger.
-func (b *TriggerBuilder) Element() *h.Element {
+func (b *TriggerBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the trigger as it renders inside w: an AsChild child
+// keeps the style of an enclosing style.Scope.
+func (b *TriggerBuilder) ElementIn(w io.Writer) *h.Element {
 	if b.ctx == nil {
 		return h.Errored(fmt.Errorf("collapsible: Trigger must be inside Collapsible"))
 	}
@@ -174,13 +178,13 @@ func (b *TriggerBuilder) Element() *h.Element {
 	}
 	props := h.Spread(base, b.Elem(), nil)
 	if b.asChild {
-		return aschild.Resolve("collapsible Trigger", props)
+		return aschild.ResolveIn(w, "collapsible Trigger", props)
 	}
 	return props
 }
 
 // Render renders the trigger.
-func (b *TriggerBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TriggerBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // ContentBuilder is returned by Content.
 type ContentBuilder struct {

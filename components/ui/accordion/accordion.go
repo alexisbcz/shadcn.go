@@ -30,6 +30,7 @@ import (
 	_ "embed"
 	"fmt"
 	"io"
+	"shadcn.go/components/style"
 	"slices"
 
 	"shadcn.go/components/icons/lucide"
@@ -83,6 +84,7 @@ const (
 )
 
 type rootContext struct {
+	style       style.Style
 	typ         Type
 	collapsible bool
 	value       []string
@@ -157,7 +159,10 @@ func (b *Builder) Orientation(o Orientation) *Builder { b.orientation = o; retur
 func (b *Builder) Dir(d Dir) *Builder { b.dir = d; return b }
 
 // Element resolves the accordion to its root <div>.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *Builder) element(st style.Style) *h.Element {
 	typ := b.typ
 	if typ != TypeMultiple {
 		typ = TypeSingle
@@ -170,7 +175,7 @@ func (b *Builder) Element() *h.Element {
 	if typ == TypeSingle && len(value) > 1 {
 		value = value[:1]
 	}
-	ctx := &rootContext{typ: typ, collapsible: b.collapsible || typ == TypeMultiple, value: value, disabled: b.disabled, orientation: orientation}
+	ctx := &rootContext{style: st, typ: typ, collapsible: b.collapsible || typ == TypeMultiple, value: value, disabled: b.disabled, orientation: orientation}
 	tree.Walk(b.Elem().ChildNodes(), func(n any) bool {
 		switch c := n.(type) {
 		case *ItemBuilder:
@@ -192,11 +197,20 @@ func (b *Builder) Element() *h.Element {
 	if b.dir != "" {
 		base.Data("dir", string(b.dir))
 	}
+	if st != "" {
+		return h.Spread(base, b.Elem(), nil).SetClass(styleRoot.Class(st, b.Elem().ClassName()))
+	}
 	return h.Spread(base, b.Elem(), nil)
 }
 
 // Render renders the accordion.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
+	return b.element(st)
+}
 
 // ItemBuilder is returned by Item.
 type ItemBuilder struct {
@@ -234,7 +248,10 @@ func (b *ItemBuilder) Value(v string) *ItemBuilder { b.value = v; return b }
 func (b *ItemBuilder) Disabled(on bool) *ItemBuilder { b.disabled = on; return b }
 
 // Element resolves the item to its <div>.
-func (b *ItemBuilder) Element() *h.Element {
+func (b *ItemBuilder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *ItemBuilder) element(st style.Style) *h.Element {
 	if b.root == nil {
 		return h.Errored(fmt.Errorf("accordion: Item must be inside Accordion"))
 	}
@@ -267,11 +284,20 @@ func (b *ItemBuilder) Element() *h.Element {
 	base.Data("slot", "accordion-item")
 	base.Data("value", b.value) // read (and removed) by accordion.js
 	props := b.Elem()
+	if st := b.root.style; st != "" {
+		return h.Spread(base, props, nil).SetClass(styleItem.Class(st, props.ClassName()))
+	}
 	return h.Spread(base, props, nil).SetClass(lib.Cn("border-b last:border-b-0", props.ClassName()))
 }
 
 // Render renders the item.
-func (b *ItemBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ItemBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *ItemBuilder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
+	return b.element(st)
+}
 
 // TriggerBuilder is returned by Trigger.
 type TriggerBuilder struct {
@@ -287,10 +313,26 @@ func Trigger(children ...any) *TriggerBuilder {
 	return b.Children(children...)
 }
 
+// styleFile is registry/bases/radix/ui/accordion.tsx (style.Scope).
+var styleFile = style.NewFile("ui/accordion.tsx")
+
+var (
+	styleRoot         = styleFile.Cn("cn-accordion flex w-full flex-col", style.Arg)
+	styleItem         = styleFile.Cn("cn-accordion-item", style.Arg)
+	styleTrigger      = styleFile.Cn("cn-accordion-trigger group/accordion-trigger relative flex flex-1 items-start justify-between border border-transparent transition-all outline-none disabled:pointer-events-none disabled:opacity-50", style.Arg)
+	styleIconDown     = styleFile.Attr("cn-accordion-trigger-icon pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden")
+	styleIconUp       = styleFile.Attr("cn-accordion-trigger-icon pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline")
+	styleContent      = styleFile.Attr("cn-accordion-content overflow-hidden")
+	styleContentInner = styleFile.Cn("cn-accordion-content-inner h-(--radix-accordion-content-height) [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4", style.Arg)
+)
+
 const triggerClass = "flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180"
 
 // Element resolves the trigger to its heading.
-func (b *TriggerBuilder) Element() *h.Element {
+func (b *TriggerBuilder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *TriggerBuilder) element(st style.Style) *h.Element {
 	it := b.item
 	if it == nil {
 		return h.Errored(fmt.Errorf("accordion: Trigger must be inside an Item"))
@@ -322,12 +364,26 @@ func (b *TriggerBuilder) Element() *h.Element {
 	btn.Data("radix-collection-item", "")
 	props := b.Elem()
 	out := h.Spread(btn, props, nil).SetClass(lib.Cn(triggerClass, props.ClassName()))
+	if st := it.root.style; st != "" {
+		out.SetClass(styleTrigger.Class(st, props.ClassName()))
+		out.Children(
+			lucide.ChevronDown(h.Data("slot", "accordion-trigger-icon"), h.Class(styleIconDown.Class(st))),
+			lucide.ChevronUp(h.Data("slot", "accordion-trigger-icon"), h.Class(styleIconUp.Class(st))),
+		)
+		return header.Children(out)
+	}
 	out.Children(lucide.ChevronDown(h.Class("pointer-events-none size-4 shrink-0 translate-y-0.5 text-muted-foreground transition-transform duration-200")))
 	return header.Children(out)
 }
 
 // Render renders the trigger.
-func (b *TriggerBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TriggerBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *TriggerBuilder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
+	return b.element(st)
+}
 
 // ContentBuilder is returned by Content.
 type ContentBuilder struct {
@@ -347,13 +403,21 @@ const contentClass = "overflow-hidden text-sm data-[state=closed]:animate-accord
 const contentVars = "--radix-accordion-content-height:var(--radix-collapsible-content-height);--radix-accordion-content-width:var(--radix-collapsible-content-width)"
 
 // Element resolves the content.
-func (b *ContentBuilder) Element() *h.Element {
+func (b *ContentBuilder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *ContentBuilder) element(st style.Style) *h.Element {
 	it := b.item
 	if it == nil {
 		return h.Errored(fmt.Errorf("accordion: Content must be inside an Item"))
 	}
 	props := b.Elem()
 	inner := h.Div(h.Class(lib.Cn("pt-0 pb-4", props.ClassName())))
+	cls := contentClass
+	if st := it.root.style; st != "" {
+		inner.SetClass(styleContentInner.Class(st, props.ClassName()))
+		cls = styleContent.Class(st)
+	}
 	inner.Children(props.ChildNodes()...)
 	user := props.Clone().SetChildren().SetClass("")
 	user.Children(inner)
@@ -362,11 +426,17 @@ func (b *ContentBuilder) Element() *h.Element {
 		h.Aria("labelledby", it.triggerID),
 		h.Data("orientation", string(it.root.orientation)),
 		h.Data("slot", "accordion-content"),
-		h.Class(contentClass),
+		h.Class(cls),
 		h.Style(contentVars),
 	)
 	return collapsible.ContentElement(base, user, it.open, it.disabled, it.contentID, "accordion-content-template")
 }
 
 // Render renders the content.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ContentBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
+	return b.element(st)
+}

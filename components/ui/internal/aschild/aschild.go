@@ -6,6 +6,7 @@ package aschild
 
 import (
 	"fmt"
+	"io"
 	"strings"
 
 	"shadcn.go/components/ui/internal/tree"
@@ -31,12 +32,24 @@ type component interface {
 // with cn. Slot does the same by adding the slot's props to the
 // component's user props before resolving it. This mutates the child
 // builder; a builder is meant to be rendered once.
-func Slot(slot *h.Element, child any) (*h.Element, error) {
+func Slot(slot *h.Element, child any) (*h.Element, error) { return slotIn(nil, slot, child) }
+
+// SlotIn is Slot inside a Render method: a child component whose element
+// depends on the render scope (h.ElementerIn, e.g. the style of
+// style.Scope) is resolved as it renders inside w.
+func SlotIn(w io.Writer, slot *h.Element, child any) (*h.Element, error) {
+	return slotIn(w, slot, child)
+}
+
+func slotIn(w io.Writer, slot *h.Element, child any) (*h.Element, error) {
 	if slot.Err() != nil {
 		return nil, slot.Err()
 	}
 	c, ok := child.(component)
 	if !ok {
+		if w != nil {
+			return h.SlotIn(w, slot, child, nil)
+		}
 		return h.Slot(slot, child, nil)
 	}
 	user := c.Elem()
@@ -66,18 +79,25 @@ func Slot(slot *h.Element, child any) (*h.Element, error) {
 			user.Attr("style", strings.TrimSuffix(strings.TrimSpace(sv), ";")+";"+uv)
 		}
 	}
+	if ei, ok := child.(h.ElementerIn); ok && w != nil {
+		return ei.ElementIn(w), nil
+	}
 	return c.Element(), nil
 }
 
 // Resolve resolves a part rendered with lib.AsChild: props (without
 // children) slotted into the single child of props. part names the part in
 // errors (e.g. "collapsible Trigger").
-func Resolve(part string, props *h.Element) *h.Element {
+func Resolve(part string, props *h.Element) *h.Element { return ResolveIn(nil, part, props) }
+
+// ResolveIn is Resolve inside a Render method (see SlotIn); a nil w is
+// Resolve.
+func ResolveIn(w io.Writer, part string, props *h.Element) *h.Element {
 	kids := props.ChildNodes()
 	if len(kids) != 1 {
 		return h.Errored(fmt.Errorf("%s: AsChild needs exactly one element child, got %d children", part, len(kids)))
 	}
-	out, err := Slot(props.Clone().SetChildren(), kids[0])
+	out, err := slotIn(w, props.Clone().SetChildren(), kids[0])
 	if err != nil {
 		return h.Errored(fmt.Errorf("%s: AsChild: %w", part, err))
 	}

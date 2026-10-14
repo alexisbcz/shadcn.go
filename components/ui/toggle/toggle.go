@@ -166,9 +166,12 @@ func (b *Builder) element(st style.Style) *h.Element {
 
 // Render renders the toggle.
 // Inside style.Scope it renders that style's toggle.
-func (b *Builder) Render(w io.Writer) error {
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn is Element in the style of an enclosing style.Scope.
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
-	return b.element(st).Render(w)
+	return b.element(st)
 }
 
 // Root returns the attributes Radix's Toggle.Root renders before the
