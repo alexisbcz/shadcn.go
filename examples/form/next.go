@@ -73,6 +73,7 @@ func NextDemo(state NextDemoState, pending bool) h.Node {
 		h.Aria("invalid", invalid("title")),
 		h.Placeholder("Login button not working on mobile"),
 		h.AutoComplete("off"),
+		h.If(pending, h.Bool("disabled")),
 	)
 	desc := inputgroup.Textarea(
 		h.ID("description"),
@@ -86,7 +87,7 @@ func NextDemo(state NextDemoState, pending bool) h.Node {
 	submit := button.Button(h.Type("submit"), h.FormAttr("bug-report-form"))
 	if pending {
 		title.Props().Bool("disabled", true)
-		desc.Bool("disabled", true)
+		desc.Props().Bool("disabled", true)
 		submit.Disabled(true)
 		submit.Children(spinner.Spinner())
 	}

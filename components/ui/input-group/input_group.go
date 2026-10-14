@@ -16,8 +16,10 @@ import (
 	"io"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/input"
+	"shadcn.go/components/ui/internal/styled"
 	"shadcn.go/components/ui/runtime"
 	"shadcn.go/components/ui/textarea"
 	"shadcn.go/cva"
@@ -111,27 +113,41 @@ var (
 )
 
 // InputGroup is the group's bordered container.
-func InputGroup(children ...any) *h.Element {
-	return h.Spread(groupBase, h.Div(children...), lib.Cn)
+func InputGroup(children ...any) *styled.Node {
+	return styled.Spread(groupBase, h.Div(children...), styled.Slot("div", "input-group", sGroup, h.Role("group")))
 }
 
 // Text is muted inline text inside an Addon (upstream InputGroupText).
-func Text(children ...any) *h.Element {
-	return h.Spread(textBase, h.Span(children...), lib.Cn)
+func Text(children ...any) *styled.Node {
+	return styled.Spread(textBase, h.Span(children...), func(st style.Style) *h.Element {
+		return h.Span(h.Class(sText.Class(st, "")))
+	})
 }
 
 // Input is the group's <input> (upstream InputGroupInput, an Input).
-func Input(children ...any) *h.Element {
-	props := h.Input(children...)
-	props.SetClass(lib.Cn(inputCls, props.ClassName()))
-	return input.Input(h.Data("slot", "input-group-control"), spreadProp(props)).Element()
+func Input(children ...any) *styled.Node {
+	return styled.Lazy(h.Input(children...),
+		func(props *h.Element) h.Node {
+			props = props.Clone().SetClass(lib.Cn(inputCls, props.ClassName()))
+			return input.Input(h.Data("slot", "input-group-control"), spreadProp(props))
+		},
+		func(st style.Style, props *h.Element) h.Node {
+			props = props.Clone().SetClass(sInput.Class(st, props.ClassName()))
+			return input.Input(h.Data("slot", "input-group-control"), spreadProp(props))
+		})
 }
 
 // Textarea is the group's <textarea> (upstream InputGroupTextarea).
-func Textarea(children ...any) *h.Element {
-	props := h.Textarea(children...)
-	props.SetClass(lib.Cn(areaCls, props.ClassName()))
-	return textarea.Textarea(h.Data("slot", "input-group-control"), spreadProp(props)).Element()
+func Textarea(children ...any) *styled.Node {
+	return styled.Lazy(h.Textarea(children...),
+		func(props *h.Element) h.Node {
+			props = props.Clone().SetClass(lib.Cn(areaCls, props.ClassName()))
+			return textarea.Textarea(h.Data("slot", "input-group-control"), spreadProp(props))
+		},
+		func(st style.Style, props *h.Element) h.Node {
+			props = props.Clone().SetClass(sTextarea.Class(st, props.ClassName()))
+			return textarea.Textarea(h.Data("slot", "input-group-control"), spreadProp(props))
+		})
 }
 
 // Builder is returned by Addon and Button.
@@ -213,20 +229,34 @@ func (b *Builder) Variant(v button.Variant) *Builder {
 }
 
 // Element resolves the component to its element.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the component to its element as it renders inside w
+// (in the style of an enclosing style.Scope).
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
+	return h.ResolveIn(w, b.node(st))
+}
+
+func (b *Builder) node(st style.Style) h.Node {
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	if b.isButton {
-		props.SetClass(ButtonVariants(b.size, className))
-		return button.Button(b.variant, h.Type("button"), h.Data("size", string(b.size)), spreadProp(props)).Element()
+		props.SetClass(buttonClass(st, b.size, className))
+		return button.Button(b.variant, h.Type("button"), h.Data("size", string(b.size)), spreadProp(props))
 	}
 	props.SetClass("")
-	base := h.Div(h.Role("group"), h.Data("slot", "input-group-addon"), h.Data("align", string(b.align)), h.Class(lib.Cn(AddonVariants(b.align), className)))
+	base := h.Div(h.Role("group"), h.Data("slot", "input-group-addon"), h.Data("align", string(b.align)), h.Class(addonClass(st, b.align, className)))
 	return h.Spread(base, props, lib.Cn)
 }
 
 // Render renders the component.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error {
+	if st, ok := style.FromWriter(w); ok {
+		return b.node(st).Render(w)
+	}
+	return b.Element().Render(w)
+}
 
 // spreadProp applies props' attributes, classes and children to the
 // element it is passed to, like {...props}.

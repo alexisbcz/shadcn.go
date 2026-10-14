@@ -13,8 +13,8 @@ import (
 
 	"shadcn.go/components/lib"
 	"shadcn.go/components/style"
-	"shadcn.go/components/ui/separator"
 	"shadcn.go/components/ui/internal/styled"
+	"shadcn.go/components/ui/separator"
 	"shadcn.go/cva"
 	h "shadcn.go/libhtml"
 )
@@ -251,9 +251,12 @@ func (b *Builder) Size(s Size) *Builder {
 func (b *Builder) AsChild() *Builder { b.asChild = true; return b }
 
 // Element resolves the component to its element.
-func (b *Builder) Element() *h.Element { return b.element("") }
+func (b *Builder) Element() *h.Element { return b.ElementIn(nil) }
 
-func (b *Builder) element(st style.Style) *h.Element {
+// ElementIn resolves the component to its element as it renders inside w
+// (in the style of an enclosing style.Scope).
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	props.SetClass("")
@@ -278,7 +281,7 @@ func (b *Builder) element(st style.Style) *h.Element {
 	if len(kids) != 1 {
 		return h.Errored(fmt.Errorf("item: AsChild needs exactly one element child, got %d children", len(kids)))
 	}
-	out, err := h.Slot(el.Clone().SetChildren(), kids[0], slotClassMerger(kids[0]))
+	out, err := h.SlotIn(w, el.Clone().SetChildren(), kids[0], slotClassMerger(kids[0]))
 	if err != nil {
 		return h.Errored(fmt.Errorf("item: AsChild: %w", err))
 	}
@@ -287,8 +290,7 @@ func (b *Builder) element(st style.Style) *h.Element {
 
 // Render renders the component.
 func (b *Builder) Render(w io.Writer) error {
-	st, _ := style.FromWriter(w)
-	return b.element(st).Render(w)
+	return b.ElementIn(w).Render(w)
 }
 
 // slotClassMerger returns how Radix Slot's merged className ends up on the

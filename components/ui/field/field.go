@@ -270,9 +270,12 @@ func (b *Builder) Variant(v LegendVariant) *Builder {
 }
 
 // Element resolves the component to its element.
-func (b *Builder) Element() *h.Element { return b.element("") }
+func (b *Builder) Element() *h.Element { return b.ElementIn(nil) }
 
-func (b *Builder) element(st style.Style) *h.Element {
+// ElementIn resolves the component to its element as it renders inside w
+// (in the style of an enclosing style.Scope).
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
 	if b.legend {
 		class := legendClass
 		if st != "" {
@@ -294,8 +297,7 @@ func (b *Builder) element(st style.Style) *h.Element {
 
 // Render renders the component.
 func (b *Builder) Render(w io.Writer) error {
-	st, _ := style.FromWriter(w)
-	return b.element(st).Render(w)
+	return b.ElementIn(w).Render(w)
 }
 
 func boolString(v bool) string {

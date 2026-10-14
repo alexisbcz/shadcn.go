@@ -122,12 +122,12 @@ const (
 )
 
 // Element resolves the component to its element.
-func (b *Builder) Element() *h.Element { return b.element("") }
+func (b *Builder) Element() *h.Element { return b.ElementIn(nil) }
 
-// StyledElement resolves the component to its element in style st.
-func (b *Builder) StyledElement(st style.Style) *h.Element { return b.element(st) }
-
-func (b *Builder) element(st style.Style) *h.Element {
+// ElementIn resolves the component to its element as it renders inside w
+// (in the style of an enclosing style.Scope).
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	st, _ := style.FromWriter(w)
 	switch b.kind {
 	case kindText:
 		el := h.Spread(h.Div(h.Class(textClassFor(st))), b.Elem(), lib.Cn)
@@ -138,17 +138,13 @@ func (b *Builder) element(st style.Style) *h.Element {
 		if len(kids) != 1 {
 			return h.Errored(fmt.Errorf("buttongroup: Text AsChild needs exactly one element child, got %d children", len(kids)))
 		}
-		out, err := h.Slot(el.Clone().SetChildren(), styledChild(st, kids[0]), slotClassMerger(kids[0]))
+		out, err := h.SlotIn(w, el.Clone().SetChildren(), kids[0], slotClassMerger(kids[0]))
 		if err != nil {
 			return h.Errored(fmt.Errorf("buttongroup: Text AsChild: %w", err))
 		}
 		return out
 	case kindSeparator:
-		sep := b.separator(st)
-		if e, ok := styledChild(st, sep).(*h.Element); ok {
-			return e
-		}
-		return sep.Element()
+		return h.ResolveIn(w, b.separator(st))
 	}
 	base := h.Div(h.Role("group"), h.Data("slot", "button-group"))
 	if b.orientation != "" {
@@ -166,16 +162,6 @@ func (b *Builder) separator(st style.Style) *separator.Builder {
 	className := props.ClassName()
 	props.SetClass(separatorClassFor(st, className))
 	return separator.Separator(separator.Orientation(b.orientation), h.Data("slot", "button-group-separator"), spreadProp(props))
-}
-
-// styledChild resolves an asChild child in style st when it depends on it.
-func styledChild(st style.Style, child any) any {
-	if st != "" {
-		if s, ok := child.(interface{ StyledElement(style.Style) *h.Element }); ok {
-			return s.StyledElement(st)
-		}
-	}
-	return child
 }
 
 // slotClassMerger returns how Radix Slot's merged className ends up on the
@@ -207,9 +193,5 @@ func spreadProp(props *h.Element) h.Prop {
 
 // Render renders the component.
 func (b *Builder) Render(w io.Writer) error {
-	st, _ := style.FromWriter(w)
-	if b.kind == kindSeparator && st != "" {
-		return b.separator(st).Render(w)
-	}
-	return b.element(st).Render(w)
+	return b.ElementIn(w).Render(w)
 }

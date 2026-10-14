@@ -366,7 +366,7 @@ func (b *InputBuilder) Element() *h.Element {
 	if !s.inputIn && !s.multiple {
 		value = s.selectedLabel()
 	}
-	in := inputgroup.Input(h.Prop(func(e *h.Element) { e.Bool("disabled", disabled) }))
+	in := inputgroup.Input(h.Prop(func(e *h.Element) { e.Bool("disabled", disabled) })).Element()
 	in = h.Spread(in, comboboxInputAttrs(inputID, value), nil)
 	in = h.Spread(in, props, nil)
 	mark(in, s, "input")
@@ -386,7 +386,7 @@ func (b *InputBuilder) Element() *h.Element {
 		inputgroup.Addon(append([]any{inputgroup.AlignInlineEnd}, addon...)...),
 		kids,
 	)
-	return group
+	return group.Element()
 }
 
 // Render renders the input group.
