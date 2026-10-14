@@ -62,6 +62,10 @@ func SourceFile(styleName, src string) (string, bool) {
 // highlightCode is lib/highlight-code.ts's highlightCode: the HTML of the
 // highlighted <pre>, inserted as is (upstream: dangerouslySetInnerHTML).
 // The HTML is produced by our own highlighter from repository sources.
+// HighlightCode is highlightCode (lib/highlight-code.ts) for use outside
+// MDX components, e.g. the block viewer's code view.
+func HighlightCode(code, lang string) h.Node { return highlightCode(code, lang) }
+
 func highlightCode(code, lang string) h.Node {
 	hl, err := highlight.Default()
 	if err == nil {

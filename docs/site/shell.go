@@ -32,6 +32,10 @@ type Meta struct {
 	Canonical string
 	// Article marks docs pages (og:type article, og image from the title).
 	Article bool
+	// PlainTitle drops the " - shadcn/ui" suffix: Next.js applies the root
+	// title template only below layouts that do not set a plain title
+	// themselves (the blocks layout does).
+	PlainTitle bool
 }
 
 // fontClasses are the next/font variable classes the root layout puts on
@@ -106,6 +110,9 @@ func (s *Site) Document(r *http.Request, m Meta, body ...any) h.Node {
 	title := SiteName
 	if m.Title != "" {
 		title = m.Title + " - " + SiteName
+		if m.PlainTitle {
+			title = m.Title
+		}
 	}
 	desc := m.Description
 	if desc == "" {

@@ -81,3 +81,38 @@ document.addEventListener("keydown", (e) => {
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
   if (currentTheme() === "system") setTheme("system")
 })
+
+// Block viewer (components/block-viewer.tsx): Preview/Code tabs switch the
+// wrapper's data-view, the size toggle resizes the preview panel, refresh
+// reloads the iframe, the file tree selects the code shown, copy buttons.
+document.addEventListener("click", (e) => {
+  const t = e.target instanceof Element ? e.target : null
+  const wrapper = t?.closest("[data-block-viewer]")
+  if (!wrapper) return
+  const tab = t.closest("[data-block-view]")
+  if (tab) wrapper.dataset.view = tab.dataset.blockView
+  const size = t.closest("[data-block-size] [data-slot=toggle-group-item]")
+  if (size) {
+    wrapper.dataset.view = "preview"
+    const value = size.getAttribute("value") ?? size.dataset.value
+    const panel = wrapper.querySelector("[data-block-panel]")
+    if (value && panel?.resizablePanel) panel.resizablePanel.resize(value)
+  }
+  if (t.closest("[data-block-refresh]")) {
+    const iframe = wrapper.querySelector("iframe")
+    if (iframe) iframe.src = iframe.src
+  }
+  const file = t.closest("[data-block-select-file]")
+  if (file) {
+    const target = file.dataset.blockSelectFile
+    for (const f of wrapper.querySelectorAll("[data-block-file]")) f.hidden = f.dataset.blockFile !== target
+    for (const b of wrapper.querySelectorAll("[data-block-select-file]")) b.dataset.active = String(b === file)
+  }
+  const copy = t.closest("[data-block-copy]")
+  if (copy) navigator.clipboard?.writeText(copy.dataset.blockCopy)
+  const copyFile = t.closest("[data-block-copy-file]")
+  if (copyFile) {
+    const fig = copyFile.closest("[data-block-file]")
+    navigator.clipboard?.writeText(fig?.querySelector("code")?.textContent ?? "")
+  }
+})
