@@ -1,0 +1,7 @@
+[
+  { "label": "directory-add", "when": "[data-slot=\"item-actions\"] button:has-text(\"Add\")", "steps": [{ "do": "click", "target": "[data-slot=\"item-actions\"] button:has-text(\"Add\")" }, { "do": "settle" }] },
+  { "label": "directory-add-npm", "when": "[data-slot=\"item-actions\"] button:has-text(\"Add\")", "steps": [{ "do": "click", "target": "[role=\"dialog\"] [data-slot=\"tabs-trigger\"]:text-is(\"npm\")" }, { "do": "settle" }] },
+  { "label": "directory-add-close", "when": "[data-slot=\"item-actions\"] button:has-text(\"Add\")", "steps": [{ "do": "press", "key": "Escape" }, { "do": "settle" }] },
+  { "label": "directory-page-2", "when": "a[data-slot=\"pagination-link\"]", "reset": true, "full": true, "steps": [{ "do": "click", "target": "a[data-slot=\"pagination-link\"]:text-is(\"2\")", "nav": true }, { "do": "settle" }] },
+  { "label": "directory-search", "when": "[data-slot=\"input-group\"] input", "reset": true, "frames": false, "full": true, "steps": [{ "do": "click", "target": "[data-slot=\"input-group\"] input" }, { "do": "type", "text": "chart" }, { "do": "wait", "ms": 2000 }, { "do": "settle" }] }
+]

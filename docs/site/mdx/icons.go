@@ -18,3 +18,7 @@ func iconAlertCircle(children ...any) *h.Element {
 func iconTerminal(children ...any) *h.Element {
 	return tablerIcon("terminal", `<path d="M5 7l5 5l-5 5"></path><path d="M12 19l7 0"></path>`, children...)
 }
+
+func iconArrowUpRight(children ...any) *h.Element {
+	return tablerIcon("arrow-up-right", `<path d="M17 7l-10 10"></path><path d="M8 7l9 0l0 9"></path>`, children...)
+}

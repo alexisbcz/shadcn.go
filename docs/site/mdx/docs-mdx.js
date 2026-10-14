@@ -118,7 +118,8 @@ function codeFor(button) {
   if (value !== null) return value
   const scope = button.parentElement
   if (!scope) return ""
-  const active = scope.querySelector('[role="tabpanel"][data-state="active"] code')
+  const panel = '[role="tabpanel"][data-state="active"] code'
+  const active = scope.querySelector(panel) ?? button.closest('[data-slot="tabs"]')?.querySelector(panel)
   const code = active ?? scope.querySelector("code")
   return code ? code.textContent.replace(/\n$/, "") : ""
 }
@@ -190,6 +191,62 @@ define("docs-collapsible", {
     for (const t of triggers) t.addEventListener("click", onClick)
     return () => {
       for (const t of triggers) t.removeEventListener("click", onClick)
+    }
+  },
+})
+
+// DirectoryList: the search input reloads the page with ?q= (debounced
+// 250 ms, page reset), the clear button drops it.
+define("docs-directory", {
+  selector: "[data-docs-directory]",
+  mount(root) {
+    const input = root.querySelector("[data-docs-directory-search]")
+    const clear = root.querySelector("[data-docs-directory-clear]")
+    if (!input) return
+    // Upstream changes the page in place (nuqs): keep the scroll position
+    // across the reload.
+    const SCROLL_KEY = "docs-directory-scroll"
+    const keepScroll = () => {
+      try {
+        sessionStorage.setItem(SCROLL_KEY, String(scrollY))
+      } catch {}
+    }
+    try {
+      const y = sessionStorage.getItem(SCROLL_KEY)
+      if (y !== null) {
+        sessionStorage.removeItem(SCROLL_KEY)
+        scrollTo(0, Number(y))
+      }
+    } catch {}
+    const onLinkClick = (event) => {
+      if (event.target.closest('a[data-slot="pagination-link"]')) keepScroll()
+    }
+    root.addEventListener("click", onLinkClick)
+    let timer = 0
+    const go = (value) => {
+      keepScroll()
+      const url = new URL(location.href)
+      url.searchParams.delete("page")
+      if (value) url.searchParams.set("q", value)
+      else url.searchParams.delete("q")
+      location.replace(url)
+    }
+    if (input.value) {
+      input.focus({ preventScroll: true })
+      input.setSelectionRange(input.value.length, input.value.length)
+    }
+    const onInput = () => {
+      clearTimeout(timer)
+      timer = setTimeout(() => go(input.value), 250)
+    }
+    const onClear = () => go("")
+    input.addEventListener("input", onInput)
+    clear?.addEventListener("click", onClear)
+    return () => {
+      clearTimeout(timer)
+      root.removeEventListener("click", onLinkClick)
+      input.removeEventListener("input", onInput)
+      clear?.removeEventListener("click", onClear)
     }
   },
 })
