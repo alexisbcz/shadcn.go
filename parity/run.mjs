@@ -66,7 +66,7 @@ const positional = args.filter((a, i) => !a.startsWith("--") && !["--themes", "-
 async function acquireSlot() {
   const dir = path.join(repo, "parity/.slots")
   fs.mkdirSync(dir, { recursive: true })
-  const slots = Number(process.env.PARITY_SLOTS ?? 4)
+  const slots = Number(process.env.PARITY_SLOTS ?? 6)
   let waited = false
   for (;;) {
     for (let i = 0; i < slots; i++) {

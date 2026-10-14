@@ -136,7 +136,7 @@ node parity/run.mjs --component dialog --themes light --keep   # keep images of 
 
 Many agents run it at once: always pass `--jobs 2` and run only the
 references you are working on, not `--all`. Runs share a machine-wide limit
-(`PARITY_SLOTS`, default 4): if all slots are busy, a run waits for one
+(`PARITY_SLOTS`, default 6): if all slots are busy, a run waits for one
 ("waiting for a free harness slot"); that is normal, do not work around it. It builds and starts `cmd/parity`, opens `/react/<name>` and `/go/<name>` in
 headless Chromium (1024x768) and compares, per theme and per capture:
 
