@@ -92,3 +92,26 @@ func NovaVariant() h.Node {
 		novaIconItem(item.VariantMuted, item.SizeDefault, "Muted Variant", "Muted background for secondary content."),
 	)
 }
+
+func init() {
+	registry.Register(registry.Example{Name: "nova--item-rtl", Component: "item", Render: registry.Static(func() h.Node {
+		return style.Scope(style.Nova, style.ScopeRTL(NovaRtl()))
+	})})
+}
+
+// NovaRtl is item-rtl in Arabic (the docs' default language for it).
+func NovaRtl() h.Node {
+	return h.Div(h.Class("flex w-full max-w-md flex-col gap-6"), h.Dir("rtl"),
+		item.Item(item.VariantOutline, h.Dir("rtl"),
+			item.Content(item.Title("عنصر أساسي"), item.Description("عنصر بسيط يحتوي على عنوان ووصف.")),
+			item.Actions(button.Button(button.VariantOutline, button.SizeSm, "إجراء")),
+		),
+		item.Item(item.VariantOutline, item.SizeSm, lib.AsChild, h.Dir("rtl"),
+			h.A(h.Href("#"),
+				item.Media(lucide.BadgeCheck(h.Class("size-5"))),
+				item.Content(item.Title("تم التحقق من ملفك الشخصي.")),
+				item.Actions(lucide.ChevronRight(h.Class("size-4"))),
+			),
+		),
+	)
+}

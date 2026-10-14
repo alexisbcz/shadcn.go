@@ -489,3 +489,43 @@ func NovaWithTooltip() h.Node {
 		),
 	)
 }
+
+func init() {
+	registry.Register(registry.Example{Name: "nova--input-group-rtl", Component: "input-group", Render: registry.Static(func() h.Node {
+		return style.Scope(style.Nova, style.ScopeRTL(NovaRtl()))
+	})})
+}
+
+// NovaRtl is input-group-rtl in Arabic (the docs' default language for
+// it).
+func NovaRtl() h.Node {
+	rtl := h.Dir("rtl")
+	return h.Div(h.Class("grid w-full max-w-sm gap-6"),
+		ig.InputGroup(h.Class("max-w-xs"), rtl,
+			ig.Input(h.Placeholder("بحث...")),
+			ig.Addon(lucide.Search()),
+			ig.Addon(ig.AlignInlineEnd, "١٢ نتيجة"),
+		),
+		ig.InputGroup(rtl,
+			ig.Input(h.Placeholder("جاري البحث...")),
+			ig.Addon(ig.AlignInlineEnd, spinner.Spinner()),
+		),
+		ig.InputGroup(rtl,
+			ig.Input(h.Placeholder("جاري حفظ التغييرات...")),
+			ig.Addon(ig.AlignInlineEnd, ig.Text("جاري الحفظ..."), spinner.Spinner()),
+		),
+		field.Group(h.Class("max-w-sm"), rtl,
+			field.Field(
+				field.Label(h.For("rtl-textarea"), "منطقة النص"),
+				ig.InputGroup(rtl,
+					ig.Textarea(h.ID("rtl-textarea"), h.Placeholder("اكتب تعليقًا...")),
+					ig.Addon(ig.AlignBlockEnd,
+						ig.Text("٠/٢٨٠"),
+						ig.Button(button.VariantDefault, ig.ButtonSizeSm, h.Class("ml-auto"), "نشر"),
+					),
+				),
+				field.Description("تذييل موضع أسفل منطقة النص."),
+			),
+		),
+	)
+}
