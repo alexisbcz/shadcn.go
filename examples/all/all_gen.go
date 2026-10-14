@@ -20,6 +20,7 @@ import (
 	_ "shadcn.go/examples/card"
 	_ "shadcn.go/examples/carousel"
 	_ "shadcn.go/examples/chart"
+	_ "shadcn.go/examples/chart-radar"
 	_ "shadcn.go/examples/checkbox"
 	_ "shadcn.go/examples/collapsible"
 	_ "shadcn.go/examples/combobox"
