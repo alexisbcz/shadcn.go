@@ -1,4 +1,4 @@
-package ui_test
+package button_test
 
 import (
 	"encoding/json"
@@ -6,7 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"shadcn.go/components/ui"
+	"shadcn.go/components/lib"
+	"shadcn.go/components/ui/button"
 	h "shadcn.go/libhtml"
 )
 
@@ -26,12 +27,12 @@ func TestButtonVariantsMatchShadcn(t *testing.T) {
 		t.Fatal("no reference cases")
 	}
 	for _, c := range cases {
-		got := ui.ButtonVariants(ui.ButtonVariant(c.Variant), ui.ButtonSize(c.Size), c.ClassName)
+		got := button.Variants(button.Variant(c.Variant), button.Size(c.Size), c.ClassName)
 		if got != c.Want {
 			t.Errorf("variant=%s size=%s className=%q\n got %s\nwant %s", c.Variant, c.Size, c.ClassName, got, c.Want)
 		}
 		// The rendered component must carry the same classes.
-		html := h.MustRenderString(ui.Button(ui.ButtonVariant(c.Variant), ui.ButtonSize(c.Size), h.Class(c.ClassName)))
+		html := h.MustRenderString(button.Button(button.Variant(c.Variant), button.Size(c.Size), h.Class(c.ClassName)))
 		if !strings.Contains(html, `class="`+h.EscapeAttr(c.Want)+`"`) {
 			t.Errorf("rendered button classes differ for %s/%s/%q: %s", c.Variant, c.Size, c.ClassName, html)
 		}
@@ -39,8 +40,8 @@ func TestButtonVariantsMatchShadcn(t *testing.T) {
 }
 
 func TestButtonRender(t *testing.T) {
-	got := h.MustRenderString(ui.Button(ui.ButtonVariantOutline, ui.ButtonSizeIcon, h.Aria("label", "Submit"), h.Type("submit"), "Go"))
-	want := `<button class="` + h.EscapeAttr(ui.ButtonVariants(ui.ButtonVariantOutline, ui.ButtonSizeIcon)) +
+	got := h.MustRenderString(button.Button(button.VariantOutline, button.SizeIcon, h.Aria("label", "Submit"), h.Type("submit"), "Go"))
+	want := `<button class="` + h.EscapeAttr(button.Variants(button.VariantOutline, button.SizeIcon)) +
 		`" aria-label="Submit" type="submit" data-slot="button" data-variant="outline" data-size="icon">Go</button>`
 	if got != want {
 		t.Fatalf("\n got %s\nwant %s", got, want)
@@ -48,52 +49,52 @@ func TestButtonRender(t *testing.T) {
 }
 
 func TestButtonBuilderEqualsChildren(t *testing.T) {
-	a := h.MustRenderString(ui.Button(ui.ButtonVariantGhost, ui.ButtonSizeSm, h.Class("w-full"), h.Disabled(), "Save"))
-	b := h.MustRenderString(ui.Button("Save").Variant(ui.ButtonVariantGhost).Size(ui.ButtonSizeSm).Class("w-full").Disabled(true))
+	a := h.MustRenderString(button.Button(button.VariantGhost, button.SizeSm, h.Class("w-full"), h.Disabled(), "Save"))
+	b := h.MustRenderString(button.Button("Save").Variant(button.VariantGhost).Size(button.SizeSm).Class("w-full").Disabled(true))
 	if a != b {
 		t.Fatalf("\n%s\n%s", a, b)
 	}
 }
 
 func TestButtonDefaultsAndOverrides(t *testing.T) {
-	got := h.MustRenderString(ui.Button("x"))
+	got := h.MustRenderString(button.Button("x"))
 	if !strings.Contains(got, `data-variant="default" data-size="default"`) {
 		t.Fatal(got)
 	}
 	// User props override the component's data attributes, like {...props}
 	// spread after them in React.
-	got = h.MustRenderString(ui.Button(h.Data("slot", "custom"), "x"))
+	got = h.MustRenderString(button.Button(h.Data("slot", "custom"), "x"))
 	if !strings.Contains(got, `data-slot="custom"`) || strings.Count(got, "data-slot") != 1 {
 		t.Fatal(got)
 	}
 	// Empty values fall back to defaults.
-	got = h.MustRenderString(ui.Button("x").Variant("").Size(""))
+	got = h.MustRenderString(button.Button("x").Variant("").Size(""))
 	if !strings.Contains(got, `data-variant="default" data-size="default"`) {
 		t.Fatal(got)
 	}
 }
 
 func TestButtonAsChild(t *testing.T) {
-	for _, b := range []*ui.ButtonBuilder{
-		ui.Button(ui.AsChild, h.A(h.Href("/login"), h.Class("rounded-full"), "Login")),
-		ui.Button(h.A(h.Href("/login"), h.Class("rounded-full"), "Login")).AsChild(),
+	for _, b := range []*button.Builder{
+		button.Button(lib.AsChild, h.A(h.Href("/login"), h.Class("rounded-full"), "Login")),
+		button.Button(h.A(h.Href("/login"), h.Class("rounded-full"), "Login")).AsChild(),
 	} {
 		got := h.MustRenderString(b)
-		want := `<a class="` + h.EscapeAttr(ui.ButtonVariants("", "", "rounded-full")) +
+		want := `<a class="` + h.EscapeAttr(button.Variants("", "", "rounded-full")) +
 			`" href="/login" data-slot="button" data-variant="default" data-size="default">Login</a>`
 		if got != want {
 			t.Fatalf("\n got %s\nwant %s", got, want)
 		}
 	}
 	// A component child works too.
-	got := h.MustRenderString(ui.Button(ui.AsChild, ui.ButtonVariantLink, ui.Button("inner")))
+	got := h.MustRenderString(button.Button(lib.AsChild, button.VariantLink, button.Button("inner")))
 	if !strings.HasPrefix(got, "<button") || strings.Count(got, "<button") != 1 {
 		t.Fatal(got)
 	}
-	for _, bad := range []*ui.ButtonBuilder{
-		ui.Button(ui.AsChild),
-		ui.Button(ui.AsChild, "text"),
-		ui.Button(ui.AsChild, h.A(), h.A()),
+	for _, bad := range []*button.Builder{
+		button.Button(lib.AsChild),
+		button.Button(lib.AsChild, "text"),
+		button.Button(lib.AsChild, h.A(), h.A()),
 	} {
 		if _, err := h.RenderString(bad); err == nil {
 			t.Error("expected AsChild error")
@@ -103,14 +104,14 @@ func TestButtonAsChild(t *testing.T) {
 
 func TestButtonSecurity(t *testing.T) {
 	payload := `"><script>alert(1)</script>`
-	got := h.MustRenderString(ui.Button(payload, h.Class(payload), h.Value(payload)))
+	got := h.MustRenderString(button.Button(payload, h.Class(payload), h.Value(payload)))
 	if strings.Contains(got, "<script>") {
 		t.Fatal(got)
 	}
-	if _, err := h.RenderString(ui.Button(h.Attr("onclick", "alert(1)"))); !h.IsSecurityError(err) {
+	if _, err := h.RenderString(button.Button(h.Attr("onclick", "alert(1)"))); !h.IsSecurityError(err) {
 		t.Fatal("event handler from plain string accepted")
 	}
-	got = h.MustRenderString(ui.Button(ui.AsChild, h.A(h.Href("javascript:alert(1)"), "x")))
+	got = h.MustRenderString(button.Button(lib.AsChild, h.A(h.Href("javascript:alert(1)"), "x")))
 	if strings.Contains(got, "javascript:") {
 		t.Fatal(got)
 	}

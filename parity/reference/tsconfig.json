@@ -1,0 +1,12 @@
+{
+  "//": "Module resolution for the reference build: the upstream app's path aliases, without its 'react' -> @types mapping (types only).",
+  "compilerOptions": {
+    "baseUrl": "../../ui/apps/v4",
+    "jsx": "react-jsx",
+    "paths": {
+      "@/app/(create)/*": ["./app/(app)/(create)/*"],
+      "@/app/(app)/create/*": ["./app/(app)/(create)/*"],
+      "@/*": ["./*"]
+    }
+  }
+}

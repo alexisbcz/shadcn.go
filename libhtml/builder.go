@@ -158,3 +158,34 @@ func Slot(slot *Element, child any, mergeClass func(...string) string) (*Element
 	}
 	return out, nil
 }
+
+// Spread returns a copy of base with the attributes, classes and children of
+// props applied on top: the JSX pattern <El defaultProp="x" {...props} />.
+// Attributes set on props replace base's, classes are combined with
+// mergeClass (base classes first; nil means plain concatenation) and props'
+// children follow base's. Neither argument is modified.
+func Spread(base, props *Element, mergeClass func(...string) string) *Element {
+	out := base.Clone()
+	if props == nil {
+		return out
+	}
+	if out.err == nil {
+		out.err = props.err
+	}
+	for _, a := range props.attrs {
+		if i := out.index(a.name); i >= 0 {
+			out.attrs[i] = a
+		} else {
+			out.attrs = append(out.attrs, a)
+		}
+	}
+	if len(props.classes) > 0 {
+		if mergeClass != nil {
+			out.SetClass(mergeClass(out.ClassName(), props.ClassName()))
+		} else {
+			out.Class(props.classes...)
+		}
+	}
+	out.children = append(out.children, props.children...)
+	return out
+}

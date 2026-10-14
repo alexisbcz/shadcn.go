@@ -42,12 +42,16 @@ type Config struct {
 // DefaultCSP is a strict policy: scripts run only with the request's nonce
 // (and what they load, via 'strict-dynamic'), there are no plugins, no
 // <base> hijacking, no framing and forms only post to the same origin.
+// Inline style attributes are allowed (style-src-attr): components render
+// them (progress transforms, chart colors, CSS variables) and libhtml
+// sanitizes their values; <style> elements still need the nonce.
 func DefaultCSP(nonce string) string {
 	n := "'nonce-" + nonce + "'"
 	return strings.Join([]string{
 		"default-src 'self'",
 		"script-src " + n + " 'strict-dynamic'",
 		"style-src 'self' " + n,
+		"style-src-attr 'unsafe-inline'",
 		"img-src 'self' data:",
 		"font-src 'self'",
 		"object-src 'none'",

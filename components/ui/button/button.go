@@ -1,46 +1,52 @@
-package ui
+// Package button is the shadcn/ui Button: a button, or a component that
+// looks like a button.
+//
+//	button.Button(button.VariantOutline, button.SizeSm, "Save")
+//	button.Button(lib.AsChild, h.A(h.Href("/login"), "Login"))
+package button
 
 import (
 	"fmt"
 	"io"
 
+	"shadcn.go/components/lib"
 	"shadcn.go/cva"
 	h "shadcn.go/libhtml"
 )
 
-// ButtonVariant selects the button's look.
-type ButtonVariant string
+// Variant selects the button's look.
+type Variant string
 
 // Button variants.
 const (
-	ButtonVariantDefault     ButtonVariant = "default"
-	ButtonVariantDestructive ButtonVariant = "destructive"
-	ButtonVariantOutline     ButtonVariant = "outline"
-	ButtonVariantSecondary   ButtonVariant = "secondary"
-	ButtonVariantGhost       ButtonVariant = "ghost"
-	ButtonVariantLink        ButtonVariant = "link"
+	VariantDefault     Variant = "default"
+	VariantDestructive Variant = "destructive"
+	VariantOutline     Variant = "outline"
+	VariantSecondary   Variant = "secondary"
+	VariantGhost       Variant = "ghost"
+	VariantLink        Variant = "link"
 )
 
-// ButtonSize selects the button's size.
-type ButtonSize string
+// Size selects the button's size.
+type Size string
 
 // Button sizes.
 const (
-	ButtonSizeDefault ButtonSize = "default"
-	ButtonSizeXs      ButtonSize = "xs"
-	ButtonSizeSm      ButtonSize = "sm"
-	ButtonSizeLg      ButtonSize = "lg"
-	ButtonSizeIcon    ButtonSize = "icon"
-	ButtonSizeIconXs  ButtonSize = "icon-xs"
-	ButtonSizeIconSm  ButtonSize = "icon-sm"
-	ButtonSizeIconLg  ButtonSize = "icon-lg"
+	SizeDefault Size = "default"
+	SizeXs      Size = "xs"
+	SizeSm      Size = "sm"
+	SizeLg      Size = "lg"
+	SizeIcon    Size = "icon"
+	SizeIconXs  Size = "icon-xs"
+	SizeIconSm  Size = "icon-sm"
+	SizeIconLg  Size = "icon-lg"
 )
 
-// ButtonVariantValues and ButtonSizeValues list every option, in the order
-// shadcn declares them.
+// VariantValues and SizeValues list every option, in the order shadcn
+// declares them.
 var (
-	ButtonVariantValues = []ButtonVariant{ButtonVariantDefault, ButtonVariantDestructive, ButtonVariantOutline, ButtonVariantSecondary, ButtonVariantGhost, ButtonVariantLink}
-	ButtonSizeValues    = []ButtonSize{ButtonSizeDefault, ButtonSizeXs, ButtonSizeSm, ButtonSizeLg, ButtonSizeIcon, ButtonSizeIconXs, ButtonSizeIconSm, ButtonSizeIconLg}
+	VariantValues = []Variant{VariantDefault, VariantDestructive, VariantOutline, VariantSecondary, VariantGhost, VariantLink}
+	SizeValues    = []Size{SizeDefault, SizeXs, SizeSm, SizeLg, SizeIcon, SizeIconXs, SizeIconSm, SizeIconLg}
 )
 
 var buttonVariants = cva.New(
@@ -71,41 +77,41 @@ var buttonVariants = cva.New(
 	},
 )
 
-// ButtonVariants returns the classes of a button with the given variant and
+// Variants returns the classes of a button with the given variant and
 // size, plus className, conflicts resolved. Use it to style other elements
 // as buttons, like buttonVariants() in shadcn. Empty values select the
 // defaults.
-func ButtonVariants(variant ButtonVariant, size ButtonSize, className ...string) string {
+func Variants(variant Variant, size Size, className ...string) string {
 	sel := cva.Selection{"variant": string(variant), "size": string(size)}
-	return Cn(buttonVariants.Classes(sel, className...))
+	return lib.Cn(buttonVariants.Classes(sel, className...))
 }
 
-// ButtonBuilder is returned by Button.
-type ButtonBuilder struct {
-	h.Builder[ButtonBuilder]
-	variant ButtonVariant
-	size    ButtonSize
+// Builder is returned by Button.
+type Builder struct {
+	h.Builder[Builder]
+	variant Variant
+	size    Size
 	asChild bool
 }
 
-// Button returns a shadcn button. Children may include a ButtonVariant, a
-// ButtonSize and AsChild, besides anything a libhtml element accepts:
+// Button returns a shadcn button. Children may include a Variant, a Size
+// and lib.AsChild, besides anything a libhtml element accepts:
 //
-//	ui.Button(ui.ButtonVariantOutline, ui.ButtonSizeIcon, h.Aria("label", "Submit"), icon)
-func Button(children ...any) *ButtonBuilder {
-	b := &ButtonBuilder{variant: ButtonVariantDefault, size: ButtonSizeDefault}
+//	button.Button(button.VariantOutline, button.SizeIcon, h.Aria("label", "Submit"), icon)
+func Button(children ...any) *Builder {
+	b := &Builder{variant: VariantDefault, size: SizeDefault}
 	b.Builder = h.NewBuilder(b, "button")
 	return b.Children(children...)
 }
 
-// AcceptChild consumes ButtonVariant, ButtonSize and AsChild children.
-func (b *ButtonBuilder) AcceptChild(c any) bool {
+// AcceptChild consumes Variant, Size and lib.AsChild children.
+func (b *Builder) AcceptChild(c any) bool {
 	switch v := c.(type) {
-	case ButtonVariant:
+	case Variant:
 		b.Variant(v)
-	case ButtonSize:
+	case Size:
 		b.Size(v)
-	case asChildFlag:
+	case lib.AsChildFlag:
 		b.asChild = true
 	default:
 		return false
@@ -114,43 +120,43 @@ func (b *ButtonBuilder) AcceptChild(c any) bool {
 }
 
 // Variant sets the variant. An empty value selects the default.
-func (b *ButtonBuilder) Variant(v ButtonVariant) *ButtonBuilder {
+func (b *Builder) Variant(v Variant) *Builder {
 	if v == "" {
-		v = ButtonVariantDefault
+		v = VariantDefault
 	}
 	b.variant = v
 	return b
 }
 
 // Size sets the size. An empty value selects the default.
-func (b *ButtonBuilder) Size(s ButtonSize) *ButtonBuilder {
+func (b *Builder) Size(s Size) *Builder {
 	if s == "" {
-		s = ButtonSizeDefault
+		s = SizeDefault
 	}
 	b.size = s
 	return b
 }
 
 // AsChild renders the button's single element child in place of a <button>,
-// with the button's classes and attributes merged in. See ui.AsChild.
-func (b *ButtonBuilder) AsChild() *ButtonBuilder { b.asChild = true; return b }
+// with the button's classes and attributes merged in. See lib.AsChild.
+func (b *Builder) AsChild() *Builder { b.asChild = true; return b }
 
 // Button-specific attributes.
-func (b *ButtonBuilder) Type(v string) *ButtonBuilder    { b.Elem().Type(v); return b }
-func (b *ButtonBuilder) Name(v string) *ButtonBuilder    { b.Elem().Name(v); return b }
-func (b *ButtonBuilder) Value(v string) *ButtonBuilder   { b.Elem().Value(v); return b }
-func (b *ButtonBuilder) Form(v string) *ButtonBuilder    { b.Elem().Form(v); return b }
-func (b *ButtonBuilder) Disabled(on bool) *ButtonBuilder { b.Elem().Disabled(on); return b }
-func (b *ButtonBuilder) AutoFocus(on bool) *ButtonBuilder {
+func (b *Builder) Type(v string) *Builder    { b.Elem().Type(v); return b }
+func (b *Builder) Name(v string) *Builder    { b.Elem().Name(v); return b }
+func (b *Builder) Value(v string) *Builder   { b.Elem().Value(v); return b }
+func (b *Builder) Form(v string) *Builder    { b.Elem().Form(v); return b }
+func (b *Builder) Disabled(on bool) *Builder { b.Elem().Disabled(on); return b }
+func (b *Builder) AutoFocus(on bool) *Builder {
 	b.Elem().AutoFocus(on)
 	return b
 }
 
 // Element resolves the button to the element it renders.
-func (b *ButtonBuilder) Element() *h.Element {
+func (b *Builder) Element() *h.Element {
 	// User attributes override the defaults; classes are merged with the
 	// user's last, exactly like cn(buttonVariants({ variant, size, className })).
-	btn, err := h.Slot(buttonDefaults(b.variant, b.size), b.Elem(), Cn)
+	btn, err := h.Slot(buttonDefaults(b.variant, b.size), b.Elem(), lib.Cn)
 	if err != nil {
 		return h.Errored(err)
 	}
@@ -159,31 +165,31 @@ func (b *ButtonBuilder) Element() *h.Element {
 	}
 	kids := btn.ChildNodes()
 	if len(kids) != 1 {
-		return h.Errored(fmt.Errorf("ui.Button: AsChild needs exactly one element child, got %d children", len(kids)))
+		return h.Errored(fmt.Errorf("button: AsChild needs exactly one element child, got %d children", len(kids)))
 	}
-	out, err := h.Slot(btn.Clone().SetChildren(), kids[0], Cn)
+	out, err := h.Slot(btn.Clone().SetChildren(), kids[0], lib.Cn)
 	if err != nil {
-		return h.Errored(fmt.Errorf("ui.Button: AsChild: %w", err))
+		return h.Errored(fmt.Errorf("button: AsChild: %w", err))
 	}
 	return out
 }
 
 // Render renders the button.
-func (b *ButtonBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
 
 // buttonDefaults returns the element carrying a variant and size's classes
 // and data attributes. Slot only reads it, so the known combinations are
 // built once and shared.
-func buttonDefaults(v ButtonVariant, s ButtonSize) *h.Element {
+func buttonDefaults(v Variant, s Size) *h.Element {
 	if el, ok := buttonDefaultsCache[[2]string{string(v), string(s)}]; ok {
 		return el
 	}
 	return newButtonDefaults(v, s)
 }
 
-func newButtonDefaults(v ButtonVariant, s ButtonSize) *h.Element {
+func newButtonDefaults(v Variant, s Size) *h.Element {
 	return h.Button(
-		h.Class(ButtonVariants(v, s)),
+		h.Class(Variants(v, s)),
 		h.Data("slot", "button"),
 		h.Data("variant", string(v)),
 		h.Data("size", string(s)),
@@ -192,8 +198,8 @@ func newButtonDefaults(v ButtonVariant, s ButtonSize) *h.Element {
 
 var buttonDefaultsCache = func() map[[2]string]*h.Element {
 	m := make(map[[2]string]*h.Element)
-	for _, v := range ButtonVariantValues {
-		for _, s := range ButtonSizeValues {
+	for _, v := range VariantValues {
+		for _, s := range SizeValues {
 			m[[2]string{string(v), string(s)}] = newButtonDefaults(v, s)
 		}
 	}
