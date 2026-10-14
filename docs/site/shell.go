@@ -81,6 +81,21 @@ func loadHeadScripts(app string) (headScripts, error) {
 		return headScripts{}, fmt.Errorf("site: DOCS_SIDEBAR_SCROLL_RESTORE_SCRIPT not found")
 	}
 	js := strings.ReplaceAll(string(m[1]), "${DOCS_SIDEBAR_SCROLL_STORAGE_KEY}", "docs-sidebar-scroll")
+	// Upstream navigates between docs pages on the client: the sidebar
+	// element persists and keeps its scroll position, then the restore logic
+	// only scrolls the new active item into view if needed. Here every
+	// navigation loads a page, so on in-site navigations the sidebar first
+	// takes the stored position of the previous page, as if it had
+	// persisted. (Upstream's script runs as is otherwise.)
+	const anchor = "    var active = getActiveItem(container)"
+	if !strings.Contains(js, anchor) {
+		return headScripts{}, fmt.Errorf("site: sidebar restore script changed upstream; update the persistence patch")
+	}
+	js = strings.Replace(js, anchor, `    if (stored && typeof stored.scrollTop === "number" && !container.dataset.docsScrollPersisted && document.referrer.indexOf(location.origin + "/docs") === 0) {
+      container.dataset.docsScrollPersisted = "true"
+      container.scrollTop = stored.scrollTop
+    }
+`+anchor, 1)
 	return headScripts{sidebarScroll: h.UnsafeJS(js)}, nil
 }
 
