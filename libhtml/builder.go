@@ -2,6 +2,7 @@ package libhtml
 
 import (
 	"fmt"
+	"io"
 	"strings"
 )
 
@@ -188,4 +189,36 @@ func Spread(base, props *Element, mergeClass func(...string) string) *Element {
 	}
 	out.children = append(out.children, props.children...)
 	return out
+}
+
+// ElementerIn is implemented by components whose element depends on
+// render-scoped values (see WithValue), such as the visual style set by
+// style.Scope. ElementIn resolves the element as it renders inside w.
+type ElementerIn interface {
+	ElementIn(w io.Writer) *Element
+}
+
+// ResolveIn returns child's element as it renders inside w: ElementIn(w)
+// for an ElementerIn, Element() for an Elementer, the element itself for an
+// *Element, and nil otherwise.
+func ResolveIn(w io.Writer, child any) *Element {
+	switch c := child.(type) {
+	case ElementerIn:
+		return c.ElementIn(w)
+	case *Element:
+		return c
+	case Elementer:
+		return c.Element()
+	}
+	return nil
+}
+
+// SlotIn is Slot for use inside a Render method: the child is resolved with
+// ResolveIn, so components rendered through asChild keep the render-scoped
+// values (e.g. the style) of where they are rendered.
+func SlotIn(w io.Writer, slot *Element, child any, mergeClass func(...string) string) (*Element, error) {
+	if el := ResolveIn(w, child); el != nil {
+		return Slot(slot, el, mergeClass)
+	}
+	return Slot(slot, child, mergeClass)
 }
