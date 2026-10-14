@@ -1597,6 +1597,7 @@ export class CartesianChart {
     let gridIndex = 0
     let xIndex = 0
     let yIndex = 0
+    let refIndex = 0
     for (const child of this.children) {
       if (!state.registered && child.type !== "CartesianGrid") continue
       switch (child.type) {
@@ -1620,6 +1621,9 @@ export class CartesianChart {
         case "Tooltip":
           this.renderCursor(state, rendered)
           break
+        case "ReferenceDot":
+          this.renderReferenceDot(state, child, `reference-dot-${refIndex++}`, rendered)
+          break
         case "defs":
           zero.push(renderSpecSvg(child))
           break
@@ -1636,6 +1640,21 @@ export class CartesianChart {
     rendered.add(key)
     const list = (Array.isArray(nodes) ? nodes : [nodes]).filter(Boolean)
     return this.slots.set(this.layers.get(z), key, list)
+  }
+
+  // ReferenceDot (ifOverflow "discard": nothing outside the plot area).
+  renderReferenceDot(state, node, key, rendered) {
+    const p = withDefaults(node.props, { r: 10, fill: "#fff", stroke: "#ccc", fillOpacity: 1, strokeWidth: 1, xAxisId: 0, yAxisId: 0, zIndex: DefaultZIndexes.scatter })
+    const xs = state.axis("xAxis", p.xAxisId).scale
+    const ys = state.axis("yAxis", p.yAxisId).scale
+    const cx = xs?.map(p.x, { position: "middle" })
+    const cy = ys?.map(p.y, { position: "middle" })
+    if (!isNum(cx) || !isNum(cy) || !xs.isInRange(cx) || !ys.isInRange(cy)) {
+      this.slot(rendered, p.zIndex, key, [])
+      return
+    }
+    const dot = Dot({ ...svgProps(omit(p, ["x", "y", "xAxisId", "yAxisId", "zIndex", "ifOverflow"])), className: "recharts-reference-dot-dot", cx, cy, r: p.r })
+    this.slot(rendered, p.zIndex, key, [Layer({ className: "recharts-reference-dot" }, dot)])
   }
 
   // CartesianGrid

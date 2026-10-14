@@ -23,9 +23,16 @@ var exampleLinks = []struct{ name, href string }{
 	{"RTL", "/examples/rtl"},
 }
 
-// examplesLayout renders an example page inside the examples layout.
+// examplesLayout renders an example page inside the examples layout, with the
+// layout's metadata.
 func (s *Site) examplesLayout(r *http.Request, canonical string, children ...any) h.Node {
-	return s.Document(r, Meta{Title: examplesTitle, Description: examplesDescription, Canonical: canonical},
+	return s.examplesLayoutMeta(r, Meta{Title: examplesTitle, Description: examplesDescription, Canonical: canonical}, children...)
+}
+
+// examplesLayoutMeta renders an example page with its own metadata (a plain
+// title: the layout sets a plain title, so no " - shadcn/ui" suffix).
+func (s *Site) examplesLayoutMeta(r *http.Request, m Meta, children ...any) h.Node {
+	return s.Document(r, m,
 		s.AppLayout(r,
 			pageHeader(
 				announcement(),
@@ -82,8 +89,4 @@ func examplesNav(pathname string) h.Node {
 	)
 }
 
-// themeSelector is components/theme-selector.tsx. TODO (examples_theme.go):
-// the theme select and the copy-code dialog.
-var themeSelector = func(class string) h.Node {
-	return h.Div(h.Class(lib.Cn("flex items-center gap-2", class)))
-}
+// themeSelector (components/theme-selector.tsx) is in examples_theme.go.
