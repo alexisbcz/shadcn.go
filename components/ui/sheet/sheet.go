@@ -17,6 +17,8 @@ import (
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
+	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/dialog/primitive"
 	h "shadcn.go/libhtml"
 )
@@ -65,6 +67,31 @@ var (
 	descClass   = lib.Cn("text-sm text-muted-foreground")
 )
 
+// The classes of registry/bases/radix/ui/sheet.tsx, used when a style is
+// in scope (style.Scope).
+var (
+	baseFile        = style.NewFile("ui/sheet.tsx")
+	baseOverlay     = baseFile.Cn("cn-sheet-overlay fixed inset-0 z-50 duration-100 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0", style.Arg)
+	baseContent     = baseFile.Cn("cn-sheet-content data-open:animate-in data-open:fade-in-0 data-[side=bottom]:data-open:slide-in-from-bottom-10 data-[side=left]:data-open:slide-in-from-left-10 data-[side=right]:data-open:slide-in-from-right-10 data-[side=top]:data-open:slide-in-from-top-10 data-closed:animate-out data-closed:fade-out-0 data-[side=bottom]:data-closed:slide-out-to-bottom-10 data-[side=left]:data-closed:slide-out-to-left-10 data-[side=right]:data-closed:slide-out-to-right-10 data-[side=top]:data-closed:slide-out-to-top-10", style.Arg)
+	baseClose       = baseFile.Attr("cn-sheet-close")
+	baseHeader      = baseFile.Cn("cn-sheet-header flex flex-col", style.Arg)
+	baseFooter      = baseFile.Cn("cn-sheet-footer mt-auto flex flex-col", style.Arg)
+	baseTitle       = baseFile.Cn("cn-sheet-title cn-font-heading", style.Arg)
+	baseDescription = baseFile.Cn("cn-sheet-description", style.Arg)
+)
+
+func styleOf(w io.Writer) style.Style {
+	st, _ := style.FromWriter(w)
+	return st
+}
+
+func classFor(st style.Style, def string, site *style.Site) string {
+	if st != "" {
+		return site.Class(st, "")
+	}
+	return def
+}
+
 // Sheet is the root. It renders no element of its own.
 func Sheet(children ...any) *primitive.RootBuilder { return primitive.Root(children...) }
 
@@ -102,13 +129,18 @@ func Overlay(children ...any) *OverlayBuilder {
 func (b *OverlayBuilder) AcceptChild(c any) bool { return acceptScope(&b.Scoped, c) }
 
 // Element resolves the overlay.
-func (b *OverlayBuilder) Element() *h.Element {
-	props := h.Spread(h.Div(h.Data("slot", "sheet-overlay"), h.Class(overlayClass)), b.Elem(), lib.Cn)
+func (b *OverlayBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *OverlayBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *OverlayBuilder) element(st style.Style) *h.Element {
+	props := h.Spread(h.Div(h.Data("slot", "sheet-overlay"), h.Class(classFor(st, overlayClass, baseOverlay))), b.Elem(), lib.Cn)
 	return primitive.Overlay(b.Inherit(), primitive.WithProps(props)).Element()
 }
 
 // Render renders the overlay.
-func (b *OverlayBuilder) Render(w io.Writer) error { return render(b.Element(), w) }
+func (b *OverlayBuilder) Render(w io.Writer) error { return render(b.element(styleOf(w)), w) }
 
 // --- Content -------------------------------------------------------------------------------
 
@@ -160,8 +192,28 @@ func Classes(side Side, className ...string) string {
 }
 
 // Element resolves the portal holding the overlay and the panel.
-func (b *ContentBuilder) Element() *h.Element {
+func (b *ContentBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *ContentBuilder) element(st style.Style) *h.Element {
 	sc := b.Scope()
+	if st != "" {
+		props := h.Spread(h.Div(h.Data("slot", "sheet-content"), h.Data("side", string(b.side))), b.Elem(), nil)
+		props.SetClass(baseContent.Class(st, b.Elem().ClassName()))
+		if b.showClose {
+			props.Children(primitive.Close(sc, h.Data("slot", "sheet-close"), lib.AsChild,
+				button.Button(button.VariantGhost, button.SizeIconSm, h.Class(baseClose.Class(st)),
+					lucide.X(),
+					h.Span(h.Class("sr-only"), "Close"),
+				)))
+		}
+		return primitive.Portal(sc,
+			Overlay(sc),
+			primitive.Content(sc, primitive.WithProps(props)),
+		).Element()
+	}
 	props := h.Spread(h.Div(h.Data("slot", "sheet-content")), b.Elem(), nil)
 	props.SetClass(Classes(b.side, b.Elem().ClassName()))
 	if b.showClose {
@@ -177,18 +229,22 @@ func (b *ContentBuilder) Element() *h.Element {
 }
 
 // Render renders the content.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ContentBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- Header, Footer ----------------------------------------------------------------------------
 
 // Header lays out the title and description.
-func Header(children ...any) *h.Element {
-	return h.Spread(h.Div(h.Data("slot", "sheet-header"), h.Class(headerClass)), h.Div(children...), lib.Cn)
+func Header(children ...any) h.Node {
+	return h.NodeFunc(func(w io.Writer) error {
+		return h.Spread(h.Div(h.Data("slot", "sheet-header"), h.Class(classFor(styleOf(w), headerClass, baseHeader))), h.Div(children...), lib.Cn).Render(w)
+	})
 }
 
 // Footer lays out the actions at the bottom of the sheet.
-func Footer(children ...any) *h.Element {
-	return h.Spread(h.Div(h.Data("slot", "sheet-footer"), h.Class(footerClass)), h.Div(children...), lib.Cn)
+func Footer(children ...any) h.Node {
+	return h.NodeFunc(func(w io.Writer) error {
+		return h.Spread(h.Div(h.Data("slot", "sheet-footer"), h.Class(classFor(styleOf(w), footerClass, baseFooter))), h.Div(children...), lib.Cn).Render(w)
+	})
 }
 
 // --- Title, Description ------------------------------------------------------------------------
@@ -210,13 +266,18 @@ func Title(children ...any) *TitleBuilder {
 func (b *TitleBuilder) AcceptChild(c any) bool { return acceptScope(&b.Scoped, c) }
 
 // Element resolves the title.
-func (b *TitleBuilder) Element() *h.Element {
-	props := h.Spread(h.H2(h.Data("slot", "sheet-title"), h.Class(titleClass)), b.Elem(), lib.Cn)
+func (b *TitleBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *TitleBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *TitleBuilder) element(st style.Style) *h.Element {
+	props := h.Spread(h.H2(h.Data("slot", "sheet-title"), h.Class(classFor(st, titleClass, baseTitle))), b.Elem(), lib.Cn)
 	return primitive.Title(b.Inherit(), primitive.WithProps(props)).Element()
 }
 
 // Render renders the title.
-func (b *TitleBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TitleBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // DescriptionBuilder is returned by Description.
 type DescriptionBuilder struct {
@@ -235,13 +296,18 @@ func Description(children ...any) *DescriptionBuilder {
 func (b *DescriptionBuilder) AcceptChild(c any) bool { return acceptScope(&b.Scoped, c) }
 
 // Element resolves the description.
-func (b *DescriptionBuilder) Element() *h.Element {
-	props := h.Spread(h.P(h.Data("slot", "sheet-description"), h.Class(descClass)), b.Elem(), lib.Cn)
+func (b *DescriptionBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *DescriptionBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *DescriptionBuilder) element(st style.Style) *h.Element {
+	props := h.Spread(h.P(h.Data("slot", "sheet-description"), h.Class(classFor(st, descClass, baseDescription))), b.Elem(), lib.Cn)
 	return primitive.Description(b.Inherit(), primitive.WithProps(props)).Element()
 }
 
 // Render renders the description.
-func (b *DescriptionBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *DescriptionBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- helpers -----------------------------------------------------------------------------------
 

@@ -43,8 +43,10 @@ import (
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/dialog"
 	"shadcn.go/components/ui/dialog/primitive"
+	inputgroup "shadcn.go/components/ui/input-group"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/uid"
 	"shadcn.go/components/ui/runtime"
@@ -70,6 +72,37 @@ var (
 )
 
 // cmdk's visually hidden <label> style (srOnlyStyles).
+// The classes of registry/bases/radix/ui/command.tsx, used when a style is
+// in scope (style.Scope).
+var (
+	baseFile          = style.NewFile("ui/command.tsx")
+	baseRoot          = baseFile.Cn("cn-command flex size-full flex-col overflow-hidden", style.Arg)
+	baseDialog        = baseFile.Cn("cn-command-dialog top-1/3 translate-y-0 overflow-hidden p-0", style.Arg)
+	baseInputWrapper  = baseFile.Attr("cn-command-input-wrapper")
+	baseInputGroup    = baseFile.Attr("cn-command-input-group")
+	baseInput         = baseFile.Cn("cn-command-input outline-hidden disabled:cursor-not-allowed disabled:opacity-50", style.Arg)
+	baseInputIcon     = baseFile.Attr("cn-command-input-icon")
+	baseList          = baseFile.Cn("cn-command-list overflow-x-hidden overflow-y-auto", style.Arg)
+	baseEmpty         = baseFile.Cn("cn-command-empty", style.Arg)
+	baseGroup         = baseFile.Cn("cn-command-group", style.Arg)
+	baseSeparator     = baseFile.Cn("cn-command-separator", style.Arg)
+	baseItem          = baseFile.Cn("cn-command-item group/command-item data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0", style.Arg)
+	baseItemIndicator = baseFile.Attr("cn-command-item-indicator ml-auto opacity-0 group-has-data-[slot=command-shortcut]/command-item:hidden group-data-[checked=true]/command-item:opacity-100")
+	baseShortcut      = baseFile.Cn("cn-command-shortcut", style.Arg)
+)
+
+func styleOf(w io.Writer) style.Style {
+	st, _ := style.FromWriter(w)
+	return st
+}
+
+func classFor(st style.Style, def string, site *style.Site) string {
+	if st != "" {
+		return site.Class(st, "")
+	}
+	return def
+}
+
 const srOnlyStyle = "position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0"
 
 // --- options -----------------------------------------------------------------------------------
@@ -197,7 +230,12 @@ func (b *RootBuilder) AcceptChild(c any) bool {
 }
 
 // Element resolves the root.
-func (b *RootBuilder) Element() *h.Element {
+func (b *RootBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *RootBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *RootBuilder) element(st style.Style) *h.Element {
 	c := &ctx{inputID: uid.New("cmdk"), listID: uid.New("cmdk"), labelID: uid.New("cmdk")}
 	kids := b.Elem().ChildNodes()
 	first, found := "", false
@@ -220,7 +258,7 @@ func (b *RootBuilder) Element() *h.Element {
 	} else {
 		c.value = first
 	}
-	el := h.Spread(h.Div(h.Data("slot", "command"), h.Class(rootClass)), b.Elem(), lib.Cn)
+	el := h.Spread(h.Div(h.Data("slot", "command"), h.Class(classFor(st, rootClass, baseRoot))), b.Elem(), lib.Cn)
 	if b.extraClass != "" {
 		el.SetClass(lib.Cn(el.ClassName(), b.extraClass))
 	}
@@ -248,7 +286,7 @@ func (b *RootBuilder) Element() *h.Element {
 }
 
 // Render renders the root.
-func (b *RootBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *RootBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- Dialog ------------------------------------------------------------------------------------
 
@@ -256,7 +294,7 @@ func (b *RootBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
 type DialogBuilder struct {
 	h.Builder[DialogBuilder]
 	title, description string
-	showClose          bool
+	showClose          *bool
 	opts               []any
 }
 
@@ -266,7 +304,7 @@ type DialogBuilder struct {
 // (dialog.DefaultOpen, dialog.Modal) and, as h.Class, classes for the
 // dialog content.
 func Dialog(children ...any) *DialogBuilder {
-	b := &DialogBuilder{title: "Command Palette", description: "Search for a command to run...", showClose: true}
+	b := &DialogBuilder{title: "Command Palette", description: "Search for a command to run..."}
 	b.Builder = h.NewBuilder(b, "div")
 	return b.Children(children...)
 }
@@ -280,7 +318,8 @@ func (b *DialogBuilder) AcceptChild(c any) bool {
 	case Description:
 		b.description = string(v)
 	case ShowCloseButton:
-		b.showClose = bool(v)
+		on := bool(v)
+		b.showClose = &on
 	case primitive.Option:
 		b.opts = append(b.opts, v)
 	default:
@@ -292,9 +331,20 @@ func (b *DialogBuilder) AcceptChild(c any) bool {
 // Render renders the dialog: its sr-only header in place, and the dialog
 // content (holding the Command) in the dialog's portal template.
 func (b *DialogBuilder) Render(w io.Writer) error {
-	cmd := Command(b.Elem().ChildNodes()...)
-	cmd.extraClass = dialogCmdClass
-	content := dialog.Content(dialog.ShowCloseButton(b.showClose), h.Class(lib.Cn("overflow-hidden p-0", b.Elem().ClassName())), cmd)
+	st := styleOf(w)
+	// new-york-v4 shows the close button by default, the bases do not.
+	showClose := st == ""
+	if b.showClose != nil {
+		showClose = *b.showClose
+	}
+	var content *dialog.ContentBuilder
+	if st != "" {
+		content = dialog.Content(dialog.ShowCloseButton(showClose), h.Class(baseDialog.Class(st, b.Elem().ClassName())), b.Elem().ChildNodes())
+	} else {
+		cmd := Command(b.Elem().ChildNodes()...)
+		cmd.extraClass = dialogCmdClass
+		content = dialog.Content(dialog.ShowCloseButton(showClose), h.Class(lib.Cn("overflow-hidden p-0", b.Elem().ClassName())), cmd)
+	}
 	root := dialog.Dialog(append(b.opts,
 		dialog.Header(h.Class("sr-only"),
 			dialog.Title(b.title),
@@ -321,9 +371,14 @@ func Input(children ...any) *InputBuilder {
 }
 
 // Element resolves the input and its wrapper.
-func (b *InputBuilder) Element() *h.Element {
+func (b *InputBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *InputBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *InputBuilder) element(st style.Style) *h.Element {
 	c := b.ctx()
-	in := h.Spread(h.Input(h.Data("slot", "command-input"), h.Class(inputClass)), b.Elem(), lib.Cn)
+	in := h.Spread(h.Input(h.Data("slot", "command-input"), h.Class(classFor(st, inputClass, baseInput))), b.Elem(), lib.Cn)
 	in.Attr("cmdk-input", "")
 	in.Attr("autocomplete", "off")
 	in.Attr("autocorrect", "off")
@@ -336,6 +391,14 @@ func (b *InputBuilder) Element() *h.Element {
 	in.Attr("id", c.inputID)
 	in.Attr("type", "text")
 	in.Attr("value", "")
+	if st != "" {
+		return h.Div(h.Data("slot", "command-input-wrapper"), h.Class(baseInputWrapper.Class(st)),
+			inputgroup.InputGroup(h.Class(baseInputGroup.Class(st)),
+				in,
+				inputgroup.Addon(lucide.Search(h.Class(baseInputIcon.Class(st)))),
+			),
+		)
+	}
 	return h.Div(h.Data("slot", "command-input-wrapper"), h.Class(inputWrapClass),
 		lucide.Search(h.Class("size-4 shrink-0 opacity-50")),
 		in,
@@ -343,7 +406,7 @@ func (b *InputBuilder) Element() *h.Element {
 }
 
 // Render renders the input.
-func (b *InputBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *InputBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- List --------------------------------------------------------------------------------------
 
@@ -372,9 +435,14 @@ func (b *ListBuilder) AcceptChild(c any) bool {
 }
 
 // Element resolves the list.
-func (b *ListBuilder) Element() *h.Element {
+func (b *ListBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *ListBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *ListBuilder) element(st style.Style) *h.Element {
 	c := b.ctx()
-	el := h.Spread(h.Div(h.Data("slot", "command-list"), h.Class(listClass)), b.Elem(), lib.Cn)
+	el := h.Spread(h.Div(h.Data("slot", "command-list"), h.Class(classFor(st, listClass, baseList))), b.Elem(), lib.Cn)
 	kids := el.ChildNodes()
 	el.Attr("cmdk-list", "")
 	el.Attr("role", "listbox")
@@ -385,7 +453,7 @@ func (b *ListBuilder) Element() *h.Element {
 }
 
 // Render renders the list.
-func (b *ListBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ListBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- Empty -------------------------------------------------------------------------------------
 
@@ -404,15 +472,20 @@ func Empty(children ...any) *EmptyBuilder {
 
 // Element resolves the empty message. It is not rendered while items
 // match: the behavior mounts it from an inert template.
-func (b *EmptyBuilder) Element() *h.Element {
-	el := h.Spread(h.Div(h.Data("slot", "command-empty"), h.Class(emptyClass)), b.Elem(), lib.Cn)
+func (b *EmptyBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *EmptyBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *EmptyBuilder) element(st style.Style) *h.Element {
+	el := h.Spread(h.Div(h.Data("slot", "command-empty"), h.Class(classFor(st, emptyClass, baseEmpty))), b.Elem(), lib.Cn)
 	el.Attr("cmdk-empty", "")
 	el.Attr("role", "presentation")
 	return h.Template(h.Data("parity-ignore", ""), h.Attr("data-cmdk-empty-template", ""), el)
 }
 
 // Render renders the empty message.
-func (b *EmptyBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *EmptyBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- Group -------------------------------------------------------------------------------------
 
@@ -450,8 +523,13 @@ func (b *GroupBuilder) AcceptChild(c any) bool {
 }
 
 // Element resolves the group.
-func (b *GroupBuilder) Element() *h.Element {
-	el := h.Spread(h.Div(h.Data("slot", "command-group"), h.Class(groupClass)), b.Elem(), lib.Cn)
+func (b *GroupBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *GroupBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *GroupBuilder) element(st style.Style) *h.Element {
+	el := h.Spread(h.Div(h.Data("slot", "command-group"), h.Class(classFor(st, groupClass, baseGroup))), b.Elem(), lib.Cn)
 	kids := el.ChildNodes()
 	el.Attr("cmdk-group", "")
 	el.Attr("role", "presentation")
@@ -477,7 +555,7 @@ func (b *GroupBuilder) Element() *h.Element {
 }
 
 // Render renders the group.
-func (b *GroupBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *GroupBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- Separator ---------------------------------------------------------------------------------
 
@@ -505,8 +583,13 @@ func (b *SeparatorBuilder) AcceptChild(c any) bool {
 }
 
 // Element resolves the separator.
-func (b *SeparatorBuilder) Element() *h.Element {
-	el := h.Spread(h.Div(h.Data("slot", "command-separator"), h.Class(separatorClass)), b.Elem(), lib.Cn)
+func (b *SeparatorBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *SeparatorBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *SeparatorBuilder) element(st style.Style) *h.Element {
+	el := h.Spread(h.Div(h.Data("slot", "command-separator"), h.Class(classFor(st, separatorClass, baseSeparator))), b.Elem(), lib.Cn)
 	el.Attr("cmdk-separator", "")
 	el.Attr("role", "separator")
 	if b.always {
@@ -516,7 +599,7 @@ func (b *SeparatorBuilder) Element() *h.Element {
 }
 
 // Render renders the separator.
-func (b *SeparatorBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *SeparatorBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- Item --------------------------------------------------------------------------------------
 
@@ -566,11 +649,16 @@ func (b *ItemBuilder) value() string {
 }
 
 // Element resolves the item.
-func (b *ItemBuilder) Element() *h.Element {
+func (b *ItemBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *ItemBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *ItemBuilder) element(st style.Style) *h.Element {
 	c := b.ctx()
 	v := b.value()
 	selected := c.value != "" && c.value == v
-	el := h.Spread(h.Div(h.Data("slot", "command-item"), h.Class(itemClass)), b.Elem(), lib.Cn)
+	el := h.Spread(h.Div(h.Data("slot", "command-item"), h.Class(classFor(st, itemClass, baseItem))), b.Elem(), lib.Cn)
 	el.Attr("id", uid.New("cmdk"))
 	el.Attr("cmdk-item", "")
 	el.Attr("role", "option")
@@ -586,17 +674,22 @@ func (b *ItemBuilder) Element() *h.Element {
 	if b.forceMount {
 		el.Attr("data-cmdk-force-mount", "")
 	}
+	if st != "" {
+		el.Children(lucide.Check(h.Class(baseItemIndicator.Class(st))))
+	}
 	return el
 }
 
 // Render renders the item.
-func (b *ItemBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ItemBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- Shortcut ----------------------------------------------------------------------------------
 
 // Shortcut shows an item's keyboard shortcut.
-func Shortcut(children ...any) *h.Element {
-	return h.Spread(h.Span(h.Data("slot", "command-shortcut"), h.Class(shortcutClass)), h.Span(children...), lib.Cn)
+func Shortcut(children ...any) h.Node {
+	return h.NodeFunc(func(w io.Writer) error {
+		return h.Spread(h.Span(h.Data("slot", "command-shortcut"), h.Class(classFor(styleOf(w), shortcutClass, baseShortcut))), h.Span(children...), lib.Cn).Render(w)
+	})
 }
 
 // --- helpers -----------------------------------------------------------------------------------

@@ -20,6 +20,7 @@ import (
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/dialog/primitive"
 	h "shadcn.go/libhtml"
@@ -48,6 +49,34 @@ var (
 	titleClass  = lib.Cn("text-lg leading-none font-semibold")
 	descClass   = lib.Cn("text-sm text-muted-foreground")
 )
+
+// The classes of registry/bases/radix/ui/dialog.tsx, used when a style is
+// in scope (style.Scope).
+var (
+	baseFile        = style.NewFile("ui/dialog.tsx")
+	baseOverlay     = baseFile.Cn("cn-dialog-overlay fixed inset-0 isolate z-50", style.Arg)
+	baseContent     = baseFile.Cn("cn-dialog-content fixed top-1/2 left-1/2 z-50 w-full -translate-x-1/2 -translate-y-1/2 outline-none", style.Arg)
+	baseClose       = baseFile.Attr("cn-dialog-close")
+	baseHeader      = baseFile.Cn("cn-dialog-header flex flex-col", style.Arg)
+	baseFooter      = baseFile.Cn("cn-dialog-footer flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", style.Arg)
+	baseTitle       = baseFile.Cn("cn-dialog-title cn-font-heading", style.Arg)
+	baseDescription = baseFile.Cn("cn-dialog-description", style.Arg)
+)
+
+// styleOf returns the style in scope when rendering to w ("" outside a
+// style.Scope).
+func styleOf(w io.Writer) style.Style {
+	st, _ := style.FromWriter(w)
+	return st
+}
+
+// classFor returns new-york-v4's class def, or the base site resolved in st.
+func classFor(st style.Style, def string, site *style.Site) string {
+	if st != "" {
+		return site.Class(st, "")
+	}
+	return def
+}
 
 // Dialog is the root. It renders no element of its own.
 func Dialog(children ...any) *primitive.RootBuilder { return primitive.Root(children...) }
@@ -84,13 +113,18 @@ func Overlay(children ...any) *OverlayBuilder {
 func (b *OverlayBuilder) AcceptChild(c any) bool { return acceptScope(&b.Scoped, c) }
 
 // Element resolves the overlay.
-func (b *OverlayBuilder) Element() *h.Element {
-	props := h.Spread(h.Div(h.Data("slot", "dialog-overlay"), h.Class(overlayClass)), b.Elem(), lib.Cn)
+func (b *OverlayBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *OverlayBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *OverlayBuilder) element(st style.Style) *h.Element {
+	props := h.Spread(h.Div(h.Data("slot", "dialog-overlay"), h.Class(classFor(st, overlayClass, baseOverlay))), b.Elem(), lib.Cn)
 	return primitive.Overlay(b.Inherit(), primitive.WithProps(props)).Element()
 }
 
 // Render renders the overlay.
-func (b *OverlayBuilder) Render(w io.Writer) error { return render(b.Element(), w) }
+func (b *OverlayBuilder) Render(w io.Writer) error { return render(b.element(styleOf(w)), w) }
 
 // --- Content -------------------------------------------------------------------------------
 
@@ -122,10 +156,22 @@ func (b *ContentBuilder) AcceptChild(c any) bool {
 func (b *ContentBuilder) ShowCloseButton(on bool) *ContentBuilder { b.showClose = on; return b }
 
 // Element resolves the portal holding the overlay and the content.
-func (b *ContentBuilder) Element() *h.Element {
+func (b *ContentBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *ContentBuilder) element(st style.Style) *h.Element {
 	sc := b.Scope()
-	props := h.Spread(h.Div(h.Data("slot", "dialog-content"), h.Class(contentClass)), b.Elem(), lib.Cn)
-	if b.showClose {
+	props := h.Spread(h.Div(h.Data("slot", "dialog-content"), h.Class(classFor(st, contentClass, baseContent))), b.Elem(), lib.Cn)
+	if b.showClose && st != "" {
+		// <DialogPrimitive.Close data-slot="dialog-close" asChild><Button variant="ghost" className="cn-dialog-close" size="icon-sm">
+		props.Children(primitive.Close(sc, h.Data("slot", "dialog-close"), lib.AsChild,
+			button.Button(button.VariantGhost, button.SizeIconSm, h.Class(baseClose.Class(st)),
+				lucide.X(),
+				h.Span(h.Class("sr-only"), "Close"),
+			)))
+	} else if b.showClose {
 		props.Children(primitive.Close(sc, h.Data("slot", "dialog-close"), h.Class(closeClass),
 			lucide.X(),
 			h.Span(h.Class("sr-only"), "Close"),
@@ -138,13 +184,15 @@ func (b *ContentBuilder) Element() *h.Element {
 }
 
 // Render renders the content.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ContentBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- Header, Footer --------------------------------------------------------------------------
 
 // Header lays out the title and description.
-func Header(children ...any) *h.Element {
-	return h.Spread(h.Div(h.Data("slot", "dialog-header"), h.Class(headerClass)), h.Div(children...), lib.Cn)
+func Header(children ...any) h.Node {
+	return h.NodeFunc(func(w io.Writer) error {
+		return h.Spread(h.Div(h.Data("slot", "dialog-header"), h.Class(classFor(styleOf(w), headerClass, baseHeader))), h.Div(children...), lib.Cn).Render(w)
+	})
 }
 
 // FooterBuilder is returned by Footer.
@@ -175,8 +223,13 @@ func (b *FooterBuilder) AcceptChild(c any) bool {
 func (b *FooterBuilder) ShowCloseButton(on bool) *FooterBuilder { b.showClose = on; return b }
 
 // Element resolves the footer.
-func (b *FooterBuilder) Element() *h.Element {
-	el := h.Spread(h.Div(h.Data("slot", "dialog-footer"), h.Class(footerClass)), b.Elem(), lib.Cn)
+func (b *FooterBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *FooterBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *FooterBuilder) element(st style.Style) *h.Element {
+	el := h.Spread(h.Div(h.Data("slot", "dialog-footer"), h.Class(classFor(st, footerClass, baseFooter))), b.Elem(), lib.Cn)
 	if b.showClose {
 		// <DialogPrimitive.Close asChild><Button variant="outline">Close</Button></DialogPrimitive.Close>
 		el.Children(primitive.Close(b.Scope(), lib.AsChild, button.Button(button.VariantOutline, "Close")))
@@ -185,7 +238,7 @@ func (b *FooterBuilder) Element() *h.Element {
 }
 
 // Render renders the footer.
-func (b *FooterBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *FooterBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- Title, Description ------------------------------------------------------------------------
 
@@ -206,13 +259,18 @@ func Title(children ...any) *TitleBuilder {
 func (b *TitleBuilder) AcceptChild(c any) bool { return acceptScope(&b.Scoped, c) }
 
 // Element resolves the title.
-func (b *TitleBuilder) Element() *h.Element {
-	props := h.Spread(h.H2(h.Data("slot", "dialog-title"), h.Class(titleClass)), b.Elem(), lib.Cn)
+func (b *TitleBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *TitleBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *TitleBuilder) element(st style.Style) *h.Element {
+	props := h.Spread(h.H2(h.Data("slot", "dialog-title"), h.Class(classFor(st, titleClass, baseTitle))), b.Elem(), lib.Cn)
 	return primitive.Title(b.Inherit(), primitive.WithProps(props)).Element()
 }
 
 // Render renders the title.
-func (b *TitleBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TitleBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // DescriptionBuilder is returned by Description.
 type DescriptionBuilder struct {
@@ -231,13 +289,18 @@ func Description(children ...any) *DescriptionBuilder {
 func (b *DescriptionBuilder) AcceptChild(c any) bool { return acceptScope(&b.Scoped, c) }
 
 // Element resolves the description.
-func (b *DescriptionBuilder) Element() *h.Element {
-	props := h.Spread(h.P(h.Data("slot", "dialog-description"), h.Class(descClass)), b.Elem(), lib.Cn)
+func (b *DescriptionBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *DescriptionBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *DescriptionBuilder) element(st style.Style) *h.Element {
+	props := h.Spread(h.P(h.Data("slot", "dialog-description"), h.Class(classFor(st, descClass, baseDescription))), b.Elem(), lib.Cn)
 	return primitive.Description(b.Inherit(), primitive.WithProps(props)).Element()
 }
 
 // Render renders the description.
-func (b *DescriptionBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *DescriptionBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- helpers -----------------------------------------------------------------------------------
 

@@ -2,6 +2,7 @@ package primitive
 
 import (
 	"fmt"
+	"io"
 	"strings"
 
 	"shadcn.go/components/ui/internal/tree"
@@ -27,12 +28,19 @@ type component interface {
 // with cn. Slot does the same by adding the slot's props to the
 // component's user props before resolving it. This mutates the child
 // builder; a builder is meant to be rendered once.
-func Slot(slot *h.Element, child any) (*h.Element, error) {
+func Slot(slot *h.Element, child any) (*h.Element, error) { return SlotIn(nil, slot, child) }
+
+// SlotIn is Slot inside a Render method: the child is resolved as it renders
+// inside w (h.ElementerIn), so it keeps the style in scope. w may be nil.
+func SlotIn(w io.Writer, slot *h.Element, child any) (*h.Element, error) {
 	if slot.Err() != nil {
 		return nil, slot.Err()
 	}
 	c, ok := child.(component)
 	if !ok {
+		if w != nil {
+			return h.SlotIn(w, slot, child, nil)
+		}
 		return h.Slot(slot, child, nil)
 	}
 	user := c.Elem()
@@ -62,17 +70,20 @@ func Slot(slot *h.Element, child any) (*h.Element, error) {
 			user.Attr("style", strings.TrimSuffix(strings.TrimSpace(sv), ";")+";"+uv)
 		}
 	}
+	if s, ok := child.(h.ElementerIn); ok && w != nil {
+		return s.ElementIn(w), nil
+	}
 	return c.Element(), nil
 }
 
 // asChild resolves a part rendered with lib.AsChild: props (without
 // children) slotted into the single child of props.
-func asChild(part string, props *h.Element) *h.Element {
+func asChild(part string, props *h.Element, w io.Writer) *h.Element {
 	kids := props.ChildNodes()
 	if len(kids) != 1 {
 		return h.Errored(fmt.Errorf("dialog %s: AsChild needs exactly one element child, got %d children", part, len(kids)))
 	}
-	out, err := Slot(props.Clone().SetChildren(), kids[0])
+	out, err := SlotIn(w, props.Clone().SetChildren(), kids[0])
 	if err != nil {
 		return h.Errored(fmt.Errorf("dialog %s: AsChild: %w", part, err))
 	}

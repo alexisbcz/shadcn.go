@@ -34,6 +34,7 @@ import (
 	"strconv"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/dialog/primitive"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/runtime"
@@ -307,6 +308,31 @@ func derefInt(p *int) int {
 	return *p
 }
 
+// The classes of registry/bases/radix/ui/drawer.tsx, used when a style is
+// in scope (style.Scope).
+var (
+	baseFile        = style.NewFile("ui/drawer.tsx")
+	baseOverlay     = baseFile.Cn("cn-drawer-overlay fixed inset-0 z-50 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0", style.Arg)
+	baseContent     = baseFile.Cn("cn-drawer-content group/drawer-content fixed z-50 data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[80vh] data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=left]:sm:max-w-sm data-[vaul-drawer-direction=right]:sm:max-w-sm", style.Arg)
+	baseHandle      = baseFile.Attr("cn-drawer-handle mx-auto hidden shrink-0 group-data-[vaul-drawer-direction=bottom]/drawer-content:block")
+	baseHeader      = baseFile.Cn("cn-drawer-header flex flex-col group-data-[vaul-drawer-direction=bottom]/drawer-content:text-center group-data-[vaul-drawer-direction=top]/drawer-content:text-center", style.Arg)
+	baseFooter      = baseFile.Cn("cn-drawer-footer mt-auto flex flex-col", style.Arg)
+	baseTitle       = baseFile.Cn("cn-drawer-title cn-font-heading", style.Arg)
+	baseDescription = baseFile.Cn("cn-drawer-description", style.Arg)
+)
+
+func styleOf(w io.Writer) style.Style {
+	st, _ := style.FromWriter(w)
+	return st
+}
+
+func classFor(st style.Style, def string, site *style.Site) string {
+	if st != "" {
+		return site.Class(st, "")
+	}
+	return def
+}
+
 // --- Overlay -----------------------------------------------------------------------------------
 
 var overlayClass = lib.Cn("fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0")
@@ -325,7 +351,12 @@ func Overlay(children ...any) *OverlayBuilder {
 }
 
 // Element resolves the overlay as it is when open.
-func (b *OverlayBuilder) Element() *h.Element {
+func (b *OverlayBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *OverlayBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *OverlayBuilder) element(st style.Style) *h.Element {
 	cfg := b.config()
 	hasSnap := len(cfg.SnapPoints) > 0
 	// vaul's Drawer.Overlay, then shadcn's DrawerOverlay props.
@@ -335,14 +366,14 @@ func (b *OverlayBuilder) Element() *h.Element {
 		h.Data("vaul-snap-points-overlay", strconv.FormatBool(shouldFade(cfg))),
 		h.Data("vaul-animate", strconv.FormatBool(!cfg.Dialog.DefaultOpen)),
 		h.Data("slot", "drawer-overlay"),
-		h.Class(overlayClass),
+		h.Class(classFor(st, overlayClass, baseOverlay)),
 	)
 	props := h.Spread(vaul, b.Elem(), lib.Cn)
 	return primitive.Overlay(b.Inherit(), primitive.WithProps(props)).Element()
 }
 
 // Render renders the overlay.
-func (b *OverlayBuilder) Render(w io.Writer) error { return render(b.Element(), w) }
+func (b *OverlayBuilder) Render(w io.Writer) error { return render(b.element(styleOf(w)), w) }
 
 // shouldFade is vaul's shouldFade for the first snap point.
 func shouldFade(cfg *Config) bool {
@@ -388,7 +419,12 @@ func Classes(className ...string) string {
 }
 
 // Element resolves the portal holding the overlay and the panel.
-func (b *ContentBuilder) Element() *h.Element {
+func (b *ContentBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *ContentBuilder) element(st style.Style) *h.Element {
 	cfg := b.config()
 	hasSnap := len(cfg.SnapPoints) > 0
 	vaul := h.Div(
@@ -402,8 +438,13 @@ func (b *ContentBuilder) Element() *h.Element {
 	)
 	user := b.Elem()
 	props := h.Spread(vaul, user, nil)
-	props.SetClass(Classes(user.ClassName()))
-	props.SetChildren(append([]any{h.Div(h.Class(handleClass))}, user.ChildNodes()...)...)
+	if st != "" {
+		props.SetClass(baseContent.Class(st, user.ClassName()))
+		props.SetChildren(append([]any{h.Div(h.Class(baseHandle.Class(st)))}, user.ChildNodes()...)...)
+	} else {
+		props.SetClass(Classes(user.ClassName()))
+		props.SetChildren(append([]any{h.Div(h.Class(handleClass))}, user.ChildNodes()...)...)
+	}
 
 	ov := Overlay()
 	ov.setDrawer(cfg)
@@ -415,7 +456,7 @@ func (b *ContentBuilder) Element() *h.Element {
 }
 
 // Render renders the content.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ContentBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- Handle --------------------------------------------------------------------------------------
 
@@ -454,13 +495,17 @@ var (
 )
 
 // Header lays out the title and description.
-func Header(children ...any) *h.Element {
-	return h.Spread(h.Div(h.Data("slot", "drawer-header"), h.Class(headerClass)), h.Div(children...), lib.Cn)
+func Header(children ...any) h.Node {
+	return h.NodeFunc(func(w io.Writer) error {
+		return h.Spread(h.Div(h.Data("slot", "drawer-header"), h.Class(classFor(styleOf(w), headerClass, baseHeader))), h.Div(children...), lib.Cn).Render(w)
+	})
 }
 
 // Footer lays out the actions at the bottom of the drawer.
-func Footer(children ...any) *h.Element {
-	return h.Spread(h.Div(h.Data("slot", "drawer-footer"), h.Class(footerClass)), h.Div(children...), lib.Cn)
+func Footer(children ...any) h.Node {
+	return h.NodeFunc(func(w io.Writer) error {
+		return h.Spread(h.Div(h.Data("slot", "drawer-footer"), h.Class(classFor(styleOf(w), footerClass, baseFooter))), h.Div(children...), lib.Cn).Render(w)
+	})
 }
 
 // TitleBuilder is returned by Title.
@@ -477,13 +522,18 @@ func Title(children ...any) *TitleBuilder {
 }
 
 // Element resolves the title.
-func (b *TitleBuilder) Element() *h.Element {
-	props := h.Spread(h.H2(h.Data("slot", "drawer-title"), h.Class(titleClass)), b.Elem(), lib.Cn)
+func (b *TitleBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *TitleBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *TitleBuilder) element(st style.Style) *h.Element {
+	props := h.Spread(h.H2(h.Data("slot", "drawer-title"), h.Class(classFor(st, titleClass, baseTitle))), b.Elem(), lib.Cn)
 	return primitive.Title(b.Inherit(), primitive.WithProps(props)).Element()
 }
 
 // Render renders the title.
-func (b *TitleBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TitleBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // DescriptionBuilder is returned by Description.
 type DescriptionBuilder struct {
@@ -499,13 +549,18 @@ func Description(children ...any) *DescriptionBuilder {
 }
 
 // Element resolves the description.
-func (b *DescriptionBuilder) Element() *h.Element {
-	props := h.Spread(h.P(h.Data("slot", "drawer-description"), h.Class(descClass)), b.Elem(), lib.Cn)
+func (b *DescriptionBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *DescriptionBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *DescriptionBuilder) element(st style.Style) *h.Element {
+	props := h.Spread(h.P(h.Data("slot", "drawer-description"), h.Class(classFor(st, descClass, baseDescription))), b.Elem(), lib.Cn)
 	return primitive.Description(b.Inherit(), primitive.WithProps(props)).Element()
 }
 
 // Render renders the description.
-func (b *DescriptionBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *DescriptionBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 func render(el *h.Element, w io.Writer) error {
 	if el == nil {

@@ -22,6 +22,7 @@ import (
 	_ "embed"
 	"encoding/json"
 	"io"
+	stylepkg "shadcn.go/components/style"
 	"strconv"
 	"strings"
 	"time"
@@ -181,8 +182,15 @@ var shadcnStyle = [][2]string{
 }
 
 // Element resolves the toaster.
-func (b *ToasterBuilder) Element() *h.Element {
+func (b *ToasterBuilder) Element() *h.Element { return b.element(false) }
+
+func (b *ToasterBuilder) element(styled bool) *h.Element {
 	c := b.cfg
+	if styled && c.toastOptions == nil {
+		// The bases' toastOptions={{ classNames: { toast: "cn-toast" } }}
+		// (kept as is by the style transform), before {...props}.
+		c.toastOptions = map[string]any{"classNames": map[string]any{"toast": "cn-toast"}}
+	}
 	user := b.Elem()
 	className := "toaster group"
 	if uc := user.ClassName(); uc != "" {
@@ -274,7 +282,10 @@ func (b *ToasterBuilder) Element() *h.Element {
 }
 
 // Render renders the toaster.
-func (b *ToasterBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ToasterBuilder) Render(w io.Writer) error {
+	_, styled := stylepkg.FromWriter(w)
+	return b.element(styled).Render(w)
+}
 
 // orderedJSON encodes a string map as a JSON object with keys in order.
 func orderedJSON(keys []string, m map[string]string) string {

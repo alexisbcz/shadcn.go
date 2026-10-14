@@ -195,6 +195,7 @@ type part struct {
 	Scoped
 	asChild bool
 	props   *h.Element
+	w       io.Writer // set by Render: resolves the asChild child in it
 }
 
 func (p *part) accept(c any) bool {
@@ -225,10 +226,14 @@ func (p *part) resolve(name string, defaults, user *h.Element) *h.Element {
 	}
 	props := h.Spread(defaults, user, nil)
 	if p.asChild {
-		return asChild(name, props)
+		return asChild(name, props, p.w)
 	}
 	return props
 }
+
+// renderIn records the writer the part renders into, for asChild: the
+// slotted child is resolved in it (see SlotIn), keeping the style in scope.
+func (p *part) renderIn(w io.Writer) { p.w = w }
 
 func state(open bool) string {
 	if open {
@@ -273,7 +278,10 @@ func (b *TriggerBuilder) Element() *h.Element {
 }
 
 // Render renders the trigger.
-func (b *TriggerBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TriggerBuilder) Render(w io.Writer) error {
+	b.renderIn(w)
+	return b.Element().Render(w)
+}
 
 // --- Portal --------------------------------------------------------------------------------
 
@@ -517,4 +525,7 @@ func (b *CloseBuilder) Element() *h.Element {
 }
 
 // Render renders the button.
-func (b *CloseBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *CloseBuilder) Render(w io.Writer) error {
+	b.renderIn(w)
+	return b.Element().Render(w)
+}
