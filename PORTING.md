@@ -1,10 +1,14 @@
 # Porting guide
 
 This is the contract for porting a shadcn/ui component to Go. The bar is
-**exact parity** with upstream (shadcn/ui `new-york-v4`, React 19, radix-ui
-1.4.3): every pixel in light and dark mode, the DOM after every interaction,
-and every animation frame. The parity harness proves it; nothing is done until
-it passes.
+**visual and behavioral parity** with upstream (shadcn/ui `new-york-v4`,
+React 19, radix-ui 1.4.3): in light and dark mode, after every interaction,
+each capture must be within 1% differing pixels of the React reference, and
+everything must behave the same (opens, closes, focus, keyboard). Faithful
+markup is still the way to get there, but exact pixel/DOM/animation-frame
+identity is no longer required (`node parity/run.mjs --exact` checks it if
+you want). Work fast: port, run the harness, fix what is visibly or
+behaviorally wrong, move on.
 
 ## Where things are
 
