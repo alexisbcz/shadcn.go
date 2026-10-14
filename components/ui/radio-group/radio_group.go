@@ -31,6 +31,7 @@ import (
 	_ "embed"
 	"fmt"
 	"io"
+	"shadcn.go/components/style"
 	"strconv"
 
 	"shadcn.go/components/icons/lucide"
@@ -76,6 +77,7 @@ type context struct {
 	required bool
 	disabled bool
 	orient   Orientation
+	style    style.Style
 }
 
 // Builder is returned by RadioGroup.
@@ -133,8 +135,12 @@ func (b *Builder) Orientation(o Orientation) *Builder { b.ctx.orient = o; return
 func (b *Builder) Loop(on bool) *Builder { b.loop = on; return b }
 
 // Element resolves the group to its <div>.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *Builder) element(st style.Style) *h.Element {
 	ctx := b.ctx
+	ctx.style = st
 	focusable := 0
 	tree.Walk(b.Elem().ChildNodes(), func(n any) bool {
 		switch c := n.(type) {
@@ -167,11 +173,18 @@ func (b *Builder) Element() *h.Element {
 		base.Data("loop", "false")
 	}
 	props := b.Elem()
+	if st != "" {
+		return h.Spread(base, props, nil).SetClass(styleRoot.Class(st, props.ClassName()))
+	}
 	return h.Spread(base, props, nil).SetClass(lib.Cn("grid gap-3", props.ClassName()))
 }
 
 // Render renders the group.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+// Inside style.Scope it renders that style.
+func (b *Builder) Render(w io.Writer) error {
+	st, _ := style.FromWriter(w)
+	return b.element(st).Render(w)
+}
 
 // ItemBuilder is returned by Item.
 type ItemBuilder struct {
@@ -239,6 +252,15 @@ func (b *ItemBuilder) Element() *h.Element {
 	props := b.Elem()
 	out := h.Spread(base, props, nil).SetClass(lib.Cn(itemClass, props.ClassName()))
 	ind := indicator(checked, disabled)
+	if st := b.ctx.style; st != "" {
+		out.SetClass(styleItem.Class(st, props.ClassName()))
+		ind = h.Span(
+			h.Data("state", state(checked)),
+			h.Data("slot", "radio-group-indicator"),
+			h.Class(styleIndicator.Class(st)),
+			h.Span(h.Class(styleIndicatorIcon.Class(st))),
+		).When(disabled, func(e *h.Element) { e.Data("disabled", "") })
+	}
 	if checked {
 		out.Children(ind)
 	} else {
@@ -248,6 +270,16 @@ func (b *ItemBuilder) Element() *h.Element {
 	}
 	return out
 }
+
+// styleFile is registry/bases/radix/ui/radio-group.tsx (style.Scope).
+var styleFile = style.NewFile("ui/radio-group.tsx")
+
+var (
+	styleRoot          = styleFile.Cn("cn-radio-group w-full", style.Arg)
+	styleItem          = styleFile.Cn("cn-radio-group-item group/radio-group-item peer relative aspect-square shrink-0 border outline-none after:absolute after:-inset-x-3 after:-inset-y-2 disabled:cursor-not-allowed disabled:opacity-50", style.Arg)
+	styleIndicator     = styleFile.Attr("cn-radio-group-indicator")
+	styleIndicatorIcon = styleFile.Attr("cn-radio-group-indicator-icon")
+)
 
 func indicator(checked, disabled bool) *h.Element {
 	el := h.Span(

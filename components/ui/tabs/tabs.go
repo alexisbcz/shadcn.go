@@ -33,6 +33,7 @@ import (
 	_ "embed"
 	"fmt"
 	"io"
+	"shadcn.go/components/style"
 
 	"shadcn.go/components/lib"
 	"shadcn.go/components/ui/internal/tree"
@@ -131,7 +132,10 @@ func (b *Builder) Orientation(o Orientation) *Builder { b.orientation = o; retur
 func (b *Builder) ActivationMode(m ActivationMode) *Builder { b.activation = m; return b }
 
 // Element resolves the tabs to the root <div>.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *Builder) element(st style.Style) *h.Element {
 	orientation := b.orientation
 	if orientation == "" {
 		orientation = OrientationHorizontal
@@ -160,11 +164,42 @@ func (b *Builder) Element() *h.Element {
 		base.Data("activation-mode", "manual")
 	}
 	props := b.Elem()
+	if st != "" {
+		return h.Spread(base, props, nil).SetClass(styleRoot.Class(st, props.ClassName()))
+	}
 	return h.Spread(base, props, nil).SetClass(lib.Cn("group/tabs flex gap-2 data-[orientation=horizontal]:flex-col", props.ClassName()))
 }
 
 // Render renders the tabs.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+// Inside style.Scope it renders that style.
+func (b *Builder) Render(w io.Writer) error {
+	st, _ := style.FromWriter(w)
+	return b.element(st).Render(w)
+}
+
+// styleFile is registry/bases/radix/ui/tabs.tsx, the tabs of the 8 styles
+// (style.Scope).
+var styleFile = style.NewFile("ui/tabs.tsx")
+
+var (
+	styleListVariants = styleFile.CVA(
+		"cn-tabs-list group/tabs-list inline-flex w-fit items-center justify-center text-muted-foreground group-data-vertical/tabs:h-fit group-data-vertical/tabs:flex-col",
+		[]style.Variant{{Name: "variant", Options: []style.Option{
+			{Name: "default", Class: "cn-tabs-list-variant-default bg-muted"},
+			{Name: "line", Class: "cn-tabs-list-variant-line gap-1 bg-transparent"},
+		}}},
+		cva.Selection{"variant": "default"},
+	)
+	styleRoot    = styleFile.Cn("cn-tabs group/tabs flex data-horizontal:flex-col", style.Arg)
+	styleTrigger = styleFile.Cn(
+		"cn-tabs-trigger relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center whitespace-nowrap text-foreground/60 transition-all group-data-vertical/tabs:w-full group-data-vertical/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0",
+		"group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent dark:group-data-[variant=line]/tabs-list:data-active:border-transparent dark:group-data-[variant=line]/tabs-list:data-active:bg-transparent",
+		"data-active:bg-background data-active:text-foreground dark:data-active:border-input dark:data-active:bg-input/30 dark:data-active:text-foreground",
+		"after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-horizontal/tabs:after:inset-x-0 group-data-horizontal/tabs:after:bottom-[-5px] group-data-horizontal/tabs:after:h-0.5 group-data-vertical/tabs:after:inset-y-0 group-data-vertical/tabs:after:-right-1 group-data-vertical/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
+		style.Arg,
+	)
+	styleContent = styleFile.Cn("cn-tabs-content flex-1 outline-none", style.Arg)
+)
 
 var listVariants = cva.New(
 	"group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-[3px] text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none",
@@ -220,7 +255,10 @@ func (b *ListBuilder) Variant(v ListVariant) *ListBuilder { b.variant = v; retur
 func (b *ListBuilder) Loop(on bool) *ListBuilder { b.loop = on; return b }
 
 // Element resolves the list to its <div>.
-func (b *ListBuilder) Element() *h.Element {
+func (b *ListBuilder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *ListBuilder) element(st style.Style) *h.Element {
 	if b.ctx == nil {
 		return h.Errored(fmt.Errorf("tabs: List must be inside Tabs"))
 	}
@@ -250,11 +288,18 @@ func (b *ListBuilder) Element() *h.Element {
 		base.Data("loop", "false")
 	}
 	props := b.Elem()
+	if st != "" {
+		return h.Spread(base, props, nil).SetClass(lib.Cn(styleListVariants.Classes(st, cva.Selection{"variant": string(variant)}), props.ClassName()))
+	}
 	return h.Spread(base, props, nil).SetClass(lib.Cn(listVariants.Classes(cva.Selection{"variant": string(variant)}), props.ClassName()))
 }
 
 // Render renders the list.
-func (b *ListBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+// Inside style.Scope it renders that style.
+func (b *ListBuilder) Render(w io.Writer) error {
+	st, _ := style.FromWriter(w)
+	return b.element(st).Render(w)
+}
 
 // TriggerBuilder is returned by Trigger.
 type TriggerBuilder struct {
@@ -292,7 +337,10 @@ const triggerActiveClass = "data-[state=active]:bg-background data-[state=active
 const triggerAfterClass = "after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
 
 // Element resolves the trigger to its <button>.
-func (b *TriggerBuilder) Element() *h.Element {
+func (b *TriggerBuilder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *TriggerBuilder) element(st style.Style) *h.Element {
 	if b.ctx == nil {
 		return h.Errored(fmt.Errorf("tabs: Trigger must be inside Tabs"))
 	}
@@ -314,11 +362,18 @@ func (b *TriggerBuilder) Element() *h.Element {
 	if disabled {
 		base.Data("disabled", "")
 	}
+	if st != "" {
+		return h.Spread(base, props, nil).SetClass(styleTrigger.Class(st, props.ClassName()))
+	}
 	return h.Spread(base, props, nil).SetClass(lib.Cn(triggerClass, triggerLineClass, triggerActiveClass, triggerAfterClass, props.ClassName()))
 }
 
 // Render renders the trigger.
-func (b *TriggerBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+// Inside style.Scope it renders that style.
+func (b *TriggerBuilder) Render(w io.Writer) error {
+	st, _ := style.FromWriter(w)
+	return b.element(st).Render(w)
+}
 
 // ContentBuilder is returned by Content.
 type ContentBuilder struct {
@@ -348,7 +403,10 @@ func (b *ContentBuilder) AcceptChild(c any) bool {
 func (b *ContentBuilder) Value(v string) *ContentBuilder { b.value = v; return b }
 
 // Element resolves the panel to its <div>.
-func (b *ContentBuilder) Element() *h.Element {
+func (b *ContentBuilder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *ContentBuilder) element(st style.Style) *h.Element {
 	if b.ctx == nil {
 		return h.Errored(fmt.Errorf("tabs: Content must be inside Tabs"))
 	}
@@ -378,6 +436,9 @@ func (b *ContentBuilder) Element() *h.Element {
 		base.Hidden(true)
 	}
 	out := h.Spread(base, userProps, nil).SetClass(lib.Cn("flex-1 outline-none", props.ClassName()))
+	if st != "" {
+		out.SetClass(styleContent.Class(st, props.ClassName()))
+	}
 	kids := props.ChildNodes()
 	if selected {
 		out.Children(kids...)
@@ -387,4 +448,8 @@ func (b *ContentBuilder) Element() *h.Element {
 }
 
 // Render renders the panel.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+// Inside style.Scope it renders that style.
+func (b *ContentBuilder) Render(w io.Writer) error {
+	st, _ := style.FromWriter(w)
+	return b.element(st).Render(w)
+}

@@ -22,6 +22,7 @@
 package togglegroup
 
 import (
+	"cmp"
 	_ "embed"
 	"fmt"
 	"io"
@@ -29,6 +30,7 @@ import (
 	"strings"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/runtime"
 	"shadcn.go/components/ui/toggle"
@@ -96,10 +98,12 @@ type context struct {
 	variant     Variant
 	size        Size
 	spacing     int
+	spacingSet  bool
 	values      []string
 	disabled    bool
 	orientation Orientation
 	rovingFocus bool
+	style       style.Style
 }
 
 // Builder is returned by ToggleGroup.
@@ -127,6 +131,7 @@ func (b *Builder) AcceptChild(c any) bool {
 		b.ctx.size = v
 	case Spacing:
 		b.ctx.spacing = int(v)
+		b.ctx.spacingSet = true
 	case Value:
 		b.ctx.values = append(b.ctx.values, string(v))
 	case Disabled:
@@ -153,7 +158,7 @@ func (b *Builder) Variant(v Variant) *Builder { b.ctx.variant = v; return b }
 func (b *Builder) Size(s Size) *Builder { b.ctx.size = s; return b }
 
 // Spacing sets the gap between items.
-func (b *Builder) Spacing(n int) *Builder { b.ctx.spacing = n; return b }
+func (b *Builder) Spacing(n int) *Builder { b.ctx.spacing, b.ctx.spacingSet = n, true; return b }
 
 // Value sets the initially pressed values.
 func (b *Builder) Value(values ...string) *Builder { b.ctx.values = values; return b }
@@ -172,12 +177,34 @@ func (b *Builder) RovingFocus(on bool) *Builder { b.ctx.rovingFocus = on; return
 
 const rootClass = "group/toggle-group flex w-fit items-center gap-[--spacing(var(--gap))] rounded-md data-[spacing=default]:data-[variant=outline]:shadow-xs"
 
+// styleFile is registry/bases/radix/ui/toggle-group.tsx (style.Scope).
+var styleFile = style.NewFile("ui/toggle-group.tsx")
+
+var (
+	styleRoot = styleFile.Cn("cn-toggle-group group/toggle-group flex w-fit flex-row items-center gap-[--spacing(var(--gap))] data-vertical:flex-col data-vertical:items-stretch", style.Arg)
+	styleItem = styleFile.Cn("cn-toggle-group-item shrink-0 focus:z-10 focus-visible:z-10 group-data-horizontal/toggle-group:data-[spacing=0]:data-[variant=outline]:border-l-0 group-data-vertical/toggle-group:data-[spacing=0]:data-[variant=outline]:border-t-0 group-data-horizontal/toggle-group:data-[spacing=0]:data-[variant=outline]:first:border-l group-data-vertical/toggle-group:data-[spacing=0]:data-[variant=outline]:first:border-t", style.Arg, style.Arg)
+)
+
 // Element resolves the group to its <div>.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element("") }
+
+// element renders the group in style st ("" for new-york-v4). In a style,
+// as in registry/bases/radix: spacing defaults to 2, data-orientation is
+// always rendered (default "horizontal") and the orientation is not given
+// to Radix (arrow keys work in both directions).
+func (b *Builder) element(st style.Style) *h.Element {
 	if b.ctx.typ != TypeSingle && b.ctx.typ != TypeMultiple {
 		return h.Errored(fmt.Errorf("togglegroup: missing Type (TypeSingle or TypeMultiple)"))
 	}
 	ctx := b.ctx
+	ctx.style = st
+	orientation := ctx.orientation
+	if st != "" {
+		if !ctx.spacingSet {
+			ctx.spacing = 2
+		}
+		ctx.orientation = ""
+	}
 	if ctx.typ == TypeSingle && len(ctx.values) > 1 {
 		ctx.values = ctx.values[:1]
 	}
@@ -216,6 +243,12 @@ func (b *Builder) Element() *h.Element {
 		base.Data("size", string(ctx.size))
 	}
 	base.Data("spacing", strconv.Itoa(ctx.spacing))
+	if st != "" {
+		if orientation == "" {
+			orientation = OrientationHorizontal
+		}
+		base.Data("orientation", string(orientation))
+	}
 	props := b.Elem()
 	if s, ok := props.GetAttr("style"); ok {
 		// Like {...props} after style={{"--gap": spacing}}: the caller's
@@ -226,11 +259,17 @@ func (b *Builder) Element() *h.Element {
 		base.Style(style)
 	}
 	out := h.Spread(base, props, nil)
+	if st != "" {
+		return out.SetClass(styleRoot.Class(st, props.ClassName()))
+	}
 	return out.SetClass(lib.Cn(rootClass, props.ClassName()))
 }
 
-// Render renders the group.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+// Render renders the group, in the style of an enclosing style.Scope.
+func (b *Builder) Render(w io.Writer) error {
+	st, _ := style.FromWriter(w)
+	return b.element(st).Render(w)
+}
 
 // ItemBuilder is returned by Item.
 type ItemBuilder struct {
@@ -297,6 +336,11 @@ func (b *ItemBuilder) Element() *h.Element {
 	if size == "" {
 		size = b.size
 	}
+	if ctx.style != "" {
+		// variant = "default", size = "default" in the bases item.
+		variant = cmp.Or(variant, VariantDefault)
+		size = cmp.Or(size, SizeDefault)
+	}
 	pressed := false
 	for _, v := range ctx.values {
 		if v == b.value {
@@ -329,6 +373,9 @@ func (b *ItemBuilder) Element() *h.Element {
 	base.Data("spacing", strconv.Itoa(ctx.spacing))
 	props := b.Elem()
 	out := h.Spread(base, props, nil)
+	if ctx.style != "" {
+		return out.SetClass(styleItem.Class(ctx.style, toggle.StyleVariantClasses(ctx.style, variant, size), props.ClassName()))
+	}
 	return out.SetClass(lib.Cn(toggle.VariantClasses(variant, size), itemClass, itemSpacingClass, props.ClassName()))
 }
 

@@ -29,6 +29,7 @@ package checkbox
 import (
 	_ "embed"
 	"io"
+	"shadcn.go/components/style"
 	"strconv"
 
 	"shadcn.go/components/icons/lucide"
@@ -188,7 +189,17 @@ const rootClass = "peer size-4 shrink-0 rounded-[4px] border border-input shadow
 
 // Element resolves the checkbox to its <button> (without the hidden input;
 // Render writes both).
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element("") }
+
+// styleFile is registry/bases/radix/ui/checkbox.tsx (style.Scope).
+var styleFile = style.NewFile("ui/checkbox.tsx")
+
+var (
+	styleRoot      = styleFile.Cn("cn-checkbox peer relative shrink-0 outline-none after:absolute after:-inset-x-3 after:-inset-y-2 disabled:cursor-not-allowed disabled:opacity-50", style.Arg)
+	styleIndicator = styleFile.Attr("cn-checkbox-indicator grid place-content-center text-current transition-none")
+)
+
+func (b *Builder) element(st style.Style) *h.Element {
 	props, o := b.resolve()
 	disabled := o.disabled
 	base := h.Button(
@@ -207,6 +218,16 @@ func (b *Builder) Element() *h.Element {
 	}
 	out := h.Spread(base, props, nil).SetClass(lib.Cn(rootClass, props.ClassName()))
 	ind := indicator(b.state, disabled)
+	if st != "" {
+		out.SetClass(styleRoot.Class(st, props.ClassName()))
+		ind = h.Span(
+			h.Data("state", stateName(b.state)),
+			h.Data("slot", "checkbox-indicator"),
+			h.Class(styleIndicator.Class(st)),
+			h.Style("pointer-events:none"),
+			lucide.Check(),
+		).When(disabled, func(e *h.Element) { e.Data("disabled", "") })
+	}
 	if b.state != unchecked {
 		out.Children(ind)
 	} else {
@@ -261,7 +282,8 @@ func (b *Builder) input() *h.Element {
 
 // Render renders the checkbox's button and hidden input.
 func (b *Builder) Render(w io.Writer) error {
-	el := b.Element()
+	st, _ := style.FromWriter(w)
+	el := b.element(st)
 	if el.Err() != nil {
 		return el.Render(w)
 	}

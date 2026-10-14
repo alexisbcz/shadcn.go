@@ -51,7 +51,9 @@ define("toggle-group", {
     const loop = takeOption(root, "data-loop") !== "false"
     if (takeOption(root, "data-roving-focus") !== "false") {
       roving = createRovingFocusGroup(root, {
-        orientation: root.getAttribute("data-orientation") || undefined,
+        // Radix gives the items its orientation; the styled (bases) group
+        // renders data-orientation on the root only, without one for Radix.
+        orientation: root.querySelector("[data-radix-collection-item]")?.getAttribute("data-orientation") || undefined,
         loop,
         focusable: (item) => !item.disabled,
         active: isPressed,

@@ -19,6 +19,7 @@ import (
 	_ "embed"
 	"io"
 	"math"
+	"shadcn.go/components/style"
 	"strconv"
 
 	"shadcn.go/components/lib"
@@ -79,7 +80,10 @@ func (b *Builder) Max(v float64) *Builder { b.max = &v; return b }
 // takes the value prop for the indicator's transform and does not pass it
 // to Radix, so the root and indicator always render Radix's indeterminate
 // state (no aria-valuenow, data-state="indeterminate").
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element("") }
+
+// element renders in style st ("" for new-york-v4).
+func (b *Builder) element(st style.Style) *h.Element {
 	max := float64(defaultMax)
 	if b.max != nil && !math.IsNaN(*b.max) && *b.max > 0 {
 		max = *b.max
@@ -105,13 +109,29 @@ func (b *Builder) Element() *h.Element {
 		h.Style("transform:translateX(-"+num(100-given)+"%)"),
 	)
 	props := b.Elem()
+	if st != "" {
+		ind.SetClass(styleIndicator.Class(st))
+		return h.Spread(base, props, nil).SetClass(styleRoot.Class(st, props.ClassName())).SetChildren(ind)
+	}
 	return h.Spread(base, props, nil).
 		SetClass(lib.Cn("relative h-2 w-full overflow-hidden rounded-full bg-primary/20", props.ClassName())).
 		SetChildren(ind)
 }
 
 // Render renders the progress bar.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+// Inside style.Scope it renders that style.
+func (b *Builder) Render(w io.Writer) error {
+	st, _ := style.FromWriter(w)
+	return b.element(st).Render(w)
+}
+
+// styleFile is registry/bases/radix/ui/progress.tsx (style.Scope).
+var styleFile = style.NewFile("ui/progress.tsx")
+
+var (
+	styleRoot      = styleFile.Cn("cn-progress relative flex w-full items-center overflow-x-hidden", style.Arg)
+	styleIndicator = styleFile.Attr("cn-progress-indicator size-full flex-1 transition-all")
+)
 
 // num formats a number like JavaScript's Number#toString for the values
 // a progress bar takes.

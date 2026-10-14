@@ -14,6 +14,7 @@ import (
 	"io"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/runtime"
 	"shadcn.go/cva"
 	h "shadcn.go/libhtml"
@@ -65,6 +66,32 @@ var toggleVariants = cva.New(
 		Order:    []string{"variant", "size"},
 	},
 )
+
+// styleFile is registry/bases/radix/ui/toggle.tsx, the source of the
+// toggle in the 8 styles (style.Scope).
+var styleFile = style.NewFile("ui/toggle.tsx")
+
+var styleVariants = styleFile.CVA(
+	"cn-toggle group/toggle inline-flex items-center justify-center whitespace-nowrap outline-none hover:bg-muted focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+	[]style.Variant{
+		{Name: "variant", Options: []style.Option{
+			{Name: "default", Class: "cn-toggle-variant-default"},
+			{Name: "outline", Class: "cn-toggle-variant-outline"},
+		}},
+		{Name: "size", Options: []style.Option{
+			{Name: "default", Class: "cn-toggle-size-default"},
+			{Name: "sm", Class: "cn-toggle-size-sm"},
+			{Name: "lg", Class: "cn-toggle-size-lg"},
+		}},
+	},
+	cva.Selection{"variant": "default", "size": "default"},
+)
+
+// StyleVariantClasses is VariantClasses in style st (toggleVariants of
+// registry/bases/radix, resolved for st).
+func StyleVariantClasses(st style.Style, variant Variant, size Size, className ...string) string {
+	return styleVariants.Classes(st, cva.Selection{"variant": string(variant), "size": string(size)}, className...)
+}
 
 // VariantClasses returns toggleVariants({ variant, size }) followed by
 // className, unmerged (cva output). Empty values select the defaults.
@@ -123,9 +150,14 @@ func (b *Builder) Pressed(on bool) *Builder { b.pressed = on; return b }
 func (b *Builder) Disabled(on bool) *Builder { b.Elem().Disabled(on); return b }
 
 // Element resolves the toggle to its <button>.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element("") }
+
+func (b *Builder) element(st style.Style) *h.Element {
 	props := b.Elem()
 	cls := Variants(b.variant, b.size, props.ClassName())
+	if st != "" {
+		cls = lib.Cn(StyleVariantClasses(st, b.variant, b.size, props.ClassName()))
+	}
 	base := Root(b.pressed, props.Has("disabled"))
 	base.Data("slot", "toggle")
 	out := h.Spread(base, props, nil)
@@ -133,7 +165,11 @@ func (b *Builder) Element() *h.Element {
 }
 
 // Render renders the toggle.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+// Inside style.Scope it renders that style's toggle.
+func (b *Builder) Render(w io.Writer) error {
+	st, _ := style.FromWriter(w)
+	return b.element(st).Render(w)
+}
 
 // Root returns the attributes Radix's Toggle.Root renders before the
 // caller's props: type="button", aria-pressed, data-state and

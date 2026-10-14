@@ -23,6 +23,7 @@ package switchui
 import (
 	_ "embed"
 	"io"
+	"shadcn.go/components/style"
 	"strconv"
 
 	"shadcn.go/components/lib"
@@ -176,9 +177,19 @@ const (
 
 var thumbClassCn = lib.Cn(thumbClass)
 
+// styleFile is registry/bases/radix/ui/switch.tsx (style.Scope).
+var styleFile = style.NewFile("ui/switch.tsx")
+
+var (
+	styleRoot  = styleFile.Cn("cn-switch peer group/switch relative inline-flex items-center transition-all outline-none after:absolute after:-inset-x-3 after:-inset-y-2 data-disabled:cursor-not-allowed data-disabled:opacity-50", style.Arg)
+	styleThumb = styleFile.Attr("cn-switch-thumb pointer-events-none block ring-0 transition-transform")
+)
+
 // Element resolves the switch to its <button> (without the hidden input;
 // Render writes both).
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element("") }
+
+func (b *Builder) element(st style.Style) *h.Element {
 	props, o := b.resolve()
 	disabled := o.disabled
 	base := h.Button(
@@ -204,6 +215,10 @@ func (b *Builder) Element() *h.Element {
 	)
 	if disabled {
 		thumb.Data("disabled", "")
+	}
+	if st != "" {
+		out.SetClass(styleRoot.Class(st, props.ClassName()))
+		thumb.SetClass(styleThumb.Class(st))
 	}
 	return out.SetChildren(thumb)
 }
@@ -238,7 +253,8 @@ func (b *Builder) input() *h.Element {
 
 // Render renders the switch's button and hidden input.
 func (b *Builder) Render(w io.Writer) error {
-	el := b.Element()
+	st, _ := style.FromWriter(w)
+	el := b.element(st)
 	if el.Err() != nil {
 		return el.Render(w)
 	}
