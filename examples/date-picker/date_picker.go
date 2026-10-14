@@ -13,6 +13,7 @@ import (
 	"shadcn.go/components/ui/calendar"
 	"shadcn.go/components/ui/popover"
 	"shadcn.go/components/ui/runtime"
+	selectui "shadcn.go/components/ui/select"
 	"shadcn.go/examples/registry"
 	h "shadcn.go/libhtml"
 )
@@ -30,6 +31,7 @@ func init() {
 	registry.Register(
 		ex("date-picker-demo", Demo),
 		ex("date-picker-with-range", WithRange),
+		ex("date-picker-with-presets", WithPresets),
 	)
 }
 
@@ -73,6 +75,32 @@ func WithRange() h.Node {
 					calendar.SelectedRange(from, to),
 					calendar.NumberOfMonths(2),
 				),
+			),
+		),
+	)
+}
+
+func WithPresets() h.Node {
+	item := func(v, l string) h.Node { return selectui.Item(selectui.ItemValue(v), l) }
+	return popover.Popover(
+		popover.Trigger(lib.AsChild, button.Button(button.VariantOutline,
+			h.Data("example-date-picker", "presets"),
+			h.Class(lib.Cn("w-[240px] justify-start text-left font-normal", "text-muted-foreground")),
+			lucide.Calendar(),
+			h.Span("Pick a date"),
+		)),
+		popover.Content(popover.AlignStart, h.Class("flex w-auto flex-col space-y-2 p-2"),
+			selectui.Select(
+				selectui.Trigger(selectui.Value(selectui.Placeholder("Select"))),
+				selectui.Content(selectui.PositionPopper,
+					item("0", "Today"),
+					item("1", "Tomorrow"),
+					item("3", "In 3 days"),
+					item("7", "In a week"),
+				),
+			),
+			h.Div(h.Class("rounded-md border"),
+				calendar.Calendar(calendar.ModeSingle),
 			),
 		),
 	)

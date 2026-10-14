@@ -2,7 +2,12 @@
 package kbd
 
 import (
+	"shadcn.go/components/icons/lucide"
+	"shadcn.go/components/lib"
 	"shadcn.go/components/ui/button"
+	buttongroup "shadcn.go/components/ui/button-group"
+	ig "shadcn.go/components/ui/input-group"
+	"shadcn.go/components/ui/tooltip"
 	"shadcn.go/components/ui/kbd"
 	"shadcn.go/examples/registry"
 	h "shadcn.go/libhtml"
@@ -16,6 +21,8 @@ func init() {
 		ex("kbd-button", Button),
 		ex("kbd-demo", Demo),
 		ex("kbd-group", Group),
+		ex("kbd-input-group", InputGroup),
+		ex("kbd-tooltip", Tooltip),
 	)
 }
 
@@ -39,6 +46,31 @@ func Group() h.Node {
 			"Use", " ",
 			kbd.Group(kbd.Kbd("Ctrl + B"), kbd.Kbd("Ctrl + K")),
 			" ", "to open the command palette",
+		),
+	)
+}
+
+func InputGroup() h.Node {
+	return h.Div(h.Class("flex w-full max-w-xs flex-col gap-6"),
+		ig.InputGroup(
+			ig.Input(h.Placeholder("Search...")),
+			ig.Addon(lucide.Search()),
+			ig.Addon(ig.AlignInlineEnd, kbd.Kbd("⌘"), kbd.Kbd("K")),
+		),
+	)
+}
+
+func Tooltip() h.Node {
+	return h.Div(h.Class("flex flex-wrap gap-4"),
+		buttongroup.ButtonGroup(
+			tooltip.Tooltip(
+				tooltip.Trigger(lib.AsChild, button.Button(button.SizeSm, button.VariantOutline, "Save")),
+				tooltip.Content("Save Changes ", kbd.Kbd("S")),
+			),
+			tooltip.Tooltip(
+				tooltip.Trigger(lib.AsChild, button.Button(button.SizeSm, button.VariantOutline, "Print")),
+				tooltip.Content("Print Document", " ", kbd.Group(kbd.Kbd("Ctrl"), kbd.Kbd("P"))),
+			),
 		),
 	)
 }

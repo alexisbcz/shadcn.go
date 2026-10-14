@@ -1,0 +1,4 @@
+[
+  { "label": "hover-print", "reset": true, "steps": [{ "do": "hover", "target": "[data-slot=tooltip-trigger]", "nth": 1 }, { "do": "wait", "ms": 800 }] },
+  { "label": "hover-save", "steps": [{ "do": "hover", "target": "[data-slot=tooltip-trigger]", "nth": 0 }, { "do": "wait", "ms": 400 }] }
+]

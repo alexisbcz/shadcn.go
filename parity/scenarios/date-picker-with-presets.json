@@ -1,0 +1,8 @@
+[
+  { "label": "open", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=popover-trigger]" }] },
+  { "label": "open-select", "steps": [{ "do": "click", "target": "[data-slot=select-trigger]" }] },
+  { "label": "pick-in-3-days", "steps": [{ "do": "click", "target": "[data-slot=select-item]", "nth": 2 }] },
+  { "label": "select-day", "frames": false, "steps": [{ "do": "click", "target": "[data-slot=calendar] tbody button", "nth": 10 }] },
+  { "label": "close", "steps": [{ "do": "press", "key": "Escape" }] },
+  { "label": "reopen", "steps": [{ "do": "click", "target": "[data-slot=popover-trigger]" }] }
+]

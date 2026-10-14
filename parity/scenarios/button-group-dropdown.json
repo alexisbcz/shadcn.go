@@ -1,0 +1,5 @@
+[
+  { "label": "open-keyboard", "reset": true, "steps": [{ "do": "focus", "target": "[data-slot=dropdown-menu-trigger]" }, { "do": "press", "key": "Enter" }] },
+  { "label": "arrow-down", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }, { "do": "press", "key": "ArrowDown" }] },
+  { "label": "select-item", "steps": [{ "do": "press", "key": "Enter" }] }
+]

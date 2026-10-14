@@ -1,0 +1,5 @@
+[
+  { "label": "open-select", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=select-trigger]" }] },
+  { "label": "pick-euro", "steps": [{ "do": "click", "target": "[data-slot=select-item]", "nth": 1 }] },
+  { "label": "type-amount", "frames": false, "steps": [{ "do": "click", "target": "#preview input" }, { "do": "type", "text": "42" }] }
+]

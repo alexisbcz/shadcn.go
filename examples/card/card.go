@@ -6,6 +6,7 @@ import (
 	"shadcn.go/components/ui/card"
 	"shadcn.go/components/ui/input"
 	"shadcn.go/components/ui/label"
+	selectui "shadcn.go/components/ui/select"
 	"shadcn.go/examples/registry"
 	h "shadcn.go/libhtml"
 )
@@ -13,6 +14,7 @@ import (
 func init() {
 	registry.Register(
 		registry.Example{Name: "card-demo", Component: "card", Render: registry.Static(Demo)},
+		registry.Example{Name: "card-with-form", Component: "card", Render: registry.Static(WithForm)},
 	)
 }
 
@@ -45,6 +47,42 @@ func Demo() h.Node {
 		card.Footer(h.Class("flex-col gap-2"),
 			button.Button(h.Type("submit"), h.Class("w-full"), "Login"),
 			button.Button(button.VariantOutline, h.Class("w-full"), "Login with Google"),
+		),
+	)
+}
+
+func WithForm() h.Node {
+	item := func(v, l string) h.Node { return selectui.Item(selectui.ItemValue(v), l) }
+	return card.Card(h.Class("w-[350px]"),
+		card.Header(
+			card.Title("Create project"),
+			card.Description("Deploy your new project in one-click."),
+		),
+		card.Content(
+			h.Form(
+				h.Div(h.Class("grid w-full items-center gap-6"),
+					h.Div(h.Class("flex flex-col gap-3"),
+						label.Label(h.For("name"), "Name"),
+						input.Input(h.ID("name"), h.Placeholder("Name of your project")),
+					),
+					h.Div(h.Class("flex flex-col gap-3"),
+						label.Label(h.For("framework"), "Framework"),
+						selectui.Select(
+							selectui.Trigger(h.ID("framework"), h.Class("w-full"), selectui.Value(selectui.Placeholder("Select"))),
+							selectui.Content(selectui.PositionPopper,
+								item("next", "Next.js"),
+								item("sveltekit", "SvelteKit"),
+								item("astro", "Astro"),
+								item("nuxt", "Nuxt.js"),
+							),
+						),
+					),
+				),
+			),
+		),
+		card.Footer(h.Class("flex justify-between"),
+			button.Button(button.VariantOutline, "Cancel"),
+			button.Button("Deploy"),
 		),
 	)
 }

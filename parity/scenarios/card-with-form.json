@@ -1,0 +1,6 @@
+[
+  { "label": "type-name", "reset": true, "frames": false, "steps": [{ "do": "click", "target": "#preview input" }, { "do": "type", "text": "My app" }] },
+  { "label": "open-select", "steps": [{ "do": "click", "target": "[data-slot=select-trigger]" }] },
+  { "label": "arrow-down", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }] },
+  { "label": "pick-astro", "steps": [{ "do": "click", "target": "[data-slot=select-item]", "nth": 2 }] }
+]

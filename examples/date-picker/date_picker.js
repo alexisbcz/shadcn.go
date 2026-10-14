@@ -45,7 +45,7 @@ define("example-date-picker", {
       if (!content || content.id !== contentId) return
       const selected = e.detail.selected
       const tpl = template()
-      if (kind === "single") {
+      if (kind === "single" || kind === "presets") {
         trigger.classList.toggle("text-muted-foreground", !selected)
         if (selected) trigger.replaceChildren(icon, ppp(selected))
         else {
@@ -68,7 +68,27 @@ define("example-date-picker", {
         if (tpl) setCalendarProps(tpl.content, { selected, defaultMonth: selected?.from ?? null })
       }
     }
+    // date-picker-with-presets: the Select sets the date to today + n days.
+    const onValueChange = (e) => {
+      if (kind !== "presets") return
+      const content = e.target.closest?.('[data-slot="popover-content"]')
+      if (!content || content.id !== contentId) return
+      const n = parseInt(e.detail.value)
+      if (Number.isNaN(n)) return
+      const d = new Date()
+      d.setDate(d.getDate() + n)
+      const selected = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
+      trigger.classList.remove("text-muted-foreground")
+      trigger.replaceChildren(icon, ppp(selected))
+      setCalendarProps(content, { selected })
+      const tpl = template()
+      if (tpl) setCalendarProps(tpl.content, { selected })
+    }
     document.addEventListener("shadcn:select", onSelect)
-    return () => document.removeEventListener("shadcn:select", onSelect)
+    document.addEventListener("shadcn:value-change", onValueChange)
+    return () => {
+      document.removeEventListener("shadcn:select", onSelect)
+      document.removeEventListener("shadcn:value-change", onValueChange)
+    }
   },
 })

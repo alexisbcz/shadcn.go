@@ -946,6 +946,12 @@ function jdnOf(iso) {
  * @param {{ selected?: any, defaultMonth?: string | null }} props
  */
 export function setCalendarProps(el, props) {
+  // A mounted calendar re-renders in place.
+  const liveRoot = live.has(el) ? el : [...(el.querySelectorAll?.('[data-slot="calendar"]') ?? [])].find((r) => live.has(r))
+  if (liveRoot) {
+    live.get(liveRoot)(props)
+    return
+  }
   const root = el instanceof Element && el.hasAttribute("data-calendar") ? el : el.querySelector("[data-calendar]")
   if (!root) return
   const cfg = JSON.parse(root.getAttribute("data-calendar"))
@@ -964,6 +970,16 @@ export function setCalendarProps(el, props) {
   // Re-render the markup the calendar will mount from.
   const dp = new DayPicker(root, cfg)
   root.replaceChildren(...dp.render().map((n) => create(n, false)))
+}
+
+// Mounted calendar roots -> their setCalendarProps handler.
+const live = new WeakMap()
+
+function selectedOf(s) {
+  if (s == null) return undefined
+  if (typeof s === "string") return jdnOf(s)
+  if (Array.isArray(s)) return s.map(jdnOf)
+  return { from: s.from ? jdnOf(s.from) : null, to: s.to ? jdnOf(s.to) : null }
 }
 
 function readConfig(root) {
@@ -1133,12 +1149,20 @@ define("calendar", {
       schedule()
     }
 
+    // setCalendarProps on a mounted calendar: the parent re-renders with new
+    // props, which remounts everything under the root (see render).
+    live.set(root, (props) => {
+      if ("selected" in props) dp.selected = selectedOf(props.selected)
+      dp.remount = true
+      schedule()
+    })
     root.addEventListener("click", onClick)
     root.addEventListener("focusin", onFocusIn)
     root.addEventListener("focusout", onFocusOut)
     root.addEventListener("keydown", onKeyDown)
     root.addEventListener("change", onChange)
     return () => {
+      live.delete(root)
       root.removeEventListener("click", onClick)
       root.removeEventListener("focusin", onFocusIn)
       root.removeEventListener("focusout", onFocusOut)

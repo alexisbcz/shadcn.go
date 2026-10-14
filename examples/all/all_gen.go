@@ -43,6 +43,7 @@ import (
 	_ "shadcn.go/examples/input-otp"
 	_ "shadcn.go/examples/item"
 	_ "shadcn.go/examples/kbd"
+	_ "shadcn.go/examples/label"
 	_ "shadcn.go/examples/marker"
 	_ "shadcn.go/examples/menubar"
 	_ "shadcn.go/examples/message"

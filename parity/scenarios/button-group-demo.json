@@ -1,0 +1,6 @@
+[
+  { "label": "open-menu", "reset": true, "steps": [{ "do": "click", "target": "[data-slot=dropdown-menu-trigger]" }] },
+  { "label": "hover-sub", "steps": [{ "do": "hover", "target": "[data-slot=dropdown-menu-sub-trigger]" }, { "do": "wait", "ms": 300 }] },
+  { "label": "pick-work", "steps": [{ "do": "click", "target": "[data-slot=dropdown-menu-radio-item]", "nth": 1 }] },
+  { "label": "reopen-sub", "steps": [{ "do": "click", "target": "[data-slot=dropdown-menu-trigger]" }, { "do": "hover", "target": "[data-slot=dropdown-menu-sub-trigger]" }, { "do": "wait", "ms": 300 }] }
+]

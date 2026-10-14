@@ -1,0 +1,4 @@
+[
+  { "label": "click-label", "reset": true, "frames": false, "steps": [{ "do": "click", "target": "[data-slot=label]" }] },
+  { "label": "click-label-again", "frames": false, "steps": [{ "do": "click", "target": "[data-slot=label]" }] }
+]
