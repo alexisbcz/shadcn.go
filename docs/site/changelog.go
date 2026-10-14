@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"sort"
 	"strings"
+	"time"
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/style"
@@ -107,4 +108,38 @@ func (s *Site) Changelog(r *http.Request) (h.Node, error) {
 	return s.Document(r, Meta{Title: "Changelog", Description: "Latest updates and announcements.", Article: true},
 		s.AppLayout(r, s.DocsLayout(r, "/docs/changelog", main)),
 	), nil
+}
+
+// serveRSS serves /rss.xml (app/rss.xml/route.ts).
+func (s *Site) serveRSS(w http.ResponseWriter, r *http.Request) {
+	var b strings.Builder
+	b.WriteString(`<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>` + SiteName + ` Changelog</title>
+    <link>` + SiteURL + `</link>
+    <description>` + SiteDescription + `</description>
+    <language>en-us</language>
+    <atom:link href="` + SiteURL + `/rss.xml" rel="self" type="application/rss+xml"/>
+`)
+	for i, d := range s.ChangelogPages() {
+		if i > 0 {
+			b.WriteString("\n")
+		}
+		date := time.Now()
+		if d.Frontmatter.HasDate {
+			date = d.Frontmatter.Date
+		}
+		link := SiteURL + d.URL
+		b.WriteString(`    <item>
+      <title><![CDATA[` + d.Frontmatter.Title + `]]></title>
+      <link>` + link + `</link>
+      <guid>` + link + `</guid>
+      <description><![CDATA[` + d.Frontmatter.Description + `]]></description>
+      <pubDate>` + date.UTC().Format("Mon, 02 Jan 2006 15:04:05 GMT") + `</pubDate>
+    </item>`)
+	}
+	b.WriteString("\n  </channel>\n</rss>")
+	w.Header().Set("Content-Type", "application/rss+xml; charset=utf-8")
+	_, _ = w.Write([]byte(b.String()))
 }
