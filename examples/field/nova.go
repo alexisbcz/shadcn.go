@@ -26,6 +26,7 @@ func init() {
 		})}
 	}
 	registry.Register(
+		nova("field-demo", func() h.Node { return demo(true) }),
 		nova("field-checkbox", NovaCheckbox),
 		nova("field-choice-card", NovaChoiceCard),
 		nova("field-fieldset", NovaFieldset),

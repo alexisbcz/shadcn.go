@@ -29,7 +29,16 @@ func selectItems(values ...string) []any {
 	return out
 }
 
-func Demo() h.Node {
+func Demo() h.Node { return demo(false) }
+
+// demo is field-demo; the radix docs version groups the select items.
+func demo(grouped bool) h.Node {
+	group := func(items []any) []any {
+		if grouped {
+			return []any{selectui.Group(items...)}
+		}
+		return items
+	}
 	return h.Div(h.Class("w-full max-w-md"),
 		h.Form(
 			field.Group(
@@ -51,14 +60,14 @@ func Demo() h.Node {
 								field.Label(h.For("checkout-exp-month-ts6"), "Month"),
 								selectui.Select(selectui.DefaultValue(""),
 									selectui.Trigger(h.ID("checkout-exp-month-ts6"), selectui.Value(selectui.Placeholder("MM"))),
-									selectui.Content(selectItems("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")...),
+									selectui.Content(group(selectItems("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"))...),
 								),
 							),
 							field.Field(
 								field.Label(h.For("checkout-7j9-exp-year-f59"), "Year"),
 								selectui.Select(selectui.DefaultValue(""),
 									selectui.Trigger(h.ID("checkout-7j9-exp-year-f59"), selectui.Value(selectui.Placeholder("YYYY"))),
-									selectui.Content(selectItems("2024", "2025", "2026", "2027", "2028", "2029")...),
+									selectui.Content(group(selectItems("2024", "2025", "2026", "2027", "2028", "2029"))...),
 								),
 							),
 							field.Field(
