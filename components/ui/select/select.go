@@ -50,6 +50,7 @@ import (
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/internal/aschild"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/uid"
@@ -171,6 +172,32 @@ var (
 	separatorClass = "pointer-events-none -mx-1 my-1 h-px bg-border"
 	scrollClass    = "flex cursor-default items-center justify-center py-1"
 )
+
+// The classes of registry/bases/radix/ui/select.tsx, used inside a
+// style.Scope (see package style).
+var (
+	file              = style.NewFile("ui/select.tsx")
+	stGroup           = file.Cn("cn-select-group", style.Arg)
+	stTrigger         = file.Cn("cn-select-trigger flex w-fit items-center justify-between whitespace-nowrap outline-none disabled:cursor-not-allowed disabled:opacity-50 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center [&_svg]:pointer-events-none [&_svg]:shrink-0", style.Arg)
+	stTriggerIcon     = file.Attr("cn-select-trigger-icon pointer-events-none")
+	stContent         = file.Cn("cn-select-content cn-menu-target cn-menu-translucent relative z-50 max-h-(--radix-select-content-available-height) origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto data-[align-trigger=true]:animate-none", style.Arg, style.Arg)
+	stViewport        = file.Cn("cn-select-viewport data-[position=popper]:h-(--radix-select-trigger-height) data-[position=popper]:w-full data-[position=popper]:min-w-(--radix-select-trigger-width)", style.Arg)
+	stLabel           = file.Cn("cn-select-label", style.Arg)
+	stItem            = file.Cn("cn-select-item relative flex w-full cursor-default items-center outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0", style.Arg)
+	stItemIndicator   = file.Attr("cn-select-item-indicator")
+	stIndicatorIcon   = file.Attr("cn-select-item-indicator-icon pointer-events-none")
+	stSeparator       = file.Cn("cn-select-separator pointer-events-none", style.Arg)
+	stScrollUpButton  = file.Cn("cn-select-scroll-up-button", style.Arg)
+	stScrollDownButon = file.Cn("cn-select-scroll-down-button", style.Arg)
+)
+
+// styled is a node whose markup depends on the enclosing style.Scope.
+type styled func(st style.Style) *h.Element
+
+func (f styled) Render(w io.Writer) error {
+	st, _ := style.FromWriter(w)
+	return f(st).Render(w)
+}
 
 // visuallyHidden is Radix's VISUALLY_HIDDEN_STYLES as React serializes it.
 const visuallyHidden = "position: absolute; border: 0px; width: 1px; height: 1px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; overflow-wrap: normal;"
@@ -350,7 +377,10 @@ func bubbleSelect(sc *Scope) *h.Element {
 type part struct {
 	Scoped
 	asChild bool
+	st      style.Style // the enclosing style.Scope, "" for new-york-v4
 }
+
+func (p *part) setStyle(w io.Writer) { p.st, _ = style.FromWriter(w) }
 
 func (p *part) accept(c any) bool {
 	switch v := c.(type) {
@@ -448,12 +478,17 @@ func (b *TriggerBuilder) Element() *h.Element {
 		h.Data("size", string(b.size)),
 		h.Class(lib.Cn(triggerClass)),
 	)
-	user.Children(lucide.ChevronDown(h.Class("size-4 opacity-50"), h.Aria("hidden", "true")))
+	if b.st != "" {
+		d.Attr("class", stTrigger.Class(b.st, ""))
+		user.Children(lucide.ChevronDown(h.Class(stTriggerIcon.Class(b.st)), h.Aria("hidden", "true")))
+	} else {
+		user.Children(lucide.ChevronDown(h.Class("size-4 opacity-50"), h.Aria("hidden", "true")))
+	}
 	return b.resolve("Trigger", d, user)
 }
 
 // Render renders the trigger.
-func (b *TriggerBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TriggerBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
 
 // --- Value ---------------------------------------------------------------------------------
 
@@ -515,7 +550,7 @@ func (b *ValueBuilder) Element() *h.Element {
 }
 
 // Render renders the value span.
-func (b *ValueBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ValueBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
 
 // --- Content -------------------------------------------------------------------------------
 
@@ -583,6 +618,10 @@ func (b *ContentBuilder) Element() *h.Element {
 		h.Class(lib.Cn(contentClass, h.If(isPopper, contentPopper))),
 		h.TabIndex(-1),
 	)
+	if b.st != "" {
+		d.Attr("data-align-trigger", fmt.Sprint(!isPopper))
+		d.Attr("class", stContent.Class(b.st, h.IfElse(isPopper, contentPopper, ""), ""))
+	}
 	content := h.Spread(d, user, lib.Cn)
 	if !strings.HasSuffix(strings.TrimSpace(style), ";") {
 		style += ";"
@@ -591,14 +630,19 @@ func (b *ContentBuilder) Element() *h.Element {
 	if isPopper {
 		popper.AppendStyle(content, popper.ContentVars("select"))
 	}
+	viewportClass := lib.Cn("p-1", h.If(isPopper, viewportPopper))
+	if b.st != "" {
+		viewportClass = stViewport.Class(b.st, "")
+	}
 	viewport := h.Div(
+		h.If(b.st != "", h.Data("position", string(b.position))),
 		h.Data("radix-select-viewport", ""),
 		h.Role("presentation"),
-		h.Class(lib.Cn("p-1", h.If(isPopper, viewportPopper))),
+		h.Class(viewportClass),
 		h.Style("position: relative; flex: 1 1 0%; overflow: hidden auto;"),
 		h.Group(kids...),
 	)
-	content.Children(ScrollUpButton(), viewport, ScrollDownButton())
+	content.Children(scrollUpButton(b.st), viewport, scrollDownButton(b.st))
 
 	var wrapper *h.Element
 	if isPopper {
@@ -626,7 +670,7 @@ func (b *ContentBuilder) Element() *h.Element {
 }
 
 // Render renders the template.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ContentBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
 
 // --- Group, Label, Separator ---------------------------------------------------------------
 
@@ -659,11 +703,14 @@ func (b *GroupBuilder) Element() *h.Element {
 		return true
 	})
 	d := h.Div(h.Role("group"), h.Aria("labelledby", id), h.Data("slot", "select-group"))
+	if b.st != "" {
+		d.Attr("class", stGroup.Class(b.st, ""))
+	}
 	return b.resolve("Group", d, b.Elem())
 }
 
 // Render renders the group.
-func (b *GroupBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *GroupBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
 
 // LabelBuilder is returned by Label.
 type LabelBuilder struct {
@@ -688,15 +735,24 @@ func (b *LabelBuilder) Element() *h.Element {
 		b.id = uid.New("radix")
 	}
 	d := h.Div(h.ID(b.id), h.Data("slot", "select-label"), h.Class(lib.Cn(labelClass)))
+	if b.st != "" {
+		d.Attr("class", stLabel.Class(b.st, ""))
+	}
 	return b.resolve("Label", d, b.Elem())
 }
 
 // Render renders the label.
-func (b *LabelBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *LabelBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
 
 // Separator separates items.
-func Separator(children ...any) *h.Element {
-	return h.Spread(h.Div(h.Aria("hidden", "true"), h.Data("slot", "select-separator"), h.Class(lib.Cn(separatorClass))), h.Div(children...), lib.Cn)
+func Separator(children ...any) h.Node {
+	return styled(func(st style.Style) *h.Element {
+		cls := lib.Cn(separatorClass)
+		if st != "" {
+			cls = stSeparator.Class(st, "")
+		}
+		return h.Spread(h.Div(h.Aria("hidden", "true"), h.Data("slot", "select-separator"), h.Class(cls)), h.Div(children...), lib.Cn)
+	})
 }
 
 // --- Item ----------------------------------------------------------------------------------
@@ -773,7 +829,19 @@ func (b *ItemBuilder) Element() *h.Element {
 		h.Class(lib.Cn(itemClass)),
 		h.Data("radix-collection-item", ""),
 	)
+	if b.st != "" {
+		d.Attr("class", stItem.Class(b.st, ""))
+	}
 	el := b.resolve("Item", d, user)
+	if b.st != "" {
+		el.Children(
+			h.Span(h.Class(stItemIndicator.Class(b.st)),
+				h.Span(h.Attr(markerIndicator, ""), h.Aria("hidden", "true"), lucide.Check(h.Class(stIndicatorIcon.Class(b.st)))),
+			),
+			h.Span(h.ID(textID), h.Group(kids...)),
+		)
+		return el
+	}
 	el.Children(
 		h.Span(h.Data("slot", "select-item-indicator"), h.Class("absolute right-2 flex size-3.5 items-center justify-center"),
 			h.Span(h.Attr(markerIndicator, ""), h.Aria("hidden", "true"), lucide.Check(h.Class("size-4"))),
@@ -791,28 +859,40 @@ func deref(s *string) string {
 }
 
 // Render renders the item.
-func (b *ItemBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ItemBuilder) Render(w io.Writer) error { b.setStyle(w); return b.Element().Render(w) }
 
 // --- Scroll buttons ------------------------------------------------------------------------
 
 // ScrollUpButton is shown at the top of the content while it can scroll
 // up. Content renders it; it is exported for completeness.
-func ScrollUpButton(children ...any) *h.Element {
-	d := h.Div(h.Attr(markerScrollUp, ""), h.Aria("hidden", "true"), h.Data("slot", "select-scroll-up-button"), h.Class(lib.Cn(scrollClass)), h.Style("flex-shrink: 0;"))
+func ScrollUpButton(children ...any) *h.Element { return scrollUpButton("", children...) }
+
+// ScrollDownButton is shown at the bottom of the content while it can
+// scroll down.
+func ScrollDownButton(children ...any) *h.Element { return scrollDownButton("", children...) }
+
+func scrollUpButton(st style.Style, children ...any) *h.Element {
+	cls := lib.Cn(scrollClass)
+	if st != "" {
+		cls = stScrollUpButton.Class(st, "")
+	}
+	d := h.Div(h.Attr(markerScrollUp, ""), h.Aria("hidden", "true"), h.Data("slot", "select-scroll-up-button"), h.Class(cls), h.Style("flex-shrink: 0;"))
 	el := h.Spread(d, h.Div(children...), lib.Cn)
 	if len(el.ChildNodes()) == 0 {
-		el.Children(lucide.ChevronUp(h.Class("size-4")))
+		el.Children(lucide.ChevronUp(h.If(st == "", h.Class("size-4"))))
 	}
 	return el
 }
 
-// ScrollDownButton is shown at the bottom of the content while it can
-// scroll down.
-func ScrollDownButton(children ...any) *h.Element {
-	d := h.Div(h.Attr(markerScrollDown, ""), h.Aria("hidden", "true"), h.Data("slot", "select-scroll-down-button"), h.Class(lib.Cn(scrollClass)), h.Style("flex-shrink: 0;"))
+func scrollDownButton(st style.Style, children ...any) *h.Element {
+	cls := lib.Cn(scrollClass)
+	if st != "" {
+		cls = stScrollDownButon.Class(st, "")
+	}
+	d := h.Div(h.Attr(markerScrollDown, ""), h.Aria("hidden", "true"), h.Data("slot", "select-scroll-down-button"), h.Class(cls), h.Style("flex-shrink: 0;"))
 	el := h.Spread(d, h.Div(children...), lib.Cn)
 	if len(el.ChildNodes()) == 0 {
-		el.Children(lucide.ChevronDown(h.Class("size-4")))
+		el.Children(lucide.ChevronDown(h.If(st == "", h.Class("size-4"))))
 	}
 	return el
 }
