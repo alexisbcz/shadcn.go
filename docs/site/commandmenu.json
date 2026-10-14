@@ -1,0 +1,1908 @@
+{
+ "styles": [
+  {
+   "name": "vega",
+   "title": "Vega",
+   "description": "Clean, neutral, and familiar",
+   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 24 24\" fill=\"none\" role=\"img\" color=\"currentColor\"><path d=\"M2.5 12C2.5 7.52166 2.5 5.28249 3.89124 3.89124C5.28249 2.5 7.52166 2.5 12 2.5C16.4783 2.5 18.7175 2.5 20.1088 3.89124C21.5 5.28249 21.5 7.52166 21.5 12C21.5 16.4783 21.5 18.7175 20.1088 20.1088C18.7175 21.5 16.4783 21.5 12 21.5C7.52166 21.5 5.28249 21.5 3.89124 20.1088C2.5 18.7175 2.5 16.4783 2.5 12Z\" stroke=\"currentColor\" stroke-width=\"2\"></path></svg>",
+   "href": "/create?preset=bIkeymG"
+  },
+  {
+   "name": "nova",
+   "title": "Nova",
+   "description": "Reduced padding and margins",
+   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 24 24\" fill=\"none\" role=\"img\" color=\"currentColor\"><path d=\"M2 12C2 9.19974 2 7.79961 2.54497 6.73005C3.02433 5.78924 3.78924 5.02433 4.73005 4.54497C5.79961 4 7.19974 4 10 4H14C16.8003 4 18.2004 4 19.27 4.54497C20.2108 5.02433 20.9757 5.78924 21.455 6.73005C22 7.79961 22 9.19974 22 12C22 14.8003 22 16.2004 21.455 17.27C20.9757 18.2108 20.2108 18.9757 19.27 19.455C18.2004 20 16.8003 20 14 20H10C7.19974 20 5.79961 20 4.73005 19.455C3.78924 18.9757 3.02433 18.2108 2.54497 17.27C2 16.2004 2 14.8003 2 12Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\"></path></svg>",
+   "href": "/create?preset=b0"
+  },
+  {
+   "name": "maia",
+   "title": "Maia",
+   "description": "Rounded, with generous spacing.",
+   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 24 24\" fill=\"none\" role=\"img\" color=\"currentColor\"><circle cx=\"12\" cy=\"12\" r=\"10\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\"></circle></svg>",
+   "href": "/create?preset=bbVJxYW"
+  },
+  {
+   "name": "lyra",
+   "title": "Lyra",
+   "description": "Boxy and sharp. For mono fonts.",
+   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 24 24\" fill=\"none\" role=\"img\" color=\"currentColor\"><path d=\"M7.84308 3.80211C9.8718 2.6007 10.8862 2 12 2C13.1138 2 14.1282 2.6007 16.1569 3.80211L16.8431 4.20846C18.8718 5.40987 19.8862 6.01057 20.4431 7C21 7.98943 21 9.19084 21 11.5937V12.4063C21 14.8092 21 16.0106 20.4431 17C19.8862 17.9894 18.8718 18.5901 16.8431 19.7915L16.1569 20.1979C14.1282 21.3993 13.1138 22 12 22C10.8862 22 9.8718 21.3993 7.84308 20.1979L7.15692 19.7915C5.1282 18.5901 4.11384 17.9894 3.55692 17C3 16.0106 3 14.8092 3 12.4063V11.5937C3 9.19084 3 7.98943 3.55692 7C4.11384 6.01057 5.1282 5.40987 7.15692 4.20846L7.84308 3.80211Z\" stroke=\"currentColor\" stroke-width=\"2\"></path></svg>",
+   "href": "/create?preset=buFywKm"
+  },
+  {
+   "name": "mira",
+   "title": "Mira",
+   "description": "Made for compact interfaces.",
+   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 24 24\" fill=\"none\" role=\"img\" color=\"currentColor\"><path d=\"M5.92089 5.92089C8.15836 3.68342 9.2771 2.56468 10.5857 2.19562C11.5105 1.93479 12.4895 1.93479 13.4143 2.19562C14.7229 2.56468 15.8416 3.68342 18.0791 5.92089C20.3166 8.15836 21.4353 9.2771 21.8044 10.5857C22.0652 11.5105 22.0652 12.4895 21.8044 13.4143C21.4353 14.7229 20.3166 15.8416 18.0791 18.0791C15.8416 20.3166 14.7229 21.4353 13.4143 21.8044C12.4895 22.0652 11.5105 22.0652 10.5857 21.8044C9.2771 21.4353 8.15836 20.3166 5.92089 18.0791C3.68342 15.8416 2.56468 14.7229 2.19562 13.4143C1.93479 12.4895 1.93479 11.5105 2.19562 10.5857C2.56468 9.2771 3.68342 8.15836 5.92089 5.92089Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\"></path></svg>",
+   "href": "/create?preset=b1D0dv72"
+  },
+  {
+   "name": "luma",
+   "title": "Luma",
+   "description": "Fluid, luminous, and soft.",
+   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 24 24\" fill=\"none\" role=\"img\" color=\"currentColor\"><path d=\"M2 12C2 8.134 5.134 5 9 5H15C18.866 5 22 8.134 22 12C22 15.866 18.866 19 15 19H9C5.134 19 2 15.866 2 12Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\"></path></svg>",
+   "href": "/create?preset=b1VlIttI"
+  },
+  {
+   "name": "sera",
+   "title": "Sera",
+   "description": "Editorial and typographic.",
+   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 24 24\" fill=\"none\" role=\"img\" color=\"currentColor\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" stroke=\"currentColor\" stroke-width=\"2\"></rect></svg>",
+   "href": "/create?preset=b1oVxsfY"
+  },
+  {
+   "name": "rhea",
+   "title": "Rhea",
+   "description": "Like Luma but compact.",
+   "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"128\" height=\"128\" viewBox=\"0 0 24 24\" fill=\"none\" role=\"img\" color=\"currentColor\"><path d=\"M3 12C3 9.79086 4.79086 8 7 8H17C19.2091 8 21 9.79086 21 12C21 14.2091 19.2091 16 17 16H7C4.79086 16 3 14.2091 3 12Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\"></path></svg>",
+   "href": "/create?preset=b27GcrRo"
+  }
+ ],
+ "colors": [
+  {
+   "name": "neutral",
+   "colors": [
+    {
+     "className": "neutral-50",
+     "hex": "#fafafa",
+     "oklch": "oklch(0.99 0.00 0)",
+     "name": "neutral"
+    },
+    {
+     "className": "neutral-100",
+     "hex": "#f5f5f5",
+     "oklch": "oklch(0.97 0.00 0)",
+     "name": "neutral"
+    },
+    {
+     "className": "neutral-200",
+     "hex": "#e5e5e5",
+     "oklch": "oklch(0.92 0.00 0)",
+     "name": "neutral"
+    },
+    {
+     "className": "neutral-300",
+     "hex": "#d4d4d4",
+     "oklch": "oklch(0.87 0.00 0)",
+     "name": "neutral"
+    },
+    {
+     "className": "neutral-400",
+     "hex": "#a3a3a3",
+     "oklch": "oklch(0.72 0.00 0)",
+     "name": "neutral"
+    },
+    {
+     "className": "neutral-500",
+     "hex": "#737373",
+     "oklch": "oklch(0.56 0.00 0)",
+     "name": "neutral"
+    },
+    {
+     "className": "neutral-600",
+     "hex": "#525252",
+     "oklch": "oklch(0.44 0.00 0)",
+     "name": "neutral"
+    },
+    {
+     "className": "neutral-700",
+     "hex": "#404040",
+     "oklch": "oklch(0.37 0.00 0)",
+     "name": "neutral"
+    },
+    {
+     "className": "neutral-800",
+     "hex": "#262626",
+     "oklch": "oklch(0.27 0.00 0)",
+     "name": "neutral"
+    },
+    {
+     "className": "neutral-900",
+     "hex": "#171717",
+     "oklch": "oklch(0.20 0.00 0)",
+     "name": "neutral"
+    },
+    {
+     "className": "neutral-950",
+     "hex": "#0a0a0a",
+     "oklch": "oklch(0.14 0.00 0)",
+     "name": "neutral"
+    }
+   ]
+  },
+  {
+   "name": "stone",
+   "colors": [
+    {
+     "className": "stone-50",
+     "hex": "#fafaf9",
+     "oklch": "oklch(0.98 0.00 106)",
+     "name": "stone"
+    },
+    {
+     "className": "stone-100",
+     "hex": "#f5f5f4",
+     "oklch": "oklch(0.97 0.00 106)",
+     "name": "stone"
+    },
+    {
+     "className": "stone-200",
+     "hex": "#e7e5e4",
+     "oklch": "oklch(0.92 0.00 49)",
+     "name": "stone"
+    },
+    {
+     "className": "stone-300",
+     "hex": "#d6d3d1",
+     "oklch": "oklch(0.87 0.00 56)",
+     "name": "stone"
+    },
+    {
+     "className": "stone-400",
+     "hex": "#a8a29e",
+     "oklch": "oklch(0.72 0.01 56)",
+     "name": "stone"
+    },
+    {
+     "className": "stone-500",
+     "hex": "#78716c",
+     "oklch": "oklch(0.55 0.01 58)",
+     "name": "stone"
+    },
+    {
+     "className": "stone-600",
+     "hex": "#57534e",
+     "oklch": "oklch(0.44 0.01 74)",
+     "name": "stone"
+    },
+    {
+     "className": "stone-700",
+     "hex": "#44403c",
+     "oklch": "oklch(0.37 0.01 68)",
+     "name": "stone"
+    },
+    {
+     "className": "stone-800",
+     "hex": "#292524",
+     "oklch": "oklch(0.27 0.01 34)",
+     "name": "stone"
+    },
+    {
+     "className": "stone-900",
+     "hex": "#1c1917",
+     "oklch": "oklch(0.22 0.01 56)",
+     "name": "stone"
+    },
+    {
+     "className": "stone-950",
+     "hex": "#0c0a09",
+     "oklch": "oklch(0.15 0.00 49)",
+     "name": "stone"
+    }
+   ]
+  },
+  {
+   "name": "zinc",
+   "colors": [
+    {
+     "className": "zinc-50",
+     "hex": "#fafafa",
+     "oklch": "oklch(0.99 0.00 0)",
+     "name": "zinc"
+    },
+    {
+     "className": "zinc-100",
+     "hex": "#f4f4f5",
+     "oklch": "oklch(0.97 0.00 286)",
+     "name": "zinc"
+    },
+    {
+     "className": "zinc-200",
+     "hex": "#e4e4e7",
+     "oklch": "oklch(0.92 0.00 286)",
+     "name": "zinc"
+    },
+    {
+     "className": "zinc-300",
+     "hex": "#d4d4d8",
+     "oklch": "oklch(0.87 0.01 286)",
+     "name": "zinc"
+    },
+    {
+     "className": "zinc-400",
+     "hex": "#a1a1aa",
+     "oklch": "oklch(0.71 0.01 286)",
+     "name": "zinc"
+    },
+    {
+     "className": "zinc-500",
+     "hex": "#71717a",
+     "oklch": "oklch(0.55 0.01 286)",
+     "name": "zinc"
+    },
+    {
+     "className": "zinc-600",
+     "hex": "#52525b",
+     "oklch": "oklch(0.44 0.01 286)",
+     "name": "zinc"
+    },
+    {
+     "className": "zinc-700",
+     "hex": "#3f3f46",
+     "oklch": "oklch(0.37 0.01 286)",
+     "name": "zinc"
+    },
+    {
+     "className": "zinc-800",
+     "hex": "#27272a",
+     "oklch": "oklch(0.27 0.01 286)",
+     "name": "zinc"
+    },
+    {
+     "className": "zinc-900",
+     "hex": "#18181b",
+     "oklch": "oklch(0.21 0.01 286)",
+     "name": "zinc"
+    },
+    {
+     "className": "zinc-950",
+     "hex": "#09090b",
+     "oklch": "oklch(0.14 0.00 286)",
+     "name": "zinc"
+    }
+   ]
+  },
+  {
+   "name": "slate",
+   "colors": [
+    {
+     "className": "slate-50",
+     "hex": "#f8fafc",
+     "oklch": "oklch(0.98 0.00 248)",
+     "name": "slate"
+    },
+    {
+     "className": "slate-100",
+     "hex": "#f1f5f9",
+     "oklch": "oklch(0.97 0.01 248)",
+     "name": "slate"
+    },
+    {
+     "className": "slate-200",
+     "hex": "#e2e8f0",
+     "oklch": "oklch(0.93 0.01 256)",
+     "name": "slate"
+    },
+    {
+     "className": "slate-300",
+     "hex": "#cbd5e1",
+     "oklch": "oklch(0.87 0.02 253)",
+     "name": "slate"
+    },
+    {
+     "className": "slate-400",
+     "hex": "#94a3b8",
+     "oklch": "oklch(0.71 0.04 257)",
+     "name": "slate"
+    },
+    {
+     "className": "slate-500",
+     "hex": "#64748b",
+     "oklch": "oklch(0.55 0.04 257)",
+     "name": "slate"
+    },
+    {
+     "className": "slate-600",
+     "hex": "#475569",
+     "oklch": "oklch(0.45 0.04 257)",
+     "name": "slate"
+    },
+    {
+     "className": "slate-700",
+     "hex": "#334155",
+     "oklch": "oklch(0.37 0.04 257)",
+     "name": "slate"
+    },
+    {
+     "className": "slate-800",
+     "hex": "#1e293b",
+     "oklch": "oklch(0.28 0.04 260)",
+     "name": "slate"
+    },
+    {
+     "className": "slate-900",
+     "hex": "#0f172a",
+     "oklch": "oklch(0.21 0.04 266)",
+     "name": "slate"
+    },
+    {
+     "className": "slate-950",
+     "hex": "#020617",
+     "oklch": "oklch(0.13 0.04 265)",
+     "name": "slate"
+    }
+   ]
+  },
+  {
+   "name": "gray",
+   "colors": [
+    {
+     "className": "gray-50",
+     "hex": "#f9fafb",
+     "oklch": "oklch(0.98 0.00 248)",
+     "name": "gray"
+    },
+    {
+     "className": "gray-100",
+     "hex": "#f3f4f6",
+     "oklch": "oklch(0.97 0.00 265)",
+     "name": "gray"
+    },
+    {
+     "className": "gray-200",
+     "hex": "#e5e7eb",
+     "oklch": "oklch(0.93 0.01 265)",
+     "name": "gray"
+    },
+    {
+     "className": "gray-300",
+     "hex": "#d1d5db",
+     "oklch": "oklch(0.87 0.01 258)",
+     "name": "gray"
+    },
+    {
+     "className": "gray-400",
+     "hex": "#9ca3af",
+     "oklch": "oklch(0.71 0.02 261)",
+     "name": "gray"
+    },
+    {
+     "className": "gray-500",
+     "hex": "#6b7280",
+     "oklch": "oklch(0.55 0.02 264)",
+     "name": "gray"
+    },
+    {
+     "className": "gray-600",
+     "hex": "#4b5563",
+     "oklch": "oklch(0.45 0.03 257)",
+     "name": "gray"
+    },
+    {
+     "className": "gray-700",
+     "hex": "#374151",
+     "oklch": "oklch(0.37 0.03 260)",
+     "name": "gray"
+    },
+    {
+     "className": "gray-800",
+     "hex": "#1f2937",
+     "oklch": "oklch(0.28 0.03 257)",
+     "name": "gray"
+    },
+    {
+     "className": "gray-900",
+     "hex": "#111827",
+     "oklch": "oklch(0.21 0.03 265)",
+     "name": "gray"
+    },
+    {
+     "className": "gray-950",
+     "hex": "#030712",
+     "oklch": "oklch(0.13 0.03 262)",
+     "name": "gray"
+    }
+   ]
+  },
+  {
+   "name": "mauve",
+   "colors": [
+    {
+     "className": "mauve-50",
+     "hex": "#fafafb",
+     "oklch": "oklch(0.98 0.00 310)",
+     "name": "mauve"
+    },
+    {
+     "className": "mauve-100",
+     "hex": "#f4f2f6",
+     "oklch": "oklch(0.96 0.01 310)",
+     "name": "mauve"
+    },
+    {
+     "className": "mauve-200",
+     "hex": "#e5e1e8",
+     "oklch": "oklch(0.92 0.01 310)",
+     "name": "mauve"
+    },
+    {
+     "className": "mauve-300",
+     "hex": "#d0c9d5",
+     "oklch": "oklch(0.84 0.02 310)",
+     "name": "mauve"
+    },
+    {
+     "className": "mauve-400",
+     "hex": "#a69bae",
+     "oklch": "oklch(0.70 0.03 310)",
+     "name": "mauve"
+    },
+    {
+     "className": "mauve-500",
+     "hex": "#81758b",
+     "oklch": "oklch(0.58 0.04 310)",
+     "name": "mauve"
+    },
+    {
+     "className": "mauve-600",
+     "hex": "#675d70",
+     "oklch": "oklch(0.49 0.03 310)",
+     "name": "mauve"
+    },
+    {
+     "className": "mauve-700",
+     "hex": "#524959",
+     "oklch": "oklch(0.42 0.03 310)",
+     "name": "mauve"
+    },
+    {
+     "className": "mauve-800",
+     "hex": "#3d3642",
+     "oklch": "oklch(0.34 0.02 310)",
+     "name": "mauve"
+    },
+    {
+     "className": "mauve-900",
+     "hex": "#2a252e",
+     "oklch": "oklch(0.28 0.02 310)",
+     "name": "mauve"
+    },
+    {
+     "className": "mauve-950",
+     "hex": "#161218",
+     "oklch": "oklch(0.19 0.01 310)",
+     "name": "mauve"
+    }
+   ]
+  },
+  {
+   "name": "olive",
+   "colors": [
+    {
+     "className": "olive-50",
+     "hex": "#f9faf9",
+     "oklch": "oklch(0.98 0.00 155)",
+     "name": "olive"
+    },
+    {
+     "className": "olive-100",
+     "hex": "#f1f4f2",
+     "oklch": "oklch(0.96 0.01 155)",
+     "name": "olive"
+    },
+    {
+     "className": "olive-200",
+     "hex": "#dee5e0",
+     "oklch": "oklch(0.92 0.01 155)",
+     "name": "olive"
+    },
+    {
+     "className": "olive-300",
+     "hex": "#c4cfc8",
+     "oklch": "oklch(0.84 0.02 155)",
+     "name": "olive"
+    },
+    {
+     "className": "olive-400",
+     "hex": "#94a599",
+     "oklch": "oklch(0.70 0.03 155)",
+     "name": "olive"
+    },
+    {
+     "className": "olive-500",
+     "hex": "#6c8072",
+     "oklch": "oklch(0.58 0.03 155)",
+     "name": "olive"
+    },
+    {
+     "className": "olive-600",
+     "hex": "#56675b",
+     "oklch": "oklch(0.49 0.03 155)",
+     "name": "olive"
+    },
+    {
+     "className": "olive-700",
+     "hex": "#435147",
+     "oklch": "oklch(0.42 0.02 155)",
+     "name": "olive"
+    },
+    {
+     "className": "olive-800",
+     "hex": "#313c35",
+     "oklch": "oklch(0.34 0.02 155)",
+     "name": "olive"
+    },
+    {
+     "className": "olive-900",
+     "hex": "#222a24",
+     "oklch": "oklch(0.28 0.02 155)",
+     "name": "olive"
+    },
+    {
+     "className": "olive-950",
+     "hex": "#101512",
+     "oklch": "oklch(0.19 0.01 155)",
+     "name": "olive"
+    }
+   ]
+  },
+  {
+   "name": "mist",
+   "colors": [
+    {
+     "className": "mist-50",
+     "hex": "#f9fafb",
+     "oklch": "oklch(0.98 0.00 210)",
+     "name": "mist"
+    },
+    {
+     "className": "mist-100",
+     "hex": "#f0f4f5",
+     "oklch": "oklch(0.96 0.01 210)",
+     "name": "mist"
+    },
+    {
+     "className": "mist-200",
+     "hex": "#dce5e6",
+     "oklch": "oklch(0.92 0.01 210)",
+     "name": "mist"
+    },
+    {
+     "className": "mist-300",
+     "hex": "#c1cfd2",
+     "oklch": "oklch(0.84 0.02 210)",
+     "name": "mist"
+    },
+    {
+     "className": "mist-400",
+     "hex": "#8da5a9",
+     "oklch": "oklch(0.70 0.03 210)",
+     "name": "mist"
+    },
+    {
+     "className": "mist-500",
+     "hex": "#648085",
+     "oklch": "oklch(0.58 0.03 210)",
+     "name": "mist"
+    },
+    {
+     "className": "mist-600",
+     "hex": "#4f676b",
+     "oklch": "oklch(0.49 0.03 210)",
+     "name": "mist"
+    },
+    {
+     "className": "mist-700",
+     "hex": "#3d5155",
+     "oklch": "oklch(0.42 0.03 210)",
+     "name": "mist"
+    },
+    {
+     "className": "mist-800",
+     "hex": "#2d3c3f",
+     "oklch": "oklch(0.34 0.02 210)",
+     "name": "mist"
+    },
+    {
+     "className": "mist-900",
+     "hex": "#1e2a2c",
+     "oklch": "oklch(0.28 0.02 210)",
+     "name": "mist"
+    },
+    {
+     "className": "mist-950",
+     "hex": "#0e1517",
+     "oklch": "oklch(0.19 0.01 210)",
+     "name": "mist"
+    }
+   ]
+  },
+  {
+   "name": "taupe",
+   "colors": [
+    {
+     "className": "taupe-50",
+     "hex": "#fbfaf9",
+     "oklch": "oklch(0.98 0.00 75)",
+     "name": "taupe"
+    },
+    {
+     "className": "taupe-100",
+     "hex": "#f5f3f0",
+     "oklch": "oklch(0.96 0.01 75)",
+     "name": "taupe"
+    },
+    {
+     "className": "taupe-200",
+     "hex": "#e7e2dc",
+     "oklch": "oklch(0.92 0.01 75)",
+     "name": "taupe"
+    },
+    {
+     "className": "taupe-300",
+     "hex": "#d3cbc0",
+     "oklch": "oklch(0.84 0.02 75)",
+     "name": "taupe"
+    },
+    {
+     "className": "taupe-400",
+     "hex": "#aa9e8d",
+     "oklch": "oklch(0.70 0.03 75)",
+     "name": "taupe"
+    },
+    {
+     "className": "taupe-500",
+     "hex": "#867865",
+     "oklch": "oklch(0.58 0.03 75)",
+     "name": "taupe"
+    },
+    {
+     "className": "taupe-600",
+     "hex": "#6c6050",
+     "oklch": "oklch(0.49 0.03 75)",
+     "name": "taupe"
+    },
+    {
+     "className": "taupe-700",
+     "hex": "#554b3e",
+     "oklch": "oklch(0.42 0.03 75)",
+     "name": "taupe"
+    },
+    {
+     "className": "taupe-800",
+     "hex": "#40382d",
+     "oklch": "oklch(0.34 0.02 75)",
+     "name": "taupe"
+    },
+    {
+     "className": "taupe-900",
+     "hex": "#2c271f",
+     "oklch": "oklch(0.28 0.02 75)",
+     "name": "taupe"
+    },
+    {
+     "className": "taupe-950",
+     "hex": "#17130e",
+     "oklch": "oklch(0.19 0.01 75)",
+     "name": "taupe"
+    }
+   ]
+  },
+  {
+   "name": "red",
+   "colors": [
+    {
+     "className": "red-50",
+     "hex": "#fef2f2",
+     "oklch": "oklch(0.97 0.01 17)",
+     "name": "red"
+    },
+    {
+     "className": "red-100",
+     "hex": "#fee2e2",
+     "oklch": "oklch(0.94 0.03 18)",
+     "name": "red"
+    },
+    {
+     "className": "red-200",
+     "hex": "#fecaca",
+     "oklch": "oklch(0.88 0.06 18)",
+     "name": "red"
+    },
+    {
+     "className": "red-300",
+     "hex": "#fca5a5",
+     "oklch": "oklch(0.81 0.10 20)",
+     "name": "red"
+    },
+    {
+     "className": "red-400",
+     "hex": "#f87171",
+     "oklch": "oklch(0.71 0.17 22)",
+     "name": "red"
+    },
+    {
+     "className": "red-500",
+     "hex": "#ef4444",
+     "oklch": "oklch(0.64 0.21 25)",
+     "name": "red"
+    },
+    {
+     "className": "red-600",
+     "hex": "#dc2626",
+     "oklch": "oklch(0.58 0.22 27)",
+     "name": "red"
+    },
+    {
+     "className": "red-700",
+     "hex": "#b91c1c",
+     "oklch": "oklch(0.51 0.19 28)",
+     "name": "red"
+    },
+    {
+     "className": "red-800",
+     "hex": "#991b1b",
+     "oklch": "oklch(0.44 0.16 27)",
+     "name": "red"
+    },
+    {
+     "className": "red-900",
+     "hex": "#7f1d1d",
+     "oklch": "oklch(0.40 0.13 26)",
+     "name": "red"
+    },
+    {
+     "className": "red-950",
+     "hex": "#450a0a",
+     "oklch": "oklch(0.26 0.09 26)",
+     "name": "red"
+    }
+   ]
+  },
+  {
+   "name": "orange",
+   "colors": [
+    {
+     "className": "orange-50",
+     "hex": "#fff7ed",
+     "oklch": "oklch(0.98 0.02 74)",
+     "name": "orange"
+    },
+    {
+     "className": "orange-100",
+     "hex": "#ffedd5",
+     "oklch": "oklch(0.95 0.04 75)",
+     "name": "orange"
+    },
+    {
+     "className": "orange-200",
+     "hex": "#fed7aa",
+     "oklch": "oklch(0.90 0.07 71)",
+     "name": "orange"
+    },
+    {
+     "className": "orange-300",
+     "hex": "#fdba74",
+     "oklch": "oklch(0.84 0.12 66)",
+     "name": "orange"
+    },
+    {
+     "className": "orange-400",
+     "hex": "#fb923c",
+     "oklch": "oklch(0.76 0.16 56)",
+     "name": "orange"
+    },
+    {
+     "className": "orange-500",
+     "hex": "#f97316",
+     "oklch": "oklch(0.70 0.19 48)",
+     "name": "orange"
+    },
+    {
+     "className": "orange-600",
+     "hex": "#ea580c",
+     "oklch": "oklch(0.65 0.19 41)",
+     "name": "orange"
+    },
+    {
+     "className": "orange-700",
+     "hex": "#c2410c",
+     "oklch": "oklch(0.55 0.17 38)",
+     "name": "orange"
+    },
+    {
+     "className": "orange-800",
+     "hex": "#9a3412",
+     "oklch": "oklch(0.47 0.14 37)",
+     "name": "orange"
+    },
+    {
+     "className": "orange-900",
+     "hex": "#7c2d12",
+     "oklch": "oklch(0.41 0.12 38)",
+     "name": "orange"
+    },
+    {
+     "className": "orange-950",
+     "hex": "#431407",
+     "oklch": "oklch(0.27 0.08 36)",
+     "name": "orange"
+    }
+   ]
+  },
+  {
+   "name": "amber",
+   "colors": [
+    {
+     "className": "amber-50",
+     "hex": "#fffbeb",
+     "oklch": "oklch(0.99 0.02 95)",
+     "name": "amber"
+    },
+    {
+     "className": "amber-100",
+     "hex": "#fef3c7",
+     "oklch": "oklch(0.96 0.06 96)",
+     "name": "amber"
+    },
+    {
+     "className": "amber-200",
+     "hex": "#fde68a",
+     "oklch": "oklch(0.92 0.12 96)",
+     "name": "amber"
+    },
+    {
+     "className": "amber-300",
+     "hex": "#fcd34d",
+     "oklch": "oklch(0.88 0.15 92)",
+     "name": "amber"
+    },
+    {
+     "className": "amber-400",
+     "hex": "#fbbf24",
+     "oklch": "oklch(0.84 0.16 84)",
+     "name": "amber"
+    },
+    {
+     "className": "amber-500",
+     "hex": "#f59e0b",
+     "oklch": "oklch(0.77 0.16 70)",
+     "name": "amber"
+    },
+    {
+     "className": "amber-600",
+     "hex": "#d97706",
+     "oklch": "oklch(0.67 0.16 58)",
+     "name": "amber"
+    },
+    {
+     "className": "amber-700",
+     "hex": "#b45309",
+     "oklch": "oklch(0.56 0.15 49)",
+     "name": "amber"
+    },
+    {
+     "className": "amber-800",
+     "hex": "#92400e",
+     "oklch": "oklch(0.47 0.12 46)",
+     "name": "amber"
+    },
+    {
+     "className": "amber-900",
+     "hex": "#78350f",
+     "oklch": "oklch(0.41 0.11 46)",
+     "name": "amber"
+    },
+    {
+     "className": "amber-950",
+     "hex": "#451a03",
+     "oklch": "oklch(0.28 0.07 46)",
+     "name": "amber"
+    }
+   ]
+  },
+  {
+   "name": "yellow",
+   "colors": [
+    {
+     "className": "yellow-50",
+     "hex": "#fefce8",
+     "oklch": "oklch(0.99 0.03 102)",
+     "name": "yellow"
+    },
+    {
+     "className": "yellow-100",
+     "hex": "#fef9c3",
+     "oklch": "oklch(0.97 0.07 103)",
+     "name": "yellow"
+    },
+    {
+     "className": "yellow-200",
+     "hex": "#fef08a",
+     "oklch": "oklch(0.95 0.12 102)",
+     "name": "yellow"
+    },
+    {
+     "className": "yellow-300",
+     "hex": "#fde047",
+     "oklch": "oklch(0.91 0.17 98)",
+     "name": "yellow"
+    },
+    {
+     "className": "yellow-400",
+     "hex": "#facc15",
+     "oklch": "oklch(0.86 0.17 92)",
+     "name": "yellow"
+    },
+    {
+     "className": "yellow-500",
+     "hex": "#eab308",
+     "oklch": "oklch(0.80 0.16 86)",
+     "name": "yellow"
+    },
+    {
+     "className": "yellow-600",
+     "hex": "#ca8a04",
+     "oklch": "oklch(0.68 0.14 76)",
+     "name": "yellow"
+    },
+    {
+     "className": "yellow-700",
+     "hex": "#a16207",
+     "oklch": "oklch(0.55 0.12 66)",
+     "name": "yellow"
+    },
+    {
+     "className": "yellow-800",
+     "hex": "#854d0e",
+     "oklch": "oklch(0.48 0.10 62)",
+     "name": "yellow"
+    },
+    {
+     "className": "yellow-900",
+     "hex": "#713f12",
+     "oklch": "oklch(0.42 0.09 58)",
+     "name": "yellow"
+    },
+    {
+     "className": "yellow-950",
+     "hex": "#422006",
+     "oklch": "oklch(0.29 0.06 54)",
+     "name": "yellow"
+    }
+   ]
+  },
+  {
+   "name": "lime",
+   "colors": [
+    {
+     "className": "lime-50",
+     "hex": "#f7fee7",
+     "oklch": "oklch(0.99 0.03 121)",
+     "name": "lime"
+    },
+    {
+     "className": "lime-100",
+     "hex": "#ecfccb",
+     "oklch": "oklch(0.97 0.07 122)",
+     "name": "lime"
+    },
+    {
+     "className": "lime-200",
+     "hex": "#d9f99d",
+     "oklch": "oklch(0.94 0.12 124)",
+     "name": "lime"
+    },
+    {
+     "className": "lime-300",
+     "hex": "#bef264",
+     "oklch": "oklch(0.90 0.18 127)",
+     "name": "lime"
+    },
+    {
+     "className": "lime-400",
+     "hex": "#a3e635",
+     "oklch": "oklch(0.85 0.21 129)",
+     "name": "lime"
+    },
+    {
+     "className": "lime-500",
+     "hex": "#84cc16",
+     "oklch": "oklch(0.77 0.20 131)",
+     "name": "lime"
+    },
+    {
+     "className": "lime-600",
+     "hex": "#65a30d",
+     "oklch": "oklch(0.65 0.18 132)",
+     "name": "lime"
+    },
+    {
+     "className": "lime-700",
+     "hex": "#4d7c0f",
+     "oklch": "oklch(0.53 0.14 132)",
+     "name": "lime"
+    },
+    {
+     "className": "lime-800",
+     "hex": "#3f6212",
+     "oklch": "oklch(0.45 0.11 131)",
+     "name": "lime"
+    },
+    {
+     "className": "lime-900",
+     "hex": "#365314",
+     "oklch": "oklch(0.41 0.10 131)",
+     "name": "lime"
+    },
+    {
+     "className": "lime-950",
+     "hex": "#1a2e05",
+     "oklch": "oklch(0.27 0.07 132)",
+     "name": "lime"
+    }
+   ]
+  },
+  {
+   "name": "green",
+   "colors": [
+    {
+     "className": "green-50",
+     "hex": "#f0fdf4",
+     "oklch": "oklch(0.98 0.02 156)",
+     "name": "green"
+    },
+    {
+     "className": "green-100",
+     "hex": "#dcfce7",
+     "oklch": "oklch(0.96 0.04 157)",
+     "name": "green"
+    },
+    {
+     "className": "green-200",
+     "hex": "#bbf7d0",
+     "oklch": "oklch(0.93 0.08 156)",
+     "name": "green"
+    },
+    {
+     "className": "green-300",
+     "hex": "#86efac",
+     "oklch": "oklch(0.87 0.14 154)",
+     "name": "green"
+    },
+    {
+     "className": "green-400",
+     "hex": "#4ade80",
+     "oklch": "oklch(0.80 0.18 152)",
+     "name": "green"
+    },
+    {
+     "className": "green-500",
+     "hex": "#22c55e",
+     "oklch": "oklch(0.72 0.19 150)",
+     "name": "green"
+    },
+    {
+     "className": "green-600",
+     "hex": "#16a34a",
+     "oklch": "oklch(0.63 0.17 149)",
+     "name": "green"
+    },
+    {
+     "className": "green-700",
+     "hex": "#15803d",
+     "oklch": "oklch(0.53 0.14 150)",
+     "name": "green"
+    },
+    {
+     "className": "green-800",
+     "hex": "#166534",
+     "oklch": "oklch(0.45 0.11 151)",
+     "name": "green"
+    },
+    {
+     "className": "green-900",
+     "hex": "#14532d",
+     "oklch": "oklch(0.39 0.09 153)",
+     "name": "green"
+    },
+    {
+     "className": "green-950",
+     "hex": "#052e16",
+     "oklch": "oklch(0.27 0.06 153)",
+     "name": "green"
+    }
+   ]
+  },
+  {
+   "name": "emerald",
+   "colors": [
+    {
+     "className": "emerald-50",
+     "hex": "#ecfdf5",
+     "oklch": "oklch(0.98 0.02 166)",
+     "name": "emerald"
+    },
+    {
+     "className": "emerald-100",
+     "hex": "#d1fae5",
+     "oklch": "oklch(0.95 0.05 163)",
+     "name": "emerald"
+    },
+    {
+     "className": "emerald-200",
+     "hex": "#a7f3d0",
+     "oklch": "oklch(0.90 0.09 164)",
+     "name": "emerald"
+    },
+    {
+     "className": "emerald-300",
+     "hex": "#6ee7b7",
+     "oklch": "oklch(0.85 0.13 165)",
+     "name": "emerald"
+    },
+    {
+     "className": "emerald-400",
+     "hex": "#34d399",
+     "oklch": "oklch(0.77 0.15 163)",
+     "name": "emerald"
+    },
+    {
+     "className": "emerald-500",
+     "hex": "#10b981",
+     "oklch": "oklch(0.70 0.15 162)",
+     "name": "emerald"
+    },
+    {
+     "className": "emerald-600",
+     "hex": "#059669",
+     "oklch": "oklch(0.60 0.13 163)",
+     "name": "emerald"
+    },
+    {
+     "className": "emerald-700",
+     "hex": "#047857",
+     "oklch": "oklch(0.51 0.10 166)",
+     "name": "emerald"
+    },
+    {
+     "className": "emerald-800",
+     "hex": "#065f46",
+     "oklch": "oklch(0.43 0.09 167)",
+     "name": "emerald"
+    },
+    {
+     "className": "emerald-900",
+     "hex": "#064e3b",
+     "oklch": "oklch(0.38 0.07 169)",
+     "name": "emerald"
+    },
+    {
+     "className": "emerald-950",
+     "hex": "#022c22",
+     "oklch": "oklch(0.26 0.05 173)",
+     "name": "emerald"
+    }
+   ]
+  },
+  {
+   "name": "teal",
+   "colors": [
+    {
+     "className": "teal-50",
+     "hex": "#f0fdfa",
+     "oklch": "oklch(0.98 0.01 181)",
+     "name": "teal"
+    },
+    {
+     "className": "teal-100",
+     "hex": "#ccfbf1",
+     "oklch": "oklch(0.95 0.05 181)",
+     "name": "teal"
+    },
+    {
+     "className": "teal-200",
+     "hex": "#99f6e4",
+     "oklch": "oklch(0.91 0.09 180)",
+     "name": "teal"
+    },
+    {
+     "className": "teal-300",
+     "hex": "#5eead4",
+     "oklch": "oklch(0.85 0.13 181)",
+     "name": "teal"
+    },
+    {
+     "className": "teal-400",
+     "hex": "#2dd4bf",
+     "oklch": "oklch(0.78 0.13 182)",
+     "name": "teal"
+    },
+    {
+     "className": "teal-500",
+     "hex": "#14b8a6",
+     "oklch": "oklch(0.70 0.12 183)",
+     "name": "teal"
+    },
+    {
+     "className": "teal-600",
+     "hex": "#0d9488",
+     "oklch": "oklch(0.60 0.10 185)",
+     "name": "teal"
+    },
+    {
+     "className": "teal-700",
+     "hex": "#0f766e",
+     "oklch": "oklch(0.51 0.09 186)",
+     "name": "teal"
+    },
+    {
+     "className": "teal-800",
+     "hex": "#115e59",
+     "oklch": "oklch(0.44 0.07 188)",
+     "name": "teal"
+    },
+    {
+     "className": "teal-900",
+     "hex": "#134e4a",
+     "oklch": "oklch(0.39 0.06 188)",
+     "name": "teal"
+    },
+    {
+     "className": "teal-950",
+     "hex": "#042f2e",
+     "oklch": "oklch(0.28 0.04 193)",
+     "name": "teal"
+    }
+   ]
+  },
+  {
+   "name": "cyan",
+   "colors": [
+    {
+     "className": "cyan-50",
+     "hex": "#ecfeff",
+     "oklch": "oklch(0.98 0.02 201)",
+     "name": "cyan"
+    },
+    {
+     "className": "cyan-100",
+     "hex": "#cffafe",
+     "oklch": "oklch(0.96 0.04 203)",
+     "name": "cyan"
+    },
+    {
+     "className": "cyan-200",
+     "hex": "#a5f3fc",
+     "oklch": "oklch(0.92 0.08 205)",
+     "name": "cyan"
+    },
+    {
+     "className": "cyan-300",
+     "hex": "#67e8f9",
+     "oklch": "oklch(0.87 0.12 207)",
+     "name": "cyan"
+    },
+    {
+     "className": "cyan-400",
+     "hex": "#22d3ee",
+     "oklch": "oklch(0.80 0.13 212)",
+     "name": "cyan"
+    },
+    {
+     "className": "cyan-500",
+     "hex": "#06b6d4",
+     "oklch": "oklch(0.71 0.13 215)",
+     "name": "cyan"
+    },
+    {
+     "className": "cyan-600",
+     "hex": "#0891b2",
+     "oklch": "oklch(0.61 0.11 222)",
+     "name": "cyan"
+    },
+    {
+     "className": "cyan-700",
+     "hex": "#0e7490",
+     "oklch": "oklch(0.52 0.09 223)",
+     "name": "cyan"
+    },
+    {
+     "className": "cyan-800",
+     "hex": "#155e75",
+     "oklch": "oklch(0.45 0.08 224)",
+     "name": "cyan"
+    },
+    {
+     "className": "cyan-900",
+     "hex": "#164e63",
+     "oklch": "oklch(0.40 0.07 227)",
+     "name": "cyan"
+    },
+    {
+     "className": "cyan-950",
+     "hex": "#083344",
+     "oklch": "oklch(0.30 0.05 230)",
+     "name": "cyan"
+    }
+   ]
+  },
+  {
+   "name": "sky",
+   "colors": [
+    {
+     "className": "sky-50",
+     "hex": "#f0f9ff",
+     "oklch": "oklch(0.98 0.01 237)",
+     "name": "sky"
+    },
+    {
+     "className": "sky-100",
+     "hex": "#e0f2fe",
+     "oklch": "oklch(0.95 0.03 237)",
+     "name": "sky"
+    },
+    {
+     "className": "sky-200",
+     "hex": "#bae6fd",
+     "oklch": "oklch(0.90 0.06 231)",
+     "name": "sky"
+    },
+    {
+     "className": "sky-300",
+     "hex": "#7dd3fc",
+     "oklch": "oklch(0.83 0.10 230)",
+     "name": "sky"
+    },
+    {
+     "className": "sky-400",
+     "hex": "#38bdf8",
+     "oklch": "oklch(0.75 0.14 233)",
+     "name": "sky"
+    },
+    {
+     "className": "sky-500",
+     "hex": "#0ea5e9",
+     "oklch": "oklch(0.68 0.15 237)",
+     "name": "sky"
+    },
+    {
+     "className": "sky-600",
+     "hex": "#0284c7",
+     "oklch": "oklch(0.59 0.14 242)",
+     "name": "sky"
+    },
+    {
+     "className": "sky-700",
+     "hex": "#0369a1",
+     "oklch": "oklch(0.50 0.12 243)",
+     "name": "sky"
+    },
+    {
+     "className": "sky-800",
+     "hex": "#075985",
+     "oklch": "oklch(0.44 0.10 241)",
+     "name": "sky"
+    },
+    {
+     "className": "sky-900",
+     "hex": "#0c4a6e",
+     "oklch": "oklch(0.39 0.08 241)",
+     "name": "sky"
+    },
+    {
+     "className": "sky-950",
+     "hex": "#082f49",
+     "oklch": "oklch(0.29 0.06 243)",
+     "name": "sky"
+    }
+   ]
+  },
+  {
+   "name": "blue",
+   "colors": [
+    {
+     "className": "blue-50",
+     "hex": "#eff6ff",
+     "oklch": "oklch(0.97 0.01 255)",
+     "name": "blue"
+    },
+    {
+     "className": "blue-100",
+     "hex": "#dbeafe",
+     "oklch": "oklch(0.93 0.03 256)",
+     "name": "blue"
+    },
+    {
+     "className": "blue-200",
+     "hex": "#bfdbfe",
+     "oklch": "oklch(0.88 0.06 254)",
+     "name": "blue"
+    },
+    {
+     "className": "blue-300",
+     "hex": "#93c5fd",
+     "oklch": "oklch(0.81 0.10 252)",
+     "name": "blue"
+    },
+    {
+     "className": "blue-400",
+     "hex": "#60a5fa",
+     "oklch": "oklch(0.71 0.14 255)",
+     "name": "blue"
+    },
+    {
+     "className": "blue-500",
+     "hex": "#3b82f6",
+     "oklch": "oklch(0.62 0.19 260)",
+     "name": "blue"
+    },
+    {
+     "className": "blue-600",
+     "hex": "#2563eb",
+     "oklch": "oklch(0.55 0.22 263)",
+     "name": "blue"
+    },
+    {
+     "className": "blue-700",
+     "hex": "#1d4ed8",
+     "oklch": "oklch(0.49 0.22 264)",
+     "name": "blue"
+    },
+    {
+     "className": "blue-800",
+     "hex": "#1e40af",
+     "oklch": "oklch(0.42 0.18 266)",
+     "name": "blue"
+    },
+    {
+     "className": "blue-900",
+     "hex": "#1e3a8a",
+     "oklch": "oklch(0.38 0.14 266)",
+     "name": "blue"
+    },
+    {
+     "className": "blue-950",
+     "hex": "#172554",
+     "oklch": "oklch(0.28 0.09 268)",
+     "name": "blue"
+    }
+   ]
+  },
+  {
+   "name": "indigo",
+   "colors": [
+    {
+     "className": "indigo-50",
+     "hex": "#eef2ff",
+     "oklch": "oklch(0.96 0.02 272)",
+     "name": "indigo"
+    },
+    {
+     "className": "indigo-100",
+     "hex": "#e0e7ff",
+     "oklch": "oklch(0.93 0.03 273)",
+     "name": "indigo"
+    },
+    {
+     "className": "indigo-200",
+     "hex": "#c7d2fe",
+     "oklch": "oklch(0.87 0.06 274)",
+     "name": "indigo"
+    },
+    {
+     "className": "indigo-300",
+     "hex": "#a5b4fc",
+     "oklch": "oklch(0.79 0.10 275)",
+     "name": "indigo"
+    },
+    {
+     "className": "indigo-400",
+     "hex": "#818cf8",
+     "oklch": "oklch(0.68 0.16 277)",
+     "name": "indigo"
+    },
+    {
+     "className": "indigo-500",
+     "hex": "#6366f1",
+     "oklch": "oklch(0.59 0.20 277)",
+     "name": "indigo"
+    },
+    {
+     "className": "indigo-600",
+     "hex": "#4f46e5",
+     "oklch": "oklch(0.51 0.23 277)",
+     "name": "indigo"
+    },
+    {
+     "className": "indigo-700",
+     "hex": "#4338ca",
+     "oklch": "oklch(0.46 0.21 277)",
+     "name": "indigo"
+    },
+    {
+     "className": "indigo-800",
+     "hex": "#3730a3",
+     "oklch": "oklch(0.40 0.18 277)",
+     "name": "indigo"
+    },
+    {
+     "className": "indigo-900",
+     "hex": "#312e81",
+     "oklch": "oklch(0.36 0.14 279)",
+     "name": "indigo"
+    },
+    {
+     "className": "indigo-950",
+     "hex": "#1e1b4b",
+     "oklch": "oklch(0.26 0.09 281)",
+     "name": "indigo"
+    }
+   ]
+  },
+  {
+   "name": "violet",
+   "colors": [
+    {
+     "className": "violet-50",
+     "hex": "#f5f3ff",
+     "oklch": "oklch(0.97 0.02 294)",
+     "name": "violet"
+    },
+    {
+     "className": "violet-100",
+     "hex": "#ede9fe",
+     "oklch": "oklch(0.94 0.03 295)",
+     "name": "violet"
+    },
+    {
+     "className": "violet-200",
+     "hex": "#ddd6fe",
+     "oklch": "oklch(0.89 0.05 293)",
+     "name": "violet"
+    },
+    {
+     "className": "violet-300",
+     "hex": "#c4b5fd",
+     "oklch": "oklch(0.81 0.10 294)",
+     "name": "violet"
+    },
+    {
+     "className": "violet-400",
+     "hex": "#a78bfa",
+     "oklch": "oklch(0.71 0.16 294)",
+     "name": "violet"
+    },
+    {
+     "className": "violet-500",
+     "hex": "#8b5cf6",
+     "oklch": "oklch(0.61 0.22 293)",
+     "name": "violet"
+    },
+    {
+     "className": "violet-600",
+     "hex": "#7c3aed",
+     "oklch": "oklch(0.54 0.25 293)",
+     "name": "violet"
+    },
+    {
+     "className": "violet-700",
+     "hex": "#6d28d9",
+     "oklch": "oklch(0.49 0.24 293)",
+     "name": "violet"
+    },
+    {
+     "className": "violet-800",
+     "hex": "#5b21b6",
+     "oklch": "oklch(0.43 0.21 293)",
+     "name": "violet"
+    },
+    {
+     "className": "violet-900",
+     "hex": "#4c1d95",
+     "oklch": "oklch(0.38 0.18 294)",
+     "name": "violet"
+    },
+    {
+     "className": "violet-950",
+     "hex": "#1e1b4b",
+     "oklch": "oklch(0.28 0.14 291)",
+     "name": "violet"
+    }
+   ]
+  },
+  {
+   "name": "purple",
+   "colors": [
+    {
+     "className": "purple-50",
+     "hex": "#faf5ff",
+     "oklch": "oklch(0.98 0.01 308)",
+     "name": "purple"
+    },
+    {
+     "className": "purple-100",
+     "hex": "#f3e8ff",
+     "oklch": "oklch(0.95 0.03 307)",
+     "name": "purple"
+    },
+    {
+     "className": "purple-200",
+     "hex": "#e9d5ff",
+     "oklch": "oklch(0.90 0.06 307)",
+     "name": "purple"
+    },
+    {
+     "className": "purple-300",
+     "hex": "#d8b4fe",
+     "oklch": "oklch(0.83 0.11 306)",
+     "name": "purple"
+    },
+    {
+     "className": "purple-400",
+     "hex": "#c084fc",
+     "oklch": "oklch(0.72 0.18 306)",
+     "name": "purple"
+    },
+    {
+     "className": "purple-500",
+     "hex": "#a855f7",
+     "oklch": "oklch(0.63 0.23 304)",
+     "name": "purple"
+    },
+    {
+     "className": "purple-600",
+     "hex": "#9333ea",
+     "oklch": "oklch(0.56 0.25 302)",
+     "name": "purple"
+    },
+    {
+     "className": "purple-700",
+     "hex": "#7e22ce",
+     "oklch": "oklch(0.50 0.24 302)",
+     "name": "purple"
+    },
+    {
+     "className": "purple-800",
+     "hex": "#6b21a8",
+     "oklch": "oklch(0.44 0.20 304)",
+     "name": "purple"
+    },
+    {
+     "className": "purple-900",
+     "hex": "#581c87",
+     "oklch": "oklch(0.38 0.17 305)",
+     "name": "purple"
+    },
+    {
+     "className": "purple-950",
+     "hex": "#3b0764",
+     "oklch": "oklch(0.29 0.14 303)",
+     "name": "purple"
+    }
+   ]
+  },
+  {
+   "name": "fuchsia",
+   "colors": [
+    {
+     "className": "fuchsia-50",
+     "hex": "#fdf4ff",
+     "oklch": "oklch(0.98 0.02 320)",
+     "name": "fuchsia"
+    },
+    {
+     "className": "fuchsia-100",
+     "hex": "#fae8ff",
+     "oklch": "oklch(0.95 0.04 319)",
+     "name": "fuchsia"
+    },
+    {
+     "className": "fuchsia-200",
+     "hex": "#f5d0fe",
+     "oklch": "oklch(0.90 0.07 320)",
+     "name": "fuchsia"
+    },
+    {
+     "className": "fuchsia-300",
+     "hex": "#f0abfc",
+     "oklch": "oklch(0.83 0.13 321)",
+     "name": "fuchsia"
+    },
+    {
+     "className": "fuchsia-400",
+     "hex": "#e879f9",
+     "oklch": "oklch(0.75 0.21 322)",
+     "name": "fuchsia"
+    },
+    {
+     "className": "fuchsia-500",
+     "hex": "#d946ef",
+     "oklch": "oklch(0.67 0.26 322)",
+     "name": "fuchsia"
+    },
+    {
+     "className": "fuchsia-600",
+     "hex": "#c026d3",
+     "oklch": "oklch(0.59 0.26 323)",
+     "name": "fuchsia"
+    },
+    {
+     "className": "fuchsia-700",
+     "hex": "#a21caf",
+     "oklch": "oklch(0.52 0.23 324)",
+     "name": "fuchsia"
+    },
+    {
+     "className": "fuchsia-800",
+     "hex": "#86198f",
+     "oklch": "oklch(0.45 0.19 325)",
+     "name": "fuchsia"
+    },
+    {
+     "className": "fuchsia-900",
+     "hex": "#701a75",
+     "oklch": "oklch(0.40 0.16 326)",
+     "name": "fuchsia"
+    },
+    {
+     "className": "fuchsia-950",
+     "hex": "#4a044e",
+     "oklch": "oklch(0.29 0.13 326)",
+     "name": "fuchsia"
+    }
+   ]
+  },
+  {
+   "name": "pink",
+   "colors": [
+    {
+     "className": "pink-50",
+     "hex": "#fdf2f8",
+     "oklch": "oklch(0.97 0.01 343)",
+     "name": "pink"
+    },
+    {
+     "className": "pink-100",
+     "hex": "#fce7f3",
+     "oklch": "oklch(0.95 0.03 342)",
+     "name": "pink"
+    },
+    {
+     "className": "pink-200",
+     "hex": "#fbcfe8",
+     "oklch": "oklch(0.90 0.06 343)",
+     "name": "pink"
+    },
+    {
+     "className": "pink-300",
+     "hex": "#f9a8d4",
+     "oklch": "oklch(0.82 0.11 346)",
+     "name": "pink"
+    },
+    {
+     "className": "pink-400",
+     "hex": "#f472b6",
+     "oklch": "oklch(0.73 0.18 350)",
+     "name": "pink"
+    },
+    {
+     "className": "pink-500",
+     "hex": "#ec4899",
+     "oklch": "oklch(0.66 0.21 354)",
+     "name": "pink"
+    },
+    {
+     "className": "pink-600",
+     "hex": "#db2777",
+     "oklch": "oklch(0.59 0.22 1)",
+     "name": "pink"
+    },
+    {
+     "className": "pink-700",
+     "hex": "#be185d",
+     "oklch": "oklch(0.52 0.20 4)",
+     "name": "pink"
+    },
+    {
+     "className": "pink-800",
+     "hex": "#9d174d",
+     "oklch": "oklch(0.46 0.17 4)",
+     "name": "pink"
+    },
+    {
+     "className": "pink-900",
+     "hex": "#831843",
+     "oklch": "oklch(0.41 0.14 2)",
+     "name": "pink"
+    },
+    {
+     "className": "pink-950",
+     "hex": "#500724",
+     "oklch": "oklch(0.28 0.10 4)",
+     "name": "pink"
+    }
+   ]
+  },
+  {
+   "name": "rose",
+   "colors": [
+    {
+     "className": "rose-50",
+     "hex": "#fff1f2",
+     "oklch": "oklch(0.97 0.02 12)",
+     "name": "rose"
+    },
+    {
+     "className": "rose-100",
+     "hex": "#ffe4e6",
+     "oklch": "oklch(0.94 0.03 13)",
+     "name": "rose"
+    },
+    {
+     "className": "rose-200",
+     "hex": "#fecdd3",
+     "oklch": "oklch(0.89 0.06 10)",
+     "name": "rose"
+    },
+    {
+     "className": "rose-300",
+     "hex": "#fda4af",
+     "oklch": "oklch(0.81 0.11 12)",
+     "name": "rose"
+    },
+    {
+     "className": "rose-400",
+     "hex": "#fb7185",
+     "oklch": "oklch(0.72 0.17 13)",
+     "name": "rose"
+    },
+    {
+     "className": "rose-500",
+     "hex": "#f43f5e",
+     "oklch": "oklch(0.65 0.22 16)",
+     "name": "rose"
+    },
+    {
+     "className": "rose-600",
+     "hex": "#e11d48",
+     "oklch": "oklch(0.59 0.22 18)",
+     "name": "rose"
+    },
+    {
+     "className": "rose-700",
+     "hex": "#be123c",
+     "oklch": "oklch(0.51 0.20 17)",
+     "name": "rose"
+    },
+    {
+     "className": "rose-800",
+     "hex": "#9f1239",
+     "oklch": "oklch(0.45 0.17 14)",
+     "name": "rose"
+    },
+    {
+     "className": "rose-900",
+     "hex": "#881337",
+     "oklch": "oklch(0.41 0.15 10)",
+     "name": "rose"
+    },
+    {
+     "className": "rose-950",
+     "hex": "#4c0519",
+     "oklch": "oklch(0.27 0.10 12)",
+     "name": "rose"
+    }
+   ]
+  }
+ ]
+}
