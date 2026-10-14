@@ -1,16 +1,15 @@
 // Package empty ports the upstream empty-* examples.
-//
-// Not ported yet (they need components owned by other groups):
-// empty-avatar and empty-avatar-group (avatar), empty-input-group
-// (input-group).
 package empty
 
 import (
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/icons/tabler"
 	"shadcn.go/components/lib"
+	"shadcn.go/components/ui/avatar"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/empty"
+	ig "shadcn.go/components/ui/input-group"
+	"shadcn.go/components/ui/kbd"
 	"shadcn.go/examples/registry"
 	h "shadcn.go/libhtml"
 )
@@ -24,6 +23,9 @@ func init() {
 		ex("empty-demo", Demo),
 		ex("empty-icon", Icon),
 		ex("empty-outline", Outline),
+		ex("empty-avatar", Avatar),
+		ex("empty-avatar-group", AvatarGroup),
+		ex("empty-input-group", InputGroup),
 	)
 }
 
@@ -83,5 +85,58 @@ func Outline() h.Node {
 			empty.Description("Upload files to your cloud storage to access them anywhere."),
 		),
 		empty.Content(button.Button(button.VariantOutline, button.SizeSm, "Upload Files")),
+	)
+}
+
+func Avatar() h.Node {
+	return empty.Empty(
+		empty.Header(
+			empty.Media(empty.MediaDefault,
+				avatar.Avatar(h.Class("size-12"),
+					avatar.Image(h.Src("https://github.com/shadcn.png"), h.Class("grayscale")),
+					avatar.Fallback("LR"),
+				),
+			),
+			empty.Title("User Offline"),
+			empty.Description("This user is currently offline. You can leave a message to notify them or try again later."),
+		),
+		empty.Content(button.Button(button.SizeSm, "Leave Message")),
+	)
+}
+
+func AvatarGroup() h.Node {
+	av := func(src, alt, fb string) h.Node {
+		return avatar.Avatar(avatar.Image(h.Src(src), h.Alt(alt)), avatar.Fallback(fb))
+	}
+	return empty.Empty(
+		empty.Header(
+			empty.Media(
+				h.Div(h.Class("flex -space-x-2 *:data-[slot=avatar]:size-12 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale"),
+					av("https://github.com/shadcn.png", "@shadcn", "CN"),
+					av("https://github.com/maxleiter.png", "@maxleiter", "LR"),
+					av("https://github.com/evilrabbit.png", "@evilrabbit", "ER"),
+				),
+			),
+			empty.Title("No Team Members"),
+			empty.Description("Invite your team to collaborate on this project."),
+		),
+		empty.Content(button.Button(button.SizeSm, lucide.Plus(), "Invite Members")),
+	)
+}
+
+func InputGroup() h.Node {
+	return empty.Empty(
+		empty.Header(
+			empty.Title("404 - Not Found"),
+			empty.Description("The page you're looking for doesn't exist. Try searching for what you need below."),
+		),
+		empty.Content(
+			ig.InputGroup(h.Class("sm:w-3/4"),
+				ig.Input(h.Placeholder("Try searching for pages...")),
+				ig.Addon(lucide.Search()),
+				ig.Addon(ig.AlignInlineEnd, kbd.Kbd("/")),
+			),
+			empty.Description("Need help? ", h.A(h.Href("#"), "Contact support")),
+		),
 	)
 }
