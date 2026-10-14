@@ -20,6 +20,7 @@ import (
 	"strings"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/dialog/primitive"
 	h "shadcn.go/libhtml"
@@ -46,6 +47,33 @@ var (
 	descClass    = lib.Cn("text-sm text-muted-foreground")
 	mediaClass   = lib.Cn("mb-2 inline-flex size-16 items-center justify-center rounded-md bg-muted sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-8")
 )
+
+// The classes of registry/bases/radix/ui/alert-dialog.tsx, used when a
+// style is in scope (style.Scope).
+var (
+	baseFile        = style.NewFile("ui/alert-dialog.tsx")
+	baseOverlay     = baseFile.Cn("cn-alert-dialog-overlay fixed inset-0 z-50", style.Arg)
+	baseContent     = baseFile.Cn("cn-alert-dialog-content group/alert-dialog-content fixed top-1/2 left-1/2 z-50 grid w-full -translate-x-1/2 -translate-y-1/2 outline-none", style.Arg)
+	baseHeader      = baseFile.Cn("cn-alert-dialog-header", style.Arg)
+	baseFooter      = baseFile.Cn("cn-alert-dialog-footer flex flex-col-reverse gap-2 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end", style.Arg)
+	baseMedia       = baseFile.Cn("cn-alert-dialog-media", style.Arg)
+	baseTitle       = baseFile.Cn("cn-alert-dialog-title cn-font-heading", style.Arg)
+	baseDescription = baseFile.Cn("cn-alert-dialog-description", style.Arg)
+	baseAction      = baseFile.Cn("cn-alert-dialog-action", style.Arg)
+	baseCancel      = baseFile.Cn("cn-alert-dialog-cancel", style.Arg)
+)
+
+func styleOf(w io.Writer) style.Style {
+	st, _ := style.FromWriter(w)
+	return st
+}
+
+func classFor(st style.Style, def string, site *style.Site) string {
+	if st != "" {
+		return site.Class(st, "")
+	}
+	return def
+}
 
 // AlertDialog is the root. It renders no element of its own.
 func AlertDialog(children ...any) *primitive.RootBuilder {
@@ -79,13 +107,18 @@ func Overlay(children ...any) *OverlayBuilder {
 func (b *OverlayBuilder) AcceptChild(c any) bool { return acceptScope(&b.Scoped, c) }
 
 // Element resolves the overlay.
-func (b *OverlayBuilder) Element() *h.Element {
-	props := h.Spread(h.Div(h.Data("slot", "alert-dialog-overlay"), h.Class(overlayClass)), b.Elem(), lib.Cn)
+func (b *OverlayBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *OverlayBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *OverlayBuilder) element(st style.Style) *h.Element {
+	props := h.Spread(h.Div(h.Data("slot", "alert-dialog-overlay"), h.Class(classFor(st, overlayClass, baseOverlay))), b.Elem(), lib.Cn)
 	return primitive.Overlay(b.Inherit(), primitive.WithProps(props)).Element()
 }
 
 // Render renders the overlay.
-func (b *OverlayBuilder) Render(w io.Writer) error { return render(b.Element(), w) }
+func (b *OverlayBuilder) Render(w io.Writer) error { return render(b.element(styleOf(w)), w) }
 
 // --- Content -------------------------------------------------------------------------------
 
@@ -122,9 +155,14 @@ func (b *ContentBuilder) Size(s Size) *ContentBuilder {
 }
 
 // Element resolves the portal holding the overlay and the content.
-func (b *ContentBuilder) Element() *h.Element {
+func (b *ContentBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *ContentBuilder) element(st style.Style) *h.Element {
 	sc := b.Scope()
-	props := h.Spread(h.Div(h.Data("slot", "alert-dialog-content"), h.Data("size", string(b.size)), h.Class(contentClass)), b.Elem(), lib.Cn)
+	props := h.Spread(h.Div(h.Data("slot", "alert-dialog-content"), h.Data("size", string(b.size)), h.Class(classFor(st, contentClass, baseContent))), b.Elem(), lib.Cn)
 	return primitive.Portal(sc,
 		Overlay(sc),
 		primitive.Content(sc, primitive.WithProps(props)),
@@ -132,23 +170,29 @@ func (b *ContentBuilder) Element() *h.Element {
 }
 
 // Render renders the content.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ContentBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- Header, Footer, Media ---------------------------------------------------------------------
 
 // Header lays out the media, title and description.
-func Header(children ...any) *h.Element {
-	return h.Spread(h.Div(h.Data("slot", "alert-dialog-header"), h.Class(headerClass)), h.Div(children...), lib.Cn)
+func Header(children ...any) h.Node {
+	return h.NodeFunc(func(w io.Writer) error {
+		return h.Spread(h.Div(h.Data("slot", "alert-dialog-header"), h.Class(classFor(styleOf(w), headerClass, baseHeader))), h.Div(children...), lib.Cn).Render(w)
+	})
 }
 
 // Footer lays out the actions.
-func Footer(children ...any) *h.Element {
-	return h.Spread(h.Div(h.Data("slot", "alert-dialog-footer"), h.Class(footerClass)), h.Div(children...), lib.Cn)
+func Footer(children ...any) h.Node {
+	return h.NodeFunc(func(w io.Writer) error {
+		return h.Spread(h.Div(h.Data("slot", "alert-dialog-footer"), h.Class(classFor(styleOf(w), footerClass, baseFooter))), h.Div(children...), lib.Cn).Render(w)
+	})
 }
 
 // Media holds an icon or image above (or beside) the title.
-func Media(children ...any) *h.Element {
-	return h.Spread(h.Div(h.Data("slot", "alert-dialog-media"), h.Class(mediaClass)), h.Div(children...), lib.Cn)
+func Media(children ...any) h.Node {
+	return h.NodeFunc(func(w io.Writer) error {
+		return h.Spread(h.Div(h.Data("slot", "alert-dialog-media"), h.Class(classFor(styleOf(w), mediaClass, baseMedia))), h.Div(children...), lib.Cn).Render(w)
+	})
 }
 
 // --- Title, Description ------------------------------------------------------------------------
@@ -170,13 +214,18 @@ func Title(children ...any) *TitleBuilder {
 func (b *TitleBuilder) AcceptChild(c any) bool { return acceptScope(&b.Scoped, c) }
 
 // Element resolves the title.
-func (b *TitleBuilder) Element() *h.Element {
-	props := h.Spread(h.H2(h.Data("slot", "alert-dialog-title"), h.Class(titleClass)), b.Elem(), lib.Cn)
+func (b *TitleBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *TitleBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *TitleBuilder) element(st style.Style) *h.Element {
+	props := h.Spread(h.H2(h.Data("slot", "alert-dialog-title"), h.Class(classFor(st, titleClass, baseTitle))), b.Elem(), lib.Cn)
 	return primitive.Title(b.Inherit(), primitive.WithProps(props)).Element()
 }
 
 // Render renders the title.
-func (b *TitleBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TitleBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // DescriptionBuilder is returned by Description.
 type DescriptionBuilder struct {
@@ -195,13 +244,18 @@ func Description(children ...any) *DescriptionBuilder {
 func (b *DescriptionBuilder) AcceptChild(c any) bool { return acceptScope(&b.Scoped, c) }
 
 // Element resolves the description.
-func (b *DescriptionBuilder) Element() *h.Element {
-	props := h.Spread(h.P(h.Data("slot", "alert-dialog-description"), h.Class(descClass)), b.Elem(), lib.Cn)
+func (b *DescriptionBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *DescriptionBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *DescriptionBuilder) element(st style.Style) *h.Element {
+	props := h.Spread(h.P(h.Data("slot", "alert-dialog-description"), h.Class(classFor(st, descClass, baseDescription))), b.Elem(), lib.Cn)
 	return primitive.Description(b.Inherit(), primitive.WithProps(props)).Element()
 }
 
 // Render renders the description.
-func (b *DescriptionBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *DescriptionBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
 
 // --- Action, Cancel ----------------------------------------------------------------------------
 
@@ -263,13 +317,20 @@ func (b *ButtonBuilder) Size(s button.Size) *ButtonBuilder {
 
 // Element resolves the button:
 // <Button variant size asChild><AlertDialogPrimitive.Action|Cancel data-slot className={cn(className)} {...props} /></Button>
-func (b *ButtonBuilder) Element() *h.Element {
-	slot, part := "alert-dialog-action", primitive.Close
+func (b *ButtonBuilder) Element() *h.Element { return b.element("") }
+
+// ElementIn resolves the element in the style in scope when rendering to w.
+func (b *ButtonBuilder) ElementIn(w io.Writer) *h.Element { return b.element(styleOf(w)) }
+
+func (b *ButtonBuilder) element(st style.Style) *h.Element {
+	slot, part, site := "alert-dialog-action", primitive.Close, baseAction
 	if b.cancel {
-		slot, part = "alert-dialog-cancel", primitive.Cancel
+		slot, part, site = "alert-dialog-cancel", primitive.Cancel, baseCancel
 	}
 	props := h.Spread(h.Button(h.Data("slot", slot)), b.Elem(), lib.Cn)
-	if props.ClassName() != "" {
+	if st != "" {
+		props.SetClass(site.Class(st, props.ClassName()))
+	} else if props.ClassName() != "" {
 		props.SetClass(lib.Cn(props.ClassName()))
 	}
 	child := part(b.Scope(), primitive.WithProps(props)).Element()
@@ -280,7 +341,7 @@ func (b *ButtonBuilder) Element() *h.Element {
 		h.Data("slot", "button"),
 		h.Data("variant", string(b.variant)),
 		h.Data("size", string(b.size)),
-		h.Class(button.Variants(b.variant, b.size)),
+		h.Class(buttonClasses(st, b.variant, b.size)),
 	)
 	out, err := h.Slot(defaults, child, joinClasses)
 	if err != nil {
@@ -295,7 +356,15 @@ func joinClasses(classes ...string) string {
 }
 
 // Render renders the button.
-func (b *ButtonBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ButtonBuilder) Render(w io.Writer) error { return b.element(styleOf(w)).Render(w) }
+
+// buttonClasses is buttonVariants({ variant, size }) in style st.
+func buttonClasses(st style.Style, v button.Variant, s button.Size) string {
+	if st != "" {
+		return button.StyleVariants(st, v, s)
+	}
+	return button.Variants(v, s)
+}
 
 // --- helpers -----------------------------------------------------------------------------------
 
