@@ -51,16 +51,30 @@ const fileOf = Object.fromEntries(refs.map((r) => [r.name, r.file]))
 
 // Examples that toast need sonner's <Toaster />, which the upstream docs
 // mount once in their layout.
+const usesThemes = names.filter((n) => /from "next-themes"/.test(fs.readFileSync(fileOf[n], "utf8")))
 const usesSonner = names.filter((n) => /from "sonner"/.test(fs.readFileSync(fileOf[n], "utf8")))
 
 const entry = `
 import * as React from "react"
 import { createRoot } from "react-dom/client"
+import { createPortal } from "react-dom"
 import { ThemeProvider } from "next-themes"
 const examples = {
 ${names.map((n) => `  ${JSON.stringify(n)}: () => import(${JSON.stringify(fileOf[n])}),`).join("\n")}
 }
 const sonner = new Set(${JSON.stringify(usesSonner)})
+const themed = new Set(${JSON.stringify(usesThemes)})
+
+// Mounts next-themes' provider (and the inline <script> it renders) in a
+// detached container and portals the content to target, so the page's DOM
+// matches upstream, where the provider wraps the whole layout.
+function mountThemed(target, theme, content) {
+  createRoot(document.createElement("div")).render(
+    <ThemeProvider attribute="class" forcedTheme={theme} enableSystem={false} disableTransitionOnChange>
+      {createPortal(content, target)}
+    </ThemeProvider>
+  )
+}
 
 function Ready({ children }) {
   React.useEffect(() => {
@@ -77,16 +91,16 @@ async function main() {
   const mod = await load()
   const Example = mod.default
   const theme = document.documentElement.classList.contains("dark") ? "dark" : "light"
-  createRoot(document.getElementById("preview")).render(
-    <ThemeProvider attribute="class" forcedTheme={theme} enableSystem={false} disableTransitionOnChange>
-      <Ready><Example /></Ready>
-    </ThemeProvider>
-  )
+  // Upstream mounts next-themes' provider in its layout, outside the preview,
+  // so its inline <script> must not end up inside #preview: examples that
+  // need the theme context get the provider in a separate root.
+  const example = <Ready><Example /></Ready>
+  const preview = document.getElementById("preview")
+  if (themed.has(name)) mountThemed(preview, theme, example)
+  else createRoot(preview).render(example)
   if (sonner.has(name)) {
     const { Toaster } = await import(${JSON.stringify(path.join(app, "registry/new-york-v4/ui/sonner.tsx"))})
-    createRoot(document.getElementById("parity-extra")).render(
-      <ThemeProvider attribute="class" forcedTheme={theme} enableSystem={false}><Toaster /></ThemeProvider>
-    )
+    mountThemed(document.getElementById("parity-extra"), theme, <Toaster />)
   }
 }
 main().catch((e) => { window.__parityError = String(e && e.stack || e); console.error(e) })

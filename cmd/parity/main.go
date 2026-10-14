@@ -21,6 +21,7 @@ import (
 	"os"
 	"path/filepath"
 	"slices"
+	"strings"
 	"time"
 
 	"shadcn.go/components/ui/runtime"
@@ -85,7 +86,11 @@ func main() {
 	// Go pages get the same strict CSP as production apps, so the port is
 	// verified to work under it. The React reference gets none: upstream
 	// libraries inject <style> elements (sonner, vaul) that it would block.
-	strict := secure.Headers(secure.Config{})
+	// Upstream examples load remote images (unsplash, avatars), so img-src
+	// also allows https:; everything else is the production default.
+	strict := secure.Headers(secure.Config{CSP: func(nonce string) string {
+		return strings.Replace(secure.DefaultCSP(nonce), "img-src 'self' data:", "img-src 'self' data: https:", 1)
+	}})
 	mux.Handle("GET /go/{name}", strict(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ex, ok := registry.Get(r.PathValue("name"))
 		if !ok {

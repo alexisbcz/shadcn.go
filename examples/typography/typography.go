@@ -81,19 +81,11 @@ func Muted() h.Node {
 	return h.P(h.Class("text-sm text-muted-foreground"), "Enter your email address.")
 }
 
-// P renders the paragraph after an inert <script> data block. The parity
-// reference mounts every example inside next-themes' <ThemeProvider>, which
-// renders its theme <script> before the example, so the paragraph is not
-// the preview's first child there and [&:not(:first-child)]:mt-6 applies.
-// The data block reproduces that (it never runs, so the CSP is unaffected).
-// TODO(harness): emit this placeholder from cmd/parity's shell for every Go
-// page instead, then drop it here.
+// P is the typography-p example: on its own in the preview it is the first
+// child, so [&:not(:first-child)]:mt-6 does not apply.
 func P() h.Node {
-	return h.Group(
-		h.Script(h.Type("application/json")),
-		h.P(h.Class(pClass),
-			"The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax."),
-	)
+	return h.P(h.Class(pClass),
+		"The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.")
 }
 
 func Small() h.Node {

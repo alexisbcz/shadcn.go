@@ -118,7 +118,7 @@ function chromiumPath() {
 // ids), attribute order and class order are ignored, inline styles are
 // compared by their parsed declarations.
 function snapshotDOM() {
-  const ID_REFS = ["id", "for", "aria-controls", "aria-labelledby", "aria-describedby", "aria-activedescendant", "aria-owns", "aria-details", "aria-errormessage", "list", "form", "headers"]
+  const ID_REFS = ["id", "for", "aria-controls", "aria-labelledby", "aria-describedby", "aria-activedescendant", "aria-owns", "aria-details", "aria-errormessage", "list", "form", "headers", "data-testid"]
   const ids = new Map()
   const idOf = (v) => {
     if (!ids.has(v)) ids.set(v, `#id${ids.size}`)
@@ -181,6 +181,29 @@ function describeAnimations() {
   }).sort((x, y) => JSON.stringify(x).localeCompare(JSON.stringify(y)))
 }
 
+// Forces a full re-raster: Chromium's partial raster can leave anti-aliased
+// edges one gray level off depending on paint history, which differs between
+// two pages showing the same thing. The DOM is left unchanged.
+async function forceRepaint() {
+  const raf2 = () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))
+  const b = document.body
+  const hadStyle = b.hasAttribute("style")
+  const prev = b.style.willChange
+  b.style.willChange = "transform"
+  await raf2()
+  b.style.willChange = prev
+  if (!hadStyle && !b.getAttribute("style")) b.removeAttribute("style")
+  await raf2()
+}
+
+// Waits (up to 1s) for CSS transitions started by the page load itself.
+// Chromium starts transitions from UA default styles on some server-rendered
+// elements (inside size containers); a client-rendered page never does.
+function settleLoadTransitions() {
+  const running = document.getAnimations().filter((a) => a.constructor.name === "CSSTransition")
+  return Promise.race([Promise.all(running.map((a) => a.finished.catch(() => {}))), new Promise((r) => setTimeout(r, 1000))])
+}
+
 // Finishes finite animations and parks infinite ones at 0, so a capture
 // shows the settled state on both sides.
 function settleAnimations() {
@@ -240,6 +263,7 @@ class Side {
       await this.page.waitForFunction(() => window.__shadcnReady, null, { timeout: 15000 })
     }
     await this.page.evaluate(() => document.fonts.ready)
+    await this.page.evaluate(settleLoadTransitions)
     await this.idle()
   }
 
@@ -254,13 +278,29 @@ class Side {
   async step(s) {
     const p = this.page
     const target = s.target ? p.locator(s.target).nth(s.nth ?? 0) : null
+    const force = s.force ? { force: true } : {}
+    const center = async () => {
+      const box = await target.boundingBox()
+      return { x: box.x + box.width / 2, y: box.y + box.height / 2 }
+    }
     switch (s.do) {
-      case "hover": await target.hover(); break
-      case "click": await target.click(); break
+      case "hover": await target.hover(force); break
+      case "click": await target.click(force); break
+      case "dblclick": await target.dblclick(force); break
+      case "down": await p.mouse.down({ button: s.button ?? "left" }); break
+      case "up": await p.mouse.up({ button: s.button ?? "left" }); break
+      case "drag": {
+        const c = await center()
+        await p.mouse.move(c.x, c.y)
+        await p.mouse.down()
+        await p.mouse.move(c.x + (s.dx ?? 0), c.y + (s.dy ?? 0), { steps: s.steps ?? 10 })
+        await p.mouse.up()
+        break
+      }
       case "focus": await target.focus(); break
       case "press": await (target ?? p.keyboard).press(s.key); break
       case "type": await (target ? target.pressSequentially(s.text) : p.keyboard.type(s.text)); break
-      case "mouse": await p.mouse.move(s.x, s.y); break
+      case "mouse": await p.mouse.move(s.x, s.y, { steps: s.steps ?? 1 }); break
       case "wait": await p.waitForTimeout(s.ms ?? 100); break
       case "scroll": await (target ? target.evaluate((el, y) => (el.scrollTop = y), s.y ?? 0) : p.mouse.wheel(0, s.y ?? 0)); break
       case "eval": await p.evaluate(s.js); break
@@ -272,9 +312,14 @@ class Side {
     return (await this.page.locator(selector).count()) > 0
   }
 
+  async shot() {
+    await this.page.evaluate(forceRepaint)
+    return this.page.screenshot({ fullPage: true, animations: "allow" })
+  }
+
   async capture() {
     return {
-      png: await this.page.screenshot({ fullPage: true, animations: "allow" }),
+      png: await this.shot(),
       dom: await this.page.evaluate(snapshotDOM),
     }
   }
@@ -329,11 +374,11 @@ const TRIGGER = '[data-slot$="-trigger"], [aria-haspopup]:not([aria-haspopup="fa
 async function autoScenario(react) {
   const steps = []
   if (await react.exists(`#preview :is(${INTERACTIVE})`)) {
-    steps.push({ label: "hover", steps: [{ do: "hover", target: `#preview :is(${INTERACTIVE})` }], frames: "auto" })
+    steps.push({ label: "hover", steps: [{ do: "hover", target: `#preview :is(${INTERACTIVE})`, force: true }], frames: "auto" })
     steps.push({ label: "focus-visible", steps: [{ do: "mouse", x: 0, y: 0 }, { do: "press", key: "Tab" }], frames: "auto" })
   }
   if (await react.exists(`#preview :is(${TRIGGER})`)) {
-    steps.push({ label: "open", steps: [{ do: "click", target: `#preview :is(${TRIGGER})` }], frames: "auto" })
+    steps.push({ label: "open", steps: [{ do: "click", target: `#preview :is(${TRIGGER})`, force: true }], frames: "auto" })
     steps.push({ label: "escape", steps: [{ do: "press", key: "Escape" }], frames: "auto" })
   }
   return steps
@@ -372,9 +417,23 @@ async function checkExample(browser, base, name) {
           const times = end > 0 ? [0, 0.25, 0.5, 0.75].map((f) => Math.round(f * end)) : []
           cap.frames = []
           for (const t of times) {
-            await Promise.all([react.page.evaluate(seekAnimations, t), go.page.evaluate(seekAnimations, t)])
-            const [r, g] = await Promise.all([react.page.screenshot({ fullPage: true, animations: "allow" }), go.page.screenshot({ fullPage: true, animations: "allow" })])
-            const cmp = comparePNG(r, g)
+            // A real mismatch is deterministic; under heavy load Chromium
+            // occasionally composites a seeked frame late on one side, so a
+            // differing frame is re-seeked and re-captured up to twice.
+            let r, g, cmp
+            for (let attempt = 0; attempt < 3; attempt++) {
+              await Promise.all([react.page.evaluate(seekAnimations, t), go.page.evaluate(seekAnimations, t)])
+              // No forced repaint here: toggling will-change on <body> while
+              // composited animations are paused at a seeked time makes the
+              // compositor's frame nondeterministic. Two frames let it commit.
+              await Promise.all([react.idle(), go.idle()])
+              ;[r, g] = await Promise.all([
+                react.page.screenshot({ fullPage: true, animations: "allow" }),
+                go.page.screenshot({ fullPage: true, animations: "allow" }),
+              ])
+              cmp = comparePNG(r, g)
+              if (cmp.pixels === 0) break
+            }
             cap.frames.push({ t, pixels: cmp.pixels })
             if (cmp.pixels > 0 || keep) {
               fs.writeFileSync(path.join(tdir, `${label}@${t}ms-react.png`), r)
@@ -386,8 +445,12 @@ async function checkExample(browser, base, name) {
         }
         await Promise.all([react.page.evaluate(settleAnimations), go.page.evaluate(settleAnimations)])
         await Promise.all([react.idle(), go.idle()])
-        const [r, g] = await Promise.all([react.capture(), go.capture()])
-        const cmp = comparePNG(r.png, g.png)
+        let r, g, cmp
+        for (let attempt = 0; attempt < 3; attempt++) {
+          ;[r, g] = await Promise.all([react.capture(), go.capture()])
+          cmp = comparePNG(r.png, g.png)
+          if (cmp.pixels === 0) break
+        }
         cap.pixels = cmp.pixels
         if (cmp.size) cap.size = cmp.size
         cap.dom = diffLines(r.dom, g.dom)

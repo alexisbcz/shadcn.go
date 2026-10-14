@@ -2,8 +2,6 @@
 package sheet
 
 import (
-	"net/http"
-
 	"shadcn.go/components/lib"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/input"
@@ -11,26 +9,16 @@ import (
 	"shadcn.go/components/ui/sheet"
 	"shadcn.go/examples/registry"
 	h "shadcn.go/libhtml"
-	"shadcn.go/libhtml/secure"
 )
 
 func init() {
 	ex := func(name string, fn func() h.Node) registry.Example {
-		return registry.Example{Name: name, Component: "sheet", Render: withThemeScript(fn)}
+		return registry.Example{Name: name, Component: "sheet", Render: registry.Static(fn)}
 	}
 	registry.Register(
 		ex("sheet-demo", Demo),
 		ex("sheet-side", SideExample),
 	)
-}
-
-// withThemeScript puts an empty nonced <script> first in the preview, where
-// the upstream docs' next-themes ThemeProvider renders its theme script.
-// It matters to modal dialogs: hideOthers (aria-hidden) keeps <script>
-// elements and their ancestors visible, so the preview itself is kept and
-// its other children are hidden, exactly as upstream.
-func withThemeScript(fn func() h.Node) func(*http.Request) h.Node {
-	return func(r *http.Request) h.Node { return h.Group(secure.Script(r), fn()) }
 }
 
 func Demo() h.Node {

@@ -162,9 +162,14 @@ click, outside click, drag where relevant), opening and closing (with
 ]
 ```
 
-Step kinds: `hover`, `click`, `focus`, `press` (key, optional target),
-`type` (text), `mouse` (x, y), `wait` (ms), `scroll` (y, optional target),
-`eval` (js). Targets are CSS selectors (`nth` picks among matches); use
+Step kinds: `hover`, `click`, `dblclick`, `focus`, `press` (key, optional
+target), `type` (text), `mouse` (x, y, optional steps), `down` / `up` (mouse
+button, optional `button`), `drag` (target, dx, dy, optional steps), `wait`
+(ms), `scroll` (y, optional target), `eval` (js). Add `"force": true` to
+hover/click/dblclick to skip Playwright's actionability checks (e.g. when an
+overlay covers the target). Before every screenshot the harness forces a full
+repaint and, after load, waits for page-load CSS transitions, so scenarios do
+not need workarounds for either. Targets are CSS selectors (`nth` picks among matches); use
 `data-slot` selectors, which both sides share. Captures accumulate: each
 scenario continues from the previous state, unless it has `"reset": true`,
 which reloads both pages first.
