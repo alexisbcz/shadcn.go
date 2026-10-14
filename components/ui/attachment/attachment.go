@@ -13,7 +13,9 @@ import (
 	"io"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
+	"shadcn.go/components/ui/internal/styled"
 	"shadcn.go/cva"
 	h "shadcn.go/libhtml"
 )
@@ -149,7 +151,11 @@ func (b *Builder) AcceptChild(c any) bool {
 }
 
 // Element resolves the attachment.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the attachment as it renders inside w (in the style of
+// an enclosing style.Scope).
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	props.SetClass("")
@@ -158,13 +164,13 @@ func (b *Builder) Element() *h.Element {
 		h.Data("state", string(b.state)),
 		h.Data("size", string(b.size)),
 		h.Data("orientation", string(b.orientation)),
-		h.Class(Variants(b.size, b.orientation, className)),
+		h.Class(attachmentClass(styleOf(w), b.size, b.orientation, className)),
 	)
 	return h.Spread(base, props, nil)
 }
 
 // Render renders the attachment.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // MediaBuilder is returned by Media.
 type MediaBuilder struct {
@@ -192,16 +198,19 @@ func (b *MediaBuilder) AcceptChild(c any) bool {
 }
 
 // Element resolves the media.
-func (b *MediaBuilder) Element() *h.Element {
+func (b *MediaBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the media as it renders inside w.
+func (b *MediaBuilder) ElementIn(w io.Writer) *h.Element {
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	props.SetClass("")
-	base := h.Div(h.Data("slot", "attachment-media"), h.Data("variant", string(b.variant)), h.Class(MediaVariants(b.variant, className)))
+	base := h.Div(h.Data("slot", "attachment-media"), h.Data("variant", string(b.variant)), h.Class(mediaClass(styleOf(w), b.variant, className)))
 	return h.Spread(base, props, nil)
 }
 
 // Render renders the media.
-func (b *MediaBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *MediaBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 var (
 	contentBase     = h.Div(h.Data("slot", "attachment-content"), h.Class(lib.Cn("max-w-full min-w-0 flex-1 leading-tight group-data-[orientation=vertical]/attachment:px-1")))
@@ -213,25 +222,28 @@ var (
 	groupBase   = h.Div(h.Data("slot", "attachment-group"), h.Class(lib.Cn("flex min-w-0 scroll-fade-x snap-x snap-mandatory scroll-px-1 scrollbar-none gap-3 overflow-x-auto overscroll-x-contain py-1 *:data-[slot=attachment]:flex-none *:data-[slot=attachment]:snap-start")))
 )
 
-func spread(base *h.Element, children []any) *h.Element {
-	return h.Spread(base, h.El(base.Tag(), children...), lib.Cn)
+func spread(base *h.Element, children []any, site *style.Site) *styled.Node {
+	slot, _ := base.GetAttr("data-slot")
+	return styled.Spread(base, h.El(base.Tag(), children...), styled.Slot(base.Tag(), slot, site))
 }
 
 // Content holds the Title and Description.
-func Content(children ...any) *h.Element { return spread(contentBase, children) }
+func Content(children ...any) *styled.Node { return spread(contentBase, children, sContent) }
 
 // Title is the file name (a truncated <span>, shimmering while uploading
 // or processing).
-func Title(children ...any) *h.Element { return spread(titleBase, children) }
+func Title(children ...any) *styled.Node { return spread(titleBase, children, sTitle) }
 
 // Description is the file's details or status (a truncated <span>).
-func Description(children ...any) *h.Element { return spread(descriptionBase, children) }
+func Description(children ...any) *styled.Node {
+	return spread(descriptionBase, children, sDescription)
+}
 
 // Actions holds the Action buttons, above the Trigger.
-func Actions(children ...any) *h.Element { return spread(actionsBase, children) }
+func Actions(children ...any) *styled.Node { return spread(actionsBase, children, sActions) }
 
 // Group lays attachments out in a horizontally scrolling, snapping row.
-func Group(children ...any) *h.Element { return spread(groupBase, children) }
+func Group(children ...any) *styled.Node { return spread(groupBase, children, sGroup) }
 
 // Action is a ghost icon-xs button (upstream AttachmentAction). A
 // button.Variant or button.Size among children overrides the defaults.
@@ -269,11 +281,18 @@ func (b *TriggerBuilder) AsChild() *TriggerBuilder { b.asChild = true; return b 
 func (b *TriggerBuilder) Type(v string) *TriggerBuilder { b.Elem().Type(v); return b }
 
 // Element resolves the trigger.
-func (b *TriggerBuilder) Element() *h.Element {
+func (b *TriggerBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the trigger as it renders inside w.
+func (b *TriggerBuilder) ElementIn(w io.Writer) *h.Element {
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	props.SetClass("")
-	base := h.Button(h.Data("slot", "attachment-trigger"), h.Class(lib.Cn("absolute inset-0 z-10 outline-none", className)))
+	class := lib.Cn("absolute inset-0 z-10 outline-none", className)
+	if st := styleOf(w); st != "" {
+		class = sTrigger.Class(st, className)
+	}
+	base := h.Button(h.Data("slot", "attachment-trigger"), h.Class(class))
 	if !b.asChild {
 		if _, ok := props.GetAttr("type"); !ok {
 			base.Attr("type", "button")
@@ -291,7 +310,7 @@ func (b *TriggerBuilder) Element() *h.Element {
 	if len(kids) != 1 {
 		return h.Errored(fmt.Errorf("attachment: Trigger AsChild needs exactly one element child, got %d children", len(kids)))
 	}
-	out, err := h.Slot(el.Clone().SetChildren(), kids[0], nil)
+	out, err := h.SlotIn(w, el.Clone().SetChildren(), kids[0], nil)
 	if err != nil {
 		return h.Errored(fmt.Errorf("attachment: Trigger AsChild: %w", err))
 	}
@@ -299,4 +318,4 @@ func (b *TriggerBuilder) Element() *h.Element {
 }
 
 // Render renders the trigger.
-func (b *TriggerBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *TriggerBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }

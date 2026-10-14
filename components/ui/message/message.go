@@ -11,6 +11,8 @@ import (
 	"io"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/styled"
 	h "shadcn.go/libhtml"
 )
 
@@ -33,25 +35,26 @@ var (
 	footerBase  = h.Div(h.Data("slot", "message-footer"), h.Class(lib.Cn("flex max-w-full min-w-0 items-center px-3 text-xs font-medium text-muted-foreground group-has-data-[variant=ghost]/message:px-0 group-data-[align=end]/message:justify-end")))
 )
 
-func spread(base *h.Element, children []any) *h.Element {
-	return h.Spread(base, h.Div(children...), lib.Cn)
+func spread(base *h.Element, children []any, site *style.Site) *styled.Node {
+	slot, _ := base.GetAttr("data-slot")
+	return styled.Spread(base, h.Div(children...), styled.Slot("div", slot, site))
 }
 
 // Group stacks messages (upstream MessageGroup).
-func Group(children ...any) *h.Element { return spread(groupBase, children) }
+func Group(children ...any) *styled.Node { return spread(groupBase, children, sGroup) }
 
 // Avatar holds the author's avatar, aligned with the message's last line
 // (lifted above the footer when there is one).
-func Avatar(children ...any) *h.Element { return spread(avatarBase, children) }
+func Avatar(children ...any) *styled.Node { return spread(avatarBase, children, sAvatar) }
 
 // Content holds the message's bubbles, attachments, header and footer.
-func Content(children ...any) *h.Element { return spread(contentBase, children) }
+func Content(children ...any) *styled.Node { return spread(contentBase, children, sContent) }
 
 // Header is a small line above the content (the author's name).
-func Header(children ...any) *h.Element { return spread(headerBase, children) }
+func Header(children ...any) *styled.Node { return spread(headerBase, children, sHeader) }
 
 // Footer is a small line below the content (status, actions).
-func Footer(children ...any) *h.Element { return spread(footerBase, children) }
+func Footer(children ...any) *styled.Node { return spread(footerBase, children, sFooter) }
 
 // Builder is returned by Message.
 type Builder struct {
@@ -86,10 +89,20 @@ func (b *Builder) Align(a Align) *Builder {
 }
 
 // Element resolves the message.
-func (b *Builder) Element() *h.Element {
-	base := h.Div(h.Data("slot", "message"), h.Data("align", string(b.align)), h.Class(lib.Cn(messageClass)))
+func (b *Builder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the message as it renders inside w (in the style of
+// an enclosing style.Scope).
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	class := lib.Cn(messageClass)
+	if w != nil {
+		if st, ok := style.FromWriter(w); ok {
+			class = sMessage.Class(st, "")
+		}
+	}
+	base := h.Div(h.Data("slot", "message"), h.Data("align", string(b.align)), h.Class(class))
 	return h.Spread(base, b.Elem(), lib.Cn)
 }
 
 // Render renders the message.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
