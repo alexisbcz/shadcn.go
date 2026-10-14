@@ -139,15 +139,24 @@ var (
 )
 
 // styled records the enclosing style.Scope ("" for new-york-v4).
-type styled struct{ st style.Style }
+type styled struct {
+	st  style.Style
+	rtl bool // inside style.ScopeRTL: the ui-rtl classes
+}
 
-func (s *styled) setStyle(w io.Writer) { s.st, _ = style.FromWriter(w) }
+func (s *styled) setStyle(w io.Writer) {
+	s.st, _ = style.FromWriter(w)
+	s.rtl = s.st != "" && style.RTLFromWriter(w)
+}
 
 // pick returns nova (resolved for the style) inside a style.Scope, else
 // the new-york-v4 classes.
 func (s *styled) pick(newYork string, site *style.Site, values ...string) string {
 	if s.st == "" {
 		return newYork
+	}
+	if s.rtl {
+		return style.RTLClass(site.Class(s.st, values...))
 	}
 	return site.Class(s.st, values...)
 }
@@ -298,7 +307,7 @@ func (b *RootBuilder) Element() *h.Element {
 	if sc.Viewport {
 		vp := Viewport()
 		vp.setScope(&sc)
-		vp.st = b.st
+		vp.styled = b.styled
 		el.Children(vp)
 	}
 	return el

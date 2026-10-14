@@ -18,7 +18,7 @@ func init() {
 	}
 	registry.Register(
 		nova("navigation-menu-demo", func() h.Node { return novaMenu(novaEnglish, "", nil) }),
-		nova("navigation-menu-rtl", func() h.Node { return novaMenu(novaArabic, "rtl", h.Data("lang", "ar")) }),
+		nova("navigation-menu-rtl", func() h.Node { return style.ScopeRTL(novaMenu(novaArabic, "rtl", h.Data("lang", "ar"))) }),
 	)
 }
 
