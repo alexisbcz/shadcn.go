@@ -137,6 +137,10 @@ func main() {
 		w.Header().Set("Content-Type", "application/json")
 		_ = json.NewEncoder(w).Encode(list)
 	})
+	// Upstream examples reference the docs site's public assets
+	// (/placeholder.svg, /avatars/*.jpg, ...): serve them to both sides, as
+	// the real site does. More specific routes above take precedence.
+	mux.Handle("GET /", http.FileServer(http.Dir(filepath.Join(rootAbs, "ui/apps/v4/public"))))
 	mux.HandleFunc("GET /{$}", func(w http.ResponseWriter, r *http.Request) {
 		_ = h.WriteHTTP(w, http.StatusOK, index(r, upstream))
 	})

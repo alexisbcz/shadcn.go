@@ -317,6 +317,15 @@ class Side {
     }
     await this.page.evaluate(() => document.fonts.ready)
     await this.page.evaluate(settleLoadTransitions)
+    // Tall pages: grow the viewport to the page height once, now, before any
+    // interaction. Later captures then fit the viewport and never need the
+    // full-page screenshot, whose resize event makes components that watch
+    // the window (useIsMobile, Radix Select) change state mid-scenario.
+    const height = await this.page.evaluate(() => document.documentElement.scrollHeight)
+    if (height > 768) {
+      await this.page.setViewportSize({ width: 1024, height: Math.min(height, 4096) })
+      await this.page.evaluate(settleLoadTransitions)
+    }
     await this.idle()
   }
 
