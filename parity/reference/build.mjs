@@ -59,6 +59,8 @@ import * as React from "react"
 import { createRoot } from "react-dom/client"
 import { createPortal } from "react-dom"
 import { ThemeProvider } from "next-themes"
+import { TooltipProvider as BaseTooltipProvider } from "@/registry/bases/base/ui/tooltip"
+import { TooltipProvider as RadixTooltipProvider } from "@/registry/bases/radix/ui/tooltip"
 const examples = {
 ${names.map((n) => `  ${JSON.stringify(n)}: () => import(${JSON.stringify(fileOf[n])}),`).join("\n")}
 }
@@ -89,12 +91,23 @@ async function main() {
   const load = examples[name]
   if (!load) throw new Error("unknown example " + name)
   const mod = await load()
-  const Example = mod.default
+  // Charts and internal demos export a named component instead of a
+  // default one: take the default, else the first exported component.
+  const Example = mod.default ?? Object.entries(mod).find(([k, v]) => /^[A-Z]/.test(k) && typeof v === "function")?.[1]
+  if (!Example) throw new Error("no component exported by " + name)
   const theme = document.documentElement.classList.contains("dark") ? "dark" : "light"
   // Upstream mounts next-themes' provider in its layout, outside the preview,
   // so its inline <script> must not end up inside #preview: examples that
   // need the theme context get the provider in a separate root.
-  const example = <Ready><Example /></Ready>
+  // Upstream's app/layout.tsx wraps every page in the Base UI and Radix
+  // tooltip providers with no delay; they render no DOM of their own.
+  const example = (
+    <BaseTooltipProvider delay={0}>
+      <RadixTooltipProvider delayDuration={0}>
+        <Ready><Example /></Ready>
+      </RadixTooltipProvider>
+    </BaseTooltipProvider>
+  )
   const preview = document.getElementById("preview")
   if (themed.has(name)) mountThemed(preview, theme, example)
   else createRoot(preview).render(example)
