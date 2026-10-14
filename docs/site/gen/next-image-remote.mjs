@@ -5,7 +5,8 @@
 // static/nextimage/remote/<w>/<sha1 of the url>.webp.
 //
 // The URL list is read from the reference's own pages: every component page
-// of the radix base (previews are radix-nova whatever the base).
+// of the radix base (previews are radix-nova whatever the base) and every
+// /view/{style}/{name} iframe page (parity/docs/pages.mjs --group view).
 //
 // Usage: node docs/site/gen/next-image-remote.mjs [http://localhost:4000]
 import crypto from "node:crypto"
@@ -15,8 +16,13 @@ import path from "node:path"
 const ref = process.argv[2] ?? "http://localhost:4000"
 const root = path.resolve(import.meta.dirname, "../../..")
 const out = path.join(root, "docs/site/static/nextimage/remote")
-const pages = fs.readdirSync(path.join(root, "ui/apps/v4/content/docs/components/radix"))
-  .filter((f) => f.endsWith(".mdx")).map((f) => `/docs/components/radix/${f.slice(0, -4)}`)
+import { execFileSync } from "node:child_process"
+const pages = [
+  ...fs.readdirSync(path.join(root, "ui/apps/v4/content/docs/components/radix"))
+    .filter((f) => f.endsWith(".mdx")).map((f) => `/docs/components/radix/${f.slice(0, -4)}`),
+  ...execFileSync("node", [path.join(root, "parity/docs/pages.mjs"), "--group", "view"], { encoding: "utf8" })
+    .split("\n").filter((p) => p.startsWith("/view/")),
+]
 
 const want = new Map()
 for (const p of pages) {
