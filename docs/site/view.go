@@ -24,12 +24,13 @@ func (s *Site) View(r *http.Request) (h.Node, error) {
 		}
 	case "radix-nova", "base-nova", "aria-nova":
 		if ex, ok := mdx.LookupExample(name); ok {
-			preview = ex(&mdx.Env{Request: r})
+			preview = ex(s.Env(r))
 		}
 	}
 	if preview == nil {
 		return nil, errNotFound
 	}
+	preview = mdx.NextPreview(s.Env(r), name, preview)
 	return s.Document(r, Meta{Title: name},
 		h.Div(h.Class("bg-background *:data-[slot=card]:has-[[data-slot=chart]]:shadow-none"), preview),
 	), nil

@@ -153,3 +153,10 @@ func nextImg(tag string) string {
 	out.WriteString(">")
 	return out.String()
 }
+
+// NextPreview applies the next/image and next/font rewriting of docs
+// previews to an example rendered outside a ComponentPreview (the
+// /view/{style}/{name} iframes).
+func NextPreview(env *Env, name string, preview h.Node) h.Node {
+	return nextPreview(env, name, preview)
+}
