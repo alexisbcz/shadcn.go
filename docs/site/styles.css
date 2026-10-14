@@ -1,0 +1,14 @@
+/* Stylesheet of the Go docs site (cmd/docs), built at startup by the Go
+ * Tailwind package: the reference app's own CSS (ui/apps/v4/app/globals.css,
+ * which imports tailwindcss, tw-animate-css, shadcn/tailwind.css and the
+ * legacy themes, and @source's the generated styles/), the typeset CSS the
+ * root layout imports, plus @source on the Go sources so classes used only
+ * by the port are generated too. Automatic source detection runs on
+ * ui/apps/v4 (the Next.js app's directory), as in the reference build. */
+@import "../../ui/apps/v4/app/globals.css";
+@import "../../ui/apps/v4/app/(app)/(typeset)/typeset.css";
+
+@source "..";
+@source "../../components";
+@source "../../examples";
+@source "../../cmd/docs";
