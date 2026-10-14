@@ -211,6 +211,14 @@ func styleOf(w io.Writer) style.Style {
 	return st
 }
 
+// rtlIn maps a style's class to its ui-rtl variant inside style.ScopeRTL.
+func rtlIn(w io.Writer, class string) string {
+	if style.RTLFromWriter(w) {
+		return style.RTLClass(class)
+	}
+	return class
+}
+
 // elementIn resolves a component in w's style.
 func elementIn(n h.Node, w io.Writer) *h.Element {
 	if e, ok := n.(interface{ ElementIn(io.Writer) *h.Element }); ok {
@@ -750,7 +758,7 @@ func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element {
 	s := b.state()
 	cls := lib.Cn(contentClass)
 	if st := styleOf(w); st != "" {
-		cls = stContent.Class(st, "")
+		cls = rtlIn(w, stContent.Class(st, ""))
 	}
 	chips := "false"
 	if b.anchor != nil {
@@ -874,7 +882,7 @@ func (b *ItemBuilder) ElementIn(w io.Writer) *h.Element {
 	st := styleOf(w)
 	cls := lib.Cn(itemClass)
 	if st != "" {
-		cls = stItem.Class(st, "")
+		cls = rtlIn(w, stItem.Class(st, ""))
 	}
 	base := h.Div(h.Role("option"), h.Data("slot", "combobox-item"), h.Class(cls))
 	el := h.Spread(base, b.Elem(), lib.Cn)
@@ -883,7 +891,7 @@ func (b *ItemBuilder) ElementIn(w io.Writer) *h.Element {
 		h.Attr("data-combobox-indicator", ""),
 		lucide.Check(h.Class("pointer-events-none size-4 pointer-coarse:size-5")))
 	if st != "" {
-		indicator = h.Span(h.Aria("hidden", "true"), h.Class(stIndicator.Class(st)),
+		indicator = h.Span(h.Aria("hidden", "true"), h.Class(rtlIn(w, stIndicator.Class(st))),
 			h.Attr("data-combobox-indicator", ""),
 			lucide.Check(h.Class(stIndicatorIcon.Class(st))))
 	}
@@ -994,7 +1002,7 @@ func (b *ChipBuilder) ElementIn(w io.Writer) *h.Element {
 	st := styleOf(w)
 	cls, rmClass, rmIcon := lib.Cn(chipClass), "-ml-1 opacity-50 hover:opacity-100", "pointer-events-none"
 	if st != "" {
-		cls, rmClass, rmIcon = stChip.Class(st, ""), stChipRemove.Class(st), stChipIcon.Class(st)
+		cls, rmClass, rmIcon = rtlIn(w, stChip.Class(st, "")), rtlIn(w, stChipRemove.Class(st)), stChipIcon.Class(st)
 	}
 	base := h.Div(h.TabIndex(-1), h.Data("slot", "combobox-chip"), h.Class(cls))
 	if s.disabled {

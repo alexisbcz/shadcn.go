@@ -7,6 +7,7 @@ import (
 	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	cb "shadcn.go/components/ui/combobox"
+	"shadcn.go/components/ui/field"
 	inputgroup "shadcn.go/components/ui/input-group"
 	"shadcn.go/components/ui/item"
 	"shadcn.go/examples/registry"
@@ -32,6 +33,7 @@ func init() {
 		nova("combobox-input-group", NovaInputGroup),
 		nova("combobox-popup", NovaPopup),
 		nova("combobox-custom", NovaCustom),
+		nova("combobox-rtl", NovaRtl),
 	)
 }
 
@@ -146,4 +148,28 @@ func novaTimezoneList(separators bool) h.Node {
 			)
 		}),
 	)
+}
+
+// NovaRtl is examples/radix/combobox-rtl.tsx in its default language
+// (Arabic).
+func NovaRtl() h.Node {
+	labels := []struct{ value, label string }{
+		{"technology", "التكنولوجيا"}, {"design", "التصميم"}, {"business", "الأعمال"},
+		{"marketing", "التسويق"}, {"education", "التعليم"}, {"health", "الصحة"},
+	}
+	anchor := cb.UseAnchor()
+	return style.ScopeRTL(field.Field(h.Class("mx-auto w-full max-w-xs"),
+		field.Label("الفئات"),
+		cb.Combobox(cb.Multiple, cb.AutoHighlight, cb.DefaultValue("technology"),
+			cb.Chips(anchor,
+				cb.Value(cb.Chip(), cb.ChipsInput(h.Placeholder("أضف فئات"))),
+			),
+			cb.Content(anchor, h.Dir("rtl"), h.Data("lang", "ar"),
+				cb.Empty("لم يتم العثور على فئات."),
+				cb.List(h.Map(labels, func(c struct{ value, label string }) h.Node {
+					return cb.Item(cb.ItemValue(c.value), cb.ItemLabel(c.label), c.label)
+				})),
+			),
+		),
+	))
 }
