@@ -13,6 +13,7 @@ import (
 	"io"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/ui/internal/styled"
 	"shadcn.go/cva"
 	h "shadcn.go/libhtml"
 )
@@ -100,8 +101,8 @@ func ReactionsVariants(side Side, align Align, className ...string) string {
 var groupBase = h.Div(h.Data("slot", "bubble-group"), h.Class(lib.Cn("flex min-w-0 flex-col gap-2")))
 
 // Group stacks bubbles (upstream BubbleGroup).
-func Group(children ...any) *h.Element {
-	return h.Spread(groupBase, h.Div(children...), lib.Cn)
+func Group(children ...any) *styled.Node {
+	return styled.Spread(groupBase, h.Div(children...), styled.Slot("div", "bubble-group", sGroup))
 }
 
 // Builder is returned by Bubble.
@@ -150,7 +151,11 @@ func (b *Builder) Align(a Align) *Builder {
 }
 
 // Element resolves the bubble.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the bubble as it renders inside w (in the style of an
+// enclosing style.Scope).
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	props.SetClass("")
@@ -158,13 +163,13 @@ func (b *Builder) Element() *h.Element {
 		h.Data("slot", "bubble"),
 		h.Data("variant", string(b.variant)),
 		h.Data("align", string(b.align)),
-		h.Class(Variants(b.variant, className)),
+		h.Class(bubbleClass(styleOf(w), b.variant, className)),
 	)
 	return h.Spread(base, props, nil)
 }
 
 // Render renders the bubble.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // ContentBuilder is returned by Content.
 type ContentBuilder struct {
@@ -193,20 +198,23 @@ func (b *ContentBuilder) AcceptChild(c any) bool {
 func (b *ContentBuilder) AsChild() *ContentBuilder { b.asChild = true; return b }
 
 // Element resolves the content.
-func (b *ContentBuilder) Element() *h.Element {
+func (b *ContentBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the content as it renders inside w.
+func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element {
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	props.SetClass("")
-	base := h.Div(h.Data("slot", "bubble-content"), h.Class(lib.Cn(contentClass, className)))
+	base := h.Div(h.Data("slot", "bubble-content"), h.Class(contentClassFor(styleOf(w), className)))
 	el := h.Spread(base, props, nil)
 	if !b.asChild {
 		return el
 	}
-	return slotChild("bubble: Content", el)
+	return slotChild(w, "bubble: Content", el)
 }
 
 // Render renders the content.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ContentBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // ReactionsBuilder is returned by Reactions.
 type ReactionsBuilder struct {
@@ -243,7 +251,10 @@ func (b *ReactionsBuilder) AcceptChild(c any) bool {
 }
 
 // Element resolves the reactions.
-func (b *ReactionsBuilder) Element() *h.Element {
+func (b *ReactionsBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the reactions as it renders inside w.
+func (b *ReactionsBuilder) ElementIn(w io.Writer) *h.Element {
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	props.SetClass("")
@@ -251,22 +262,22 @@ func (b *ReactionsBuilder) Element() *h.Element {
 		h.Data("slot", "bubble-reactions"),
 		h.Data("align", string(b.align)),
 		h.Data("side", string(b.side)),
-		h.Class(ReactionsVariants(b.side, b.align, className)),
+		h.Class(reactionsClass(styleOf(w), b.side, b.align, className)),
 	)
 	return h.Spread(base, props, nil)
 }
 
 // Render renders the reactions.
-func (b *ReactionsBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ReactionsBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // slotChild renders el's single element child with el's attributes merged
 // in, like Radix Slot (classes concatenated, slot first).
-func slotChild(what string, el *h.Element) *h.Element {
+func slotChild(w io.Writer, what string, el *h.Element) *h.Element {
 	kids := el.ChildNodes()
 	if len(kids) != 1 {
 		return h.Errored(fmt.Errorf("%s: AsChild needs exactly one element child, got %d children", what, len(kids)))
 	}
-	out, err := h.Slot(el.Clone().SetChildren(), kids[0], nil)
+	out, err := h.SlotIn(w, el.Clone().SetChildren(), kids[0], nil)
 	if err != nil {
 		return h.Errored(fmt.Errorf("%s: AsChild: %w", what, err))
 	}
