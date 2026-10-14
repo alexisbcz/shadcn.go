@@ -31,6 +31,7 @@ import (
 	"io"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/dialog/primitive"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/uid"
@@ -85,6 +86,25 @@ var (
 	titleClass       = lib.Cn("font-medium")
 	descriptionClass = lib.Cn("text-muted-foreground")
 )
+
+// The classes of registry/bases/radix/ui/popover.tsx, used when a style is
+// in scope (style.Scope).
+var (
+	baseFile        = style.NewFile("ui/popover.tsx")
+	baseContent     = baseFile.Cn("cn-popover-content z-50 w-72 origin-(--radix-popover-content-transform-origin) outline-hidden", style.Arg)
+	baseHeader      = baseFile.Cn("cn-popover-header", style.Arg)
+	baseTitle       = baseFile.Cn("cn-popover-title", style.Arg)
+	baseDescription = baseFile.Cn("cn-popover-description", style.Arg)
+)
+
+// classFor returns the default class of a part: new-york-v4's, or the
+// base site resolved in the style in scope.
+func classFor(w io.Writer, def string, site *style.Site) string {
+	if st, ok := style.FromWriter(w); ok {
+		return site.Class(st, "")
+	}
+	return def
+}
 
 // Scope is the state a Popover shares with its parts (Radix's
 // PopoverContext).
@@ -311,7 +331,9 @@ func (b *ContentBuilder) AcceptChild(c any) bool {
 func (b *ContentBuilder) Options() *popper.Options { return &b.opts }
 
 // Element resolves the template holding the content as it is when open.
-func (b *ContentBuilder) Element() *h.Element {
+func (b *ContentBuilder) Element() *h.Element { return b.element(contentClass) }
+
+func (b *ContentBuilder) element(class string) *h.Element {
 	sc := b.Scope()
 	tree.Walk(b.Elem().ChildNodes(), func(n any) bool {
 		switch c := n.(type) {
@@ -327,7 +349,7 @@ func (b *ContentBuilder) Element() *h.Element {
 		h.Role("dialog"),
 		h.ID(sc.ContentID),
 		h.Data("slot", "popover-content"),
-		h.Class(contentClass),
+		h.Class(class),
 		h.TabIndex(-1),
 	)
 	el := b.resolve("Content", d, b.Elem())
@@ -343,7 +365,9 @@ func (b *ContentBuilder) Element() *h.Element {
 }
 
 // Render renders the template.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ContentBuilder) Render(w io.Writer) error {
+	return b.element(classFor(w, contentClass, baseContent)).Render(w)
+}
 
 // --- Close ---------------------------------------------------------------------------------
 
@@ -398,16 +422,22 @@ func (b *ArrowBuilder) Render(w io.Writer) error { return b.Element().Render(w) 
 // --- Header, Title, Description ------------------------------------------------------------------
 
 // Header lays out a title and a description.
-func Header(children ...any) *h.Element {
-	return h.Spread(h.Div(h.Data("slot", "popover-header"), h.Class(headerClass)), h.Div(children...), lib.Cn)
+func Header(children ...any) h.Node {
+	return h.NodeFunc(func(w io.Writer) error {
+		return h.Spread(h.Div(h.Data("slot", "popover-header"), h.Class(classFor(w, headerClass, baseHeader))), h.Div(children...), lib.Cn).Render(w)
+	})
 }
 
 // Title is the popover's title (a <div>, like upstream).
-func Title(children ...any) *h.Element {
-	return h.Spread(h.Div(h.Data("slot", "popover-title"), h.Class(titleClass)), h.Div(children...), lib.Cn)
+func Title(children ...any) h.Node {
+	return h.NodeFunc(func(w io.Writer) error {
+		return h.Spread(h.Div(h.Data("slot", "popover-title"), h.Class(classFor(w, titleClass, baseTitle))), h.Div(children...), lib.Cn).Render(w)
+	})
 }
 
 // Description is the popover's description.
-func Description(children ...any) *h.Element {
-	return h.Spread(h.P(h.Data("slot", "popover-description"), h.Class(descriptionClass)), h.P(children...), lib.Cn)
+func Description(children ...any) h.Node {
+	return h.NodeFunc(func(w io.Writer) error {
+		return h.Spread(h.P(h.Data("slot", "popover-description"), h.Class(classFor(w, descriptionClass, baseDescription))), h.P(children...), lib.Cn).Render(w)
+	})
 }

@@ -29,6 +29,7 @@ import (
 	"strconv"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/dialog/primitive"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/uid"
@@ -239,7 +240,9 @@ func (b *ContentBuilder) AcceptChild(c any) bool { return b.opts.Accept(c) }
 func (b *ContentBuilder) Options() *popper.Options { return &b.opts }
 
 // Element resolves the template holding the content as it is when open.
-func (b *ContentBuilder) Element() *h.Element {
+func (b *ContentBuilder) Element() *h.Element { return b.element(contentClass) }
+
+func (b *ContentBuilder) element(class string) *h.Element {
 	sc := b.Scope()
 	tree.Walk(b.Elem().ChildNodes(), func(n any) bool {
 		switch c := n.(type) {
@@ -250,7 +253,7 @@ func (b *ContentBuilder) Element() *h.Element {
 		}
 		return true
 	})
-	d := h.Div(h.Data("state", "open"), h.Data("slot", "hover-card-content"), h.Class(contentClass))
+	d := h.Div(h.Data("state", "open"), h.Data("slot", "hover-card-content"), h.Class(class))
 	el := h.Spread(d, b.Elem(), lib.Cn)
 	popper.AppendStyle(el, popper.ContentVars("hover-card"))
 	return h.Template(
@@ -264,8 +267,21 @@ func (b *ContentBuilder) Element() *h.Element {
 	)
 }
 
-// Render renders the template.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+// Render renders the template, in the style in scope (style.Scope) if any.
+func (b *ContentBuilder) Render(w io.Writer) error {
+	class := contentClass
+	if st, ok := style.FromWriter(w); ok {
+		class = baseContent.Class(st, "")
+	}
+	return b.element(class).Render(w)
+}
+
+// The content class of registry/bases/radix/ui/hover-card.tsx, used when a style is
+// in scope.
+var (
+	baseFile    = style.NewFile("ui/hover-card.tsx")
+	baseContent = baseFile.Cn("cn-hover-card-content z-50 origin-(--radix-hover-card-content-transform-origin) outline-hidden", style.Arg)
+)
 
 // --- Arrow ---------------------------------------------------------------------------------
 

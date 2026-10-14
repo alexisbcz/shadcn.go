@@ -29,8 +29,10 @@ import (
 	"fmt"
 	"io"
 	"strings"
+	"sync"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/internal/aschild"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/uid"
@@ -71,6 +73,56 @@ type Kind struct {
 	// ContentIDs renders id and aria-labelledby on the root content
 	// (DropdownMenu, Menubar; ContextMenu has no trigger id).
 	ContentIDs bool
+	// CheckboxIndicator and RadioIndicator, when set, return the node
+	// rendered before a checkbox or radio item's children (a wrapper
+	// around an Indicator); SubTriggerChevron the node after a sub
+	// trigger's children.
+	CheckboxIndicator, RadioIndicator, SubTriggerChevron func() h.Node
+	// Styled, when set, returns the kind to use when style st is in scope
+	// (style.Scope): the markup and classes of registry/bases/radix.
+	Styled func(st style.Style) *Kind
+}
+
+// For returns the kind to render with: k, or its styled variant when a
+// style is in scope of w (the writer libhtml passes to Render).
+func (k *Kind) For(w io.Writer) *Kind {
+	if k.Styled == nil {
+		return k
+	}
+	if st, ok := style.FromWriter(w); ok {
+		if sk := k.Styled(st); sk != nil {
+			return sk
+		}
+	}
+	return k
+}
+
+// Cached returns build, memoized per style: use it for Kind.Styled.
+func Cached(build func(st style.Style) *Kind) func(st style.Style) *Kind {
+	var m sync.Map // style.Style -> *Kind
+	return func(st style.Style) *Kind {
+		if k, ok := m.Load(st); ok {
+			return k.(*Kind)
+		}
+		k, _ := m.LoadOrStore(st, build(st))
+		return k.(*Kind)
+	}
+}
+
+// withChild returns a copy of user with node prepended (or appended) to
+// its children; user itself when node is nil.
+func withChild(user *h.Element, node func() h.Node, first bool) *h.Element {
+	if node == nil {
+		return user
+	}
+	kids := user.ChildNodes()
+	n := make([]any, 0, len(kids)+1)
+	if first {
+		n = append(append(n, node()), kids...)
+	} else {
+		n = append(append(n, kids...), node())
+	}
+	return user.Clone().SetChildren(n...)
 }
 
 // Scope is the state a component's root shares with the parts of its menu.
@@ -546,7 +598,8 @@ func (b *CheckboxItemBuilder) Element() *h.Element {
 	if b.key == "" {
 		b.key = uid.New("menu-checkbox")
 	}
-	shareIndicator(b.Elem().ChildNodes(), b.state)
+	user := withChild(b.Elem(), k.CheckboxIndicator, true)
+	shareIndicator(user.ChildNodes(), b.state)
 	d := h.Div(b.implAttrs("menuitemcheckbox")...).Children(
 		h.Aria("checked", ariaChecked(b.state)),
 		h.Data("slot", k.Name+"-checkbox-item"),
@@ -555,7 +608,7 @@ func (b *CheckboxItemBuilder) Element() *h.Element {
 		h.Attr(markerCheckbox, b.key),
 		h.If(b.controlled, h.Attr(markerControlled, "")),
 	)
-	return b.resolve(k.Name+" CheckboxItem", spread(d, b.Elem()))
+	return b.resolve(k.Name+" CheckboxItem", spread(d, user))
 }
 
 // Render renders the checkbox item.
@@ -648,7 +701,8 @@ func (b *RadioItemBuilder) Element() *h.Element {
 	if checked {
 		st = StateChecked
 	}
-	shareIndicator(b.Elem().ChildNodes(), st)
+	user := withChild(b.Elem(), k.RadioIndicator, true)
+	shareIndicator(user.ChildNodes(), st)
 	d := h.Div(b.implAttrs("menuitemradio")...).Children(
 		h.Aria("checked", fmt.Sprint(checked)),
 		h.Data("slot", k.Name+"-radio-item"),
@@ -656,7 +710,7 @@ func (b *RadioItemBuilder) Element() *h.Element {
 		h.Data("state", string(st)),
 		h.Attr(markerRadioValue, b.value),
 	)
-	return b.resolve(k.Name+" RadioItem", spread(d, b.Elem()))
+	return b.resolve(k.Name+" RadioItem", spread(d, user))
 }
 
 // Render renders the radio item.
@@ -812,7 +866,7 @@ func (b *SubTriggerBuilder) Element() *h.Element {
 		h.If(b.inset, h.Data("inset", "true")),
 		h.Class(k.SubTrigger),
 	)
-	return b.resolve(k.Name+" SubTrigger", spread(d, b.Elem()))
+	return b.resolve(k.Name+" SubTrigger", spread(d, withChild(b.Elem(), k.SubTriggerChevron, false)))
 }
 
 // Render renders the sub trigger.

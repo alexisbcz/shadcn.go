@@ -32,6 +32,7 @@ import (
 	"strconv"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/dialog/primitive"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/uid"
@@ -351,7 +352,9 @@ func (b *ContentBuilder) AcceptChild(c any) bool {
 func (b *ContentBuilder) Options() *popper.Options { return &b.opts }
 
 // Element resolves the template holding the content as it is when open.
-func (b *ContentBuilder) Element() *h.Element {
+func (b *ContentBuilder) Element() *h.Element { return b.element(contentClass) }
+
+func (b *ContentBuilder) element(class string) *h.Element {
 	sc := b.Scope()
 	user := b.Elem().Clone()
 	label := b.ariaLabel
@@ -362,7 +365,7 @@ func (b *ContentBuilder) Element() *h.Element {
 	d := h.Div(
 		h.Data("state", "delayed-open"),
 		h.Data("slot", "tooltip-content"),
-		h.Class(contentClass),
+		h.Class(class),
 	)
 	el := h.Spread(d, user, lib.Cn)
 	popper.AppendStyle(el, popper.ContentVars("tooltip"))
@@ -389,5 +392,18 @@ func (b *ContentBuilder) Element() *h.Element {
 	)
 }
 
-// Render renders the template.
-func (b *ContentBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+// Render renders the template, in the style in scope (style.Scope) if any.
+func (b *ContentBuilder) Render(w io.Writer) error {
+	class := contentClass
+	if st, ok := style.FromWriter(w); ok {
+		class = baseContent.Class(st, "")
+	}
+	return b.element(class).Render(w)
+}
+
+// The content class of registry/bases/radix/ui/tooltip.tsx, used when a style is
+// in scope.
+var (
+	baseFile    = style.NewFile("ui/tooltip.tsx")
+	baseContent = baseFile.Cn("cn-tooltip-content z-50 w-fit max-w-xs origin-(--radix-tooltip-content-transform-origin) bg-foreground text-background", style.Arg)
+)
