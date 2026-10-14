@@ -11,6 +11,8 @@
 @source "../components";
 @source "../examples";
 @source "../cmd/parity";
+@source "../ui/apps/v4/styles/radix-nova";
+@source "../ui/apps/v4/examples/radix";
 
 @custom-variant dark (&:is(.dark *));
 

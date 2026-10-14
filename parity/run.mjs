@@ -49,7 +49,8 @@ const video = flag("--video")
 const auto = !flag("--no-auto")
 const keep = flag("--keep")
 // Default bar: visually close. A capture passes when at most --tolerance
-// (default 1%) of its pixels differ; DOM differences are reported but do not
+// (default 1%) of its content pixels (those not of the page background)
+// differ; DOM differences are reported but do not
 // fail; animation frames are not sampled (animations are settled before each
 // capture). --exact restores the strict bar: 0 differing pixels, identical
 // DOM, identical animation definitions and frames.
@@ -427,7 +428,17 @@ function comparePNG(a, b) {
   }
   const diff = new PNG({ width: A.width, height: A.height })
   const pixels = pixelmatch(A.data, B.data, diff.data, A.width, A.height, { threshold: 0, includeAA: true })
-  return { pixels, total: A.width * A.height, diff: PNG.sync.write(diff) }
+  // The tolerance is relative to the content, not the page: pixels that
+  // differ from the page background (the top-left pixel) in either image.
+  // Measured against the whole page, 1% would swallow a small component's
+  // entire difference.
+  let content = 0
+  const bgA = A.data.readUInt32BE(0)
+  const bgB = B.data.readUInt32BE(0)
+  for (let i = 0; i < A.data.length; i += 4) {
+    if (A.data.readUInt32BE(i) !== bgA || B.data.readUInt32BE(i) !== bgB) content++
+  }
+  return { pixels, total: Math.max(content, 1), diff: PNG.sync.write(diff) }
 }
 
 function diffLines(a, b, max = 40) {
@@ -601,6 +612,22 @@ async function checkExample(browser, base, name) {
 
 // --- main --------------------------------------------------------------------------------
 
+// Runs killed with SIGKILL (e.g. a tool timeout) leave their headless
+// Chromium behind, re-parented to init. Browsers of live runs still have
+// their node parent, so only orphans are killed.
+function killOrphanBrowsers() {
+  try {
+    const out = execFileSync("ps", ["-Ao", "pid=,ppid=,comm="], { encoding: "utf8" })
+    for (const line of out.split("\n")) {
+      const [pid, ppid, ...comm] = line.trim().split(/\s+/)
+      if (ppid === "1" && comm.join(" ").includes("chrome-headless-shell")) {
+        try { process.kill(Number(pid), "SIGKILL") } catch {}
+      }
+    }
+  } catch {}
+}
+
+killOrphanBrowsers()
 const releaseSlot = await acquireSlot()
 const server = await startServer()
 let exitCode = 0

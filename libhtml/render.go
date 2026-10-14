@@ -9,9 +9,10 @@ import (
 // without checking errors on every call. libhtml's own node types render
 // straight into it; foreign Nodes see it as a plain io.Writer.
 type renderer struct {
-	out io.Writer // nil when rendering to a string
-	buf []byte
-	err error
+	out  io.Writer // nil when rendering to a string
+	buf  []byte
+	err  error
+	vals []scopedValue // render-scoped values, innermost last (see WithValue)
 }
 
 // renderable is the fast path implemented by libhtml's own node types.
@@ -33,7 +34,7 @@ func putRenderer(r *renderer) {
 	if cap(r.buf) > 1<<20 {
 		return // don't keep huge buffers alive
 	}
-	r.out, r.err, r.buf = nil, nil, r.buf[:0]
+	r.out, r.err, r.buf, r.vals = nil, nil, r.buf[:0], r.vals[:0]
 	rendererPool.Put(r)
 }
 
@@ -141,4 +142,43 @@ func (r *renderer) escape(s string) {
 		last = i + 1
 	}
 	r.buf = append(r.buf, s[last:]...)
+}
+
+// --- render-scoped values -------------------------------------------------------
+
+type scopedValue struct{ key, val any }
+
+type scopeNode struct {
+	key, val any
+	children Fragment
+}
+
+// WithValue renders children with key set to val, like a React context
+// provider: components below read it with Lookup while rendering. Typical use
+// is choosing a visual style for part of a page.
+func WithValue(key, val any, children ...any) Node {
+	return scopeNode{key: key, val: val, children: Fragment(children)}
+}
+
+func (s scopeNode) Render(w io.Writer) error { return render(w, s) }
+
+func (s scopeNode) renderTo(r *renderer) {
+	r.vals = append(r.vals, scopedValue{s.key, s.val})
+	s.children.renderTo(r)
+	r.vals = r.vals[:len(r.vals)-1]
+}
+
+// Lookup returns the innermost value set for key by an enclosing WithValue,
+// when w is the writer libhtml passes to a Node's Render method.
+func Lookup(w io.Writer, key any) (any, bool) {
+	r, ok := w.(*renderer)
+	if !ok {
+		return nil, false
+	}
+	for i := len(r.vals) - 1; i >= 0; i-- {
+		if r.vals[i].key == key {
+			return r.vals[i].val, true
+		}
+	}
+	return nil, false
 }

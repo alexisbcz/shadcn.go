@@ -352,3 +352,21 @@ func TestSlot(t *testing.T) {
 		t.Fatal("text child accepted")
 	}
 }
+
+type valueProbe struct{}
+
+func (valueProbe) Render(w io.Writer) error {
+	v, ok := h.Lookup(w, "k")
+	if !ok {
+		v = "none"
+	}
+	_, err := io.WriteString(w, v.(string))
+	return err
+}
+
+func TestWithValue(t *testing.T) {
+	got := h.MustRenderString(h.Div(valueProbe{}, h.WithValue("k", "outer", valueProbe{}, h.Span(h.WithValue("k", "inner", valueProbe{})), valueProbe{}), valueProbe{}))
+	if got != "<div>noneouter<span>inner</span>outernone</div>" {
+		t.Fatal(got)
+	}
+}

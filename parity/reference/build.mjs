@@ -43,6 +43,10 @@ const refs = [
   ...tsxIn(path.join(registryDir, "charts")).map((n) => ({ name: n, kind: "chart", file: path.join(registryDir, "charts", n + ".tsx") })),
   ...fs.readdirSync(path.join(registryDir, "blocks"), { withFileTypes: true }).filter((d) => d.isDirectory() && fs.existsSync(path.join(registryDir, "blocks", d.name, "page.tsx"))).map((d) => ({ name: d.name, kind: "block", file: path.join(registryDir, "blocks", d.name, "page.tsx") })),
   ...tsxIn(fixturesDir).map((n) => ({ name: n, kind: "fixture", file: path.join(fixturesDir, n + ".tsx") })),
+  // The docs site's previews: ui/apps/v4/examples/radix, rendered with the
+  // radix-nova style (needs upstream's registry:build to have generated
+  // ui/apps/v4/styles). Named nova--<example>.
+  ...tsxIn(path.join(app, "examples/radix")).map((n) => ({ name: "nova--" + n, kind: "docs-radix", file: path.join(app, "examples/radix", n + ".tsx") })),
 ].sort((a, b) => a.name.localeCompare(b.name))
 const dupes = refs.map((r) => r.name).filter((n, i, a) => a.indexOf(n) !== i)
 if (dupes.length) throw new Error("duplicate reference names: " + dupes.join(", "))

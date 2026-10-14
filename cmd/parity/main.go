@@ -27,6 +27,7 @@ import (
 	"strings"
 	"time"
 
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/runtime"
 	_ "shadcn.go/examples/all"
 	"shadcn.go/examples/registry"
@@ -49,7 +50,7 @@ func main() {
 		refs := loadReferences(filepath.Join(rootAbs, "parity/reference/dist"))
 		out := make([]map[string]any, 0, len(refs))
 		for _, r := range refs {
-			ex, ok := registry.Get(r.Name)
+			ex, ok := lookupExample(r.Name)
 			out = append(out, map[string]any{"name": r.Name, "kind": r.Kind, "file": r.File, "component": ex.Component, "ported": ok})
 		}
 		_ = json.NewEncoder(os.Stdout).Encode(out)
@@ -95,7 +96,7 @@ func main() {
 		return strings.Replace(secure.DefaultCSP(nonce), "img-src 'self' data:", "img-src 'self' data: https:", 1)
 	}})
 	mux.Handle("GET /go/{name}", strict(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ex, ok := registry.Get(r.PathValue("name"))
+		ex, ok := lookupExample(r.PathValue("name"))
 		if !ok {
 			http.Error(w, "example not ported", http.StatusNotFound)
 			return
@@ -131,7 +132,7 @@ func main() {
 		}
 		var list []item
 		for _, ref := range refs {
-			ex, ok := registry.Get(ref.Name)
+			ex, ok := lookupExample(ref.Name)
 			list = append(list, item{Name: ref.Name, Kind: ref.Kind, File: ref.File, Component: ex.Component, Ported: ok})
 		}
 		w.Header().Set("Content-Type", "application/json")
@@ -259,4 +260,28 @@ func cachedCSS(root string) (string, error) {
 		}
 	}
 	return res.CSS, nil
+}
+
+// lookupExample finds the Go port of a reference. A docs preview
+// "nova--<name>" (upstream ui/apps/v4/examples/radix/<name>.tsx, rendered in
+// radix-nova) uses an explicit registration under that name if there is one,
+// otherwise the new-york-v4 example of the same name rendered inside
+// style.Scope(style.Nova): the docs examples are the same code against the
+// radix-nova components.
+func lookupExample(name string) (registry.Example, bool) {
+	if ex, ok := registry.Get(name); ok {
+		return ex, true
+	}
+	base, ok := strings.CutPrefix(name, "nova--")
+	if !ok {
+		return registry.Example{}, false
+	}
+	ex, ok := registry.Get(base)
+	if !ok {
+		return registry.Example{}, false
+	}
+	render := ex.Render
+	ex.Name = name
+	ex.Render = func(r *http.Request) h.Node { return style.Scope(style.Nova, render(r)) }
+	return ex, true
 }
