@@ -32,8 +32,12 @@ var variants = cva.New(
 	cva.Config{
 		Variants: cva.Variants{
 			"orientation": {
-				"horizontal": "[&>*:not(:first-child)]:rounded-l-none [&>*:not(:first-child)]:border-l-0 [&>*:not(:last-child)]:rounded-r-none",
-				"vertical":   "flex-col [&>*:not(:first-child)]:rounded-t-none [&>*:not(:first-child)]:border-t-0 [&>*:not(:last-child)]:rounded-b-none",
+				// Upstream: [&>*:not(:last-child)]:rounded-r-none. A Go dropdown menu
+				// or tooltip keeps its content in a <template> after the trigger
+				// (React portals it away), so a child followed only by a template
+				// is the visual last child.
+				"horizontal": "[&>*:not(:first-child)]:rounded-l-none [&>*:not(:first-child)]:border-l-0 [&>*:not(:last-child):not(:has(+template:last-child))]:rounded-r-none",
+				"vertical":   "flex-col [&>*:not(:first-child)]:rounded-t-none [&>*:not(:first-child)]:border-t-0 [&>*:not(:last-child):not(:has(+template:last-child))]:rounded-b-none",
 			},
 		},
 		Defaults: cva.Selection{"orientation": "horizontal"},
