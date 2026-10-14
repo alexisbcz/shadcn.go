@@ -36,6 +36,7 @@ import (
 	"shadcn.go/components/lib"
 	"shadcn.go/components/style"
 	"shadcn.go/components/ui/dialog/primitive"
+	"shadcn.go/components/ui/internal/rtl"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/runtime"
 	h "shadcn.go/libhtml"
@@ -321,6 +322,15 @@ var (
 	baseDescription = baseFile.Cn("cn-drawer-description", style.Arg)
 )
 
+// rtlFor maps the component's own classes to logical ones when the user
+// gave the element dir="rtl" (styles/<style>/ui-rtl upstream).
+func rtlFor(user *h.Element, class string) string {
+	if d, ok := user.GetAttr("dir"); ok && d == "rtl" {
+		return rtl.Classes(class)
+	}
+	return class
+}
+
 func styleOf(w io.Writer) style.Style {
 	st, _ := style.FromWriter(w)
 	return st
@@ -439,8 +449,8 @@ func (b *ContentBuilder) element(st style.Style) *h.Element {
 	user := b.Elem()
 	props := h.Spread(vaul, user, nil)
 	if st != "" {
-		props.SetClass(baseContent.Class(st, user.ClassName()))
-		props.SetChildren(append([]any{h.Div(h.Class(baseHandle.Class(st)))}, user.ChildNodes()...)...)
+		props.SetClass(lib.Cn(rtlFor(user, baseContent.Class(st, "")), user.ClassName()))
+		props.SetChildren(append([]any{h.Div(h.Class(rtlFor(user, baseHandle.Class(st))))}, user.ChildNodes()...)...)
 	} else {
 		props.SetClass(Classes(user.ClassName()))
 		props.SetChildren(append([]any{h.Div(h.Class(handleClass))}, user.ChildNodes()...)...)

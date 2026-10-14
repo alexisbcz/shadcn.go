@@ -23,6 +23,7 @@ import (
 	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/dialog/primitive"
+	"shadcn.go/components/ui/internal/rtl"
 	h "shadcn.go/libhtml"
 )
 
@@ -62,6 +63,15 @@ var (
 	baseAction      = baseFile.Cn("cn-alert-dialog-action", style.Arg)
 	baseCancel      = baseFile.Cn("cn-alert-dialog-cancel", style.Arg)
 )
+
+// rtlFor maps the component's own classes to logical ones when the user
+// gave the element dir="rtl" (styles/<style>/ui-rtl upstream).
+func rtlFor(user *h.Element, class string) string {
+	if d, ok := user.GetAttr("dir"); ok && d == "rtl" {
+		return rtl.Classes(class)
+	}
+	return class
+}
 
 func styleOf(w io.Writer) style.Style {
 	st, _ := style.FromWriter(w)
@@ -163,6 +173,9 @@ func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element { return b.element(st
 func (b *ContentBuilder) element(st style.Style) *h.Element {
 	sc := b.Scope()
 	props := h.Spread(h.Div(h.Data("slot", "alert-dialog-content"), h.Data("size", string(b.size)), h.Class(classFor(st, contentClass, baseContent))), b.Elem(), lib.Cn)
+	if st != "" {
+		props.SetClass(lib.Cn(rtlFor(b.Elem(), baseContent.Class(st, "")), b.Elem().ClassName()))
+	}
 	return primitive.Portal(sc,
 		Overlay(sc),
 		primitive.Content(sc, primitive.WithProps(props)),

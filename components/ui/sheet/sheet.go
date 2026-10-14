@@ -20,6 +20,7 @@ import (
 	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/dialog/primitive"
+	"shadcn.go/components/ui/internal/rtl"
 	h "shadcn.go/libhtml"
 )
 
@@ -79,6 +80,15 @@ var (
 	baseTitle       = baseFile.Cn("cn-sheet-title cn-font-heading", style.Arg)
 	baseDescription = baseFile.Cn("cn-sheet-description", style.Arg)
 )
+
+// rtlFor maps the component's own classes to logical ones when the user
+// gave the element dir="rtl" (styles/<style>/ui-rtl upstream).
+func rtlFor(user *h.Element, class string) string {
+	if d, ok := user.GetAttr("dir"); ok && d == "rtl" {
+		return rtl.Classes(class)
+	}
+	return class
+}
 
 func styleOf(w io.Writer) style.Style {
 	st, _ := style.FromWriter(w)
@@ -201,10 +211,10 @@ func (b *ContentBuilder) element(st style.Style) *h.Element {
 	sc := b.Scope()
 	if st != "" {
 		props := h.Spread(h.Div(h.Data("slot", "sheet-content"), h.Data("side", string(b.side))), b.Elem(), nil)
-		props.SetClass(baseContent.Class(st, b.Elem().ClassName()))
+		props.SetClass(lib.Cn(rtlFor(b.Elem(), baseContent.Class(st, "")), b.Elem().ClassName()))
 		if b.showClose {
 			props.Children(primitive.Close(sc, h.Data("slot", "sheet-close"), lib.AsChild,
-				button.Button(button.VariantGhost, button.SizeIconSm, h.Class(baseClose.Class(st)),
+				button.Button(button.VariantGhost, button.SizeIconSm, h.Class(rtlFor(b.Elem(), baseClose.Class(st))),
 					lucide.X(),
 					h.Span(h.Class("sr-only"), "Close"),
 				)))

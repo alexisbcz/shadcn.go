@@ -23,6 +23,7 @@ import (
 	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/dialog/primitive"
+	"shadcn.go/components/ui/internal/rtl"
 	h "shadcn.go/libhtml"
 )
 
@@ -65,6 +66,16 @@ var (
 
 // styleOf returns the style in scope when rendering to w ("" outside a
 // style.Scope).
+
+// rtlFor maps the component's own classes to logical ones when the user
+// gave the element dir="rtl" (styles/<style>/ui-rtl upstream).
+func rtlFor(user *h.Element, class string) string {
+	if d, ok := user.GetAttr("dir"); ok && d == "rtl" {
+		return rtl.Classes(class)
+	}
+	return class
+}
+
 func styleOf(w io.Writer) style.Style {
 	st, _ := style.FromWriter(w)
 	return st
@@ -164,10 +175,13 @@ func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element { return b.element(st
 func (b *ContentBuilder) element(st style.Style) *h.Element {
 	sc := b.Scope()
 	props := h.Spread(h.Div(h.Data("slot", "dialog-content"), h.Class(classFor(st, contentClass, baseContent))), b.Elem(), lib.Cn)
+	if st != "" {
+		props.SetClass(lib.Cn(rtlFor(b.Elem(), baseContent.Class(st, "")), b.Elem().ClassName()))
+	}
 	if b.showClose && st != "" {
 		// <DialogPrimitive.Close data-slot="dialog-close" asChild><Button variant="ghost" className="cn-dialog-close" size="icon-sm">
 		props.Children(primitive.Close(sc, h.Data("slot", "dialog-close"), lib.AsChild,
-			button.Button(button.VariantGhost, button.SizeIconSm, h.Class(baseClose.Class(st)),
+			button.Button(button.VariantGhost, button.SizeIconSm, h.Class(rtlFor(b.Elem(), baseClose.Class(st))),
 				lucide.X(),
 				h.Span(h.Class("sr-only"), "Close"),
 			)))
