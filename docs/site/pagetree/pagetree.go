@@ -48,6 +48,10 @@ type Node struct {
 	Root bool
 	// Frontmatter keys useful to the chrome (new badges, base switcher).
 	Meta map[string]any
+	// Fallback, on the tree root, lists in order the pages no meta.json
+	// references (fumadocs' transformerFallback, tree.fallback): they are
+	// not in the sidebar but findNeighbour still gives them a pager.
+	Fallback []*Node
 }
 
 // PageInfo is what the tree needs to know about one page.
@@ -76,7 +80,47 @@ func Build(fsys fs.FS, root string, pages []PageInfo) *Node {
 	for _, p := range pages {
 		byPath[p.Path] = p
 	}
-	return folder(fsys, root, "", byPath)
+	t := folder(fsys, root, "", byPath)
+	inTree := map[string]bool{}
+	for _, p := range t.Pages() {
+		if p.Path != "" {
+			inTree[p.Path] = true
+		}
+	}
+	t.Fallback = fallback(fsys, root, "", byPath, inTree)
+	return t
+}
+
+// fallback flattens the pages missing from the tree the way fumadocs builds
+// and flattens its fallback tree: per folder, the index page, then the
+// other pages by path, then the sub-folders by path.
+func fallback(fsys fs.FS, root, dir string, pages map[string]PageInfo, inTree map[string]bool) []*Node {
+	var index, files, sub []*Node
+	var dirs []string
+	dirents, _ := fs.ReadDir(fsys, path.Join(root, dir))
+	for _, e := range dirents {
+		rel := path.Join(dir, e.Name())
+		if e.IsDir() {
+			dirs = append(dirs, rel)
+			continue
+		}
+		p, ok := pages[rel]
+		if !ok || inTree[rel] {
+			continue
+		}
+		pn := &Node{Kind: KindPage, Name: p.Title, URL: p.URL, Path: rel, Meta: p.Meta}
+		if e.Name() == "index.mdx" {
+			index = append(index, pn)
+		} else {
+			files = append(files, pn)
+		}
+	}
+	sort.Slice(files, func(i, j int) bool { return files[i].Path < files[j].Path })
+	sort.Strings(dirs)
+	for _, d := range dirs {
+		sub = append(sub, fallback(fsys, root, d, pages, inTree)...)
+	}
+	return append(append(index, files...), sub...)
 }
 
 func folder(fsys fs.FS, root, dir string, pages map[string]PageInfo) *Node {
@@ -207,7 +251,7 @@ func (n *Node) Find(dir string) *Node {
 }
 
 // Pages returns the tree's pages in order (folder index pages first in
-// their folder, links excluded), like fumadocs' flattenTree.
+// their folder, "[Text](url)" links included), like fumadocs' flattenTree.
 func (n *Node) Pages() []*Node {
 	var out []*Node
 	var walk func(*Node)
@@ -218,7 +262,7 @@ func (n *Node) Pages() []*Node {
 		for _, c := range f.Children {
 			switch c.Kind {
 			case KindPage:
-				if c != f.Index && !c.External {
+				if c != f.Index {
 					out = append(out, c)
 				}
 			case KindFolder:
@@ -233,16 +277,17 @@ func (n *Node) Pages() []*Node {
 // Neighbours returns the previous and next pages of url (fumadocs'
 // findNeighbour), nil when there is none.
 func (n *Node) Neighbours(url string) (prev, next *Node) {
-	pages := n.Pages()
-	for i, p := range pages {
-		if p.URL == url {
-			if i > 0 {
-				prev = pages[i-1]
+	for _, pages := range [][]*Node{n.Pages(), n.Fallback} {
+		for i, p := range pages {
+			if p.URL == url {
+				if i > 0 {
+					prev = pages[i-1]
+				}
+				if i+1 < len(pages) {
+					next = pages[i+1]
+				}
+				return
 			}
-			if i+1 < len(pages) {
-				next = pages[i+1]
-			}
-			return
 		}
 	}
 	return nil, nil
