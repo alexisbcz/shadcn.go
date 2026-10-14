@@ -18,6 +18,8 @@ import (
 	"io"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
+	"shadcn.go/components/ui/internal/styled"
 	"shadcn.go/components/ui/label"
 	"shadcn.go/components/ui/separator"
 	"shadcn.go/cva"
@@ -101,34 +103,48 @@ func spread(base *h.Element, children []any) *h.Element {
 }
 
 // Set is a <fieldset> grouping related fields (upstream FieldSet).
-func Set(children ...any) *h.Element { return spread(setBase, children) }
+func Set(children ...any) *styled.Node {
+	return styledSpread(setBase, children, styled.Slot("fieldset", "field-set", sSet))
+}
 
 // Group stacks fields (upstream FieldGroup); it is the container that
 // Responsive fields query.
-func Group(children ...any) *h.Element { return spread(groupBase, children) }
+func Group(children ...any) *styled.Node {
+	return styledSpread(groupBase, children, styled.Slot("div", "field-group", sGroup))
+}
 
 // Content groups a field's label and description beside its control
 // (upstream FieldContent).
-func Content(children ...any) *h.Element { return spread(contentBase, children) }
+func Content(children ...any) *styled.Node {
+	return styledSpread(contentBase, children, styled.Slot("div", "field-content", sContent))
+}
 
 // Label is the field's <label> (upstream FieldLabel, a Label).
-func Label(children ...any) *h.Element {
+func Label(children ...any) *styled.Node {
 	props := h.Label(children...)
 	className := props.ClassName()
+	alt := props.Clone()
 	props.SetClass(lib.Cn(labelClass, className))
-	return label.Label(h.Data("slot", "field-label"), spreadProp(props))
+	return styled.New(label.Label(h.Data("slot", "field-label"), spreadProp(props)), func(st style.Style) h.Node {
+		p := alt.Clone().SetClass(sLabel.Class(st, className))
+		return label.Label(h.Data("slot", "field-label"), spreadProp(p))
+	})
 }
 
 // Title is a label-styled <div> for fields whose label wraps the control
 // (upstream FieldTitle).
-func Title(children ...any) *h.Element { return spread(titleBase, children) }
+func Title(children ...any) *styled.Node {
+	return styledSpread(titleBase, children, styled.Slot("div", "field-label", sTitle))
+}
 
 // Description is the field's helper text (upstream FieldDescription).
-func Description(children ...any) *h.Element { return spread(descriptionBase, children) }
+func Description(children ...any) *styled.Node {
+	return styledSpread(descriptionBase, children, styled.Slot("p", "field-description", sDescription))
+}
 
 // Separator divides field groups, optionally with inline content (upstream
 // FieldSeparator).
-func Separator(children ...any) *h.Element {
+func Separator(children ...any) *styled.Node {
 	props := h.Div(children...)
 	kids := props.ChildNodes()
 	props = props.Clone().SetChildren()
@@ -138,7 +154,14 @@ func Separator(children ...any) *h.Element {
 	if hasContent {
 		base.Children(h.Span(h.Class("relative mx-auto block w-fit bg-background px-2 text-muted-foreground"), h.Data("slot", "field-separator-content"), kids))
 	}
-	return h.Spread(base, props, lib.Cn)
+	return styled.New(h.Spread(base, props, lib.Cn), func(st style.Style) h.Node {
+		base := h.Div(h.Data("slot", "field-separator"), h.Data("content", boolString(hasContent)), h.Class(sSeparator.Class(st, "")))
+		base.Children(separator.Separator(h.Class(sSepLine.Class(st))))
+		if hasContent {
+			base.Children(h.Span(h.Class(sSepContent.Class(st)), h.Data("slot", "field-separator-content"), kids))
+		}
+		return h.Spread(base, props, lib.Cn)
+	})
 }
 
 // Error is the field's validation message (upstream FieldError). It
@@ -148,7 +171,7 @@ func Error(children ...any) h.Node {
 	if len(props.ChildNodes()) == 0 {
 		return h.Fragment{}
 	}
-	return h.Spread(errorBase, props, lib.Cn)
+	return styled.Spread(errorBase, props, styled.Slot("div", "field-error", sError, h.Role("alert")))
 }
 
 // Errors renders the field's error messages like upstream FieldError's
@@ -183,7 +206,7 @@ func Errors(messages []string, attrs ...any) h.Node {
 		}
 		content = ul
 	}
-	return h.Spread(errorBase, h.Div(append(attrs, content)...), lib.Cn)
+	return styled.Spread(errorBase, h.Div(append(attrs, content)...), styled.Slot("div", "field-error", sError, h.Role("alert")))
 }
 
 // Builder is returned by Field and Legend.
@@ -247,20 +270,33 @@ func (b *Builder) Variant(v LegendVariant) *Builder {
 }
 
 // Element resolves the component to its element.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element("") }
+
+func (b *Builder) element(st style.Style) *h.Element {
 	if b.legend {
-		base := h.Legend(h.Data("slot", "field-legend"), h.Data("variant", string(b.variant)), h.Class(legendClass))
+		class := legendClass
+		if st != "" {
+			class = sLegend.Class(st, "")
+		}
+		base := h.Legend(h.Data("slot", "field-legend"), h.Data("variant", string(b.variant)), h.Class(class))
 		return h.Spread(base, b.Elem(), lib.Cn)
 	}
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	props.SetClass("")
-	base := h.Div(h.Role("group"), h.Data("slot", "field"), h.Data("orientation", string(b.orientation)), h.Class(Variants(b.orientation, className)))
+	class := Variants(b.orientation, className)
+	if st != "" {
+		class = fieldClass(st, b.orientation, className)
+	}
+	base := h.Div(h.Role("group"), h.Data("slot", "field"), h.Data("orientation", string(b.orientation)), h.Class(class))
 	return h.Spread(base, props, lib.Cn)
 }
 
 // Render renders the component.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error {
+	st, _ := style.FromWriter(w)
+	return b.element(st).Render(w)
+}
 
 func boolString(v bool) string {
 	if v {

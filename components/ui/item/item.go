@@ -12,7 +12,9 @@ import (
 	"io"
 
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/separator"
+	"shadcn.go/components/ui/internal/styled"
 	"shadcn.go/cva"
 	h "shadcn.go/libhtml"
 )
@@ -110,12 +112,14 @@ func spread(base *h.Element, children []any) *h.Element {
 }
 
 // Group is a list of items (upstream ItemGroup, role="list").
-func Group(children ...any) *h.Element { return spread(groupBase, children) }
+func Group(children ...any) *styled.Node {
+	return styledSpread(groupBase, children, styled.Slot("div", "item-group", sGroup, h.Role("list")))
+}
 
 // Separator separates items of a Group (upstream ItemSeparator). It is
 // horizontal unless given a separator.Orientation, which, like upstream's
 // {...props}, overrides the default.
-func Separator(children ...any) *separator.Builder {
+func Separator(children ...any) *styled.Node {
 	orientation := separator.Horizontal
 	rest := make([]any, 0, len(children))
 	for _, c := range children {
@@ -127,27 +131,44 @@ func Separator(children ...any) *separator.Builder {
 	}
 	props := h.Div(rest...)
 	className := props.ClassName()
+	alt := props.Clone()
 	props.SetClass(lib.Cn("my-0", className))
-	return separator.Separator(h.Data("slot", "item-separator"), orientation, spreadProp(props))
+	def := separator.Separator(h.Data("slot", "item-separator"), orientation, spreadProp(props))
+	return styled.New(def, func(st style.Style) h.Node {
+		p := alt.Clone().SetClass(sSeparator.Class(st, className))
+		return separator.Separator(h.Data("slot", "item-separator"), orientation, spreadProp(p))
+	})
 }
 
 // Content holds the title and description.
-func Content(children ...any) *h.Element { return spread(contentBase, children) }
+func Content(children ...any) *styled.Node {
+	return styledSpread(contentBase, children, styled.Slot("div", "item-content", sContent))
+}
 
 // Title is the item's title.
-func Title(children ...any) *h.Element { return spread(titleBase, children) }
+func Title(children ...any) *styled.Node {
+	return styledSpread(titleBase, children, styled.Slot("div", "item-title", sTitle))
+}
 
 // Description is the item's description (a <p>, clamped to two lines).
-func Description(children ...any) *h.Element { return spread(descriptionBase, children) }
+func Description(children ...any) *styled.Node {
+	return styledSpread(descriptionBase, children, styled.Slot("p", "item-description", sDescription))
+}
 
 // Actions holds buttons or other controls.
-func Actions(children ...any) *h.Element { return spread(actionsBase, children) }
+func Actions(children ...any) *styled.Node {
+	return styledSpread(actionsBase, children, styled.Slot("div", "item-actions", sActions))
+}
 
 // Header spans the item's full width above its content.
-func Header(children ...any) *h.Element { return spread(headerBase, children) }
+func Header(children ...any) *styled.Node {
+	return styledSpread(headerBase, children, styled.Slot("div", "item-header", sHeader))
+}
 
 // Footer spans the item's full width below its content.
-func Footer(children ...any) *h.Element { return spread(footerBase, children) }
+func Footer(children ...any) *styled.Node {
+	return styledSpread(footerBase, children, styled.Slot("div", "item-footer", sFooter))
+}
 
 // Builder is returned by Item and Media.
 type Builder struct {
@@ -230,15 +251,25 @@ func (b *Builder) Size(s Size) *Builder {
 func (b *Builder) AsChild() *Builder { b.asChild = true; return b }
 
 // Element resolves the component to its element.
-func (b *Builder) Element() *h.Element {
+func (b *Builder) Element() *h.Element { return b.element("") }
+
+func (b *Builder) element(st style.Style) *h.Element {
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	props.SetClass("")
 	if b.media {
-		base := h.Div(h.Data("slot", "item-media"), h.Data("variant", string(b.mediaVariant)), h.Class(MediaVariants(b.mediaVariant, className)))
+		class := MediaVariants(b.mediaVariant, className)
+		if st != "" {
+			class = lib.Cn(sMediaVariants.Classes(st, cva.Selection{"variant": string(b.mediaVariant)}, className))
+		}
+		base := h.Div(h.Data("slot", "item-media"), h.Data("variant", string(b.mediaVariant)), h.Class(class))
 		return h.Spread(base, props, lib.Cn)
 	}
-	base := h.Div(h.Data("slot", "item"), h.Data("variant", string(b.variant)), h.Data("size", string(b.size)), h.Class(Variants(b.variant, b.size, className)))
+	class := Variants(b.variant, b.size, className)
+	if st != "" {
+		class = lib.Cn(sItemVariants.Classes(st, cva.Selection{"variant": string(b.variant), "size": string(b.size)}, className))
+	}
+	base := h.Div(h.Data("slot", "item"), h.Data("variant", string(b.variant)), h.Data("size", string(b.size)), h.Class(class))
 	el := h.Spread(base, props, lib.Cn)
 	if !b.asChild {
 		return el
@@ -255,7 +286,10 @@ func (b *Builder) Element() *h.Element {
 }
 
 // Render renders the component.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error {
+	st, _ := style.FromWriter(w)
+	return b.element(st).Render(w)
+}
 
 // slotClassMerger returns how Radix Slot's merged className ends up on the
 // rendered child: concatenated for a plain element; for a shadcn component

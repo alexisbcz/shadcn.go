@@ -78,7 +78,7 @@ func contains(list []string, v string) bool {
 // subscriptionForm renders form-{rhf,tanstack,formisch,next}-complex's
 // fields. TanStack's and Next's variants mark the plan's items invalid and
 // not the set, and leave the select trigger without aria-invalid.
-func subscriptionForm(o complexOpts) *h.Element {
+func subscriptionForm(o complexOpts) h.Node {
 	tanstackLike := o.lib == tanstack || o.next
 	group := radiogroup.RadioGroup(radiogroup.Value(o.values.Plan))
 	if o.withName {
