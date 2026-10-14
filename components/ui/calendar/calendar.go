@@ -34,6 +34,7 @@ import (
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
+	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/runtime"
 	h "shadcn.go/libhtml"
@@ -203,7 +204,18 @@ type Builder struct {
 	classNames    ClassNames
 	persian       bool
 	numerals      Numerals
+	st            style.Style // the enclosing style.Scope, "" for new-york-v4
 }
+
+// The classes of registry/bases/radix/ui/calendar.tsx, used inside a
+// style.Scope (see package style). Upstream's transform only resolves the
+// tokens of className attributes: those in the classNames object stay as
+// they are (cn-calendar-dropdown-root, ...), and so does cn-rtl-flip.
+var (
+	file        = style.NewFile("ui/calendar.tsx")
+	stRoot      = file.Cn("cn-calendar group/calendar bg-background in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent", `rtl:**:[.rdp-button\_next>svg]:rotate-180`, `rtl:**:[.rdp-button\_previous>svg]:rotate-180`, style.Arg)
+	stDayButton = file.Cn("cn-calendar-day-button relative isolate z-10 flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 border-0 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-[3px] group-data-[focused=true]/day:ring-ring/50 data-[range-end=true]:rounded-(--cell-radius) data-[range-end=true]:rounded-r-(--cell-radius) data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground data-[range-middle=true]:rounded-none data-[range-middle=true]:bg-muted data-[range-middle=true]:text-foreground data-[range-start=true]:rounded-(--cell-radius) data-[range-start=true]:rounded-l-(--cell-radius) data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground dark:hover:text-foreground [&>span]:text-xs [&>span]:opacity-70", style.Arg, style.Arg)
+)
 
 // config is what calendar.js reads (data-calendar).
 type config struct {
@@ -329,6 +341,9 @@ func (b *Builder) AcceptChild(c any) bool {
 // shadcn's class names, merged with react-day-picker's defaults.
 func (b *Builder) classNameMap() map[string]string {
 	label := b.cfg.CaptionLayout == string(CaptionLabel)
+	if b.st != "" {
+		return b.styleClassNameMap(label)
+	}
 	nav := button.Variants(b.buttonVariant, "")
 	captionLabel := "text-sm"
 	if !label {
@@ -380,6 +395,58 @@ func (b *Builder) classNameMap() map[string]string {
 	return m
 }
 
+// styleClassNameMap is classNameMap inside a style.Scope.
+func (b *Builder) styleClassNameMap(label bool) map[string]string {
+	nav := button.StyleVariants(b.st, b.buttonVariant, "")
+	captionLabel := "cn-calendar-caption text-sm"
+	if !label {
+		captionLabel = "cn-calendar-caption-label flex items-center gap-1 rounded-(--cell-radius) text-sm [&>svg]:size-3.5 [&>svg]:text-muted-foreground"
+	}
+	day := "[&:first-child[data-selected=true]_button]:rounded-l-(--cell-radius)"
+	if b.cfg.ShowWeekNumber {
+		day = "[&:nth-child(2)[data-selected=true]_button]:rounded-l-(--cell-radius)"
+	}
+	m := map[string]string{
+		"root":               lib.Cn("w-fit", "rdp-root"),
+		"months":             lib.Cn("relative flex flex-col gap-4 md:flex-row", "rdp-months"),
+		"month":              lib.Cn("flex w-full flex-col gap-4", "rdp-month"),
+		"nav":                lib.Cn("absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1", "rdp-nav"),
+		"button_previous":    lib.Cn(nav, "size-(--cell-size) p-0 select-none aria-disabled:opacity-50", "rdp-button_previous"),
+		"button_next":        lib.Cn(nav, "size-(--cell-size) p-0 select-none aria-disabled:opacity-50", "rdp-button_next"),
+		"month_caption":      lib.Cn("flex h-(--cell-size) w-full items-center justify-center px-(--cell-size)", "rdp-month_caption"),
+		"dropdowns":          lib.Cn("flex h-(--cell-size) w-full items-center justify-center gap-1.5 text-sm font-medium", "rdp-dropdowns"),
+		"dropdown_root":      lib.Cn("cn-calendar-dropdown-root relative rounded-(--cell-radius)", "rdp-dropdown_root"),
+		"dropdown":           lib.Cn("absolute inset-0 bg-popover opacity-0", "rdp-dropdown"),
+		"caption_label":      lib.Cn("font-medium select-none", captionLabel, "rdp-caption_label"),
+		"month_grid":         lib.Cn("w-full border-collapse", "rdp-month_grid"),
+		"weekdays":           lib.Cn("flex", "rdp-weekdays"),
+		"weekday":            lib.Cn("flex-1 rounded-(--cell-radius) text-[0.8rem] font-normal text-muted-foreground select-none", "rdp-weekday"),
+		"week":               lib.Cn("mt-2 flex w-full", "rdp-week"),
+		"week_number_header": lib.Cn("w-(--cell-size) select-none", "rdp-week_number_header"),
+		"week_number":        lib.Cn("text-[0.8rem] text-muted-foreground select-none", "rdp-week_number"),
+		"day":                lib.Cn("group/day relative aspect-square h-full w-full rounded-(--cell-radius) p-0 text-center select-none [&:last-child[data-selected=true]_button]:rounded-r-(--cell-radius)", day, "rdp-day"),
+		"range_start":        lib.Cn("relative isolate z-0 rounded-l-(--cell-radius) bg-muted after:absolute after:inset-y-0 after:right-0 after:w-4 after:bg-muted", "rdp-range_start"),
+		"range_middle":       lib.Cn("rounded-none", "rdp-range_middle"),
+		"range_end":          lib.Cn("relative isolate z-0 rounded-r-(--cell-radius) bg-muted after:absolute after:inset-y-0 after:left-0 after:w-4 after:bg-muted", "rdp-range_end"),
+		"today":              lib.Cn("rounded-(--cell-radius) bg-muted text-foreground data-[selected=true]:rounded-none", "rdp-today"),
+		"outside":            lib.Cn("text-muted-foreground aria-selected:text-muted-foreground", "rdp-outside"),
+		"disabled":           lib.Cn("text-muted-foreground opacity-50", "rdp-disabled"),
+		"hidden":             lib.Cn("invisible", "rdp-hidden"),
+		"chevron":            "rdp-chevron",
+		"day_button":         "rdp-day_button",
+		"footer":             "rdp-footer",
+		"months_dropdown":    "rdp-months_dropdown",
+		"years_dropdown":     "rdp-years_dropdown",
+		"weeks":              "rdp-weeks",
+		"focused":            "rdp-focused",
+		"selected":           "rdp-selected",
+	}
+	for k, v := range b.classNames {
+		m[k] = v
+	}
+	return m
+}
+
 const dayButtonClass = "flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-[3px] group-data-[focused=true]/day:ring-ring/50 data-[range-end=true]:rounded-md data-[range-end=true]:rounded-r-md data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground data-[range-middle=true]:rounded-none data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:rounded-md data-[range-start=true]:rounded-l-md data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground dark:hover:text-accent-foreground [&>span]:text-xs [&>span]:opacity-70"
 
 const rootClass = "group/calendar bg-background p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent"
@@ -389,6 +456,9 @@ func (b *Builder) Element() *h.Element {
 	cfg := b.cfg
 	cfg.ClassNames = b.classNameMap()
 	cfg.DayButtonClass = button.Variants(button.VariantGhost, button.SizeIcon, lib.Cn(dayButtonClass, "rdp-day", cfg.ClassNames["day_button"]))
+	if b.st != "" {
+		cfg.DayButtonClass = button.StyleVariants(b.st, button.VariantGhost, button.SizeIcon, stDayButton.Class(b.st, "rdp-day", cfg.ClassNames["day_button"]))
+	}
 	cfg.ChevronClass = lib.Cn("size-4", cfg.ClassNames["chevron"])
 	props := b.Elem()
 	dir, hasDir := props.GetAttr("dir")
@@ -443,6 +513,9 @@ func (b *Builder) Element() *h.Element {
 		`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
 		`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
 		props.ClassName())
+	if b.st != "" {
+		userClass = stRoot.Class(b.st, props.ClassName())
+	}
 	out := h.Spread(base, props.Clone().SetClass("").SetChildren(), nil)
 	out.SetClass(lib.Cn(cfg.ClassNames["root"] + " " + userClass))
 	out.SetChildren(dp.render()...)
@@ -450,7 +523,14 @@ func (b *Builder) Element() *h.Element {
 }
 
 // Render renders the calendar.
-func (b *Builder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ElementIn resolves the calendar in the style of an enclosing style.Scope.
+func (b *Builder) ElementIn(w io.Writer) *h.Element {
+	b.st, _ = style.FromWriter(w)
+	defer func() { b.st = "" }()
+	return b.Element()
+}
 
 func boolString(b bool) string {
 	if b {
