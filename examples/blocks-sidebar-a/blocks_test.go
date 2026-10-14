@@ -21,7 +21,7 @@ func render(t *testing.T, n h.Node) string {
 func TestCollapsibleMenuItem(t *testing.T) {
 	s := render(t, Sidebar07())
 	for _, want := range []string{
-		`<li class="group/collapsible group/menu-item relative" data-slot="collapsible" data-sidebar="menu-item" data-state="open">`,
+		`<li class="group/menu-item relative group/collapsible" data-slot="collapsible" data-sidebar="menu-item" data-state="open">`,
 		`data-sidebar-collapsible="icon"`,
 	} {
 		if !strings.Contains(s, want) {
