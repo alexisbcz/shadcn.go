@@ -56,6 +56,7 @@ import (
 	_ "shadcn.go/examples/pagination"
 	_ "shadcn.go/examples/popover"
 	_ "shadcn.go/examples/progress"
+	_ "shadcn.go/examples/questionnaire"
 	_ "shadcn.go/examples/radio-group"
 	_ "shadcn.go/examples/resizable"
 	_ "shadcn.go/examples/scroll-area"

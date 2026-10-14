@@ -1,0 +1,14 @@
+[
+  { "label": "next-unanswered", "frames": false, "reset": true, "steps": [{ "do": "click", "target": "[data-slot=questionnaire-next]" }] },
+  { "label": "shortcut-b", "frames": false, "steps": [{ "do": "press", "key": "b" }] },
+  { "label": "type-other", "frames": false, "steps": [{ "do": "click", "target": "[data-slot=questionnaire-input]" }, { "do": "type", "text": "Memory" }] },
+  { "label": "pick-a", "frames": false, "steps": [{ "do": "click", "target": "[data-slot=questionnaire-choice]", "nth": 0 }] },
+  { "label": "next", "frames": false, "steps": [{ "do": "click", "target": "[data-slot=questionnaire-next]" }] },
+  { "label": "toggle-multiple", "frames": false, "steps": [{ "do": "press", "key": "a" }, { "do": "press", "key": "c" }] },
+  { "label": "previous", "frames": false, "steps": [{ "do": "click", "target": "[data-slot=questionnaire-previous]" }] },
+  { "label": "arrow-right", "frames": false, "steps": [{ "do": "press", "key": "ArrowRight" }] },
+  { "label": "skip", "frames": false, "steps": [{ "do": "click", "target": "[data-slot=questionnaire-skip]" }] },
+  { "label": "submit-unanswered", "frames": false, "steps": [{ "do": "click", "target": "[data-slot=questionnaire-submit]" }] },
+  { "label": "arrow-down", "frames": false, "steps": [{ "do": "press", "key": "ArrowDown" }] },
+  { "label": "submit", "frames": false, "steps": [{ "do": "press", "key": "Enter" }, { "do": "wait", "ms": 600 }] }
+]
