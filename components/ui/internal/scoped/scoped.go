@@ -27,6 +27,20 @@ type Node struct {
 // for setting attributes after construction.
 func (n *Node) Props() *h.Element { return n.props }
 
+// Elem exposes the node's children to tree.Walk (compound components such
+// as RadioGroup or MessageScroller's Provider handing context to parts
+// nested in a scoped component): the props of a Spread node, else the
+// new-york-v4 element.
+func (n *Node) Elem() *h.Element {
+	if n == nil {
+		return nil
+	}
+	if n.props != nil {
+		return n.props
+	}
+	return n.def()
+}
+
 // Children appends children to the props of a Spread node.
 func (n *Node) Children(children ...any) *Node {
 	n.props.Children(children...)

@@ -29,7 +29,6 @@ import (
 
 	"shadcn.go/components/icons/lucide"
 	"shadcn.go/components/lib"
-	"shadcn.go/components/style"
 	"shadcn.go/components/ui/button"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/uid"
@@ -187,8 +186,11 @@ func MessageScroller(children ...any) *RootBuilder {
 }
 
 // Element resolves the root.
-func (b *RootBuilder) Element() *h.Element {
-	base := h.Div(h.Data("slot", "message-scroller"), h.Class(lib.Cn("group/message-scroller relative flex size-full min-h-0 flex-col overflow-hidden")))
+func (b *RootBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the root as it renders inside w.
+func (b *RootBuilder) ElementIn(w io.Writer) *h.Element {
+	base := h.Div(h.Data("slot", "message-scroller"), h.Class(classIn(w, lib.Cn("group/message-scroller relative flex size-full min-h-0 flex-col overflow-hidden"), sRoot)))
 	el := h.Spread(base, b.Elem(), lib.Cn)
 	if b.config().pending() {
 		el.Attr("data-pending-scroll", "")
@@ -198,7 +200,7 @@ func (b *RootBuilder) Element() *h.Element {
 }
 
 // Render renders the root.
-func (b *RootBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *RootBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // --- Viewport ----------------------------------------------------------------------------------
 
@@ -229,31 +231,12 @@ func (b *ViewportBuilder) AcceptChild(c any) bool {
 
 const viewportClass = "size-full min-h-0 min-w-0 scroll-fade-b scrollbar-thin scrollbar-gutter-stable overflow-y-auto overscroll-contain contain-content data-autoscrolling:scrollbar-none data-pending-scroll:invisible"
 
-// novaViewportClass and novaContentClass are the radix bases' classes
-// (styles/radix-nova/ui/message-scroller.tsx), used inside a style.Scope.
-const (
-	novaViewportClass = "size-full min-h-0 min-w-0 scroll-fade-b scrollbar-thin scrollbar-gutter-stable overflow-y-auto overscroll-contain contain-content data-autoscrolling:scrollbar-thumb-transparent data-autoscrolling:scrollbar-track-transparent data-pending-scroll:invisible"
-	novaContentClass  = "flex h-max min-h-full flex-col gap-6"
-)
-
-func inStyle(w io.Writer) bool {
-	if w == nil {
-		return false
-	}
-	_, ok := style.FromWriter(w)
-	return ok
-}
-
 // Element resolves the viewport.
 func (b *ViewportBuilder) Element() *h.Element { return b.ElementIn(nil) }
 
 // ElementIn resolves the viewport as it renders inside w.
 func (b *ViewportBuilder) ElementIn(w io.Writer) *h.Element {
-	class := viewportClass
-	if inStyle(w) {
-		class = novaViewportClass
-	}
-	base := h.Div(h.Role("region"), h.Aria("label", "Messages"), h.TabIndex(0), h.Data("slot", "message-scroller-viewport"), h.Class(lib.Cn(class)))
+	base := h.Div(h.Role("region"), h.Aria("label", "Messages"), h.TabIndex(0), h.Data("slot", "message-scroller-viewport"), h.Class(classIn(w, lib.Cn(viewportClass), sViewport)))
 	el := h.Spread(base, b.Elem(), lib.Cn)
 	cfg := b.config()
 	if cfg.pending() {
@@ -304,11 +287,7 @@ func (b *ContentBuilder) Element() *h.Element { return b.ElementIn(nil) }
 
 // ElementIn resolves the content as it renders inside w.
 func (b *ContentBuilder) ElementIn(w io.Writer) *h.Element {
-	class := "flex h-max min-h-full flex-col gap-8"
-	if inStyle(w) {
-		class = novaContentClass
-	}
-	base := h.Div(h.Role("log"), h.Aria("relevant", "additions"), h.Data("slot", "message-scroller-content"), h.Class(lib.Cn(class)))
+	base := h.Div(h.Role("log"), h.Aria("relevant", "additions"), h.Data("slot", "message-scroller-content"), h.Class(classIn(w, lib.Cn("flex h-max min-h-full flex-col gap-8"), sContent)))
 	el := h.Spread(base, b.Elem(), lib.Cn)
 	spacer := h.Div(h.Aria("hidden", "true"), h.Data("message-scroller-spacer", ""), h.Hidden())
 	if b.spacerClass != "" {
@@ -353,8 +332,11 @@ func (b *ItemBuilder) AcceptChild(c any) bool {
 }
 
 // Element resolves the item.
-func (b *ItemBuilder) Element() *h.Element {
-	base := h.Div(h.Data("slot", "message-scroller-item"), h.Class(lib.Cn("min-w-0 shrink-0 [contain-intrinsic-size:auto_10rem] [content-visibility:auto]")))
+func (b *ItemBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the item as it renders inside w.
+func (b *ItemBuilder) ElementIn(w io.Writer) *h.Element {
+	base := h.Div(h.Data("slot", "message-scroller-item"), h.Class(classIn(w, lib.Cn("min-w-0 shrink-0 [contain-intrinsic-size:auto_10rem] [content-visibility:auto]"), sItem)))
 	if b.messageID != "" {
 		base.Attr("data-message-id", b.messageID)
 	}
@@ -363,7 +345,7 @@ func (b *ItemBuilder) Element() *h.Element {
 }
 
 // Render renders the item.
-func (b *ItemBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ItemBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 
 // --- Button ------------------------------------------------------------------------------------
 
@@ -414,7 +396,10 @@ func (b *ButtonBuilder) AcceptChild(c any) bool {
 const buttonClass = "absolute inset-s-1/2 -translate-x-1/2 border-border bg-background text-foreground transition-[translate,scale,opacity] duration-200 hover:bg-muted hover:text-foreground data-[active=false]:pointer-events-none data-[active=false]:scale-95 data-[active=false]:opacity-0 data-[active=false]:duration-400 data-[active=false]:ease-[cubic-bezier(0.7,0,0.84,0)] data-[active=true]:translate-y-0 data-[active=true]:scale-100 data-[active=true]:opacity-100 data-[active=true]:ease-[cubic-bezier(0.23,1,0.32,1)] data-[direction=end]:bottom-4 data-[direction=end]:data-[active=false]:translate-y-full data-[direction=start]:top-4 data-[direction=start]:data-[active=false]:-translate-y-full rtl:translate-x-1/2 data-[direction=start]:[&_svg]:rotate-180"
 
 // Element resolves the button.
-func (b *ButtonBuilder) Element() *h.Element {
+func (b *ButtonBuilder) Element() *h.Element { return b.ElementIn(nil) }
+
+// ElementIn resolves the button as it renders inside w.
+func (b *ButtonBuilder) ElementIn(w io.Writer) *h.Element {
 	props := b.Elem().Clone()
 	className := props.ClassName()
 	props.SetClass("")
@@ -435,9 +420,9 @@ func (b *ButtonBuilder) Element() *h.Element {
 		h.Data("active", "false"),
 		h.Type("button"),
 		h.Bool("inert"),
-		h.Class(lib.Cn(buttonClass, className)),
+		h.Class(lib.Cn(classIn(w, buttonClass, sButton), className)),
 	}
-	el := button.Button(append(attrs, kids...)...).Element()
+	el := h.ResolveIn(w, button.Button(append(attrs, kids...)...))
 	el = h.Spread(el, props, nil)
 	el.Attr("tabindex", "-1")
 	if hasTab {
@@ -451,4 +436,4 @@ func (b *ButtonBuilder) Element() *h.Element {
 }
 
 // Render renders the button.
-func (b *ButtonBuilder) Render(w io.Writer) error { return b.Element().Render(w) }
+func (b *ButtonBuilder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
