@@ -110,10 +110,16 @@ function reconcile(parent, nodes) {
   }
 }
 
+const tableStates = new WeakMap()
+
 define("example-dashboard-table", {
-  selector: "[data-dashboard-table]",
-  mount(root) {
-    const tpl = root.querySelector("template[data-rows]")
+  // Mounted on the outline panel (re-created by tabs.js when the tab is
+  // selected again); the table state lives above it, like DataTable's
+  // state above <Tabs> upstream.
+  selector: "[data-dashboard-table] template[data-rows]",
+  mount(tpl) {
+    const tabsRoot = tpl.closest("[data-dashboard-table]")
+    const root = tpl.parentElement
     const body = root.querySelector('[data-slot="table-body"]')
     const headRow = root.querySelector('[data-slot="table-header"] > tr')
     if (!tpl || !body || !headRow) return
@@ -129,19 +135,20 @@ define("example-dashboard-table", {
     const live = new Map()
     for (const tr of body.children) live.set(tr.getAttribute("data-row-id"), tr)
     const selectAll = headRow.querySelector('[data-slot="checkbox"]')
-    const columnsTrigger = root.querySelector("[data-columns-trigger]")
+    const columnsTrigger = tabsRoot.querySelector("[data-columns-trigger]")
     const selectedText = root.querySelector("[data-selected-text]")
     const pageText = root.querySelector("[data-page-text]")
     const pageButtons = Object.fromEntries([...root.querySelectorAll("[data-page]")].map((b) => [b.getAttribute("data-page"), b]))
     const pageSizeTrigger = root.querySelector("#rows-per-page")
 
-    const state = {
+    const state = tableStates.get(tabsRoot) ?? {
       order: (tpl.getAttribute("data-rows") ?? "").split(" ").filter(Boolean),
       selection: new Set(),
       hidden: new Set(),
       pageIndex: 0,
       pageSize: 10,
     }
+    tableStates.set(tabsRoot, state)
     const pageCount = () => Math.ceil(state.order.length / state.pageSize)
     const pageIds = () => state.order.slice(state.pageIndex * state.pageSize, (state.pageIndex + 1) * state.pageSize)
     const rowEl = (id) => {
@@ -193,6 +200,8 @@ define("example-dashboard-table", {
       const some = ids.some((id) => state.selection.has(id))
       renderCheckbox(selectAll, all ? "checked" : some ? "indeterminate" : "unchecked")
       if (selectedText) selectedText.textContent = `${state.selection.size} of ${state.order.length} row(s) selected.`
+      const sizeSelect = pageSizeTrigger && getSelect(pageSizeTrigger)
+      if (sizeSelect && sizeSelect.value !== String(state.pageSize)) sizeSelect.setValue(String(state.pageSize))
       if (pageText) pageText.textContent = `Page ${state.pageIndex + 1} of ${pageCount()}`
       const canPrev = state.pageIndex > 0
       const canNext = state.pageIndex < pageCount() - 1
