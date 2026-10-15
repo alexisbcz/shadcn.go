@@ -605,7 +605,16 @@ define("create", {
         }
         if (e.key === "Tab") close()
       }
-      if (editable(e.target) || document.querySelector("[data-slot=dialog-overlay],[data-slot=alert-dialog-overlay]")) return
+      // useActionMenu: Cmd/Ctrl+P opens the navigate palette, even from a
+      // text field (Cmd/Ctrl+K is the site search's).
+      if (e.key === "p" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        actions.navigate()
+        return
+      }
+      // The designer's shortcut hooks only skip typing targets (open
+      // dialogs, such as the welcome dialog, do not block them).
+      if (editable(e.target)) return
       const key = e.key.toLowerCase()
       if ((e.metaKey || e.ctrlKey) && ((key === "z" && e.shiftKey) || (key === "y" && e.ctrlKey))) {
         e.preventDefault()
@@ -613,9 +622,6 @@ define("create", {
       } else if ((e.metaKey || e.ctrlKey) && key === "z") {
         e.preventDefault()
         goHistory(-1)
-      } else if ((e.metaKey || e.ctrlKey) && (key === "p" || key === "k")) {
-        e.preventDefault()
-        actions.navigate()
       } else if (!e.metaKey && !e.ctrlKey && !e.altKey) {
         if (e.key === "r") {
           e.preventDefault()

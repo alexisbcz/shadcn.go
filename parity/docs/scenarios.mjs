@@ -29,7 +29,8 @@ export const S = {
   searchTrigger: 'header button[data-slot="dialog-trigger"]',
   searchInput: '[role="dialog"] [cmdk-input], [role="dialog"] input',
   mobileMenu: 'header button[data-slot="popover-trigger"]:has-text("Toggle Menu")',
-  sidebarLink: '[data-slot="sidebar"] a[data-slot="sidebar-menu-button"]',
+  // The docs layout's sidebar only (block previews have sidebars of their own).
+  sidebarLink: '[data-slot="sidebar-wrapper"]:has([data-slot="docs"]) [data-slot="sidebar"] a[data-slot="sidebar-menu-button"]',
   baseTab: '[data-slot="docs"] div.not-typeset > a[data-active="false"]',
   codeTabsManual: '[data-slot="tabs-trigger"]:text-is("Manual")',
   codeTabsCommand: '[data-slot="tabs-trigger"]:text-is("Command")',
@@ -85,7 +86,8 @@ export const scenarios = [
 
   // Sidebar: hover a link, then navigate with it (client-side on Next).
   { label: "sidebar-hover", when: S.sidebarLink, frames: false, steps: [{ do: "hover", target: S.sidebarLink, nth: 1 }, { do: "settle" }] },
-  { label: "sidebar-navigate", when: S.sidebarLink, steps: [{ do: "click", target: S.sidebarLink, nth: 1, nav: true }, { do: "settle" }] },
+  // A link to another page: on the page the second link points to (/docs/components) it is the active one and does not navigate.
+  { label: "sidebar-navigate", when: S.sidebarLink, steps: [{ do: "click", target: S.sidebarLink + ':not([data-active="true"])', nth: 1, nav: true }, { do: "settle" }] },
 
   // Base tabs (Base UI / React Aria / Radix UI): navigate to the next base.
   { label: "base-tab", when: S.baseTab, reset: true, steps: [{ do: "click", target: S.baseTab, nav: true }, { do: "settle" }] },

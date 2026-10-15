@@ -28,6 +28,11 @@ var createDialogsScript string
 
 func init() { runtime.Module("create-dialogs", createDialogsScript) }
 
+// baseUILayer marks the dialogs that are Base UI ones upstream: their
+// Escape stack is separate from the site's Radix dialogs (the search), so
+// one Escape closes the topmost dialog of each.
+var baseUILayer = h.Data("layer-library", "base-ui")
+
 func createDialogs(ds designSystem) h.Node {
 	return h.Group(resetDialog(), openPresetDialogs(), projectFormDialog(ds), actionMenuDialog(ds))
 }
@@ -35,7 +40,7 @@ func createDialogs(ds designSystem) h.Node {
 func resetDialog() h.Node {
 	return h.Div(h.Data("create-dialog", "reset"),
 		alertdialog.AlertDialog(
-			alertdialog.Content(alertdialog.SizeSm,
+			alertdialog.Content(alertdialog.SizeSm, baseUILayer,
 				alertdialog.Header(
 					alertdialog.Title("Reset to defaults?"),
 					alertdialog.Description("This will reset all customization options to their default values."),
@@ -67,7 +72,7 @@ func openPresetDialogs() h.Node {
 	return h.Group(
 		h.Div(h.Data("create-dialog", "open-preset"),
 			dialog.Dialog(
-				dialog.Content(h.Class("dark"),
+				dialog.Content(baseUILayer, h.Class("dark"),
 					h.Form(h.Data("create-preset-form", ""),
 						dialog.Header(
 							dialog.Title("Open Preset"),
@@ -84,7 +89,7 @@ func openPresetDialogs() h.Node {
 		),
 		h.Div(h.Data("create-dialog", "open-preset-mobile"),
 			drawer.Drawer(
-				drawer.Content(h.Class("dark rounded-t-2xl!"),
+				drawer.Content(baseUILayer, h.Class("dark rounded-t-2xl!"),
 					drawer.Header(
 						drawer.Title(h.Class("text-xl"), "Open Preset"),
 						drawer.Description("Paste a preset code to load a saved configuration."),
@@ -183,7 +188,7 @@ func projectFormDialog(ds designSystem) h.Node {
 	}
 	return h.Div(h.Data("create-dialog", "project-form"),
 		dialog.Dialog(
-			dialog.Content(h.Class("dark top-[64px] no-scrollbar flex max-h-[calc(100svh-2rem)] translate-y-0 flex-col rounded-2xl p-0 shadow-xl **:data-[slot=dialog-close]:top-4.5 **:data-[slot=dialog-close]:right-4 **:data-[slot=field-separator]:h-2 sm:max-w-md"),
+			dialog.Content(baseUILayer, h.Class("dark top-[64px] no-scrollbar flex max-h-[calc(100svh-2rem)] translate-y-0 flex-col rounded-2xl p-0 shadow-xl **:data-[slot=dialog-close]:top-4.5 **:data-[slot=dialog-close]:right-4 **:data-[slot=field-separator]:h-2 sm:max-w-md"),
 				h.Div(h.Class("flex min-w-0 flex-1 flex-col gap-0 overflow-hidden rounded-2xl"),
 					dialog.Header(h.Class("border-b px-6 py-5"),
 						togglegroup.ToggleGroup(togglegroup.TypeSingle, togglegroup.Value("new-project"), togglegroup.Spacing(2), h.Aria("label", "Project type"),
@@ -268,7 +273,7 @@ func actionMenuDialog(ds designSystem) h.Node {
 		return command.Item(command.Value(label), h.Data("checked", boolString(ds.Item == name)), h.Class("px-2"), h.Data("create-navigate", name), label)
 	}
 	return h.Div(h.Data("create-dialog", "action-menu"),
-		command.Dialog(h.Class("animate-none!"),
+		command.Dialog(baseUILayer, h.Class("animate-none!"),
 			command.Command(command.Loop(true),
 				command.Input(h.Placeholder("Search")),
 				command.List(

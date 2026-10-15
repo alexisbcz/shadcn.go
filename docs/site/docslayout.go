@@ -55,12 +55,17 @@ func (s *Site) DocsPage(r *http.Request) (h.Node, error) {
 		Title:       fm.Title,
 		Description: fm.Description,
 		URL:         SiteURL + doc.URL,
-		Raw:         string(raw),
-		Prev:        prev,
-		Next:        next,
-		Before:      baseSwitcher,
-		Body:        body,
-		TOC:         toc,
+		Raw: mdx.ReplaceComponentsList(s.Tree, string(raw), func(url string) string {
+			if d := s.Docs[url]; d != nil {
+				return d.Frontmatter.Description
+			}
+			return ""
+		}),
+		Prev:   prev,
+		Next:   next,
+		Before: baseSwitcher,
+		Body:   body,
+		TOC:    toc,
 	})
 	return s.Document(r, Meta{Title: fm.Title, Description: fm.Description, Canonical: doc.URL, Article: true},
 		s.AppLayout(r, s.DocsLayout(r, doc.URL, main)),

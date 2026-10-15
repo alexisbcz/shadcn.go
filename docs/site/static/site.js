@@ -18,6 +18,16 @@ export function setTheme(theme) {
   try {
     localStorage.setItem("theme", theme)
   } catch (_) {}
+  applyTheme(theme)
+}
+
+// next-themes' storage listener: a theme change in another document of the
+// site (the page around a /view iframe, another tab) applies here too.
+window.addEventListener("storage", (e) => {
+  if (e.key === "theme") applyTheme(e.newValue || "system")
+})
+
+function applyTheme(theme) {
   const r = resolved(theme)
   // next-themes' disableTransitionOnChange: no transition runs while the
   // theme classes change.

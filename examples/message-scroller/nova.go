@@ -438,7 +438,7 @@ func DocsOpeningPosition() h.Node {
 				card.Description("Choose where a saved transcript opens."),
 			),
 			card.Content(h.Class("flex-1 overflow-hidden p-0"),
-				ms.Provider(ms.PositionLastAnchor, scroller(nil, transcript(msgs, userAnchor)...)),
+				ms.Provider(scroller(nil, transcript(msgs, userAnchor)...)),
 			),
 			card.Footer(h.Class("flex items-center justify-center border-t"),
 				tabs.Tabs(tabs.Value("last-anchor"), h.Class("w-full"), h.Data("example-message-scroller-position", ""),

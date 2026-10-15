@@ -109,7 +109,7 @@ export function createDismissableLayer(node, props = {}) {
   let disableOutsidePointerEvents = !!opts.disableOutsidePointerEvents
   const parentLayer = opts.parent ? (opts.parent.node ? recordOf(opts.parent) : recordOfElement(opts.parent)) : recordOfElement(node.parentElement)
 
-  const record = { node, parent: parentLayer, pointerInside: false, focusInside: false, handle: null }
+  const record = { node, parent: parentLayer, pointerInside: false, focusInside: false, handle: null, library: node.closest?.("[data-layer-library]")?.getAttribute("data-layer-library") || "radix" }
   const ancestry = () => {
     const out = []
     for (let r = record; r; r = r.parent) out.push(r)
@@ -192,13 +192,21 @@ export function createDismissableLayer(node, props = {}) {
   cleanups.push(() => ownerDocument.removeEventListener("focusin", handleFocus))
 
   // useEscapeKeydown
+  // Layers of different libraries (data-layer-library, "radix" by default)
+  // keep separate stacks, as Radix's DismissableLayer and Base UI's
+  // floating tree do: one Escape dismisses the topmost layer of each, and a
+  // dismissal by another library's layer does not count as a
+  // preventDefault() for this one.
   const handleKeyDown = (event) => {
     if (event.key !== "Escape") return
-    const isHighestLayer = [...context.layers].indexOf(record) === context.layers.size - 1
-    if (!isHighestLayer) return
+    const same = [...context.layers].filter((r) => r.library === record.library)
+    if (same[same.length - 1] !== record) return
+    const preventedByOther = event.defaultPrevented && !event.__shadcnLayerDismissed
     opts.onEscapeKeyDown?.(event)
-    if (!event.defaultPrevented && opts.onDismiss) {
+    const prevented = preventedByOther || (event.defaultPrevented && !event.__shadcnLayerDismissed)
+    if (!prevented && opts.onDismiss) {
       event.preventDefault()
+      event.__shadcnLayerDismissed = true
       opts.onDismiss()
     }
   }

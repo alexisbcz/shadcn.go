@@ -1,6 +1,9 @@
 package mdx
 
 import (
+	"regexp"
+	"strings"
+
 	"shadcn.go/docs/content"
 	"shadcn.go/docs/site/pagetree"
 	h "shadcn.go/libhtml"
@@ -65,3 +68,39 @@ func ComponentsList(env *Env, _ *content.Context, props content.Props, _ []h.Nod
 }
 
 func init() { Register("ComponentsList", ComponentsList) }
+
+var (
+	reComponentsListNew = regexp.MustCompile(`<ComponentsList\s+variant=["']new["']\s*/>`)
+	reComponentsListAll = regexp.MustCompile(`<ComponentsList\s*/>`)
+)
+
+// ReplaceComponentsList is replaceComponentsList of ui/apps/v4/lib/llm.ts:
+// the page source handed to "Copy Page" lists the components as Markdown
+// links in place of <ComponentsList />. description returns a docs page's
+// description by URL. Links are absoluteUrl(...), which prefixes
+// NEXT_PUBLIC_APP_URL; the reference build leaves it unset ("undefined").
+func ReplaceComponentsList(tree *pagetree.Node, src string, description func(url string) string) string {
+	list := func(variant string) string {
+		if tree == nil {
+			return ""
+		}
+		folder := tree.Find("components/base")
+		if folder == nil {
+			return ""
+		}
+		var lines []string
+		for _, c := range folder.Children {
+			if c.Kind != pagetree.KindPage || (variant == "new" && !pagesNew[c.URL]) {
+				continue
+			}
+			line := "- [" + c.Name + "](undefined" + strings.Replace(c.URL, "/base/", "/", 1) + ")"
+			if d := strings.TrimSpace(description(c.URL)); d != "" {
+				line += ": " + d
+			}
+			lines = append(lines, line)
+		}
+		return strings.Join(lines, "\n")
+	}
+	src = reComponentsListNew.ReplaceAllLiteralString(src, list("new"))
+	return reComponentsListAll.ReplaceAllLiteralString(src, list("all"))
+}

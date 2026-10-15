@@ -21,20 +21,29 @@ define("example-message-scroller-position", {
   selector: "[data-example-message-scroller-position]",
   mount(tabs) {
     const card = tabs.closest('[data-slot="card"]')
-    const onChange = (e) => {
-      if (e.target !== tabs) return
+    // OpeningPositionScroller's layout effect: on mount and on every tab
+    // change, the next frame scrolls to the chosen opening position.
+    let frame = 0
+    const open = (value) => {
       const viewport = card?.querySelector('[data-slot="message-scroller-viewport"]')
       const s = viewport && getMessageScroller(viewport)
       if (!s) return
-      const value = e.detail.value
-      requestAnimationFrame(() => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(() => {
         if (value === "start") s.scrollToStart({ behavior: "auto" })
         else if (value === "end") s.scrollToEnd({ behavior: "auto" })
         else s.scrollToMessage("open-3", { align: "start", behavior: "auto", scrollMargin: 64 })
       })
     }
+    const onChange = (e) => {
+      if (e.target === tabs) open(e.detail.value)
+    }
+    open("last-anchor")
     tabs.addEventListener("shadcn:value-change", onChange)
-    return () => tabs.removeEventListener("shadcn:value-change", onChange)
+    return () => {
+      cancelAnimationFrame(frame)
+      tabs.removeEventListener("shadcn:value-change", onChange)
+    }
   },
 })
 

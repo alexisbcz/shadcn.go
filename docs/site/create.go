@@ -156,7 +156,7 @@ const shadcnLogo = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256
 func welcomeDialog() h.Node {
 	return h.Div(h.Data("create-dialog", "welcome"),
 		dialog.Dialog(
-			dialog.Content(dialog.ShowCloseButton(false),
+			dialog.Content(dialog.ShowCloseButton(false), baseUILayer,
 				h.Class("dialog-ring max-w-92 min-w-0 gap-0 overflow-hidden rounded-xl p-0 sm:max-w-sm dark:bg-neutral-900"),
 				h.Div(h.Class("flex aspect-[2/1.2] w-full items-center justify-center rounded-t-xl bg-neutral-950 text-center text-neutral-100 sm:aspect-2/1"),
 					h.Div(h.Class("font-mono text-2xl font-bold"), h.UnsafeHTML(shadcnLogo)),
