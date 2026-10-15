@@ -93,7 +93,7 @@ func buildCSS(root string) (string, error) {
 	}
 	cacheFile := filepath.Join(cacheDir, "shadcn-docs", hex.EncodeToString(sum.Sum(nil))+".css")
 	if b, err := os.ReadFile(cacheFile); err == nil {
-		return labColors(string(b)), nil
+		return flattenNesting(labColors(string(b))), nil
 	}
 	res, err := tailwind.Build(tailwind.Options{
 		Input:  filepath.Join(root, "docs/site/styles.css"),
@@ -109,7 +109,7 @@ func buildCSS(root string) (string, error) {
 			_ = os.Rename(tmp, cacheFile)
 		}
 	}
-	return labColors(res.CSS), nil
+	return flattenNesting(labColors(res.CSS)), nil
 }
 
 func (s *Site) serveCSS(w http.ResponseWriter, r *http.Request) {
