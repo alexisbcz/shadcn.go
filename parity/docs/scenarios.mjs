@@ -81,7 +81,10 @@ export const scenarios = [
   { label: "copy-page-popover-close", when: S.copyPagePopover, steps: [{ do: "press", key: "Escape" }, { do: "settle" }] },
 
   // TOC scroll-spy: scroll the document in steps; each step is a capture.
-  ...[0.2, 0.4, 0.6, 0.8, 1].map((f) => ({ label: `scroll-${Math.round(f * 100)}`, when: S.toc, frames: false, steps: [{ do: "scrollTo", fraction: f }, { do: "settle" }] })),
+  // The position is applied again once the page settled: scroll anchoring
+  // otherwise drifts by however much late layout (lazy previews coming into
+  // view) moved the anchor, which depends on timing, in the reference too.
+  ...[0.2, 0.4, 0.6, 0.8, 1].map((f) => ({ label: `scroll-${Math.round(f * 100)}`, when: S.toc, frames: false, steps: [{ do: "scrollTo", fraction: f }, { do: "settle" }, { do: "scrollTo", fraction: f }, { do: "settle" }] })),
   { label: "scroll-top", when: S.toc, frames: false, steps: [{ do: "scrollTo", fraction: 0 }, { do: "settle" }] },
 
   // Sidebar: hover a link, then navigate with it (client-side on Next).
@@ -99,5 +102,10 @@ export const scenarios = [
   { label: "search-end", when: S.searchTrigger, frames: false, steps: [{ do: "press", key: "End" }, { do: "settle" }] },
   { label: "search-home", when: S.searchTrigger, frames: false, steps: [{ do: "press", key: "Home" }, { do: "press", key: "ArrowDown" }, { do: "press", key: "ArrowDown" }, { do: "settle" }] },
   { label: "search-hover", when: S.searchTrigger, frames: false, steps: [{ do: "hover", target: '[role="dialog"] [cmdk-item]', nth: 4 }, { do: "settle" }] },
-  { label: "search-enter", when: S.searchTrigger, frames: false, steps: [{ do: "press", key: "Enter" }, { do: "wait", ms: 1500 }, { do: "settle" }] },
+  // After the navigation settles, the anchor is scrolled to again: Next.js
+  // scrolls to it during the client-side navigation, before late layout
+  // above it settles, so where it ends depends on timing (a full page load
+  // jumps after layout).
+  { label: "search-enter", when: S.searchTrigger, frames: false, steps: [{ do: "press", key: "Enter" }, { do: "wait", ms: 1500 }, { do: "settle" },
+    { do: "eval", js: "{ const id = decodeURIComponent(location.hash.slice(1)); const el = id && document.getElementById(id); if (el) el.scrollIntoView({ block: 'start', behavior: 'instant' }) }" }, { do: "settle" }] },
 ]
