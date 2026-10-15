@@ -3,6 +3,7 @@ package site
 import (
 	"fmt"
 	"net/http"
+	"shadcn.go/components/icons/hugeicons"
 	"strconv"
 
 	"shadcn.go/components/lib"
@@ -37,20 +38,15 @@ import (
 
 // hugeicon renders a hugeicon as HugeiconsIcon does with strokeWidth={2}.
 func hugeicon(name string, props ...any) h.Node {
-	class := ""
-	var rest []any
+	var children []any
 	for _, p := range props {
-		if s, ok := p.(string); ok {
-			class = s
+		if c, ok := p.(string); ok {
+			children = append(children, h.Class(c))
 		} else {
-			rest = append(rest, p)
+			children = append(children, p)
 		}
 	}
-	return h.El("svg", h.Attr("xmlns", "http://www.w3.org/2000/svg"), h.Attr("width", "24"), h.Attr("height", "24"),
-		h.Attr("viewBox", "0 0 24 24"), h.Attr("fill", "none"), h.Attr("color", "currentColor"), h.Class(class),
-		h.Attr("stroke-width", "2"), h.Attr("stroke", "currentColor"), h.Group(rest...),
-		// Generated from @hugeicons/core-free-icons; never user input.
-		h.UnsafeHTML(hugeicons[name]))
+	return hugeicons.ByName[name](children...)
 }
 
 func cardsDemo(r *http.Request) h.Node {
