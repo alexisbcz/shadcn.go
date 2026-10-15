@@ -2,7 +2,8 @@
 // to in ui/apps/v4), its JavaScript regex engine, and the grammars and themes
 // the docs use: vesper and github-light-default for Markdown code blocks
 // (rehype-pretty-code), github-dark and github-light for the code the docs
-// components show (lib/highlight-code.ts). The packages are bundled
+// components show (lib/highlight-code.ts), plus Go for the Go version of
+// the examples. The packages are bundled
 // unmodified.
 import { createHighlighterCoreSync } from "@shikijs/core"
 import { createJavaScriptRegexEngine } from "@shikijs/engine-javascript"
@@ -10,6 +11,7 @@ import { createJavaScriptRegexEngine } from "@shikijs/engine-javascript"
 import astro from "@shikijs/langs/astro"
 import css from "@shikijs/langs/css"
 import diff from "@shikijs/langs/diff"
+import go from "@shikijs/langs/go"
 import html from "@shikijs/langs/html"
 import javascript from "@shikijs/langs/javascript"
 import json from "@shikijs/langs/json"
@@ -30,6 +32,6 @@ import vesper from "@shikijs/themes/vesper"
 globalThis.Shiki = {
   createHighlighterCoreSync,
   createJavaScriptRegexEngine,
-  langs: { astro, css, diff, html, javascript, json, jsx, markdown, postcss, regexp, shellscript, toml, tsx, typescript },
+  langs: { astro, css, diff, go, html, javascript, json, jsx, markdown, postcss, regexp, shellscript, toml, tsx, typescript },
   themes: { "github-dark": githubDark, "github-light": githubLight, "github-light-default": githubLightDefault, vesper },
 }

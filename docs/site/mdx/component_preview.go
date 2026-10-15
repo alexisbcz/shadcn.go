@@ -118,10 +118,25 @@ func codePanel(name, styleName string, rtl bool) h.Node {
 		))
 	}
 	full = append(full, componentSource(name, "", styleName, "", "", "", false, 0))
+	collapsed := componentSource(name, "", styleName, "", "", "", false, 3)
+	// The Go version of the example, behind the React/Go switch.
+	var lang h.Node = h.Group()
+	if code, ok := GoExample(name, styleName); ok {
+		lang = langSwitch()
+		full = []any{lang,
+			h.Div(h.Data("code-lang-block", "react"), h.Group(full...)),
+			h.Div(h.Data("code-lang-block", "go"), goSource(code, 0)),
+		}
+		collapsed = h.Group(
+			h.Div(h.Data("code-lang-block", "react"), collapsed),
+			h.Div(h.Data("code-lang-block", "go"), goSource(code, 3)),
+		)
+	}
 	return h.Div(h.Data("slot", "code"), h.Data("mobile-code-visible", "false"),
 		h.Class("relative overflow-hidden **:data-[slot=copy-button]:right-4 **:data-[slot=copy-button]:hidden data-[mobile-code-visible=true]:**:data-[slot=copy-button]:flex [&_[data-rehype-pretty-code-figure]]:m-0! [&_[data-rehype-pretty-code-figure]]:rounded-t-none [&_[data-rehype-pretty-code-figure]]:border-t [&_pre]:max-h-72"),
+		lang,
 		h.Div(h.Class("relative"),
-			componentSource(name, "", styleName, "", "", "", false, 3),
+			collapsed,
 			h.Div(h.Class("absolute inset-0 flex items-center justify-center pb-4"),
 				h.Div(h.Class("absolute inset-0"), h.Style("background:linear-gradient(to top, var(--color-code), color-mix(in oklab, var(--color-code) 60%, transparent), transparent)")),
 				button.Button("View Code").Type("button").Size(button.SizeSm).Variant(button.VariantOutline).
