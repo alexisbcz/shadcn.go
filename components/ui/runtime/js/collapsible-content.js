@@ -57,12 +57,16 @@ export function createCollapsibleContent(node, { open = false, fragment = null }
   let lastOpen
   let lastPresent
   let destroyed = false
+  const untilFound = node.hasAttribute("data-hidden-until-found")
 
   // React render of CollapsibleContentImpl.
   const render = () => {
     const isOpen = contextOpen || isPresentState
     node.setAttribute("data-state", contextOpen ? "open" : "closed")
-    node.hidden = !isOpen
+    // data-hidden-until-found: closed content stays laid out (React Aria's
+    // DisclosurePanel uses hidden="until-found" once hydrated).
+    if (!isOpen && untilFound) node.setAttribute("hidden", "until-found")
+    else node.hidden = !isOpen
     if (isOpen && !childrenMounted) {
       childrenMounted = true
       node.replaceChildren(...(fragment ? [fragment.cloneNode(true)] : []))
