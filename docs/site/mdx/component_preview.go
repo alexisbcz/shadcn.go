@@ -164,10 +164,14 @@ func rtlHeader() h.Node {
 // blockPreview is the type="block" branch: screenshots on mobile, the
 // /view iframe from md up.
 func blockPreview(name, styleName, caption string) h.Node {
+	src := func(theme string) string { return "/r/styles/new-york/" + name + "-" + theme + ".png" }
 	img := func(theme, class string) h.Node {
 		return h.Img(h.Alt(name), h.Attr("width", "1440"), h.Attr("height", "900"),
 			h.Attr("decoding", "async"), h.Data("nimg", "1"), h.Class(class), h.Attr("loading", "lazy"),
-			h.Style("color:transparent"), h.Src("/r/styles/new-york/"+name+"-"+theme+".png"))
+			h.Style("color:transparent"),
+			// next/image at width 1440: 1x 1920, 2x 3840.
+			h.Attr("srcset", nextImageURL(src(theme), 1920)+" 1x, "+nextImageURL(src(theme), 3840)+" 2x"),
+			h.Src(nextImageURL(src(theme), 3840)))
 	}
 	box := h.Div(h.Data("not-typeset", "true"),
 		h.Class("relative mt-6 aspect-[4/2.5] w-full overflow-hidden rounded-2xl border md:-mx-1"),

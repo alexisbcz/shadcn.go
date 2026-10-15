@@ -43,6 +43,16 @@ for (const p of appPages) {
     want.set(`${w}${src}`, { src, w: Number(w) })
   }
 }
+// The screenshots of block previews (<ComponentPreview type="block">).
+for (const f of files.filter((f) => f.endsWith(".mdx"))) {
+  for (const [tag] of fs.readFileSync(f, "utf8").matchAll(/<ComponentPreview\b[^>]*?\/>/gs)) {
+    const name = tag.match(/name="([^"]+)"/)?.[1]
+    if (!name || !/type="block"/.test(tag)) continue
+    for (const theme of ["light", "dark"]) {
+      for (const w of [1920, 3840]) want.set(`${w}/r/styles/new-york/${name}-${theme}.png`, { src: `/r/styles/new-york/${name}-${theme}.png`, w })
+    }
+  }
+}
 // remote/ belongs to next-image-remote.mjs.
 for (const d of fs.existsSync(out) ? fs.readdirSync(out) : []) {
   if (d !== "remote") fs.rmSync(path.join(out, d), { recursive: true, force: true })
