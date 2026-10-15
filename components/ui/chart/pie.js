@@ -669,6 +669,17 @@ registerFn("pieCenterText", (args) => ({ viewBox }) => {
   )
 })
 
+// Label content of lines at the view box center: args are [text, className,
+// dy] (dy from cy), one <tspan> each, as the create designer's donut does.
+registerFn("pieCenterLines", (args) => ({ viewBox }) => {
+  if (!viewBox || !("cx" in viewBox) || !("cy" in viewBox)) return undefined
+  return h(
+    "text",
+    { x: viewBox.cx, y: viewBox.cy, textAnchor: "middle", dominantBaseline: "middle" },
+    ...args.map(([text, className, dy]) => h("tspan", { x: viewBox.cx, y: (viewBox.cy || 0) + dy, className }, text)),
+  )
+})
+
 // Pie label: <text cx cy x y textAnchor dominantBaseline fill>{payload[field]}</text>.
 registerFn("pieValueLabel", (args) => ({ payload, ...props }) =>
   h("text", { cx: props.cx, cy: props.cy, x: props.x, y: props.y, textAnchor: props.textAnchor, dominantBaseline: props.dominantBaseline, fill: args[1] }, String(payload?.[args[0]])),

@@ -93,6 +93,7 @@ func (s *Site) SiteHeader(r *http.Request) h.Node {
 					GitHubLink(),
 					vsep(),
 					ModeSwitcher(),
+					designerActions(r),
 					h.Div(h.Class("flex items-center gap-2 group-has-data-[slot=designer]/layout:hidden"),
 						vsep(),
 						style.Scope(style.Nova, button.Button(button.SizeSm, h.Class("h-[31px] rounded-lg"), lib.AsChild,

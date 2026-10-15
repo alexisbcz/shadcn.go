@@ -188,6 +188,8 @@ func (s *Site) Handler() http.Handler {
 	mux.HandleFunc("GET /examples/rtl", s.page(s.ExampleRTL))
 	mux.HandleFunc("GET /sera", s.page(s.Sera))
 	mux.HandleFunc("GET /typeset", s.page(s.Typeset))
+	mux.HandleFunc("GET /create", s.page(s.Create))
+	mux.HandleFunc("GET /preview/{base}/{name}", s.page(s.Preview))
 	mux.HandleFunc("GET /typeset.css", s.TypesetCSS)
 	mux.HandleFunc("GET /typeset/docs-content", s.TypesetDocsContent)
 	mux.HandleFunc("GET /preview/typeset/{name}", s.page(s.TypesetPreview))
