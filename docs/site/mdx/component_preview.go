@@ -202,11 +202,12 @@ func LookupExample(name string) (func(env *Env) h.Node, bool) {
 }
 
 // LookupExampleStyle is LookupExample for a docs style: a base whose
-// example differs visibly from the radix one (ui/apps/v4/examples/base or
+// example differs visibly from the radix one (ui/apps/v4/examples/base,
+// whose previews use base-nova or base-rhea, or
 // aria) registers its own port as "base--<name>" or "aria--<name>"
 // (rendered as is: the port picks its style), used before the radix one.
 func LookupExampleStyle(name, styleName string) (func(env *Env) h.Node, bool) {
-	prefix := map[string]string{"base-nova": "base--", "aria-nova": "aria--"}[styleName]
+	prefix := map[string]string{"base-nova": "base--", "base-rhea": "base--", "aria-nova": "aria--"}[styleName]
 	if prefix != "" {
 		if ex, ok := registry.Get(prefix + name); ok {
 			return func(env *Env) h.Node { return ex.Render(env.Request) }, true
