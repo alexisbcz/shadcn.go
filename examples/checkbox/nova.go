@@ -27,6 +27,9 @@ func init() {
 		nova("checkbox-group", NovaGroup),
 		nova("checkbox-invalid", NovaInvalid),
 		nova("checkbox-table", NovaTable),
+		registry.Example{Name: "aria--checkbox-table", Component: "checkbox", Render: registry.Static(func() h.Node {
+			return style.Scope(style.Nova, AriaTable())
+		})},
 		nova("checkbox-rtl", NovaRtl),
 	)
 }
@@ -146,7 +149,13 @@ func NovaInvalid() h.Node {
 	)
 }
 
-func NovaTable() h.Node {
+func NovaTable() h.Node { return novaTable("1") }
+
+// AriaTable is examples/aria/checkbox-table.tsx: the react-aria table
+// starts with no row selected.
+func AriaTable() h.Node { return novaTable("") }
+
+func novaTable(selectedID string) h.Node {
 	rows := [][4]string{
 		{"1", "Sarah Chen", "sarah.chen@example.com", "Admin"},
 		{"2", "Marcus Rodriguez", "marcus.rodriguez@example.com", "User"},
@@ -155,7 +164,7 @@ func NovaTable() h.Node {
 	}
 	var body []any
 	for _, r := range rows {
-		selected := r[0] == "1"
+		selected := r[0] == selectedID
 		row := table.Row(
 			table.Cell(checkbox.Checkbox(h.ID("row-"+r[0]+"-checkbox"), h.Name("row-"+r[0]+"-checkbox"), checkbox.Checked(selected))),
 			table.Cell(h.Class("font-medium"), r[1]),

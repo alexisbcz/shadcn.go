@@ -207,10 +207,27 @@ func init() {
 	registry.Register(registry.Example{Name: "nova--sidebar-rtl", Component: "sidebar", Render: registry.Static(func() h.Node {
 		return style.Scope(style.Nova, style.ScopeRTL(NovaRtl()))
 	})})
+	// examples/{base,aria}/sidebar-rtl.tsx use the floating variant.
+	floating := func() h.Node {
+		return style.Scope(style.Nova, style.ScopeRTL(novaRtl(true)))
+	}
+	registry.Register(
+		registry.Example{Name: "base--sidebar-rtl", Component: "sidebar", Render: registry.Static(floating)},
+		registry.Example{Name: "aria--sidebar-rtl", Component: "sidebar", Render: registry.Static(floating)},
+	)
 }
 
 // NovaRtl is sidebar-rtl in Arabic (the docs' default language for it).
-func NovaRtl() h.Node {
+func NovaRtl() h.Node { return novaRtl(false) }
+
+// novaRtl renders the radix example, or with base the base/aria one: a
+// floating sidebar, and the ui-rtl trigger icon (rtl:rotate-180).
+func novaRtl(base bool) h.Node {
+	var opts, trigger []any
+	if base {
+		opts = []any{sidebar.VariantFloating}
+		trigger = []any{lucide.PanelLeft(h.Class("rtl:rotate-180")), h.Span(h.Class("sr-only"), "Toggle Sidebar")}
+	}
 	nav := []novaNavItem{
 		{"ملعب", lucide.SquareTerminal, true, []string{"السجل", "المميز", "الإعدادات"}},
 		{"النماذج", lucide.Bot, false, []string{"جينيسيس", "إكسبلورر", "كوانتوم"}},
@@ -238,7 +255,7 @@ func NovaRtl() h.Node {
 		)
 	}
 	app := sidebar.Provider(
-		sidebar.Sidebar(sidebar.CollapsibleIcon, sidebar.SideRight,
+		sidebar.Sidebar(sidebar.CollapsibleIcon, sidebar.SideRight, h.Group(opts...),
 			sidebar.Header(sidebar.Menu(sidebar.MenuItem(
 				sidebar.MenuButton(sidebar.ButtonSizeLg, lib.AsChild,
 					h.A(h.Href("#"),
@@ -326,7 +343,7 @@ func NovaRtl() h.Node {
 		),
 		sidebar.Inset(
 			h.Header(h.Class("flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12"), h.Dir("rtl"),
-				h.Div(h.Class("flex items-center gap-2 px-4"), sidebar.Trigger(h.Class("-ml-1"))),
+				h.Div(h.Class("flex items-center gap-2 px-4"), sidebar.Trigger(append([]any{h.Class("-ml-1")}, trigger...)...)),
 			),
 		),
 	)

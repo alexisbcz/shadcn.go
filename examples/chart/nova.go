@@ -30,6 +30,10 @@ func init() {
 		nova("chart-rtl", NovaChartRtl),
 		// chart-demo imports the new-york-v4 card and chart: no style scope.
 		registry.Example{Name: "nova--chart-demo", Component: "chart", Render: NovaChartDemo},
+		// examples/aria/chart-demo.tsx imports the aria-nova card and chart.
+		registry.Example{Name: "aria--chart-demo", Component: "chart", Render: func(r *http.Request) h.Node {
+			return style.Scope(style.Nova, NovaChartDemo(r))
+		}},
 	)
 }
 

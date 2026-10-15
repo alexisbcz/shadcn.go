@@ -25,6 +25,22 @@ func init() {
 		nova("command-shortcuts", NovaShortcuts),
 		nova("command-rtl", NovaRTL),
 	)
+	// The aria-nova Command is react-aria's Autocomplete + Menu: no item is
+	// highlighted until the pointer or the keyboard moves to one.
+	aria := func(name string, fn func(...any) h.Node) registry.Example {
+		return registry.Example{Name: "aria--" + name, Component: "command", Render: registry.Static(func() h.Node {
+			return style.Scope(style.Nova, fn(command.DefaultValue("")))
+		})}
+	}
+	menu := func(groups ...novaGroup) func(...any) h.Node {
+		return func(root ...any) h.Node { return novaMenu(groups, root...) }
+	}
+	registry.Register(
+		aria("command-demo", novaDemo),
+		aria("command-rtl", novaRTL),
+		aria("command-groups", menu(novaSuggestions, novaSettings)),
+		aria("command-shortcuts", menu(novaSettings)),
+	)
 }
 
 type novaItem struct {
@@ -68,11 +84,11 @@ func novaList(empty string, groups []novaGroup) *command.ListBuilder {
 
 // novaMenu is an "Open Menu" button opening a CommandDialog holding a
 // Command (examples/command/dialog.js binds the button).
-func novaMenu(groups []novaGroup) h.Node {
+func novaMenu(groups []novaGroup, root ...any) h.Node {
 	return h.Div(h.Class("flex flex-col gap-4"),
 		button.Button(button.VariantOutline, h.Class("w-fit"), h.Data("example-command-open", ""), "Open Menu"),
 		command.Dialog(
-			command.Command(
+			command.Command(h.Group(root...),
 				command.Input(h.Placeholder("Type a command or search...")),
 				novaList("No results found.", groups),
 			),
@@ -85,10 +101,12 @@ var (
 	novaSettings    = novaGroup{"Settings", []novaItem{{lucide.User, "Profile", "⌘P", false}, {lucide.CreditCard, "Billing", "⌘B", false}, {lucide.Settings, "Settings", "⌘S", false}}}
 )
 
-func NovaDemo() h.Node {
+func NovaDemo() h.Node { return novaDemo() }
+
+func novaDemo(root ...any) h.Node {
 	suggestions := novaSuggestions
 	suggestions.items = []novaItem{suggestions.items[0], suggestions.items[1], {icon: lucide.Calculator, label: "Calculator", disabled: true}}
-	return command.Command(h.Class("max-w-sm rounded-lg border"),
+	return command.Command(h.Class("max-w-sm rounded-lg border"), h.Group(root...),
 		command.Input(h.Placeholder("Type a command or search...")),
 		novaList("No results found.", []novaGroup{suggestions, novaSettings}),
 	)
@@ -113,8 +131,10 @@ func NovaScrollable() h.Node {
 }
 
 // NovaRTL is command-rtl in its default language, Arabic.
-func NovaRTL() h.Node {
-	return command.Command(h.Class("max-w-sm rounded-lg border"), h.Dir("rtl"),
+func NovaRTL() h.Node { return novaRTL() }
+
+func novaRTL(root ...any) h.Node {
+	return command.Command(h.Class("max-w-sm rounded-lg border"), h.Dir("rtl"), h.Group(root...),
 		command.Input(h.Placeholder("اكتب أمرًا أو ابحث..."), h.Dir("rtl")),
 		novaList("لم يتم العثور على نتائج.", []novaGroup{
 			{"اقتراحات", []novaItem{{icon: lucide.Calendar, label: "التقويم"}, {icon: lucide.Smile, label: "البحث عن الرموز التعبيرية"}, {icon: lucide.Calculator, label: "الآلة الحاسبة", disabled: true}}},
