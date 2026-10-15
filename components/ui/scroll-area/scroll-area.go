@@ -200,7 +200,30 @@ func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 // ElementIn is Element in the style of an enclosing style.Scope.
 func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	st, _ := style.FromWriter(w)
+	if style.BaseFromWriter(w) == style.BaseAria {
+		return b.ariaElement(st)
+	}
 	return b.element(st)
+}
+
+// ariaElement is React Aria's ScrollArea (registry/bases/aria/ui/
+// scroll-area.tsx): one element scrolling natively, with a thin scrollbar
+// in the border color; ScrollBar children have no part in it.
+func (b *Builder) ariaElement(st style.Style) *h.Element {
+	props := b.Elem()
+	var kids []any
+	for _, k := range props.ChildNodes() {
+		if _, ok := k.(*ScrollBarBuilder); !ok {
+			kids = append(kids, k)
+		}
+	}
+	root := "relative"
+	if st != "" {
+		root = styleRoot.Class(st, "")
+	}
+	class := lib.Cn(root+" [scrollbar-width:thin] [scrollbar-color:var(--color-border)_transparent] overflow-auto outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1", props.ClassName())
+	user := props.Clone().SetChildren()
+	return h.Spread(h.Div(h.Data("slot", "scroll-area")), user, nil).SetClass(class).Children(kids...)
 }
 
 // ScrollBarBuilder is returned by ScrollBar.

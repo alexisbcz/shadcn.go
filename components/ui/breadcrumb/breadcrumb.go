@@ -27,6 +27,8 @@ type Builder struct {
 	acceptsAs  bool
 	defaultKid func() *h.Element // rendered when the user gives no children
 	fixedKids  bool              // the user's children are ignored (Ellipsis)
+	isList bool // List: React Aria items hold their separator (style.BaseAria)
+	isSep  bool // Separator
 	// alt returns the base element and default child of a style
 	// (registry/bases/radix/ui/breadcrumb.tsx), for style.Scope.
 	alt func(st style.Style) (base *h.Element, defaultKid func() *h.Element)
@@ -86,7 +88,9 @@ func Breadcrumb(children ...any) *Builder {
 
 // List is the ordered list of items.
 func List(children ...any) *Builder {
-	return styled(h.Ol(h.Data("slot", "breadcrumb-list"), h.Class("flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5")), "ol", children).withAlt(styleList, nil)
+	b := styled(h.Ol(h.Data("slot", "breadcrumb-list"), h.Class("flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5")), "ol", children).withAlt(styleList, nil)
+	b.isList = true
+	return b
 }
 
 // Item is one entry of the list.
@@ -112,6 +116,7 @@ func Page(children ...any) *Builder {
 func Separator(children ...any) *Builder {
 	b := styled(h.Li(h.Data("slot", "breadcrumb-separator"), h.Role("presentation"), h.Aria("hidden", "true"), h.Class("[&>svg]:size-3.5")), "li", children)
 	b.defaultKid = func() *h.Element { return lucide.ChevronRight() }
+	b.isSep = true
 	return b.withAlt(styleSeparator, func(st style.Style) func() *h.Element {
 		return func() *h.Element { return lucide.ChevronRight(h.Class(styleSepIcon.Class(st))) }
 	})
@@ -164,6 +169,9 @@ func (b *Builder) element(w io.Writer, st style.Style) *h.Element {
 	} else if defaultKid != nil && len(props.ChildNodes()) == 0 {
 		props = props.Clone().SetChildren(defaultKid())
 	}
+	if b.isList && w != nil && style.BaseFromWriter(w) == style.BaseAria {
+		props = ariaItems(w, props)
+	}
 	el := h.Spread(base, props, lib.Cn)
 	if !b.asChild {
 		return el
@@ -188,3 +196,30 @@ func (b *Builder) element(w io.Writer, st style.Style) *h.Element {
 
 // Render renders the component.
 func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
+
+// ariaItems lays out a list's children as React Aria's Breadcrumbs does
+// (registry/bases/aria/ui/breadcrumb.tsx): an item holds the separator after
+// it, as a <span>, instead of the separator being a sibling <li>.
+func ariaItems(w io.Writer, props *h.Element) *h.Element {
+	kids := props.ChildNodes()
+	out := make([]any, 0, len(kids))
+	var last *h.Element
+	for _, k := range kids {
+		kb, ok := k.(*Builder)
+		if ok && kb.isSep && last != nil {
+			sep := kb.ElementIn(w)
+			span := h.Span(h.Data("slot", "breadcrumb-separator"), h.Role("presentation"), h.Aria("hidden", "true"),
+				h.Class(sep.ClassName()), h.Group(sep.ChildNodes()...))
+			last.Children(span)
+			continue
+		}
+		if ok && !kb.isSep && !kb.isList {
+			last = kb.ElementIn(w).Clone()
+			out = append(out, last)
+			continue
+		}
+		last = nil
+		out = append(out, k)
+	}
+	return props.Clone().SetChildren(out...)
+}

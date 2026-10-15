@@ -2,6 +2,7 @@ package site
 
 import (
 	"net/http"
+	"strings"
 
 	"shadcn.go/components/style"
 	"shadcn.go/docs/site/mdx"
@@ -35,6 +36,10 @@ func (s *Site) View(r *http.Request) (h.Node, error) {
 	case styleName == "radix-nova" || styleName == "base-nova" || styleName == "aria-nova":
 		if ex, ok := mdx.LookupExampleStyle(name, styleName); ok {
 			preview = ex(s.Env(r))
+			if strings.HasPrefix(styleName, "aria-") {
+				// Inside NextPreview, which renders the preview.
+				preview = style.WithBase(style.BaseAria, preview)
+			}
 		}
 	}
 	if preview == nil {

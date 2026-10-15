@@ -57,7 +57,13 @@ func ComponentPreview(env *Env, _ *content.Context, props content.Props, _ []h.N
 			preview = ex.Render(env.Request)
 		}
 	} else if ex, ok := LookupExampleStyle(name, styleName); ok {
-		preview = nextPreview(env, name, ex(env))
+		// The base scope goes inside: nextPreview renders the preview to
+		// rewrite its images.
+		var node h.Node = ex(env)
+		if b := styleBase(styleName); b != "" {
+			node = style.WithBase(b, node)
+		}
+		preview = nextPreview(env, name, node)
 	}
 	if preview == nil {
 		preview = h.P(h.Class("text-sm text-muted-foreground"), "Example ", h.Code(name), " is not ported yet.")
@@ -214,6 +220,17 @@ func LookupExampleStyle(name, styleName string) (func(env *Env) h.Node, bool) {
 		}
 	}
 	return LookupExample(name)
+}
+
+// styleBase is the primitive library of a docs style ("aria-nova": aria).
+func styleBase(styleName string) style.Base {
+	switch {
+	case strings.HasPrefix(styleName, "aria-"):
+		return style.BaseAria
+	case strings.HasPrefix(styleName, "base-"):
+		return style.BaseUI
+	}
+	return ""
 }
 
 func init() { Register("ComponentPreview", ComponentPreview) }

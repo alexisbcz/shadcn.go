@@ -145,7 +145,7 @@ func Handler() http.Handler {
 		tag := version()
 		w.Header().Set("Content-Type", "text/javascript; charset=utf-8")
 		w.Header().Set("X-Content-Type-Options", "nosniff")
-		w.Header().Set("Cache-Control", "no-cache")
+		w.Header().Set("Cache-Control", "max-age=300, must-revalidate")
 		w.Header().Set("ETag", tag)
 		if r.Header.Get("If-None-Match") == tag {
 			w.WriteHeader(http.StatusNotModified)
