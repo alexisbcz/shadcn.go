@@ -12,3 +12,11 @@ components.
    initial commit. Publish libhtml, cn, cva, twmerge and tailwind first, then
    icons, then components, and set the `require` lines of each from the
    commits already published.
+
+## Sync
+
+`python3 sync.py DIR` stages every module again and reports which published
+repositories would change. `python3 sync.py DIR --push --message MSG` commits
+and pushes them, in dependency order. Each repository keeps its `go.mod` and
+`go.sum`, takes the newest commits of the modules it requires, and must
+build, vet and pass its tests on its own.

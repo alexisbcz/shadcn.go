@@ -162,7 +162,12 @@ NOTICES = {
 
 for repo, (title, desc, code) in README.items():
     d = os.path.join(OUT, repo)
-    text = f"# {title}\n\n{desc}\n\n## Install\n\n```sh\ngo get github.com/alexisbcz/{repo}\n```\n\n## Use\n\n```go\n{code}\n```\n"
+    install = f"go get github.com/alexisbcz/{repo}"
+    if repo in ("icons", "components"):
+        # No package at the module root: go get alone records no checksums
+        # for the imported packages' dependencies.
+        install += "\ngo mod tidy"
+    text = f"# {title}\n\n{desc}\n\n## Install\n\n```sh\n{install}\n```\n\n## Use\n\n```go\n{code}\n```\n"
     text += EXTRA.get(repo, "")
     text += "\n## License\n\nMIT. See [LICENSE](LICENSE)"
     text += " and [NOTICE](NOTICE).\n" if repo in NOTICES else ".\n"
