@@ -410,7 +410,7 @@ func Trigger(children ...any) *styled.Node {
 		func(st style.Style, user *h.Element) h.Node {
 			kids := user.ChildNodes()
 			if len(kids) == 0 {
-				kids = []any{lucide.PanelLeft(h.Class("cn-rtl-flip")), h.Span(h.Class("sr-only"), "Toggle Sidebar")}
+				kids = []any{rtlFlipIcon{}, h.Span(h.Class("sr-only"), "Toggle Sidebar")}
 			}
 			return button.Button(button.VariantGhost, button.SizeIconSm,
 				h.Data("sidebar", "trigger"),
@@ -419,6 +419,14 @@ func Trigger(children ...any) *styled.Node {
 				h.Group(kids...),
 			)
 		})
+}
+
+// rtlFlipIcon is the trigger's <PanelLeftIcon className="cn-rtl-flip" />:
+// the ui-rtl variant maps the class to rtl:rotate-180 at render time.
+type rtlFlipIcon struct{}
+
+func (rtlFlipIcon) Render(w io.Writer) error {
+	return lucide.PanelLeft(h.Class(styled.RTL(w, "cn-rtl-flip"))).Render(w)
 }
 
 func withClass(el *h.Element, class string) *h.Element {
