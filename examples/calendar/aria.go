@@ -144,7 +144,10 @@ func AriaRtl() h.Node {
 // rendered for that month only; aria.js leaves it static.
 func AriaHijri() h.Node {
 	sel := date(2025, time.June, 12)
-	return ariaCalendar(ariaOpts{selected: &sel, rtl: true, persian: true, month: date(2025, time.May, 22), class: "rounded-lg border"})
+	// The wrapper takes the Vazirmatn font's class on the docs site
+	// (docs/site/mdx/preview_next.go), as NovaHijri's does.
+	return h.Div(h.Data("example-empty-class", ""),
+		ariaCalendar(ariaOpts{selected: &sel, rtl: true, persian: true, month: date(2025, time.May, 22), class: "rounded-lg border"}))
 }
 
 // persianDigits writes n with Extended Arabic-Indic digits.
