@@ -47,10 +47,10 @@ import (
 	"shadcn.go/components/ui/dialog"
 	"shadcn.go/components/ui/dialog/primitive"
 	inputgroup "shadcn.go/components/ui/input-group"
+	"shadcn.go/components/ui/internal/rtl"
 	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/uid"
 	"shadcn.go/components/ui/runtime"
-	"shadcn.go/components/ui/internal/rtl"
 	h "shadcn.go/libhtml"
 )
 

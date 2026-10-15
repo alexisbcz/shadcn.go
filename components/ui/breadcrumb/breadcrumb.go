@@ -27,8 +27,8 @@ type Builder struct {
 	acceptsAs  bool
 	defaultKid func() *h.Element // rendered when the user gives no children
 	fixedKids  bool              // the user's children are ignored (Ellipsis)
-	isList bool // List: React Aria items hold their separator (style.BaseAria)
-	isSep  bool // Separator
+	isList     bool              // List: React Aria items hold their separator (style.BaseAria)
+	isSep      bool              // Separator
 	// alt returns the base element and default child of a style
 	// (registry/bases/radix/ui/breadcrumb.tsx), for style.Scope.
 	alt func(st style.Style) (base *h.Element, defaultKid func() *h.Element)
