@@ -38,11 +38,13 @@ func published(path string) string {
 }
 
 type pkg struct {
-	fset  *token.FileSet
-	files map[string]*ast.File // by file name
-	funcs map[string]*ast.FuncDecl
-	file  map[string]*ast.File // func name -> its file
-	src   map[string][]byte
+	methods    map[string][]*ast.FuncDecl // receiver type -> methods
+	methodFile map[*ast.FuncDecl]*ast.File
+	fset       *token.FileSet
+	files      map[string]*ast.File // by file name
+	funcs      map[string]*ast.FuncDecl
+	file       map[string]*ast.File // func name -> its file
+	src        map[string][]byte
 }
 
 func main() {
@@ -60,8 +62,10 @@ func main() {
 		if p == nil {
 			continue
 		}
-		for name, fn := range p.registrations() {
-			if code, err := p.source(fn); err == nil {
+		for name, e := range p.registrations() {
+			if code, err := p.source(e); err != nil {
+				log.Printf("%s: %v", name, err)
+			} else {
 				out[name] = code
 			}
 		}
@@ -75,7 +79,7 @@ func main() {
 }
 
 func load(dir string) *pkg {
-	p := &pkg{fset: token.NewFileSet(), files: map[string]*ast.File{}, funcs: map[string]*ast.FuncDecl{}, file: map[string]*ast.File{}, src: map[string][]byte{}}
+	p := &pkg{methods: map[string][]*ast.FuncDecl{}, methodFile: map[*ast.FuncDecl]*ast.File{}, fset: token.NewFileSet(), files: map[string]*ast.File{}, funcs: map[string]*ast.FuncDecl{}, file: map[string]*ast.File{}, src: map[string][]byte{}}
 	matches, _ := filepath.Glob(filepath.Join(dir, "*.go"))
 	for _, f := range matches {
 		if strings.HasSuffix(f, "_test.go") {
@@ -92,9 +96,16 @@ func load(dir string) *pkg {
 		p.files[f] = af
 		p.src[f] = b
 		for _, d := range af.Decls {
-			if fd, ok := d.(*ast.FuncDecl); ok && fd.Recv == nil {
+			fd, ok := d.(*ast.FuncDecl)
+			if !ok {
+				continue
+			}
+			if fd.Recv == nil {
 				p.funcs[fd.Name.Name] = fd
 				p.file[fd.Name.Name] = af
+			} else if t := recvType(fd.Recv.List[0].Type); t != "" {
+				p.methods[t] = append(p.methods[t], fd)
+				p.methodFile[fd] = af
 			}
 		}
 	}
@@ -107,8 +118,8 @@ func load(dir string) *pkg {
 // registrations finds name -> function for the package's examples: calls
 // of a helper taking ("name", Func), with the prefix the helper adds
 // ("nova--", "base--", "aria--"), and registry.Example literals.
-func (p *pkg) registrations() map[string]string {
-	out := map[string]string{}
+func (p *pkg) registrations() map[string]entry {
+	out := map[string]entry{}
 	// Helpers: local closures or functions whose body builds the name with
 	// a "<prefix>--" + name concatenation.
 	prefixOf := map[string]string{}
@@ -157,7 +168,7 @@ func (p *pkg) registrations() map[string]string {
 					return true
 				}
 				fn := p.resolve(f, x.Args[1])
-				if fn == "" {
+				if fn.fn == "" && fn.lit == nil {
 					return true
 				}
 				s, _ := strconv.Unquote(lit.Value)
@@ -168,7 +179,8 @@ func (p *pkg) registrations() map[string]string {
 				out[prefixOf[helper]+s] = fn
 			case *ast.CompositeLit:
 				// registry.Example{Name: "x", Render: registry.Static(Fn)}
-				var name, fn string
+				var name string
+				var fn entry
 				for _, e := range x.Elts {
 					kv, ok := e.(*ast.KeyValueExpr)
 					if !ok {
@@ -189,7 +201,7 @@ func (p *pkg) registrations() map[string]string {
 						}
 					}
 				}
-				if name != "" && fn != "" && p.funcs[fn] != nil {
+				if name != "" && (fn.lit != nil || p.funcs[fn.fn] != nil) {
 					out[name] = fn
 				}
 			}
@@ -199,43 +211,136 @@ func (p *pkg) registrations() map[string]string {
 	return out
 }
 
-// resolve returns the package function an example renders: the function
-// itself, or the first package function a local closure (or function
-// literal) calls.
-func (p *pkg) resolve(f *ast.File, e ast.Expr) string {
-	var body ast.Node
+// entry is what an example renders: a package function, or a function
+// literal (the registration's own closure), which the snippet turns into a
+// function named Example.
+type entry struct {
+	fn     string
+	lit    *ast.FuncLit
+	file   string
+	consts []*ast.ValueSpec // local constants the literal uses
+}
+
+// resolve returns the entry of a registration's render argument: a package
+// function, or a function literal (inline or a local closure).
+func (p *pkg) resolve(f *ast.File, e ast.Expr) entry {
+	fname := p.fset.File(f.Pos()).Name()
 	switch x := e.(type) {
 	case *ast.Ident:
 		if p.funcs[x.Name] != nil {
-			return x.Name
+			return entry{fn: x.Name}
 		}
 		// A local closure: name := func() h.Node { ... }
+		var lit *ast.FuncLit
 		ast.Inspect(f, func(n ast.Node) bool {
 			if as, ok := n.(*ast.AssignStmt); ok && len(as.Lhs) == 1 && len(as.Rhs) == 1 {
 				if id, ok := as.Lhs[0].(*ast.Ident); ok && id.Name == x.Name {
 					if fl, ok := as.Rhs[0].(*ast.FuncLit); ok {
-						body = fl.Body
+						lit = fl
 					}
 				}
 			}
-			return body == nil
+			return lit == nil
 		})
+		if lit != nil {
+			return p.literal(lit, fname)
+		}
 	case *ast.FuncLit:
-		body = x.Body
+		return p.literal(x, fname)
 	}
-	if body == nil {
-		return ""
-	}
-	found := ""
-	ast.Inspect(body, func(n ast.Node) bool {
-		if call, ok := n.(*ast.CallExpr); ok && found == "" {
-			if id, ok := call.Fun.(*ast.Ident); ok && p.funcs[id.Name] != nil {
-				found = id.Name
+	return entry{}
+}
+
+// literal is the entry of a function literal; one that only calls a
+// package function without arguments is that function.
+func (p *pkg) literal(lit *ast.FuncLit, file string) entry {
+	if len(lit.Body.List) == 1 {
+		if ret, ok := lit.Body.List[0].(*ast.ReturnStmt); ok && len(ret.Results) == 1 {
+			if call, ok := ret.Results[0].(*ast.CallExpr); ok && len(call.Args) == 0 {
+				if id, ok := call.Fun.(*ast.Ident); ok && p.funcs[id.Name] != nil {
+					return entry{fn: id.Name}
+				}
 			}
 		}
-		return found == ""
+	}
+	// Closures referring to local variables of the registering function
+	// cannot stand alone; local constants are copied into them.
+	consts, ok := p.locals(lit)
+	if !ok {
+		return entry{}
+	}
+	return entry{lit: lit, file: file, consts: consts}
+}
+
+// locals returns the local constants lit uses, and false when it uses
+// local variables (identifiers that are neither its own, package-level
+// declarations nor imports).
+func (p *pkg) locals(lit *ast.FuncLit) ([]*ast.ValueSpec, bool) {
+	var consts []*ast.ValueSpec
+	seenConst := map[*ast.ValueSpec]bool{}
+	decls := p.topLevel()
+	own := map[string]bool{}
+	ast.Inspect(lit, func(n ast.Node) bool {
+		switch x := n.(type) {
+		case *ast.AssignStmt:
+			if x.Tok == token.DEFINE {
+				for _, l := range x.Lhs {
+					if id, ok := l.(*ast.Ident); ok {
+						own[id.Name] = true
+					}
+				}
+			}
+		case *ast.Field:
+			for _, n := range x.Names {
+				own[n.Name] = true
+			}
+		case *ast.ValueSpec:
+			for _, n := range x.Names {
+				own[n.Name] = true
+			}
+		case *ast.RangeStmt:
+			for _, e := range []ast.Expr{x.Key, x.Value} {
+				if id, ok := e.(*ast.Ident); ok {
+					own[id.Name] = true
+				}
+			}
+		}
+		return true
 	})
-	return found
+	local := false
+	ast.Inspect(lit, func(n ast.Node) bool {
+		switch x := n.(type) {
+		case *ast.SelectorExpr:
+			// Only the receiver of a selector can be a local.
+			ast.Inspect(x.X, func(m ast.Node) bool {
+				if id, ok := m.(*ast.Ident); ok && id == x.X {
+					if id.Obj != nil && id.Obj.Kind != ast.Pkg && !own[id.Name] {
+						if _, ok := decls[id.Name]; !ok {
+							local = true
+						}
+					}
+				}
+				return true
+			})
+			return false
+		case *ast.Ident:
+			if x.Obj != nil && x.Obj.Kind == ast.Con && !own[x.Name] {
+				if vs, ok := x.Obj.Decl.(*ast.ValueSpec); ok && !seenConst[vs] {
+					if _, pkgLevel := decls[x.Name]; !pkgLevel || decls[x.Name].node.Pos() > vs.Pos() || decls[x.Name].node.End() < vs.End() {
+						seenConst[vs] = true
+						consts = append(consts, vs)
+					}
+				}
+			}
+			if x.Obj != nil && x.Obj.Kind == ast.Var && !own[x.Name] {
+				if _, ok := decls[x.Name]; !ok {
+					local = true
+				}
+			}
+		}
+		return true
+	})
+	return consts, !local
 }
 
 func funcName(e ast.Expr) string {
@@ -247,9 +352,31 @@ func funcName(e ast.Expr) string {
 
 // source returns a standalone snippet: the imports it uses, the function
 // (with its doc comment), then the package-level declarations it depends
-// on, recursively (helpers, types, data).
-func (p *pkg) source(fn string) (string, error) {
+// on, recursively (helpers, types with their methods, data).
+func (p *pkg) source(e entry) (string, error) {
 	decls := p.topLevel()
+	fn := e.fn
+	if e.lit != nil {
+		fn = "Example"
+		src := p.src[e.file]
+		off := func(pos token.Pos) int { return p.fset.Position(pos).Offset }
+		body := string(src[off(e.lit.Body.Pos()):off(e.lit.Body.End())])
+		var consts strings.Builder
+		for _, vs := range e.consts {
+			consts.WriteString("\n\tconst " + string(src[off(vs.Pos()):off(vs.End())]))
+		}
+		if consts.Len() > 0 {
+			body = "{" + consts.String() + "\n" + body[1:]
+		}
+		text := "func Example" + string(src[off(e.lit.Type.Params.Pos()):off(e.lit.Type.End())]) + " " + body
+		var af *ast.File
+		for name, f := range p.files {
+			if name == e.file {
+				af = f
+			}
+		}
+		decls[fn] = decl{e.lit, af, text}
+	}
 	var order []string
 	seen := map[string]bool{}
 	var visit func(name string)
@@ -260,10 +387,6 @@ func (p *pkg) source(fn string) (string, error) {
 		seen[name] = true
 		order = append(order, name)
 		ast.Inspect(decls[name].node, func(n ast.Node) bool {
-			if id, ok := n.(*ast.Ident); ok && id.Obj == nil {
-				// Unresolved in the file scope: package level, or another
-				// file of the package.
-			}
 			if id, ok := n.(*ast.Ident); ok {
 				if d, ok := decls[id.Name]; ok && id.Name != name && !seen[id.Name] && d.node != nil {
 					visit(id.Name)
@@ -271,8 +394,25 @@ func (p *pkg) source(fn string) (string, error) {
 			}
 			return true
 		})
+		// A type's methods come with it.
+		for _, m := range p.methods[name] {
+			key := name + "." + m.Name.Name
+			if !seen[key] {
+				decls[key] = decl{m, p.methodFile[m], p.declText(m, m.Doc)}
+				visit(key)
+			}
+		}
 	}
 	visit(fn)
+	emitted := map[ast.Node]bool{}
+	var kept []string
+	for _, name := range order {
+		if n := decls[name].node; !emitted[n] {
+			emitted[n] = true
+			kept = append(kept, name)
+		}
+	}
+	order = kept
 	used := map[string]bool{}
 	var parts []string
 	files := map[*ast.File]bool{}
@@ -303,7 +443,7 @@ func (p *pkg) source(fn string) (string, error) {
 				continue
 			}
 			line := strconv.Quote(published(path))
-			if im.Name != nil {
+			if im.Name != nil && im.Name.Name != pkgName(path) {
 				line = im.Name.Name + " " + line
 			}
 			imports[line] = true
@@ -392,8 +532,35 @@ func (p *pkg) topLevel() map[string]decl {
 // it ("shadcn.go/components/ui/dropdown-menu" -> "dropdownmenu").
 func pkgName(path string) string {
 	base := filepath.Base(path)
+	if len(base) > 1 && base[0] == 'v' && strings.Trim(base[1:], "0123456789") == "" {
+		return filepath.Base(filepath.Dir(path))
+	}
 	if strings.Contains(base, "-") {
 		return strings.ReplaceAll(base, "-", "")
 	}
 	return ""
+}
+
+// recvType is the type name of a method receiver (T, *T, T[P]).
+func recvType(e ast.Expr) string {
+	switch x := e.(type) {
+	case *ast.StarExpr:
+		return recvType(x.X)
+	case *ast.IndexExpr:
+		return recvType(x.X)
+	case *ast.Ident:
+		return x.Name
+	}
+	return ""
+}
+
+// declText is the source of a declaration with its doc comment.
+func (p *pkg) declText(n ast.Node, doc *ast.CommentGroup) string {
+	f := p.fset.File(n.Pos())
+	src := p.src[f.Name()]
+	start := n.Pos()
+	if doc != nil {
+		start = doc.Pos()
+	}
+	return string(src[p.fset.Position(start).Offset:p.fset.Position(n.End()).Offset])
 }
