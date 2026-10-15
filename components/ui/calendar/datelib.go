@@ -142,6 +142,9 @@ var (
 	faMonths      = [12]string{"فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"}
 	faDays        = [7]string{"یک‌شنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه", "شنبه"}
 	faDaysShort   = [7]string{"1ش", "2ش", "3ش", "4ش", "5ش", "ج", "ش"}
+	arMonths      = [12]string{"يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"}
+	arDays        = [7]string{"الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"}
+	arDaysShort   = [7]string{"أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت"}
 )
 
 var numeralDigits = map[Numerals]string{
@@ -171,6 +174,7 @@ func enOrdinal(n int) string {
 type dateLib struct {
 	s            system
 	fa           bool
+	ar           bool // arSA names (Gregorian, Latin digits)
 	digits       []rune
 	weekStartsOn int
 }
@@ -277,6 +281,9 @@ func (l *dateLib) caption(j int) string {
 	if l.fa {
 		return l.num(fmt.Sprintf("%s %d", faMonths[m], y))
 	}
+	if l.ar {
+		return l.num(fmt.Sprintf("%s %d", arMonths[m], y))
+	}
 	return l.num(fmt.Sprintf("%s %d", enMonths[m], y))
 }
 
@@ -286,6 +293,9 @@ func (l *dateLib) fullDate(j int) string {
 	if l.fa {
 		return l.num(fmt.Sprintf("%s %d-ام %s %d", faDays[w], d, faMonths[m], y))
 	}
+	if l.ar {
+		return l.num(fmt.Sprintf("%s, %s %d, %d", arDays[w], arMonths[m], d, y))
+	}
 	return l.num(fmt.Sprintf("%s, %s %s, %d", enDays[w], enMonths[m], enOrdinal(d), y))
 }
 
@@ -293,12 +303,18 @@ func (l *dateLib) weekdayShort(j int) string {
 	if l.fa {
 		return l.num(faDaysShort[l.weekday(j)])
 	}
+	if l.ar {
+		return l.num(arDaysShort[l.weekday(j)])
+	}
 	return l.num(enDaysShort[l.weekday(j)])
 }
 
 func (l *dateLib) weekdayLong(j int) string {
 	if l.fa {
 		return l.num(faDays[l.weekday(j)])
+	}
+	if l.ar {
+		return l.num(arDays[l.weekday(j)])
 	}
 	return l.num(enDays[l.weekday(j)])
 }
@@ -324,12 +340,19 @@ func (l *dateLib) year(j int) string { return l.num(fmt.Sprintf("%04d", l.getYea
 // date.toLocaleString("default", { month: "short" }) in en-US.
 func (l *dateLib) monthDropdown(j int) string {
 	_, gm, _ := d2g(j)
+	if l.ar {
+		return arMonths[gm-1]
+	}
 	return enMonthsShort[gm-1]
 }
 
 // localeDate is date.toLocaleDateString() in en-US.
 func (l *dateLib) localeDate(j int) string {
 	gy, gm, gd := d2g(j)
+	if l.ar {
+		// ar-SA: Arabic-Indic digits, day first, RLM before each slash.
+		return arabicDigits(fmt.Sprintf("%d\u200f/%d\u200f/%d", gd, gm, gy))
+	}
 	return fmt.Sprintf("%d/%d/%d", gm, gd, gy)
 }
 
@@ -338,4 +361,16 @@ func (l *dateLib) weekNumber(n int) string {
 		return l.num(fmt.Sprintf("0%d", n))
 	}
 	return l.num(fmt.Sprint(n))
+}
+
+func arabicDigits(s string) string {
+	d := []rune(numeralDigits["arab"])
+	var b strings.Builder
+	for _, r := range s {
+		if r >= '0' && r <= '9' {
+			r = d[r-'0']
+		}
+		b.WriteRune(r)
+	}
+	return b.String()
 }

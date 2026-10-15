@@ -121,6 +121,10 @@ const EN_DAYS_SHORT = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
 const FA_MONTHS = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"]
 const FA_DAYS = ["یک‌شنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه", "شنبه"]
 const FA_DAYS_SHORT = ["1ش", "2ش", "3ش", "4ش", "5ش", "ج", "ش"]
+// react-day-picker/locale arSA (Gregorian, Latin digits, weeks from Sunday).
+const AR_MONTHS = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"]
+const AR_DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"]
+const AR_DAYS_SHORT = ["أحد", "اثنين", "ثلاثاء", "أربعاء", "خميس", "جمعة", "سبت"]
 
 function enOrdinal(n) {
   const r100 = n % 100
@@ -152,6 +156,7 @@ const NUMERALS = {
 function makeLib(cfg) {
   const S = cfg.calendar === "persian" ? persian : gregory
   const fa = cfg.locale === "fa"
+  const ar = cfg.locale === "ar"
   const digits = NUMERALS[cfg.numerals ?? "latn"] ?? null
   const num = (s) => (digits ? String(s).replace(/\d/g, (d) => digits[d]) : String(s))
   const weekStartsOn = cfg.weekStartsOn ?? (fa ? 6 : 0)
@@ -219,16 +224,17 @@ function makeLib(cfg) {
     num,
     caption(j) {
       const [y, m] = S.ymd(j)
-      return num(`${fa ? FA_MONTHS[m] : EN_MONTHS[m]} ${y}`)
+      return num(`${fa ? FA_MONTHS[m] : ar ? AR_MONTHS[m] : EN_MONTHS[m]} ${y}`)
     },
     fullDate(j) {
       const [y, m, d] = S.ymd(j)
       const w = weekday(j)
       if (fa) return num(`${FA_DAYS[w]} ${d}-ام ${FA_MONTHS[m]} ${y}`)
+      if (ar) return num(`${AR_DAYS[w]}, ${AR_MONTHS[m]} ${d}, ${y}`)
       return num(`${EN_DAYS[w]}, ${EN_MONTHS[m]} ${enOrdinal(d)}, ${y}`)
     },
-    weekdayShort: (j) => num(fa ? FA_DAYS_SHORT[weekday(j)] : EN_DAYS_SHORT[weekday(j)]),
-    weekdayLong: (j) => num(fa ? FA_DAYS[weekday(j)] : EN_DAYS[weekday(j)]),
+    weekdayShort: (j) => num((fa ? FA_DAYS_SHORT : ar ? AR_DAYS_SHORT : EN_DAYS_SHORT)[weekday(j)]),
+    weekdayLong: (j) => num((fa ? FA_DAYS : ar ? AR_DAYS : EN_DAYS)[weekday(j)]),
     day: (j) => num(S.ymd(j)[2]),
     isoDay(j) {
       const [y, m, d] = S.ymd(j)
@@ -242,11 +248,13 @@ function makeLib(cfg) {
     // shadcn's formatMonthDropdown: date.toLocaleString("default", { month: "short" }).
     monthDropdown(j) {
       const [, gm] = d2g(j)
+      if (ar) return AR_MONTHS[gm - 1]
       return (cfg.monthLong && !fa ? EN_MONTHS : EN_MONTHS_SHORT)[gm - 1]
     },
     // day.date.toLocaleDateString() (en-US).
     localeDate(j) {
       const [gy, gm, gd] = d2g(j)
+      if (ar) return `${gd}\u200f/${gm}\u200f/${gy}`.replace(/\d/g, (c) => NUMERALS.arab[c])
       return `${gm}/${gd}/${gy}`
     },
     weekNumber: (n) => (n < 10 ? num(`0${n}`) : num(`${n}`)),

@@ -104,6 +104,13 @@ type ClassNames map[string]string
 
 type persianFlag struct{}
 
+type arabicFlag struct{}
+
+// Arabic renders month and weekday names in Arabic like
+// react-day-picker/locale's arSA (as the ui-rtl calendar examples use it):
+// "يناير 2026", weeks from Sunday, day labels "الخميس, يناير 15, 2026".
+var Arabic = arabicFlag{}
+
 // Persian renders the Solar Hijri calendar like react-day-picker/persian:
 // Persian locale, Eastern Arabic digits and dir="rtl".
 var Persian = persianFlag{}
@@ -236,6 +243,8 @@ type Builder struct {
 	buttonVariant button.Variant
 	classNames    ClassNames
 	persian       bool
+	arabic        bool
+	rtl           bool // inside style.ScopeRTL: ui-rtl classes
 	numerals      Numerals
 	st            style.Style // the enclosing style.Scope, "" for new-york-v4
 	buttonStyle   style.Style
@@ -379,6 +388,8 @@ func (b *Builder) AcceptChild(c any) bool {
 		b.classNames = v
 	case persianFlag:
 		b.persian = true
+	case arabicFlag:
+		b.arabic = true
 	case numeralsOption:
 		b.numerals = Numerals(v)
 	default:
@@ -515,6 +526,17 @@ func (b *Builder) Element() *h.Element {
 		cfg.DayButtonClass = button.StyleVariants(b.st, button.VariantGhost, button.SizeIcon, stDayButton.Class(b.st, "rdp-day", cfg.ClassNames["day_button"]))
 	}
 	cfg.ChevronClass = lib.Cn("size-4", cfg.ClassNames["chevron"])
+	if b.rtl {
+		// The ui-rtl calendar: logical classes, chevrons flipped in RTL.
+		for k, v := range cfg.ClassNames {
+			cfg.ClassNames[k] = style.RTLClass(v)
+		}
+		cfg.DayButtonClass = style.RTLClass(cfg.DayButtonClass)
+		cfg.ChevronClass = lib.Cn("size-4 rtl:rotate-180", cfg.ClassNames["chevron"])
+	}
+	if b.arabic {
+		cfg.Locale = "ar"
+	}
 	props := b.Elem()
 	dir, hasDir := props.GetAttr("dir")
 	if b.persian {
@@ -545,7 +567,9 @@ func (b *Builder) Element() *h.Element {
 	if cfg.WeekStartsOn != nil {
 		weekStartsOn = cfg.WeekStartsOn
 	}
-	dp := newDayPicker(&cfg, newDateLib(b.persian, Numerals(cfg.Numerals), weekStartsOn))
+	dl := newDateLib(b.persian, Numerals(cfg.Numerals), weekStartsOn)
+	dl.ar = b.arabic
+	dp := newDayPicker(&cfg, dl)
 
 	base := h.Div(h.Data("slot", "calendar"))
 	if hasDir {
@@ -583,7 +607,8 @@ func (b *Builder) Render(w io.Writer) error { return b.ElementIn(w).Render(w) }
 // ElementIn resolves the calendar in the style of an enclosing style.Scope.
 func (b *Builder) ElementIn(w io.Writer) *h.Element {
 	b.st, _ = style.FromWriter(w)
-	defer func() { b.st = "" }()
+	b.rtl = b.st != "" && style.RTLFromWriter(w)
+	defer func() { b.st, b.rtl = "", false }()
 	return b.Element()
 }
 

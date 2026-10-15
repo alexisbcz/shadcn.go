@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"shadcn.go/components/ui/sonner"
+	"shadcn.go/components/ui/toast"
 	"strings"
 
 	"shadcn.go/components/ui/runtime"
@@ -185,6 +186,8 @@ func (s *Site) Document(r *http.Request, m Meta, body ...any) h.Node {
 			// sonner's own theme stays light; colors follow the page through
 			// shadcn's --normal-* variables.
 			sonner.Toaster(sonner.ThemeLight, sonner.PositionTopCenter),
+			// <BaseToaster /> (styles/base-nova/ui/toast).
+			toast.Toaster(),
 		),
 	))
 }
