@@ -1,0 +1,91 @@
+<!DOCTYPE html><html class="geist_798ff10f-module__HGtJha__variable geist_4e2d599d-module__VB9uPW__variable geist_mono_3f173115-module__-5hxnG__variable noto_sans_arabic_43e4c719-module__-KZrLG__variable noto_sans_hebrew_1a1cc4a4-module__bpro2a__variable [--header-height:calc(var(--spacing)*14)] lg:[--header-height:calc(var(--spacing)*16)]" lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="preload" href="/shadcn.go/fonts/14a9d8930cac1a04-s.p.0uri4t8jwwgpt.woff2" as="font" crossorigin="" type="font/woff2"><link rel="preload" href="/shadcn.go/fonts/64c5f24155ea0bd5-s.p.08hbbknvbgrcb.woff2" as="font" crossorigin="" type="font/woff2"><link rel="preload" href="/shadcn.go/fonts/9d1f839a878dd09a-s.p.2ojwk_d41qe8t.woff2" as="font" crossorigin="" type="font/woff2"><link rel="preload" href="/shadcn.go/fonts/caa3a2e1cccd8315-s.p.0wgildi0cnwt9.woff2" as="font" crossorigin="" type="font/woff2"><link rel="preload" href="/shadcn.go/fonts/f1d25eabcf1db66d-s.p.21se6xk6bxqs6.woff2" as="font" crossorigin="" type="font/woff2"><link rel="stylesheet" href="/shadcn.go/fonts/fonts.css"><link rel="stylesheet" href="/shadcn.go/assets/docs.css"><script type="module" src="/shadcn.go/_shadcn/index.js" nonce=""></script><script type="module" src="/shadcn.go/_site/site.js"></script><script>(function () {
+  if (location.pathname !== "/shadcn.go/docs" && !location.pathname.startsWith("/shadcn.go/docs/")) return
+
+  var stored = null
+  try {
+    stored = JSON.parse(sessionStorage.getItem("docs-sidebar-scroll"))
+  } catch (e) {}
+
+  function getActiveItem(container) {
+    var items = container.querySelectorAll('[data-active="true"]')
+    var active = null
+    var activePathLength = -1
+    var activeDistance = Infinity
+    var containerCenter = container.getBoundingClientRect().top + container.clientHeight / 2
+
+    for (var i = 0; i < items.length; i++) {
+      var link = items[i].querySelector('a[href]')
+      var href = items[i].getAttribute('href') || (link && link.getAttribute('href'))
+      var pathLength = href ? href.length : 0
+      var itemRect = items[i].getBoundingClientRect()
+      var distance = Math.abs(itemRect.top + itemRect.height / 2 - containerCenter)
+
+      if (pathLength > activePathLength || (pathLength === activePathLength && distance < activeDistance)) {
+        active = items[i]
+        activePathLength = pathLength
+        activeDistance = distance
+      }
+    }
+
+    return active
+  }
+
+  function restoreScroll() {
+    var container = document.querySelector('[data-docs-sidebar-content]')
+    if (!container || !container.clientHeight) return
+
+    if (stored && stored.pathname === location.pathname) {
+      container.scrollTop = stored.scrollTop
+      return
+    }
+
+    if (stored && typeof stored.scrollTop === "number" && !container.dataset.docsScrollPersisted && document.referrer.indexOf(location.origin + "/shadcn.go/docs") === 0) {
+      container.dataset.docsScrollPersisted = "true"
+      container.scrollTop = stored.scrollTop
+    }
+    var active = getActiveItem(container)
+    if (!active) return
+
+    var containerRect = container.getBoundingClientRect()
+    var activeRect = active.getBoundingClientRect()
+    if (activeRect.top >= containerRect.top && activeRect.bottom <= containerRect.bottom) return
+
+    container.scrollTop += activeRect.top - containerRect.top - (container.clientHeight - activeRect.height) / 2
+  }
+
+  var observer = new MutationObserver(restoreScroll)
+  observer.observe(document.documentElement, { childList: true, subtree: true })
+  restoreScroll()
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      restoreScroll()
+      observer.disconnect()
+    }, { once: true })
+  } else {
+    observer.disconnect()
+  }
+})()</script><script>
+              try {
+                if (localStorage.theme === 'dark' || ((!('theme' in localStorage) || localStorage.theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.querySelector('meta[name="theme-color"]').setAttribute('content', '#09090b')
+                }
+              } catch (_) {}
+            </script><meta name="theme-color" content="#ffffff"><title>chart-bar-mixed - shadcn/ui</title><meta name="description" content="Composable, accessible components with thoughtful defaults. Build your own component library with code you can customize, extend, and make your own."><meta name="author" content="shadcn"><link rel="manifest" href="https://alexisbcz.github.io/shadcn.go/site.webmanifest"><meta name="keywords" content="Next.js,React,Tailwind CSS,Components,shadcn"><meta name="creator" content="shadcn"><meta property="og:title" content="chart-bar-mixed"><meta property="og:description" content="Composable, accessible components with thoughtful defaults. Build your own component library with code you can customize, extend, and make your own."><meta property="og:image" content="https://alexisbcz.github.io/shadcn.go/opengraph-image.png"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:creator" content="@shadcn"><meta name="twitter:title" content="chart-bar-mixed"><meta name="twitter:description" content="Composable, accessible components with thoughtful defaults. Build your own component library with code you can customize, extend, and make your own."><meta name="twitter:image" content="https://alexisbcz.github.io/shadcn.go/opengraph-image.png"><link rel="shortcut icon" href="/shadcn.go/favicon-16x16.png"><link rel="icon" href="/shadcn.go/favicon.ico"><link rel="apple-touch-icon" href="/shadcn.go/apple-touch-icon.png"><link rel="alternate" type="application/rss+xml" href="https://alexisbcz.github.io/shadcn.go/rss.xml"></head><body class="group/body overscroll-none antialiased theme-default [--footer-height:calc(var(--spacing)*14)] xl:[--footer-height:calc(var(--spacing)*24)]"><script>((a,b,c,d,e,f,g,h)=>{let i=document.documentElement,j=["light","dark"];function k(b){var c;(Array.isArray(a)?a:[a]).forEach(a=>{let c="class"===a,d=c&&f?e.map(a=>f[a]||a):e;c?(i.classList.remove(...d),i.classList.add(f&&f[b]?f[b]:b)):i.setAttribute(a,b)}),c=b,h&&j.includes(c)&&(i.style.colorScheme=c)}if(d)k(d);else try{let a=localStorage.getItem(b)||c,d=g&&"system"===a?window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light":a;k(d)}catch(a){}})("class","theme","system",null,["light","dark"],null,true,true)</script><div class="bg-background *:data-[slot=card]:has-[[data-slot=chart]]:shadow-none"><div class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm" data-slot="card"><div class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6" data-slot="card-header"><div class="leading-none font-semibold" data-slot="card-title">Bar Chart - Mixed</div><div class="text-sm text-muted-foreground" data-slot="card-description">January - June 2024</div></div><div class="px-6" data-slot="card-content"><div class="flex aspect-video justify-center text-xs [&amp;_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&amp;_.recharts-cartesian-grid_line[stroke=&#39;#ccc&#39;]]:stroke-border/50 [&amp;_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&amp;_.recharts-dot[stroke=&#39;#fff&#39;]]:stroke-transparent [&amp;_.recharts-layer]:outline-hidden [&amp;_.recharts-polar-grid_[stroke=&#39;#ccc&#39;]]:stroke-border [&amp;_.recharts-radial-bar-background-sector]:fill-muted [&amp;_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&amp;_.recharts-reference-line_[stroke=&#39;#ccc&#39;]]:stroke-border [&amp;_.recharts-sector]:outline-hidden [&amp;_.recharts-sector[stroke=&#39;#fff&#39;]]:stroke-transparent [&amp;_.recharts-surface]:outline-hidden" data-slot="chart" data-chart="chart-_r_0_"><style>
+ [data-chart=chart-_r_0_] {
+  --color-chrome: var(--chart-1);
+  --color-safari: var(--chart-2);
+  --color-firefox: var(--chart-3);
+  --color-edge: var(--chart-4);
+  --color-other: var(--chart-5);
+}
+
+
+.dark [data-chart=chart-_r_0_] {
+  --color-chrome: var(--chart-1);
+  --color-safari: var(--chart-2);
+  --color-firefox: var(--chart-3);
+  --color-edge: var(--chart-4);
+  --color-other: var(--chart-5);
+}
+</style><div class="recharts-responsive-container" style="width: 100%; height: 100%; min-width: 0px;"><div style="width: 0px; height: 0px; overflow: visible;"></div></div><script type="application/json" data-chart-spec="">{"config":[{"key":"visitors","label":"Visitors"},{"key":"chrome","label":"Chrome","color":"var(--chart-1)"},{"key":"safari","label":"Safari","color":"var(--chart-2)"},{"key":"firefox","label":"Firefox","color":"var(--chart-3)"},{"key":"edge","label":"Edge","color":"var(--chart-4)"},{"key":"other","label":"Other","color":"var(--chart-5)"}],"generatedId":true,"initialDimension":{"height":200,"width":320},"spec":{"type":"BarChart","props":{"accessibilityLayer":true,"data":[{"browser":"chrome","fill":"var(--color-chrome)","visitors":275},{"browser":"safari","fill":"var(--color-safari)","visitors":200},{"browser":"firefox","fill":"var(--color-firefox)","visitors":187},{"browser":"edge","fill":"var(--color-edge)","visitors":173},{"browser":"other","fill":"var(--color-other)","visitors":90}],"layout":"vertical","margin":{"bottom":0,"left":0,"right":0,"top":0}},"children":[{"type":"YAxis","props":{"axisLine":false,"dataKey":"browser","tickFormatter":{"$fn":"configLabel","args":[]},"tickLine":false,"tickMargin":10,"type":"category"}},{"type":"XAxis","props":{"dataKey":"visitors","hide":true,"type":"number"}},{"type":"Tooltip","props":{"cursor":false},"children":[{"type":"ChartTooltipContent","props":{"classes":{"flat":{"indicator":"shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg) h-2.5 w-2.5","value":"flex flex-1 justify-between leading-none items-center"},"item":"flex w-full flex-wrap gap-2 [\u0026\u003esvg]:h-2.5 [\u0026\u003esvg]:w-2.5 [\u0026\u003esvg]:text-muted-foreground items-center","label":"font-medium","nest":{"indicator":"shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg) h-2.5 w-2.5","value":"flex flex-1 justify-between leading-none items-end"},"root":"grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl"},"hideLabel":true}}]},{"type":"Bar","props":{"dataKey":"visitors","radius":5}}]}}</script></div></div><div class="flex px-6 [.border-t]:pt-6 flex-col items-start gap-2 text-sm" data-slot="card-footer"><div class="flex gap-2 leading-none font-medium">Trending up by 5.2% this month <svg class="lucide lucide-trending-up h-4 w-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 7 22 7 22 13"></polyline></svg></div><div class="leading-none text-muted-foreground">Showing total visitors for the last 6 months</div></div></div></div><section aria-label="Notifications alt+T" tabindex="-1" aria-live="polite" aria-relevant="additions text" aria-atomic="false"><template data-parity-ignore="" data-sonner-toaster="" data-theme="light" data-position="top-center" data-class="toaster group" data-style="{&#34;--normal-bg&#34;:&#34;var(--popover)&#34;,&#34;--normal-text&#34;:&#34;var(--popover-foreground)&#34;,&#34;--normal-border&#34;:&#34;var(--border)&#34;,&#34;--border-radius&#34;:&#34;var(--radius)&#34;}"><svg class="lucide lucide-circle-check size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-sonner-icon="success"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg><svg class="lucide lucide-info size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-sonner-icon="info"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg><svg class="lucide lucide-triangle-alert size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-sonner-icon="warning"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg><svg class="lucide lucide-octagon-x size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-sonner-icon="error"><path d="m15 9-6 6"></path><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"></path><path d="m9 9 6 6"></path></svg><svg class="lucide lucide-loader-circle size-4 animate-spin" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-sonner-icon="loading"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg></template></section><div data-base-ui-portal="" data-slot="toast-portal"><div class="pointer-events-none fixed inset-x-4 bottom-4 z-50 mx-auto w-auto max-w-sm outline-none sm:right-4 sm:left-auto sm:mx-0 sm:w-full" tabindex="-1" role="region" aria-live="polite" aria-atomic="false" aria-relevant="additions text" aria-label="Notifications" data-slot="toast-viewport"></div></div></body></html>

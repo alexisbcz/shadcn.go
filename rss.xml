@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>shadcn/ui Changelog</title>
+    <link>https://alexisbcz.github.io/shadcn.go</link>
+    <description>Composable, accessible components with thoughtful defaults. Build your own component library with code you can customize, extend, and make your own.</description>
+    <language>en-us</language>
+    <atom:link href="https://alexisbcz.github.io/shadcn.go/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title><![CDATA[September 2026 - cn]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-09-cn</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-09-cn</guid>
+      <description><![CDATA[Components now import cn from the cn package. One dependency instead of two, and no local helper to maintain.]]></description>
+      <pubDate>Thu, 03 Sep 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[August 2026 - Private GitHub Registries]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-08-private-github-registries</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-08-private-github-registries</guid>
+      <description><![CDATA[Install registry items from private GitHub repositories using the GitHub CLI or a token.]]></description>
+      <pubDate>Mon, 24 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[August 2026 - Human in the Loop]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-08-helpers-human-in-the-loop</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-08-helpers-human-in-the-loop</guid>
+      <description><![CDATA[Mock paused tool calls, approvals, and continuations for the AI SDK with @shadcn/helpers.]]></description>
+      <pubDate>Wed, 12 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[August 2026 - Questionnaire]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-08-questionnaire</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-08-questionnaire</guid>
+      <description><![CDATA[A new component for building multi-step question flows with fixed, freeform, multiple, and skippable answers.]]></description>
+      <pubDate>Wed, 05 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[July 2026 - Dynamic Search]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-07-dynamic-search</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-07-dynamic-search</guid>
+      <description><![CDATA[Registries can now handle search server-side.]]></description>
+      <pubDate>Fri, 31 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[July 2026 - Toast]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-07-toast</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-07-toast</guid>
+      <description><![CDATA[A new Toast component built on Base UI primitives.]]></description>
+      <pubDate>Thu, 23 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[July 2026 - React Aria]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-07-react-aria</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-07-react-aria</guid>
+      <description><![CDATA[React Aria is now available as a component base in shadcn/ui.]]></description>
+      <pubDate>Fri, 17 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[July 2026 - Introducing @shadcn/helpers]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-07-helpers</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-07-helpers</guid>
+      <description><![CDATA[Small, focused helpers for developing apps, starting with AI SDK and TanStack AI.]]></description>
+      <pubDate>Tue, 14 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[July 2026 - Introducing shadcn/typeset]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-07-typeset</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-07-typeset</guid>
+      <description><![CDATA[A complete typography system for HTML, from blog posts to streaming chat. One CSS file you own.]]></description>
+      <pubDate>Fri, 10 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[July 2026 - Base UI as the Default]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-07-base-ui-default</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-07-base-ui-default</guid>
+      <description><![CDATA[New projects now use Base UI by default. Radix is still fully supported.]]></description>
+      <pubDate>Thu, 02 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[June 2026 - Components for Chat Interfaces]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-06-chat-components</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-06-chat-components</guid>
+      <description><![CDATA[MessageScroller, Message, Bubble, Attachment, and Marker. Components for building chat interfaces.]]></description>
+      <pubDate>Fri, 26 Jun 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[June 2026 - GitHub Registries]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-06-github-registries</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-06-github-registries</guid>
+      <description><![CDATA[Turn any public GitHub repository into a shadcn registry.]]></description>
+      <pubDate>Mon, 01 Jun 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[May 2026 - shadcn eject]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-05-shadcn-eject</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-05-shadcn-eject</guid>
+      <description><![CDATA[Inline shadcn/tailwind.css and remove the shadcn dependency.]]></description>
+      <pubDate>Sun, 31 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[May 2026 - Introducing Rhea]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-05-rhea</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-05-rhea</guid>
+      <description><![CDATA[A more compact Luma. Smaller spacing. Denser surfaces. Built for focused product interfaces.]]></description>
+      <pubDate>Tue, 26 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[May 2026 - Registry Include and Validate]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-05-registry-include</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-05-registry-include</guid>
+      <description><![CDATA[Organize and validate source registries.]]></description>
+      <pubDate>Wed, 20 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[May 2026 - Package Imports and Target Aliases]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-05-package-imports-target-aliases</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-05-package-imports-target-aliases</guid>
+      <description><![CDATA[Configure shadcn/ui with package.json imports and portable registry target aliases.]]></description>
+      <pubDate>Tue, 05 May 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[April 2026 - shadcn preset]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-04-preset-commands</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-04-preset-commands</guid>
+      <description><![CDATA[Decode, share, open, and resolve preset codes from the shadcn CLI.]]></description>
+      <pubDate>Tue, 28 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[April 2026 - Pointer Cursor]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-04-pointer-cursor</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-04-pointer-cursor</guid>
+      <description><![CDATA[Add cursor pointer behavior for buttons during project setup.]]></description>
+      <pubDate>Sat, 25 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[April 2026 - Partial Preset Apply]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-04-partial-preset-apply</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-04-partial-preset-apply</guid>
+      <description><![CDATA[Apply only the theme or fonts from a preset while keeping your existing components.]]></description>
+      <pubDate>Wed, 22 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[April 2026 - Introducing Sera]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-04-sera</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-04-sera</guid>
+      <description><![CDATA[Minimal. Editorial. Typographic. Underline Controls and Uppercase Headings. Shaped by Print Design Principles.]]></description>
+      <pubDate>Thu, 16 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[April 2026 - shadcn apply]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-04-shadcn-apply</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-04-shadcn-apply</guid>
+      <description><![CDATA[Switch presets in existing projects without starting over.]]></description>
+      <pubDate>Wed, 08 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[April 2026 - Component Composition]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-04-component-composition</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-04-component-composition</guid>
+      <description><![CDATA[Composition sections across component pages—structured trees that help you and your agents build correct UI.]]></description>
+      <pubDate>Mon, 06 Apr 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[March 2026 - Introducing Luma]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-03-luma</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-03-luma</guid>
+      <description><![CDATA[Rounded geometry. Soft elevation. Breathable layouts. Inspired by macOS Tahoe, minus the glass.]]></description>
+      <pubDate>Tue, 31 Mar 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[March 2026 - shadcn/cli v4]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-03-cli-v4</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-03-cli-v4</guid>
+      <description><![CDATA[More capable, easier to use. Built for you and your coding agents. Skills, presets, dry run, new templates, monorepo and more.]]></description>
+      <pubDate>Fri, 06 Mar 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[February 2026 - Blocks for Radix and Base UI]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-02-blocks</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-02-blocks</guid>
+      <description><![CDATA[All blocks are now available for both Radix and Base UI.]]></description>
+      <pubDate>Fri, 06 Feb 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[February 2026 - Unified Radix UI Package]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-02-radix-ui</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-02-radix-ui</guid>
+      <description><![CDATA[The new-york style now uses the unified radix-ui package.]]></description>
+      <pubDate>Mon, 02 Feb 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[January 2026 - RTL Support]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-01-rtl</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-01-rtl</guid>
+      <description><![CDATA[The shadcn CLI now supports RTL (right-to-left) layouts by automatically converting physical CSS classes to logical equivalents.]]></description>
+      <pubDate>Wed, 28 Jan 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[January 2026 - Inline Start and End Styles]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-01-inline-side-styles</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-01-inline-side-styles</guid>
+      <description><![CDATA[We've updated the styles for Base UI components to support inline-start and inline-end side values.]]></description>
+      <pubDate>Fri, 23 Jan 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[January 2026 - Base UI Documentation]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-01-base-ui</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2026-01-base-ui</guid>
+      <description><![CDATA[Full documentation for Base UI components.]]></description>
+      <pubDate>Tue, 20 Jan 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[December 2025 - npx shadcn create]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-12-shadcn-create</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-12-shadcn-create</guid>
+      <description><![CDATA[Customize everything. Pick your component library, icons, base color, theme, fonts and create your own version of shadcn/ui.]]></description>
+      <pubDate>Fri, 12 Dec 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[October 2025 - Registry Directory]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-10-registry-directory</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-10-registry-directory</guid>
+      <description><![CDATA[A list of code registries you can browse and pull code and components from.]]></description>
+      <pubDate>Tue, 28 Oct 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[October 2025 - New Components]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-10-new-components</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-10-new-components</guid>
+      <description><![CDATA[Spinner, Kbd, Button Group, Input Group, Field, Item, and Empty components.]]></description>
+      <pubDate>Fri, 03 Oct 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[September 2025 - Registry Index]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-09-registry-index</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-09-registry-index</guid>
+      <description><![CDATA[An index of open source registries that you can install items from.]]></description>
+      <pubDate>Tue, 02 Sep 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[August 2025 - shadcn CLI 3.0 and MCP Server]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-08-cli-3-mcp</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-08-cli-3-mcp</guid>
+      <description><![CDATA[Namespaced registries, advanced authentication, new commands and a completely rewritten registry engine.]]></description>
+      <pubDate>Wed, 27 Aug 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[July 2025 - Universal Registry Items]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-07-universal-registry</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-07-universal-registry</guid>
+      <description><![CDATA[Create registry items that can be distributed to any project.]]></description>
+      <pubDate>Fri, 11 Jul 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[July 2025 - Local File Support]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-07-local-file-support</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-07-local-file-support</guid>
+      <description><![CDATA[Initialize projects and add components from local JSON files.]]></description>
+      <pubDate>Mon, 07 Jul 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[June 2025 - radix-ui Migration]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-06-radix-ui</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-06-radix-ui</guid>
+      <description><![CDATA[A new command to migrate to the new radix-ui package.]]></description>
+      <pubDate>Wed, 11 Jun 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[June 2025 - Calendar Component]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-06-calendar</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-06-calendar</guid>
+      <description><![CDATA[Upgraded Calendar component with React DayPicker and 30+ calendar blocks.]]></description>
+      <pubDate>Fri, 06 Jun 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[May 2025 - New Site]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-05-new-site</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-05-new-site</guid>
+      <description><![CDATA[Upgraded ui.shadcn.com to Next.js 15.3 and Tailwind v4.]]></description>
+      <pubDate>Fri, 30 May 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[April 2025 - MCP]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-04-mcp</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-04-mcp</guid>
+      <description><![CDATA[Zero-config MCP support for shadcn/ui registry.]]></description>
+      <pubDate>Wed, 30 Apr 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[April 2025 - shadcn 2.5.0]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-04-shadcn-2-5</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-04-shadcn-2-5</guid>
+      <description><![CDATA[Resolve anywhere - registries can now place files anywhere in an app.]]></description>
+      <pubDate>Sat, 26 Apr 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[April 2025 - Cross-framework Route Support]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-04-cross-framework</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-04-cross-framework</guid>
+      <description><![CDATA[The shadcn CLI can now auto-detect your framework and adapt routes for you.]]></description>
+      <pubDate>Wed, 09 Apr 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[February 2025 - Tailwind v4]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-02-tailwind-v4</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-02-tailwind-v4</guid>
+      <description><![CDATA[First preview of Tailwind v4 and React 19 support.]]></description>
+      <pubDate>Wed, 19 Feb 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[February 2025 - Updated Registry Schema]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-02-registry-schema</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-02-registry-schema</guid>
+      <description><![CDATA[Updated registry schema to support more features.]]></description>
+      <pubDate>Thu, 06 Feb 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[January 2025 - Blocks Community]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-01-blocks</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2025-01-blocks</guid>
+      <description><![CDATA[Inviting the community to contribute to the blocks library.]]></description>
+      <pubDate>Tue, 14 Jan 2025 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[December 2024 - Monorepo Support]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-12-monorepo</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-12-monorepo</guid>
+      <description><![CDATA[New monorepo support in the CLI.]]></description>
+      <pubDate>Fri, 20 Dec 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[November 2024 - Icons]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-11-icons</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-11-icons</guid>
+      <description><![CDATA[The new-york style now uses Lucide as the default icon set.]]></description>
+      <pubDate>Wed, 06 Nov 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[October 2024 - React 19]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-10-react-19</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-10-react-19</guid>
+      <description><![CDATA[shadcn/ui is now compatible with React 19 and Next.js 15.]]></description>
+      <pubDate>Tue, 29 Oct 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[October 2024 - Sidebar]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-10-sidebar</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-10-sidebar</guid>
+      <description><![CDATA[25 components to help you build all kinds of sidebars.]]></description>
+      <pubDate>Fri, 18 Oct 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[August 2024 - npx shadcn init]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-08-npx-shadcn-init</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-08-npx-shadcn-init</guid>
+      <description><![CDATA[Complete CLI rewrite with support for all major React frameworks.]]></description>
+      <pubDate>Sat, 31 Aug 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[April 2024 - Lift Mode]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-04-lift-mode</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-04-lift-mode</guid>
+      <description><![CDATA[A new mode for Blocks to lift smaller components for copy and paste.]]></description>
+      <pubDate>Fri, 05 Apr 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[March 2024 - Introducing Blocks]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-03-blocks</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-03-blocks</guid>
+      <description><![CDATA[Ready-made components for dashboards and authentication pages.]]></description>
+      <pubDate>Fri, 22 Mar 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[March 2024 - Breadcrumb and Input OTP]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-03-breadcrumb-otp</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2024-03-breadcrumb-otp</guid>
+      <description><![CDATA[New Breadcrumb and Input OTP components.]]></description>
+      <pubDate>Fri, 08 Mar 2024 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[December 2023 - New Components]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2023-12-new-components</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2023-12-new-components</guid>
+      <description><![CDATA[Carousel, Drawer, Pagination, Resizable, Sonner, and CLI updates.]]></description>
+      <pubDate>Fri, 22 Dec 2023 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[July 2023 - JavaScript]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2023-07-javascript</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2023-07-javascript</guid>
+      <description><![CDATA[JavaScript version of components available via the CLI.]]></description>
+      <pubDate>Tue, 04 Jul 2023 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title><![CDATA[June 2023 - New CLI, Styles and more]]></title>
+      <link>https://alexisbcz.github.io/shadcn.go/docs/changelog/2023-06-new-cli</link>
+      <guid>https://alexisbcz.github.io/shadcn.go/docs/changelog/2023-06-new-cli</guid>
+      <description><![CDATA[Complete CLI rewrite with new styles, theming options, and more.]]></description>
+      <pubDate>Thu, 22 Jun 2023 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

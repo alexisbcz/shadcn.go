@@ -1,0 +1,173 @@
+// Site behaviors of the Go docs site that are not component behaviors
+// (those live in the component runtime): the theme switch (next-themes:
+// localStorage "theme", class on <html>, color-scheme).
+//
+// Extension point: header.go renders elements with data-site-action; add
+// handlers below.
+
+const root = document.documentElement
+
+function resolved(theme) {
+  if (theme === "system") {
+    return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+  }
+  return theme
+}
+
+export function setTheme(theme) {
+  try {
+    localStorage.setItem("theme", theme)
+  } catch (_) {}
+  applyTheme(theme)
+}
+
+// next-themes' storage listener: a theme change in another document of the
+// site (the page around a /shadcn.go/view iframe, another tab) applies here too.
+window.addEventListener("storage", (e) => {
+  if (e.key === "theme") applyTheme(e.newValue || "system")
+})
+
+function applyTheme(theme) {
+  const r = resolved(theme)
+  // next-themes' disableTransitionOnChange: no transition runs while the
+  // theme classes change.
+  const css = document.createElement("style")
+  css.appendChild(document.createTextNode("*,*::before,*::after{-webkit-transition:none!important;-moz-transition:none!important;-o-transition:none!important;-ms-transition:none!important;transition:none!important}"))
+  document.head.appendChild(css)
+  root.classList.remove("light", "dark")
+  root.classList.add(r)
+  root.style.colorScheme = r
+  const meta = document.querySelector('meta[name="theme-color"]')
+  if (meta) meta.setAttribute("content", r === "dark" ? "#09090b" : "#ffffff")
+  window.getComputedStyle(document.body)
+  setTimeout(() => document.head.removeChild(css), 1)
+}
+
+function toggleTheme() {
+  setTheme(resolved(currentTheme()) === "dark" ? "light" : "dark")
+}
+
+function currentTheme() {
+  try {
+    return localStorage.getItem("theme") || "system"
+  } catch (_) {
+    return "system"
+  }
+}
+
+document.addEventListener("click", (event) => {
+  const el = event.target.closest("[data-site-action]")
+  if (!el) return
+  switch (el.dataset.siteAction) {
+    case "toggle-theme":
+      // ModeSwitcher: toggles between the resolved theme and its opposite.
+      toggleTheme()
+      break
+  }
+})
+
+// ThemeShortcut (components/theme-provider.tsx): "d" toggles the theme
+// outside editable fields.
+document.addEventListener("keydown", (e) => {
+  if ((e.key === "d" || e.key === "D") && !e.metaKey && !e.ctrlKey && !e.altKey) {
+    const t = e.target
+    if ((t instanceof HTMLElement && t.isContentEditable) || t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement || t instanceof HTMLSelectElement) return
+    e.preventDefault()
+    toggleTheme()
+  }
+})
+
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+  if (currentTheme() === "system") setTheme("system")
+})
+
+// Block viewer (components/block-viewer.tsx): Preview/Code tabs switch the
+// wrapper's data-view, the size toggle resizes the preview panel, refresh
+// reloads the iframe, the file tree selects the code shown, copy buttons.
+document.addEventListener("click", (e) => {
+  const t = e.target instanceof Element ? e.target : null
+  const wrapper = t?.closest("[data-block-viewer]")
+  if (!wrapper) return
+  const tab = t.closest("[data-block-view]")
+  if (tab) wrapper.dataset.view = tab.dataset.blockView
+  const size = t.closest("[data-block-size] [data-slot=toggle-group-item]")
+  if (size) {
+    wrapper.dataset.view = "preview"
+    const value = size.getAttribute("value") ?? size.dataset.value
+    const panel = wrapper.querySelector("[data-block-panel]")
+    if (value && panel?.resizablePanel) panel.resizablePanel.resize(value)
+  }
+  if (t.closest("[data-block-refresh]")) {
+    const iframe = wrapper.querySelector("iframe")
+    if (iframe) iframe.src = iframe.src
+  }
+  const file = t.closest("[data-block-select-file]")
+  if (file) {
+    const target = file.dataset.blockSelectFile
+    for (const f of wrapper.querySelectorAll("[data-block-file]")) f.hidden = f.dataset.blockFile !== target
+    for (const b of wrapper.querySelectorAll("[data-block-select-file]")) b.dataset.active = String(b === file)
+  }
+  const copy = t.closest("[data-block-copy]")
+  if (copy) navigator.clipboard?.writeText(copy.dataset.blockCopy)
+  const copyFile = t.closest("[data-block-copy-file]")
+  if (copyFile) {
+    const fig = copyFile.closest("[data-block-file]")
+    navigator.clipboard?.writeText(fig?.querySelector("code")?.textContent ?? "")
+  }
+})
+
+// Chart gallery (components/chart-iframe.tsx, chart-copy-button.tsx): the
+// iframe fades in once loaded; copy buttons copy their code.
+for (const f of document.querySelectorAll("iframe[data-chart-iframe]")) {
+  const show = () => f.classList.replace("opacity-0", "opacity-100")
+  f.addEventListener("load", show)
+  if (f.contentDocument?.readyState === "complete" && f.contentDocument.URL !== "about:blank") show()
+}
+document.addEventListener("click", (e) => {
+  const b = e.target instanceof Element ? e.target.closest("[data-copy-text]") : null
+  if (b) navigator.clipboard?.writeText(b.dataset.copyText)
+})
+
+// Colors page (hooks/use-colors.ts, components/color.tsx): one format shared
+// by every palette's selector, persisted like jotai's atomWithStorage; a
+// swatch click copies the swatch in that format and marks it last copied.
+{
+  const read = () => {
+    try { return { format: "hsl", lastCopied: "", ...JSON.parse(localStorage.getItem("colors") ?? "{}") } } catch { return { format: "hsl", lastCopied: "" } }
+  }
+  const write = (c) => { try { localStorage.setItem("colors", JSON.stringify(c)) } catch {} }
+  const sync = (c) => {
+    for (const s of document.querySelectorAll("[data-color-format-value]")) s.textContent = c.format
+    for (const b of document.querySelectorAll("[data-color-values]")) {
+      b.dataset.lastCopied = String(JSON.parse(b.dataset.colorValues)[c.format] === c.lastCopied)
+    }
+  }
+  if (document.querySelector("[data-color-values]")) {
+    const c = read()
+    if (c.format !== "hsl" || c.lastCopied) sync(c)
+    document.addEventListener("shadcn:value-change", (e) => {
+      if (!(e.target instanceof Element) || !e.target.closest("[data-color-format]")) return
+      const c = read()
+      c.format = e.detail.value
+      write(c)
+      sync(c)
+    })
+    document.addEventListener("click", (e) => {
+      const b = e.target instanceof Element ? e.target.closest("[data-color-values]") : null
+      if (!b) return
+      const c = read()
+      c.lastCopied = JSON.parse(b.dataset.colorValues)[c.format]
+      navigator.clipboard?.writeText(c.lastCopied)
+      import("/shadcn.go/_shadcn/sonner.js").then(({ toast }) => toast.success(`Copied ${c.lastCopied} to clipboard.`))
+      write(c)
+      sync(c)
+      const check = '<path d="M20 6 9 17l-5-5"></path>'
+      const svg = b.querySelector(":scope > svg")
+      if (svg && !svg.dataset.copied) {
+        svg.dataset.copied = "1"
+        svg.innerHTML = check
+        svg.setAttribute("class", svg.getAttribute("class").replace("lucide-clipboard", "lucide-check") + " group-data-[last-copied=true]:opacity-100")
+      }
+    })
+  }
+}

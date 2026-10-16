@@ -1,0 +1,78 @@
+<div class="flex-1 text-sm outline-none flex flex-col gap-6" role="tabpanel" data-slot="tabs-content" data-typeset-panel="docs" tabindex="0"><section class="flex flex-col gap-2.5"><h3 class="text-sm font-medium">1. Create typeset.css</h3><p class="text-sm leading-relaxed text-muted-foreground">Copy the stylesheet into a <code class="font-mono">typeset.css</code> file next to your main CSS file, then import it:</p><button class="group/button inline-flex shrink-0 items-center justify-center rounded-[min(var(--radius-md),12px)] border border-border bg-background bg-clip-padding text-[0.8rem] font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#39;size-&#39;])]:size-3.5 hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-7 gap-1 px-2.5 in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 w-fit" type="button" data-slot="button" data-typeset-copy="css"><svg class="lucide lucide-copy" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-icon="inline-start"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>Copy typeset.css</button><div class="relative rounded-lg bg-muted/60"><pre class="scrollbar-none overflow-x-auto p-3 font-mono text-sm leading-relaxed">@import &#34;tailwindcss&#34;;
+@import &#34;./typeset.css&#34;;</pre></div></section><section class="flex flex-col gap-2.5"><h3 class="text-sm font-medium">2. Add the fonts</h3><p class="text-sm leading-relaxed text-muted-foreground">Load the fonts with <code class="font-mono">next/font</code> in your root layout:</p><div class="relative rounded-lg bg-muted/60"><pre class="scrollbar-none overflow-x-auto p-3 font-mono text-sm leading-relaxed">// app/layout.tsx
+import { Geist, Geist_Mono } from &#34;next/font/google&#34;
+
+const geist = Geist({
+  subsets: [&#34;latin&#34;],
+  variable: &#34;--font-geist&#34;,
+})
+
+const geistMono = Geist_Mono({
+  subsets: [&#34;latin&#34;],
+  variable: &#34;--font-geist-mono&#34;,
+})
+
+&lt;html className={`${geist.variable} ${geistMono.variable}`}&gt;</pre></div></section><section class="flex flex-col gap-2.5"><h3 class="text-sm font-medium">3. Create your custom typeset</h3><div class="relative rounded-lg bg-muted/60"><pre class="scrollbar-none overflow-x-auto p-3 font-mono text-sm leading-relaxed">/* globals.css */
+@import &#34;tailwindcss&#34;;
+@import &#34;./typeset.css&#34;;
+
+.typeset-docs {
+  --typeset-font-body: var(--font-geist);
+  --typeset-font-heading: var(--font-geist);
+  --typeset-font-mono: var(--font-geist-mono);
+  --typeset-size: 15px;
+  --typeset-leading: 1.75;
+  --typeset-flow: 1.25em;
+}</pre></div></section><section class="flex flex-col gap-2.5"><h3 class="text-sm font-medium">4. Wrap your content</h3><div class="relative rounded-lg bg-muted/60"><pre class="scrollbar-none overflow-x-auto p-3 font-mono text-sm leading-relaxed">&lt;div className=&#34;typeset typeset-docs max-w-[37em]&#34;&gt;
+  {content}
+&lt;/div&gt;</pre></div></section></div><div class="flex-1 text-sm outline-none flex flex-col gap-2.5" role="tabpanel" data-slot="tabs-content" data-typeset-panel="prompt" tabindex="0" hidden><p class="text-sm leading-relaxed text-muted-foreground">One prompt with your picks baked in. Copy it and paste it into your coding agent.</p><div class="relative rounded-lg bg-muted/60"><pre class="scrollbar-none overflow-x-auto p-3 font-mono text-sm leading-relaxed max-h-102 scroll-fade overflow-y-auto whitespace-pre-wrap">Install shadcn/typeset in this project.
+
+Typeset is a single stylesheet that styles rendered markdown: wrap the output in a `typeset` container and everything inside (headings, lists, tables, code, blockquotes, math) is styled. Everything outside is untouched.
+
+1. Download http://example.com/typeset.css and save it as typeset.css next to the project&#39;s main CSS file (where Tailwind is imported). If the file already exists, replace it with the downloaded copy.
+
+2. Import it in the main CSS file, after the Tailwind import:
+
+@import &#34;./typeset.css&#34;;
+
+3. Load the fonts in the root layout and update the HTML element:
+
+// app/layout.tsx
+import { Geist, Geist_Mono } from &#34;next/font/google&#34;
+
+const geist = Geist({
+  subsets: [&#34;latin&#34;],
+  variable: &#34;--font-geist&#34;,
+})
+
+const geistMono = Geist_Mono({
+  subsets: [&#34;latin&#34;],
+  variable: &#34;--font-geist-mono&#34;,
+})
+
+&lt;html className={`${geist.variable} ${geistMono.variable}`}&gt;
+
+4. Add this preset to the main CSS file, after the typeset import. If a class named .typeset-docs already exists, update its values in place. Leave any other typeset-* presets untouched: they are separate surfaces:
+
+.typeset-docs {
+  --typeset-font-body: var(--font-geist);
+  --typeset-font-heading: var(--font-geist);
+  --typeset-font-mono: var(--font-geist-mono);
+  --typeset-size: 15px;
+  --typeset-leading: 1.75;
+  --typeset-flow: 1.25em;
+}
+
+5. Do not apply the class anywhere yet. Search the project for surfaces that render markdown or rich content: react-markdown, Streamdown, or MDX components, dangerouslySetInnerHTML with parsed markdown, prose classes, CMS content renderers. Present the candidates you find as a short list and ask the user which surface should use typeset. Then wrap only the surface they pick:
+
+&lt;div className=&#34;typeset typeset-docs max-w-[37em]&#34;&gt;
+  {content}
+&lt;/div&gt;
+
+If the picked surface already has its own typography (a prose class, styled markdown components), list those styles and let the user decide what to remove before wrapping.
+
+Notes:
+
+- To exclude an embedded component from typeset styles, add the not-typeset class or the data-not-typeset attribute to it.
+- Verify on the surface the user picked: headings, lists, tables, and code inside the container should be styled with no classes on the content itself.
+- Docs: http://example.com/docs/typeset</pre></div><button class="group/button inline-flex shrink-0 items-center justify-center rounded-[min(var(--radius-md),12px)] border border-border bg-background bg-clip-padding text-[0.8rem] font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#39;size-&#39;])]:size-3.5 hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-7 gap-1 px-2.5 in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 w-fit" type="button" data-slot="button" data-typeset-copy="prompt"><svg class="lucide lucide-copy" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-icon="inline-start"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>Copy Prompt</button></div>
