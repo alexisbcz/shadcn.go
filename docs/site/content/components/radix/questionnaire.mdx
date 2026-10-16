@@ -1,0 +1,427 @@
+---
+title: Questionnaire
+description: A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-demo"
+  previewClassName="min-h-[560px] p-4 sm:p-8"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/questionnaire"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+questionnaire.Questionnaire(
+	questionnaire.Items(
+		questionnaire.ItemDef{Name: "direction", Required: true},
+		questionnaire.ItemDef{Name: "detail"},
+	),
+	questionnaire.Progress(),
+	questionnaire.Item(questionnaire.Name("direction"), questionnaire.Required(true),
+		questionnaire.Title("What should we prototype next?"),
+		questionnaire.Description("Choose a direction or write your own."),
+		questionnaire.Choices(
+			questionnaire.Choice(questionnaire.Value("delegation"),
+				h.Span(h.Class("font-medium"), "Delegation"),
+				h.Span(h.Class("text-muted-foreground"), "Show how work moves to a specialist."),
+			),
+			questionnaire.Choice(questionnaire.Value("questions"),
+				h.Span(h.Class("font-medium"), "Question prompts"),
+				h.Span(h.Class("text-muted-foreground"), "Show choices while the interface waits."),
+			),
+			questionnaire.Choice(questionnaire.Value("both"), "Both together"),
+			questionnaire.Input(h.Aria("label", "Another answer"), h.Placeholder("Type another answer…")),
+		),
+		questionnaire.Error(),
+	),
+	questionnaire.Item(questionnaire.Name("detail"),
+		questionnaire.Title("How much detail should it include?"),
+		questionnaire.Description("Skip this if you are not sure yet."),
+		questionnaire.Choices(
+			questionnaire.Choice(questionnaire.Value("focused"), "Focused"),
+			questionnaire.Choice(questionnaire.Value("complete"), "Complete flow"),
+		),
+		questionnaire.Error(),
+	),
+	questionnaire.Actions(
+		questionnaire.Previous(),
+		questionnaire.Skip(),
+		questionnaire.Next(),
+		questionnaire.Submit(),
+	),
+)
+```
+
+The questionnaire is a native `<form>`. Read the answers with `FormData` when
+it submits, or post it to a Go handler like any other form:
+
+```js showLineNumbers
+form.addEventListener("submit", (event) => {
+  event.preventDefault()
+  const answers = new FormData(event.currentTarget)
+  // answers.get("direction"), answers.getAll(...) for multiple items.
+})
+```
+
+## Composition
+
+```text
+questionnaire.Questionnaire
+├── questionnaire.Progress
+├── questionnaire.Item
+│   ├── questionnaire.Title
+│   ├── questionnaire.Description
+│   ├── questionnaire.Choices
+│   │   ├── questionnaire.Choice
+│   │   └── questionnaire.Input
+│   └── questionnaire.Error
+└── questionnaire.Actions
+    ├── questionnaire.Previous
+    ├── questionnaire.Skip
+    ├── questionnaire.Next
+    └── questionnaire.Submit
+```
+
+Questionnaire owns the ordered items, active item, answer state, validation,
+progress, and navigation. The containing page, card, dialog, or drawer owns
+close and cancellation behavior, persistence, transport, and branching.
+
+## Server Rendering
+
+The questionnaire is rendered in Go with its active item, progress, actions,
+and answer shortcuts already in place. Pass `questionnaire.Items` to declare
+the logical order, the required and disabled items, and the choices that get
+shortcuts.
+
+## Multiple Selection
+
+Pass `questionnaire.Multiple(true)` to an item that accepts more than one fixed answer.
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-multiple"
+  previewClassName="min-h-[420px] p-4 sm:p-8"
+/>
+
+## Freeform Answer
+
+Compose `questionnaire.Input` with fixed choices when the user can provide another answer.
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-freeform"
+  previewClassName="min-h-[420px] p-4 sm:p-8"
+/>
+
+## Explicit Skip
+
+Add `questionnaire.Skip` when an optional item may be intentionally left unanswered.
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-skip"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## Shortcuts
+
+Assign a letter or number key to each answer with `questionnaire.ShortcutsLetters`
+or `questionnaire.ShortcutsNumbers`.
+
+```go showLineNumbers
+questionnaire.Questionnaire(questionnaire.ShortcutsLetters,
+	questionnaire.Items(questionnaire.ItemDef{
+		Name:     "action",
+		Required: true,
+		Choices:  []questionnaire.ChoiceDef{{Value: "inspect"}, {Value: "tests"}},
+	}),
+	// ...
+)
+```
+
+Change them from a script with `setShortcuts`:
+
+```js showLineNumbers
+import { getQuestionnaire } from "/_shadcn/questionnaire.js"
+
+getQuestionnaire(form).setShortcuts("numbers") // or "letters", or null
+```
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-shortcuts"
+  previewClassName="min-h-[480px] p-4 sm:p-8"
+/>
+
+## Custom Validation
+
+Run your own validation in a `submit` listener. To mark an item invalid, set
+`data-questionnaire-invalid` on it, update its `questionnaire.Error` text, then
+return to it with `setItem`.
+
+```js showLineNumbers
+import { getQuestionnaire } from "/_shadcn/questionnaire.js"
+
+form.addEventListener("submit", (event) => {
+  const answers = new FormData(form)
+  if (answers.get("audience") === "public" && answers.get("detail") === "summary") {
+    event.preventDefault()
+    const item = form.querySelector('[data-questionnaire-name="detail"]')
+    item.setAttribute("data-questionnaire-invalid", "")
+    item.querySelector('[data-slot="questionnaire-error"]').textContent =
+      "Public answers need enough context. Choose a complete answer."
+    const q = getQuestionnaire(form)
+    q.render()
+    q.setItem("detail")
+  }
+})
+```
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-validation"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## Controlled
+
+Set the active item with `questionnaire.ActiveItem`, and change it from a
+script with `setItem`. The form dispatches a cancelable `shadcn:item-change`
+event (detail `{ item }`) before each move.
+
+```go showLineNumbers
+questionnaire.Questionnaire(questionnaire.ActiveItem("scope"),
+	// ...
+)
+```
+
+```js showLineNumbers
+import { getQuestionnaire } from "/_shadcn/questionnaire.js"
+
+form.addEventListener("shadcn:item-change", (event) => {
+  console.log(event.detail.item)
+})
+getQuestionnaire(form).setItem("checks")
+```
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-controlled"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## Resume
+
+Restore a saved active item with `questionnaire.DefaultItem` and saved answers
+with `questionnaire.DefaultChecked(true)` on choices and `h.Value` on inputs. A
+reset button (`h.Type("reset")`) brings the form back to that saved state.
+
+```go showLineNumbers
+questionnaire.Questionnaire(questionnaire.DefaultItem("verification"),
+	// ...
+	questionnaire.Choice(questionnaire.Value("tests"), questionnaire.DefaultChecked(true), "Run migration tests"),
+	// ...
+	questionnaire.Actions(
+		button.Button(h.Type("reset"), button.VariantOutline, "Reset changes"),
+		questionnaire.Previous(), questionnaire.Next(), questionnaire.Submit(),
+	),
+)
+```
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-resume"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## Conditional Items
+
+Disable items that do not apply to the user's earlier answers with
+`questionnaire.Disabled(true)`. From a script, toggle the item's `disabled`
+property and call `render`:
+
+```js showLineNumbers
+import { getQuestionnaire } from "/_shadcn/questionnaire.js"
+
+form.addEventListener("change", (event) => {
+  if (event.target.name !== "runtime") return
+  const environment = form.querySelector('[data-questionnaire-name="environment"]')
+  environment.disabled = event.target.value !== "cloud"
+  getQuestionnaire(form).render()
+})
+```
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-conditional"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## Navigation State
+
+The navigation buttons carry the active item's status in `data-status`
+(`unanswered`, `answered` or `skipped`), so they can be styled with
+`data-[status=unanswered]:...`. Each item dispatches `shadcn:status-change`
+(detail `{ status }`) when its status changes, and `status(name)` returns it.
+
+```js showLineNumbers
+import { getQuestionnaire } from "/_shadcn/questionnaire.js"
+
+form.addEventListener("shadcn:status-change", () => {
+  const q = getQuestionnaire(form)
+  next.disabled = q.status(q.item) === "unanswered"
+})
+```
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-navigation-state"
+  previewClassName="min-h-[480px] p-4 sm:p-8"
+/>
+
+## Custom Progress
+
+Children of `questionnaire.Progress` replace its label. Elements with
+`data-questionnaire-current` and `data-questionnaire-total` inside it are kept
+up to date, and the progress and the form carry `data-current` and
+`data-total`.
+
+```go showLineNumbers
+questionnaire.Progress(
+	"Checkpoint ",
+	h.Span(h.Data("questionnaire-current", ""), "1"),
+	" of ",
+	h.Span(h.Data("questionnaire-total", ""), "4"),
+)
+```
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-progress"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## Animated Items
+
+Animate the active item while keeping progress and navigation stationary. The
+active item has a `data-active` attribute.
+
+```go showLineNumbers
+questionnaire.Item(questionnaire.Name("task"),
+	h.Class("data-active:animate-in data-active:fade-in-0 data-active:slide-in-from-bottom-2"),
+	// ...
+)
+```
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-animated"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## Card
+
+Compose Questionnaire with Card slots while keeping the question title and
+description semantic. Pass `questionnaire.Render` to render a part as another
+element.
+
+```go showLineNumbers
+questionnaire.Title(questionnaire.Render(card.Title()), "What should the agent work on?")
+```
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-card"
+  previewClassName="min-h-[560px] p-4 sm:p-8"
+/>
+
+## Dialog
+
+Compose Questionnaire inside a Dialog while keeping cancellation and dismissal host-owned.
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-dialog"
+  previewClassName="min-h-[320px] p-4 sm:p-8"
+/>
+
+## Accessibility
+
+`questionnaire.Item` renders a `fieldset`, and `questionnaire.Title` renders its
+`legend`. Descriptions and active errors are associated with the current item,
+and invalid items and answer controls expose `aria-invalid`.
+
+Fixed choices preserve native radio and checkbox behavior. Progress is exposed
+as a named progressbar, navigation uses real buttons, and inactive items and
+actions are hidden and inert. Successful navigation focuses the newly active
+item; failed validation focuses an available answer control.
+
+Always give `questionnaire.Input` an accessible name with a visible label,
+`aria-label`, or `aria-labelledby`. A placeholder is not a label.
+
+Keyboard: <Kbd>Enter</Kbd> on an answer confirms it, <Kbd>Cmd</Kbd>/<Kbd>Ctrl</Kbd> + <Kbd>Enter</Kbd>
+confirms the item, <Kbd>ArrowUp</Kbd> and <Kbd>ArrowDown</Kbd> move between
+answers, <Kbd>ArrowLeft</Kbd> and <Kbd>ArrowRight</Kbd> between items, and
+letter or number shortcuts pick choices.
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `questionnaire.Questionnaire` | `questionnaire.DefaultItem(name)`, `questionnaire.ActiveItem(name)`, `questionnaire.ShortcutsLetters`, `questionnaire.ShortcutsNumbers`, `questionnaire.Items(defs...)` |
+| `questionnaire.Progress` | children replace the "Question n of total" label |
+| `questionnaire.Item` | `questionnaire.Name(name)` (required), `questionnaire.Required(bool)`, `questionnaire.Multiple(bool)`, `questionnaire.Disabled(bool)` |
+| `questionnaire.Title`, `questionnaire.Description` | `questionnaire.Render(el)` |
+| `questionnaire.Choices` | none |
+| `questionnaire.Choice` | `questionnaire.Value(v)`, `questionnaire.Disabled(bool)`, `questionnaire.DefaultChecked(bool)`; `questionnaire.ChoiceDescription(...)` for secondary text |
+| `questionnaire.Input` | attributes go to the `<input>`; `h.Value` sets its default value |
+| `questionnaire.Error` | children replace the default message |
+| `questionnaire.Actions` | none; a layout helper |
+| `questionnaire.Previous`, `Skip`, `Next`, `Submit` | a `button.Variant` and a `button.Size` |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+
+The `/_shadcn/questionnaire.js` module exports `getQuestionnaire(form)`, which
+returns a controller with `setItem(name)`, `setShortcuts(mode)`,
+`status(name)`, `item` (the active item's name) and `render()`.

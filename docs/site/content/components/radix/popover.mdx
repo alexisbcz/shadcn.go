@@ -1,0 +1,101 @@
+---
+title: Popover
+description: Displays rich content in a portal, triggered by a button.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/popover
+  api: https://www.radix-ui.com/docs/primitives/components/popover#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="popover-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/lib"
+	"github.com/alexisbcz/components/ui/button"
+	"github.com/alexisbcz/components/ui/popover"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+popover.Popover(
+	popover.Trigger(lib.AsChild, button.Button(button.VariantOutline, "Open Popover")),
+	popover.Content(
+		popover.Header(
+			popover.Title("Title"),
+			popover.Description("Description text here."),
+		),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build a `Popover`:
+
+```text
+popover.Popover
+├── popover.Trigger
+└── popover.Content
+```
+
+## Basic
+
+A simple popover with a header, title, and description.
+
+<ComponentPreview styleName="radix-nova" name="popover-basic" />
+
+## Align
+
+Pass an alignment (`popover.AlignStart`, `AlignCenter`, `AlignEnd`) to `popover.Content` to control the horizontal alignment.
+
+<ComponentPreview styleName="radix-nova" name="popover-alignments" />
+
+## With Form
+
+A popover with form fields inside.
+
+<ComponentPreview styleName="radix-nova" name="popover-form" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="popover-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `popover.Popover` | `popover.Modal(bool)` (default false), `popover.DefaultOpen` |
+| `popover.Trigger` | `lib.AsChild` to render the child element as the trigger instead of a `<button>` |
+| `popover.Anchor` | `lib.AsChild`; positions the content against this element instead of the trigger |
+| `popover.Content` | side (`popover.SideTop`, `SideRight`, `SideBottom`, `SideLeft`), alignment (`popover.AlignStart`, `AlignCenter`, `AlignEnd`; default center), `popover.SideOffset(px)` (default 4), `popover.AlignOffset(px)`, `popover.AvoidCollisions(bool)`, `popover.CollisionPadding(px)`, `popover.StickyPartial` or `StickyAlways`, `popover.HideWhenDetached(bool)` |
+| `popover.Header`, `popover.Title`, `popover.Description` | |
+| `popover.Close` | `lib.AsChild` |
+| `popover.Arrow` | |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content. The
+popover dispatches a cancelable `shadcn:open-change` event (`detail.open`) when
+it opens or closes. The behavior follows [Radix UI's Popover](https://www.radix-ui.com/docs/primitives/components/popover#api-reference).

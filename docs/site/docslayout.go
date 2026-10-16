@@ -1,9 +1,8 @@
 package site
 
 import (
+	"io/fs"
 	"net/http"
-	"os"
-	"path/filepath"
 	"strings"
 
 	"shadcn.go/components/ui/button"
@@ -46,7 +45,7 @@ func (s *Site) DocsPage(r *http.Request) (h.Node, error) {
 	if err != nil {
 		return nil, err
 	}
-	raw, _ := os.ReadFile(filepath.Join(s.contentDir(), filepath.FromSlash(doc.Path)))
+	raw, _ := fs.ReadFile(s.content, doc.Path)
 	main := s.DocsArticle(r, DocsArticle{
 		Title:       fm.Title,
 		Description: fm.Description,

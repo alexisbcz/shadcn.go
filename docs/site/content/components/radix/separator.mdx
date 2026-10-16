@@ -1,0 +1,64 @@
+---
+title: Separator
+description: Visually or semantically separates content.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/separator
+  api: https://www.radix-ui.com/docs/primitives/components/separator#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="separator-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/separator"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+separator.Separator()
+```
+
+## Vertical
+
+Pass `separator.Vertical` for a vertical separator.
+
+<ComponentPreview styleName="radix-nova" name="separator-vertical" />
+
+## Menu
+
+Vertical separators between menu items with descriptions.
+
+<ComponentPreview styleName="radix-nova" name="separator-menu" />
+
+## List
+
+Horizontal separators between list items.
+
+<ComponentPreview styleName="radix-nova" name="separator-list" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="separator-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `separator.Separator` | `separator.Horizontal` (default) or `separator.Vertical`, `separator.Decorative(bool)` (default true: `role="none"`; false renders `role="separator"`) |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...). The behavior
+follows [Radix UI's Separator](https://www.radix-ui.com/docs/primitives/components/separator#api-reference).

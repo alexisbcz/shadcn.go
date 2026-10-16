@@ -1,0 +1,150 @@
+---
+title: Select
+description: Displays a list of options for the user to pick from—triggered by a button.
+base: radix
+component: true
+featured: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/select
+  api: https://www.radix-ui.com/docs/primitives/components/select#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="select-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+The package is named `selectui` because `select` is a Go keyword.
+
+```go showLineNumbers
+import (
+	selectui "github.com/alexisbcz/components/ui/select"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+selectui.Select(
+	selectui.Trigger(h.Class("w-[180px]"),
+		selectui.Value(selectui.Placeholder("Theme")),
+	),
+	selectui.Content(
+		selectui.Group(
+			selectui.Item(selectui.ItemValue("light"), "Light"),
+			selectui.Item(selectui.ItemValue("dark"), "Dark"),
+			selectui.Item(selectui.ItemValue("system"), "System"),
+		),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build a `selectui.Select`:
+
+```text
+selectui.Select
+├── selectui.Trigger
+│   └── selectui.Value
+└── selectui.Content
+    ├── selectui.Group
+    │   ├── selectui.Label
+    │   ├── selectui.Item
+    │   └── selectui.Item
+    ├── selectui.Separator
+    └── selectui.Group
+        ├── selectui.Label
+        ├── selectui.Item
+        └── selectui.Item
+```
+
+## Align Item With Trigger
+
+Pass a position to `selectui.Content` to control alignment. With `selectui.PositionItemAligned` (default), the popup positions so the selected item appears over the trigger. With `selectui.PositionPopper`, the popup aligns to the trigger edge.
+
+<ComponentPreview styleName="radix-nova" name="select-align-item" />
+
+## Groups
+
+Use `selectui.Group`, `selectui.Label`, and `selectui.Separator` to organize items.
+
+<ComponentPreview styleName="radix-nova" name="select-groups" />
+
+## Scrollable
+
+A select with many items that scrolls.
+
+<ComponentPreview styleName="radix-nova" name="select-scrollable" />
+
+## Disabled
+
+<ComponentPreview styleName="radix-nova" name="select-disabled" />
+
+## Invalid
+
+Add the `data-invalid` attribute to the `field.Field` component and the `aria-invalid` attribute to the `selectui.Trigger` component to show an error state.
+
+```go showLineNumbers /data-invalid/ /aria-invalid/
+field.Field(h.Data("invalid", "true"),
+	field.Label("Fruit"),
+	selectui.Select(
+		selectui.Trigger(h.Aria("invalid", "true"),
+			selectui.Value(),
+		),
+		selectui.Content(/* ... */),
+	),
+)
+```
+
+<ComponentPreview styleName="radix-nova" name="select-invalid" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="select-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `selectui.Select` | `selectui.DefaultValue(v)`, `selectui.DefaultOpen`, `selectui.Disabled`, `selectui.Required`, `selectui.Name(n)`, `selectui.Form(id)`, `selectui.AutoComplete(v)`, `selectui.Dir("rtl")` |
+| `selectui.Trigger` | `selectui.SizeDefault` (default) or `selectui.SizeSm`, `selectui.Disabled` |
+| `selectui.Value` | `selectui.Placeholder(...)` |
+| `selectui.Content` | `selectui.PositionItemAligned` (default) or `selectui.PositionPopper`; with the popper position, a side (`selectui.SideTop`, ...), an alignment (`selectui.AlignStart`, ...; default center), `selectui.SideOffset(px)`, `selectui.AlignOffset(px)`, `selectui.AvoidCollisions(bool)`, `selectui.CollisionPadding(px)`, `selectui.Sticky("always")`, `selectui.HideWhenDetached(bool)` |
+| `selectui.Group` | none |
+| `selectui.Label` | none |
+| `selectui.Item` | `selectui.ItemValue(v)` (required), `selectui.Disabled`, `selectui.TextValue(text)` for typeahead |
+| `selectui.Separator` | none |
+| `selectui.ScrollUpButton`, `selectui.ScrollDownButton` | none |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+
+The content's `<template>` dispatches a cancelable `shadcn:open-change` event
+(`detail.open`) and a `shadcn:value-change` event (`detail.value`). Scripts can
+also drive a select with `getSelect` from the runtime module:
+
+```js showLineNumbers
+const { getSelect } = await import("/_shadcn/select.js")
+
+const select = getSelect(triggerEl)
+select?.setValue("dark") // also .value, .open, .setOpen(open)
+```
+
+The behavior follows [Radix UI's Select](https://www.radix-ui.com/docs/primitives/components/select#api-reference).

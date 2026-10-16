@@ -1,0 +1,281 @@
+---
+title: Carousel
+description: A carousel with motion and swipe built using Embla.
+base: radix
+component: true
+links:
+  doc: https://www.embla-carousel.com/get-started/react
+  api: https://www.embla-carousel.com/api
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="carousel-demo"
+  previewClassName="h-80 sm:h-[32rem]"
+/>
+
+## About
+
+The carousel component is built using the [Embla Carousel](https://www.embla-carousel.com/) library.
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/carousel"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+carousel.Carousel(
+	carousel.Content(
+		carousel.Item("..."),
+		carousel.Item("..."),
+		carousel.Item("..."),
+	),
+	carousel.Previous(),
+	carousel.Next(),
+)
+```
+
+## Composition
+
+Use the following composition to build a `Carousel`:
+
+```text
+carousel.Carousel
+├── carousel.Content
+│   ├── carousel.Item
+│   └── carousel.Item
+├── carousel.Previous
+└── carousel.Next
+```
+
+## Sizes
+
+To set the size of the items, you can use the `basis` utility class on the `carousel.Item`.
+
+<ComponentPreview styleName="radix-nova" name="carousel-size" />
+
+```go showLineNumbers {4-6}
+// 33% of the carousel width.
+carousel.Carousel(
+	carousel.Content(
+		carousel.Item(h.Class("basis-1/3"), "..."),
+		carousel.Item(h.Class("basis-1/3"), "..."),
+		carousel.Item(h.Class("basis-1/3"), "..."),
+	),
+)
+```
+
+```go showLineNumbers {4-6}
+// 50% on small screens and 33% on larger screens.
+carousel.Carousel(
+	carousel.Content(
+		carousel.Item(h.Class("md:basis-1/2 lg:basis-1/3"), "..."),
+		carousel.Item(h.Class("md:basis-1/2 lg:basis-1/3"), "..."),
+		carousel.Item(h.Class("md:basis-1/2 lg:basis-1/3"), "..."),
+	),
+)
+```
+
+## Spacing
+
+To set the spacing between the items, we use a `pl-[VALUE]` utility on the `carousel.Item` and a negative `-ml-[VALUE]` on the `carousel.Content`.
+
+<ComponentPreview styleName="radix-nova" name="carousel-spacing" />
+
+```go showLineNumbers /-ml-4/ /pl-4/
+carousel.Carousel(
+	carousel.Content(h.Class("-ml-4"),
+		carousel.Item(h.Class("pl-4"), "..."),
+		carousel.Item(h.Class("pl-4"), "..."),
+		carousel.Item(h.Class("pl-4"), "..."),
+	),
+)
+```
+
+```go showLineNumbers /-ml-2/ /pl-2/ /md:-ml-4/ /md:pl-4/
+carousel.Carousel(
+	carousel.Content(h.Class("-ml-2 md:-ml-4"),
+		carousel.Item(h.Class("pl-2 md:pl-4"), "..."),
+		carousel.Item(h.Class("pl-2 md:pl-4"), "..."),
+		carousel.Item(h.Class("pl-2 md:pl-4"), "..."),
+	),
+)
+```
+
+## Orientation
+
+Pass `carousel.OrientationVertical` or `carousel.OrientationHorizontal` (the default) to set the orientation of the carousel.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="carousel-orientation"
+  previewClassName="h-[32rem]"
+/>
+
+```go showLineNumbers /OrientationVertical/
+carousel.Carousel(carousel.OrientationVertical,
+	carousel.Content(
+		carousel.Item("..."),
+		carousel.Item("..."),
+		carousel.Item("..."),
+	),
+)
+```
+
+## Options
+
+You can pass Embla's options to the carousel with `carousel.Opts`. Zero values keep Embla's defaults. See the [Embla Carousel docs](https://www.embla-carousel.com/api/options/) for more information.
+
+```go showLineNumbers {1-4}
+carousel.Carousel(carousel.Opts{
+	Align: "start",
+	Loop:  true,
+},
+	carousel.Content(
+		carousel.Item("..."),
+		carousel.Item("..."),
+		carousel.Item("..."),
+	),
+)
+```
+
+## API
+
+From JavaScript, use `onCarouselApi` from the runtime's `carousel.js` module to get the Embla API instance of a carousel element.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="carousel-api"
+  previewClassName="sm:h-[32rem]"
+/>
+
+```go showLineNumbers
+h.Div(
+	carousel.Carousel(h.ID("my-carousel"),
+		carousel.Content(
+			carousel.Item("..."),
+			carousel.Item("..."),
+			carousel.Item("..."),
+		),
+	),
+	h.Div(h.ID("slide-status")),
+)
+```
+
+```js showLineNumbers {1,6}
+import { onCarouselApi } from "/_shadcn/carousel.js"
+
+const carousel = document.getElementById("my-carousel")
+const status = document.getElementById("slide-status")
+
+onCarouselApi(carousel, (api) => {
+  const render = () => {
+    status.textContent = `Slide ${api.selectedScrollSnap() + 1} of ${api.scrollSnapList().length}`
+  }
+  render()
+  api.on("select", render)
+})
+```
+
+## Events
+
+The carousel dispatches DOM events on its root element:
+
+- `shadcn:carousel-init` once Embla is running, with `event.detail.api` (the Embla API).
+- `shadcn:carousel-select` whenever the selected snap changes, with `event.detail.api`, `event.detail.index` and `event.detail.count`.
+
+```js showLineNumbers
+const carousel = document.getElementById("my-carousel")
+
+carousel.addEventListener("shadcn:carousel-select", (event) => {
+  // Do something on select.
+  console.log(event.detail.index, event.detail.count)
+})
+```
+
+You can also listen to Embla's own events on the API instance from `onCarouselApi`. See the [Embla Carousel docs](https://www.embla-carousel.com/api/events/) for more information on using events.
+
+## Plugins
+
+Pass `carousel.Autoplay` to add the [embla-carousel-autoplay](https://www.embla-carousel.com/plugins/autoplay/) plugin. It is the only plugin the Go port supports.
+
+```go showLineNumbers {1-3}
+carousel.Carousel(carousel.Autoplay{
+	Delay: 2000,
+},
+	// ...
+)
+```
+
+Set `StopOnHover: true` to stop autoplay while the pointer is over the carousel and reset it when the pointer leaves.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="carousel-plugin"
+  previewClassName="sm:h-[32rem]"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="carousel-rtl"
+  direction="rtl"
+  previewClassName="h-80 sm:h-[32rem]"
+/>
+
+When localizing the carousel for RTL languages, you need to set the `Direction` field of `carousel.Opts` to match the text direction. This ensures the carousel scrolls in the correct direction.
+
+```go showLineNumbers {1-3}
+carousel.Carousel(h.Dir(dir), carousel.Opts{
+	Direction: dir,
+},
+	carousel.Content(
+		carousel.Item("..."),
+		carousel.Item("..."),
+		carousel.Item("..."),
+	),
+	carousel.Previous(h.Class("rtl:rotate-180")),
+	carousel.Next(h.Class("rtl:rotate-180")),
+)
+```
+
+`Direction` accepts `"ltr"` or `"rtl"` and should match the `h.Dir` value. You may also want to rotate the navigation buttons using the `rtl:rotate-180` class to ensure they point in the correct direction.
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `carousel.Carousel` | `carousel.OrientationHorizontal` (default), `carousel.OrientationVertical`, `carousel.Opts{...}` (Embla's options: `Align`, `Loop`, `DragFree`, `SkipSnaps`, `StartIndex`, `Duration`, `SlidesToScroll`, `ContainScroll`, `Direction`, `DisableDrag`), `carousel.Autoplay{...}` (`Delay`, `KeepPlayingOnInteraction`, `StopOnMouseEnter`, `StopOnLastSnap`, `Jump`, `StopOnHover`) |
+| `carousel.Content` | |
+| `carousel.Item` | |
+| `carousel.Previous` | a `button.Variant` (default `button.VariantOutline`) and a `button.Size` |
+| `carousel.Next` | a `button.Variant` (default `button.VariantOutline`) and a `button.Size` |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content. The
+root also has builder methods: `.Orientation(...)`, `.Opts(...)` and
+`.Autoplay(...)`. See the [Embla Carousel docs](https://www.embla-carousel.com/api/)
+for more information on options and plugins.

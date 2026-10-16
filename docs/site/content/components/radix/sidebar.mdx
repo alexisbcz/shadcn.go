@@ -1,0 +1,565 @@
+---
+title: Sidebar
+description: A composable, themeable and customizable sidebar component.
+base: radix
+component: true
+---
+
+import { ExternalLinkIcon } from "lucide-react"
+
+<figure className="flex flex-col gap-4">
+  <ComponentPreview
+    styleName="radix-nova"
+    name="sidebar-demo"
+    type="block"
+    className="w-full"
+  />
+  <figcaption className="text-center text-sm text-gray-500">
+    A sidebar that collapses to icons.
+  </figcaption>
+</figure>
+
+Sidebars are one of the most complex components to build. They are central
+to any application and often contain a lot of moving parts.
+
+We now have a solid foundation to build on top of. Composable. Themeable.
+Customizable.
+
+[Browse the Blocks Library](/blocks).
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers title="layout.go"
+import (
+	"github.com/alexisbcz/components/ui/sidebar"
+	h "github.com/alexisbcz/libhtml"
+)
+
+func Layout(children ...any) h.Node {
+	return sidebar.Provider(
+		AppSidebar(),
+		h.Main(
+			sidebar.Trigger(),
+			h.Group(children...),
+		),
+	)
+}
+```
+
+```go showLineNumbers title="app_sidebar.go"
+import (
+	"github.com/alexisbcz/components/ui/sidebar"
+	h "github.com/alexisbcz/libhtml"
+)
+
+func AppSidebar() h.Node {
+	return sidebar.Sidebar(
+		sidebar.Header(),
+		sidebar.Content(
+			sidebar.Group(),
+			sidebar.Group(),
+		),
+		sidebar.Footer(),
+	)
+}
+```
+
+## Composition
+
+Use the following composition to build a `Sidebar` layout:
+
+```text
+sidebar.Provider
+├── sidebar.Sidebar
+│   ├── sidebar.Header
+│   ├── sidebar.Content
+│   │   ├── sidebar.Group
+│   │   │   ├── sidebar.GroupLabel
+│   │   │   ├── sidebar.GroupAction
+│   │   │   ├── sidebar.GroupContent
+│   │   │   └── sidebar.Menu
+│   │   │       ├── sidebar.MenuItem
+│   │   │       │   ├── sidebar.MenuButton
+│   │   │       │   ├── sidebar.MenuAction
+│   │   │       │   └── sidebar.MenuBadge
+│   │   │       └── sidebar.MenuItem
+│   │   │           ├── sidebar.MenuButton
+│   │   │           └── sidebar.MenuSub
+│   │   │               ├── sidebar.MenuSubItem
+│   │   │               └── sidebar.MenuSubItem
+│   │   └── sidebar.Group
+│   │       └── sidebar.Menu
+│   │           ├── sidebar.MenuItem
+│   │           └── sidebar.MenuItem
+│   ├── sidebar.Footer
+│   └── sidebar.Rail
+├── sidebar.Inset
+└── sidebar.Trigger
+```
+
+## Structure
+
+- **sidebar.Provider** — Handles collapsible state for the parts inside it.
+- **sidebar.Sidebar** — The main collapsible sidebar panel.
+- **sidebar.Header** — Sticky at the top; use for branding, titles, or workspace switchers.
+- **sidebar.Footer** — Sticky at the bottom; use for user menus, settings, or actions.
+- **sidebar.Content** — Scrollable region between the header and footer.
+- **sidebar.Group** — Groups related navigation with optional label, action, and content areas.
+- **sidebar.Menu** / **sidebar.MenuItem** — Menu structure for links, badges, actions, and nested submenus.
+- **sidebar.Rail** — Resize handle for adjusting sidebar width when applicable.
+- **sidebar.Inset** — Wraps main content when using the inset variant.
+- **sidebar.Trigger** — Control that toggles the sidebar open or collapsed.
+
+<Image
+  src="/images/sidebar-structure.png"
+  width="716"
+  height="420"
+  alt="Sidebar Structure"
+  className="mt-6 w-full overflow-hidden rounded-2xl border dark:hidden"
+/>
+<Image
+  src="/images/sidebar-structure-dark.png"
+  width="716"
+  height="420"
+  alt="Sidebar Structure"
+  className="mt-6 hidden w-full overflow-hidden rounded-2xl border dark:block"
+/>
+
+## Provider
+
+`sidebar.Provider` holds the sidebar's state for every part inside it. You should always wrap your application in a `sidebar.Provider`.
+
+### Options
+
+| Name | Description |
+| --- | --- |
+| `sidebar.DefaultOpen(bool)` | Whether the sidebar starts expanded (default true). |
+
+The state is saved in the `sidebar_state` cookie on every change. Read it back
+with `sidebar.CookieState` to render the sidebar the way the user left it:
+
+```go showLineNumbers
+open, ok := sidebar.CookieState(r)
+if !ok {
+	open = true
+}
+sidebar.Provider(sidebar.DefaultOpen(open),
+	AppSidebar(),
+)
+```
+
+### Width
+
+The default widths are `sidebar.Width` (16rem), `sidebar.WidthMobile` (18rem, the mobile sheet) and `sidebar.WidthIcon` (3rem, collapsed to icons).
+
+To change the desktop width, set the `--sidebar-width` CSS variable in the provider's style. The mobile sheet is always `sidebar.WidthMobile` wide: the Go port does not support `--sidebar-width-mobile`.
+
+```go showLineNumbers
+sidebar.Provider(h.Style("--sidebar-width: 20rem"),
+	sidebar.Sidebar(),
+)
+```
+
+### Keyboard Shortcut
+
+To trigger the sidebar, you use the `cmd+b` keyboard shortcut on Mac and `ctrl+b` on Windows. The key is `sidebar.KeyboardShortcut` (`"b"`), and it can't be changed.
+
+## Sidebar
+
+The main `sidebar.Sidebar` component used to render a collapsible sidebar.
+
+### Options
+
+| Option | Values | Description |
+| --- | --- | --- |
+| side | `sidebar.SideLeft` (default) or `sidebar.SideRight` | The side of the sidebar. |
+| variant | `sidebar.VariantSidebar` (default), `sidebar.VariantFloating` or `sidebar.VariantInset` | The variant of the sidebar. |
+| collapsible | `sidebar.CollapsibleOffcanvas` (default), `sidebar.CollapsibleIcon` or `sidebar.CollapsibleNone` | Collapsible state of the sidebar. |
+
+| Option | Description |
+| --- | --- |
+| `sidebar.CollapsibleOffcanvas` | A collapsible sidebar that slides in from the left or right. |
+| `sidebar.CollapsibleIcon` | A sidebar that collapses to icons. |
+| `sidebar.CollapsibleNone` | A non-collapsible sidebar. |
+
+<Callout>
+  **Note:** If you use `sidebar.VariantInset`, remember to wrap your main content
+  in a `sidebar.Inset`.
+</Callout>
+
+```go showLineNumbers
+sidebar.Provider(
+	sidebar.Sidebar(sidebar.VariantInset),
+	sidebar.Inset(
+		h.Main(children...),
+	),
+)
+```
+
+## Controlling the sidebar from JavaScript
+
+The Go port has no `useSidebar` hook. The runtime's `sidebar.js` module exports
+`getSidebar`, which returns the controller of the provider around an element:
+
+```js showLineNumbers
+import { getSidebar } from "/_shadcn/sidebar.js"
+
+const s = getSidebar(document.querySelector('[data-slot="sidebar-wrapper"]'))
+s.toggleSidebar()
+```
+
+| Property        | Type                      | Description                                   |
+| --------------- | ------------------------- | --------------------------------------------- |
+| `state`         | `expanded` or `collapsed` | The current state of the sidebar.             |
+| `open`          | `boolean`                 | Whether the sidebar is open.                  |
+| `setOpen`       | `(open: boolean) => void` | Sets the open state of the sidebar.           |
+| `openMobile`    | `boolean`                 | Whether the sidebar is open on mobile.        |
+| `setOpenMobile` | `(open: boolean) => void` | Sets the open state of the sidebar on mobile. |
+| `isMobile`      | `boolean`                 | Whether the sidebar is on mobile.             |
+| `toggleSidebar` | `() => void`              | Toggles the sidebar. Desktop and mobile.      |
+
+## Header
+
+Use `sidebar.Header` to add a sticky header to the sidebar.
+
+```go showLineNumbers title="app_sidebar.go"
+sidebar.Sidebar(
+	sidebar.Header(
+		sidebar.Menu(
+			sidebar.MenuItem(
+				dropdownmenu.DropdownMenu(
+					dropdownmenu.Trigger(lib.AsChild,
+						sidebar.MenuButton(
+							"Select Workspace",
+							lucide.ChevronDown(h.Class("ml-auto")),
+						),
+					),
+					dropdownmenu.Content(h.Class("w-(--radix-popper-anchor-width)"),
+						dropdownmenu.Item(h.Span("Acme Inc")),
+					),
+				),
+			),
+		),
+	),
+)
+```
+
+## Footer
+
+Use `sidebar.Footer` to add a sticky footer to the sidebar.
+
+```go showLineNumbers
+sidebar.Sidebar(
+	sidebar.Footer(
+		sidebar.Menu(
+			sidebar.MenuItem(
+				sidebar.MenuButton(lucide.User(), " Username"),
+			),
+		),
+	),
+)
+```
+
+## Content
+
+`sidebar.Content` wraps the content of the sidebar. This is where you add your `sidebar.Group` components. It is scrollable.
+
+```go showLineNumbers
+sidebar.Sidebar(
+	sidebar.Content(
+		sidebar.Group(),
+		sidebar.Group(),
+	),
+)
+```
+
+## Group
+
+Use `sidebar.Group` to create a section within the sidebar.
+
+A `sidebar.Group` has a `sidebar.GroupLabel`, a `sidebar.GroupContent` and an optional `sidebar.GroupAction`.
+
+```go showLineNumbers
+sidebar.Group(
+	sidebar.GroupLabel("Application"),
+	sidebar.GroupAction(
+		lucide.Plus(), " ", h.Span(h.Class("sr-only"), "Add Project"),
+	),
+	sidebar.GroupContent(),
+)
+```
+
+To make a `sidebar.Group` collapsible, wrap it in a `collapsible.Collapsible`.
+
+```go showLineNumbers
+collapsible.Collapsible(collapsible.Open(true), h.Class("group/collapsible"),
+	sidebar.Group(
+		sidebar.GroupLabel(lib.AsChild,
+			collapsible.Trigger(
+				"Help",
+				lucide.ChevronDown(h.Class("ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180")),
+			),
+		),
+		collapsible.Content(
+			sidebar.GroupContent(),
+		),
+	),
+)
+```
+
+## Menu
+
+`sidebar.Menu` is used for building a menu within a `sidebar.Group`.
+
+<Image
+  src="/images/sidebar-menu.png"
+  width="716"
+  height="420"
+  alt="Sidebar Menu"
+  className="mt-6 w-full overflow-hidden rounded-2xl border dark:hidden"
+/>
+<Image
+  src="/images/sidebar-menu-dark.png"
+  width="716"
+  height="420"
+  alt="Sidebar Menu"
+  className="mt-6 hidden w-full overflow-hidden rounded-2xl border dark:block"
+/>
+
+```go showLineNumbers
+type Project struct {
+	Name, URL string
+	Icon      func(...any) *h.Element
+}
+
+sidebar.Menu(h.Map(projects, func(p Project) h.Node {
+	return sidebar.MenuItem(
+		sidebar.MenuButton(lib.AsChild,
+			h.A(h.Href(p.URL), p.Icon(), h.Span(p.Name)),
+		),
+	)
+}))
+```
+
+## MenuButton
+
+`sidebar.MenuButton` renders a menu button within a `sidebar.MenuItem`.
+
+By default, `sidebar.MenuButton` renders a button but you can pass `lib.AsChild` to render a different element such as an `a` tag.
+
+Pass `sidebar.IsActive(true)` to mark a menu item as active.
+
+```go showLineNumbers
+sidebar.MenuButton(lib.AsChild, sidebar.IsActive(true),
+	h.A(h.Href("#"), "Home"),
+)
+```
+
+## MenuAction
+
+`sidebar.MenuAction` renders a menu action within a `sidebar.MenuItem`.
+
+```go showLineNumbers
+sidebar.MenuItem(
+	sidebar.MenuButton(lib.AsChild,
+		h.A(h.Href("#"), lucide.House(), h.Span("Home")),
+	),
+	sidebar.MenuAction(
+		lucide.Plus(), " ", h.Span(h.Class("sr-only"), "Add Project"),
+	),
+)
+```
+
+## MenuSub
+
+`sidebar.MenuSub` renders a submenu within a `sidebar.Menu`.
+
+```go showLineNumbers
+sidebar.MenuItem(
+	sidebar.MenuButton(),
+	sidebar.MenuSub(
+		sidebar.MenuSubItem(
+			sidebar.MenuSubButton(),
+		),
+	),
+)
+```
+
+## MenuBadge
+
+`sidebar.MenuBadge` renders a badge within a `sidebar.MenuItem`.
+
+```go showLineNumbers
+sidebar.MenuItem(
+	sidebar.MenuButton(),
+	sidebar.MenuBadge("24"),
+)
+```
+
+## MenuSkeleton
+
+`sidebar.MenuSkeleton` renders a skeleton for a `sidebar.Menu`.
+
+```go showLineNumbers
+items := make([]any, 5)
+for i := range items {
+	items[i] = sidebar.MenuItem(sidebar.MenuSkeleton())
+}
+sidebar.Menu(items...)
+```
+
+## Trigger
+
+Use `sidebar.Trigger` to render a button that toggles the sidebar.
+
+To build your own trigger, render any button inside the provider and toggle
+the sidebar from JavaScript with `getSidebar`:
+
+```go showLineNumbers
+h.Button(h.Type("button"), h.Data("custom-trigger", ""), "Toggle Sidebar")
+```
+
+```js showLineNumbers
+import { getSidebar } from "/_shadcn/sidebar.js"
+
+document.addEventListener("click", (e) => {
+  const button = e.target.closest("[data-custom-trigger]")
+  if (button) getSidebar(button)?.toggleSidebar()
+})
+```
+
+## Rail
+
+`sidebar.Rail` renders a rail within a `sidebar.Sidebar`. This rail can be used to toggle the sidebar.
+
+```go showLineNumbers
+sidebar.Sidebar(
+	sidebar.Header(),
+	sidebar.Content(
+		sidebar.Group(),
+	),
+	sidebar.Footer(),
+	sidebar.Rail(),
+)
+```
+
+## Controlled Sidebar
+
+The Go port has no `open` and `onOpenChange` options. Every change of the
+desktop state dispatches a cancelable `shadcn:open-change` event on the
+provider's wrapper (`detail.open`). Cancel it to keep the current state, and
+call `setOpen` from `getSidebar` to change it.
+
+```js showLineNumbers
+import { getSidebar } from "/_shadcn/sidebar.js"
+
+const wrapper = document.querySelector('[data-slot="sidebar-wrapper"]')
+wrapper.addEventListener("shadcn:open-change", (e) => {
+  if (e.target !== wrapper) return
+  console.log("open:", e.detail.open)
+  // e.preventDefault() keeps the current state.
+})
+
+getSidebar(wrapper).setOpen(false)
+```
+
+## Theming
+
+We use the following CSS variables to theme the sidebar.
+
+```css
+@layer base {
+  :root {
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 0 0% 98%;
+    --sidebar-primary-foreground: 240 5.9% 10%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+```
+
+## Styling
+
+Here are some tips for styling the sidebar based on different states.
+
+```go
+sidebar.Sidebar(sidebar.CollapsibleIcon,
+	sidebar.Content(
+		sidebar.Group(h.Class("group-data-[collapsible=icon]:hidden")),
+	),
+)
+```
+
+```go
+sidebar.MenuItem(
+	sidebar.MenuButton(),
+	sidebar.MenuAction(h.Class("peer-data-[active=true]/menu-button:opacity-100")),
+)
+```
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+Set `dir="rtl"` on the page's `<html>` element and put the sidebar on the right with `sidebar.SideRight`.
+
+```go showLineNumbers
+sidebar.Sidebar(sidebar.SideRight,
+	// ...
+)
+```
+
+{/* prettier-ignore */}
+<Button asChild size="sm" className="mt-6">
+  <a href="/view/radix-nova/sidebar-rtl" target="_blank">View RTL Sidebar <ExternalLinkIcon /></a>
+</Button>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `sidebar.Provider` | `sidebar.DefaultOpen(bool)` (default true) |
+| `sidebar.Sidebar` | a side (`sidebar.SideLeft`, `SideRight`), a variant (`sidebar.VariantSidebar`, `VariantFloating`, `VariantInset`), a collapsible mode (`sidebar.CollapsibleOffcanvas`, `CollapsibleIcon`, `CollapsibleNone`); other attributes go to the sidebar container |
+| `sidebar.Trigger` | children replace the default icon and label |
+| `sidebar.Rail`, `sidebar.Inset`, `sidebar.Input`, `sidebar.Header`, `sidebar.Footer`, `sidebar.Separator`, `sidebar.Content`, `sidebar.Group`, `sidebar.GroupContent`, `sidebar.Menu`, `sidebar.MenuItem`, `sidebar.MenuBadge`, `sidebar.MenuSub`, `sidebar.MenuSubItem` | - |
+| `sidebar.GroupLabel`, `sidebar.GroupAction` | `lib.AsChild` |
+| `sidebar.MenuButton` | `lib.AsChild`, `sidebar.IsActive(bool)`, a variant (`sidebar.ButtonVariantDefault`, `ButtonVariantOutline`), a size (`sidebar.ButtonSizeDefault`, `ButtonSizeSm`, `ButtonSizeLg`), `sidebar.Tooltip(...)` (shown while the sidebar is collapsed; `sidebar.TooltipHidden(false)` shows it always) |
+| `sidebar.MenuAction` | `lib.AsChild`, `sidebar.ShowOnHover(bool)` |
+| `sidebar.MenuSkeleton` | `sidebar.ShowIcon(bool)` |
+| `sidebar.MenuSubButton` | `lib.AsChild`, `sidebar.IsActive(bool)`, a size (`sidebar.SubButtonSizeSm`, `SubButtonSizeMd` (default)) |
+| `sidebar.CookieState(r)` | reads the `sidebar_state` cookie: `open, ok` |
+| `sidebar.MenuButtonVariants(variant, size, className...)` | returns the menu button classes |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.

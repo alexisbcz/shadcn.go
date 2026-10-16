@@ -1,0 +1,234 @@
+---
+title: Calendar
+description: A calendar component that allows users to select a date or a range of dates.
+base: radix
+component: true
+links:
+  doc: https://react-day-picker.js.org
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="calendar-demo"
+  previewClassName="h-96"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"time"
+
+	"github.com/alexisbcz/components/ui/calendar"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+calendar.Calendar(
+	calendar.ModeSingle,
+	calendar.Selected(time.Now()),
+	h.Class("rounded-lg border"),
+)
+```
+
+The selection lives in the browser. When a day is picked, the calendar root
+dispatches a `shadcn:select` event whose detail holds the selection as ISO
+dates (`selected`) and the picked day (`date`):
+
+```js showLineNumbers
+document.querySelector("[data-slot=calendar]").addEventListener("shadcn:select", (event) => {
+  console.log(event.detail.selected) // "2025-06-12"
+})
+```
+
+It also dispatches `shadcn:month-change` (detail `{ month }`) when the
+displayed month changes.
+
+See the [React DayPicker](https://react-day-picker.js.org) documentation for more information.
+
+## About
+
+`calendar.Calendar` is a port of [React DayPicker](https://react-day-picker.js.org): the markup is rendered in Go and the behavior is ported to vanilla JavaScript.
+
+## Date Picker
+
+You can use `calendar.Calendar` to build a date picker. See the [Date Picker](/docs/components/radix/date-picker) page for more information.
+
+## Persian / Hijri / Jalali Calendar
+
+To use the Persian calendar, pass `calendar.Persian`. It renders the Solar
+Hijri calendar with the Persian locale and digits, right to left.
+
+```go showLineNumbers
+calendar.Calendar(calendar.ModeSingle, calendar.Persian)
+```
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="calendar-hijri"
+  title="Persian / Hijri / Jalali Calendar"
+  description="A Persian calendar."
+  previewClassName="h-[400px]"
+/>
+
+## Selected Date (With TimeZone)
+
+The Go port has no `timeZone` option. Dates are calendar days: a `time.Time`
+contributes its year, month and day in its own location, and the events
+report ISO dates (`YYYY-MM-DD`), so a selected day never shifts across time
+zones. Today defaults to the server's local date; the browser recomputes it
+on load.
+
+## Basic
+
+A basic calendar component. We used `h.Class("rounded-lg border")` to style the calendar.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="calendar-basic"
+  previewClassName="h-96"
+/>
+
+## Range Calendar
+
+Pass `calendar.ModeRange` to enable range selection.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="calendar-range"
+  previewClassName="h-[36rem] md:h-96"
+/>
+
+## Month and Year Selector
+
+Pass `calendar.CaptionDropdown` to show month and year dropdowns.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="calendar-caption"
+  previewClassName="h-96"
+/>
+
+## Presets
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="calendar-presets"
+  previewClassName="h-[650px]"
+/>
+
+## Date and Time Picker
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="calendar-time"
+  previewClassName="h-[600px]"
+/>
+
+## Booked dates
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="calendar-booked-dates"
+  previewClassName="h-96"
+/>
+
+## Custom Cell Size
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="calendar-custom-days"
+  title="Custom Cell Size"
+  description="A calendar with custom cell size that's responsive."
+  className="**:[.preview]:h-[560px]"
+/>
+
+You can customize the size of calendar cells using the `--cell-size` CSS variable. You can also make it responsive by using breakpoint-specific values:
+
+```go showLineNumbers
+calendar.Calendar(
+	calendar.ModeSingle,
+	h.Class("rounded-lg border [--cell-size:--spacing(11)] md:[--cell-size:--spacing(12)]"),
+)
+```
+
+Or use fixed values:
+
+```go showLineNumbers
+calendar.Calendar(
+	calendar.ModeSingle,
+	h.Class("rounded-lg border [--cell-size:2.75rem] md:[--cell-size:3rem]"),
+)
+```
+
+## Week Numbers
+
+Pass `calendar.ShowWeekNumber(true)` to show week numbers.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="calendar-week-numbers"
+  previewClassName="h-96"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+See also the [Hijri Guide](#persian--hijri--jalali-calendar) for enabling the Persian / Hijri / Jalali calendar.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="calendar-rtl"
+  direction="rtl"
+  previewClassName="h-96"
+/>
+
+When using RTL, pass `calendar.Arabic` for Arabic month and weekday names
+and `h.Dir("rtl")`:
+
+```go showLineNumbers
+calendar.Calendar(
+	calendar.ModeSingle,
+	calendar.Arabic,
+	h.Dir("rtl"),
+)
+```
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `calendar.Calendar` | a mode (`calendar.ModeSingle`, `ModeMultiple`, `ModeRange`; without one the calendar is not interactive), the selection (`calendar.Selected(t)`, `calendar.SelectedDates(ts...)`, `calendar.SelectedRange(from, to)`), `calendar.DefaultMonth(t)`, `calendar.Today(t)`, `calendar.NumberOfMonths(n)`, a caption layout (`calendar.CaptionLabel`, `CaptionDropdown`, `CaptionDropdownMonths`, `CaptionDropdownYears`), `calendar.ShowOutsideDays(bool)` (default true), `calendar.FixedWeeks(bool)`, `calendar.ShowWeekNumber(bool)`, `calendar.HideWeekdays(bool)`, `calendar.Required(bool)`, `calendar.DisableNavigation(bool)`, `calendar.PagedNavigation(bool)`, `calendar.StartMonth(t)`, `calendar.EndMonth(t)`, `calendar.Disabled(matchers...)`, `calendar.Hidden(matchers...)`, `calendar.Modifier(name, class, matchers...)`, `calendar.WeekStartsOn(n)`, `calendar.Min(n)`, `calendar.Max(n)`, `calendar.ExcludeDisabled(bool)`, `calendar.ButtonVariant(v)`, `calendar.ClassNames{...}`, `calendar.Persian`, `calendar.Arabic`, `calendar.WithNumerals(n)` |
+
+Matchers are `calendar.Day(t)`, `calendar.Before(t)`, `calendar.After(t)`,
+`calendar.Interval{Before, After}`, `calendar.DayOfWeek{0, 6}`,
+`calendar.Range{From, To}` and `calendar.Always{}`.
+
+```go showLineNumbers
+calendar.Calendar(
+	calendar.ModeSingle,
+	calendar.Disabled(calendar.Before(time.Now()), calendar.DayOfWeek{0, 6}),
+)
+```
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...). The behavior
+follows [React DayPicker](https://react-day-picker.js.org).

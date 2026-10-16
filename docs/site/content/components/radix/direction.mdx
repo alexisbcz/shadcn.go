@@ -1,0 +1,72 @@
+---
+title: Direction
+description: A provider component that sets the text direction for your application.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/primitives/docs/utilities/direction-provider
+  api: https://www.radix-ui.com/primitives/docs/utilities/direction-provider#api-reference
+---
+
+The `direction.Provider` component is used to set the text direction (`ltr` or `rtl`) for your application. This is essential for supporting right-to-left languages like Arabic, Hebrew, and Persian.
+
+Here's a preview of the component in RTL mode. Use the language selector to switch the language. To see more examples, look for the RTL section on components pages.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="card-rtl"
+  direction="rtl"
+  previewClassName="h-auto"
+  hideCode
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/direction"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+h.Html(h.Dir("rtl"),
+	h.Body(
+		direction.Provider(direction.RTL,
+			// Your app content
+		),
+	),
+)
+```
+
+`direction.Provider` renders no element of its own. It sets `dir` on every
+direction-aware component below it that was not given its own `h.Dir`. A
+nested `direction.Provider` sets the direction of its own subtree.
+
+## Reading the direction
+
+There are no hooks in Go. Keep the provider in a variable and call its `Dir`
+method to read the direction.
+
+```go showLineNumbers
+provider := direction.Provider(direction.RTL /* , children... */)
+
+h.Div(h.Text("Current direction: " + string(provider.Dir())))
+```
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `direction.Provider` | `direction.LTR` (default) or `direction.RTL` |
+
+Other children are the content it applies the direction to. `(*direction.Builder).Dir()`
+returns the provider's direction. The behavior follows
+[Radix UI's Direction Provider](https://www.radix-ui.com/primitives/docs/utilities/direction-provider#api-reference).

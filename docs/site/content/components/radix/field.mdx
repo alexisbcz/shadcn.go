@@ -1,0 +1,303 @@
+---
+title: Field
+description: Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="field-demo"
+  previewClassName="h-[800px] p-6 md:h-[850px]"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+`field.Label` renders a [Label](/docs/components/radix/label), whose behavior
+is a JavaScript module served by the runtime. Serve the runtime and load it
+once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/field"
+	"github.com/alexisbcz/components/ui/input"
+	switchui "github.com/alexisbcz/components/ui/switch"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+field.Set(
+	field.Legend("Profile"),
+	field.Description("This appears on invoices and emails."),
+	field.Group(
+		field.Field(
+			field.Label(h.For("name"), "Full name"),
+			input.Input(h.ID("name"), h.AutoComplete("off"), h.Placeholder("Evil Rabbit")),
+			field.Description("This appears on invoices and emails."),
+		),
+		field.Field(
+			field.Label(h.For("username"), "Username"),
+			input.Input(h.ID("username"), h.AutoComplete("off"), h.Aria("invalid", "true")),
+			field.Error("Choose another username."),
+		),
+		field.Field(field.Horizontal,
+			switchui.Switch(h.ID("newsletter")),
+			field.Label(h.For("newsletter"), "Subscribe to the newsletter"),
+		),
+	),
+)
+```
+
+## Composition
+
+### Field
+
+A single control with label, helper text, and validation.
+
+```text
+field.Field
+├── field.Label
+├── input.Input / textarea.Textarea / switchui.Switch / selectui.Select
+├── field.Description
+└── field.Error
+```
+
+### Group
+
+Related fields in one group. Use `field.Separator` between sections when needed.
+
+```text
+field.Group
+├── field.Field
+│   ├── field.Label
+│   ├── input.Input / textarea.Textarea / switchui.Switch / selectui.Select
+│   ├── field.Description
+│   └── field.Error
+├── field.Separator
+└── field.Field
+    ├── field.Label
+    └── input.Input / textarea.Textarea / switchui.Switch / selectui.Select
+```
+
+### Set
+
+Semantic grouping with a legend and description, usually containing a `field.Group`.
+
+```text
+field.Set
+├── field.Legend
+├── field.Description
+└── field.Group
+    ├── field.Field
+    │   ├── field.Label
+    │   ├── input.Input / textarea.Textarea / switchui.Switch / selectui.Select
+    │   ├── field.Description
+    │   └── field.Error
+    └── field.Field
+        ├── field.Label
+        └── input.Input / textarea.Textarea / switchui.Switch / selectui.Select
+```
+
+## Anatomy
+
+The `field` package is designed for composing accessible forms. A typical field is structured as follows:
+
+```go showLineNumbers
+field.Field(
+	field.Label(h.For("input-id"), "Label"),
+	// input.Input, selectui.Select, switchui.Switch, etc.
+	field.Description("Optional helper text."),
+	field.Error("Validation message."),
+)
+```
+
+- `field.Field` is the core wrapper for a single field.
+- `field.Content` is a flex column that groups label and description. Not required if you have no description.
+- Wrap related fields with `field.Group`, and use `field.Set` with `field.Legend` for semantic grouping.
+
+## Form
+
+The [Form](/docs/forms) guides use React form libraries (React Hook Form,
+TanStack Form, Formisch), which the Go port does not support. Validate on the
+server and render the messages with `field.Error` or `field.Errors`.
+
+## Input
+
+<ComponentPreview styleName="radix-nova" name="field-input" />
+
+## Textarea
+
+<ComponentPreview styleName="radix-nova" name="field-textarea" />
+
+## Select
+
+<ComponentPreview styleName="radix-nova" name="field-select" />
+
+## Slider
+
+<ComponentPreview styleName="radix-nova" name="field-slider" />
+
+## Fieldset
+
+<ComponentPreview styleName="radix-nova" name="field-fieldset" />
+
+## Checkbox
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="field-checkbox"
+  previewClassName="h-[32rem]"
+/>
+
+## Radio
+
+<ComponentPreview styleName="radix-nova" name="field-radio" />
+
+## Switch
+
+<ComponentPreview styleName="radix-nova" name="field-switch" />
+
+## Choice Card
+
+Wrap `field.Field` inside `field.Label` to create selectable field groups. This works with `radiogroup.Item`, `checkbox.Checkbox` and `switchui.Switch`.
+
+<ComponentPreview styleName="radix-nova" name="field-choice-card" />
+
+## Field Group
+
+Stack `field.Field` components with `field.Group`. Add `field.Separator` to divide them.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="field-group"
+  previewClassName="h-96"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="field-rtl"
+  direction="rtl"
+  previewClassName="h-auto p-6"
+/>
+
+## Responsive Layout
+
+- **Vertical fields:** Default orientation stacks label, control, and helper text—ideal for mobile-first layouts.
+- **Horizontal fields:** Pass `field.Horizontal` to `field.Field` to align the label and control side-by-side. Pair with `field.Content` to keep descriptions aligned.
+- **Responsive fields:** Pass `field.Responsive` for automatic column layouts inside container-aware parents. `field.Group` is the `@container/field-group` container, so fields switch orientations at its breakpoints.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="field-responsive"
+  previewClassName="h-[650px] p-6 md:h-[500px] md:p-10"
+/>
+
+## Validation and Errors
+
+- Add `data-invalid` to `field.Field` to switch the entire block into an error state.
+- Add `aria-invalid` on the input itself for assistive technologies.
+- Render `field.Error` immediately after the control or inside `field.Content` to keep error messages aligned with the field.
+
+```go showLineNumbers
+field.Field(h.Data("invalid", "true"),
+	field.Label(h.For("email"), "Email"),
+	input.Input(h.ID("email"), h.Type("email"), h.Aria("invalid", "true")),
+	field.Error("Enter a valid email address."),
+)
+```
+
+## Accessibility
+
+- `field.Set` and `field.Legend` keep related controls grouped for keyboard and assistive tech users.
+- `field.Field` outputs `role="group"` so nested controls inherit labeling from `field.Label` and `field.Legend` when combined.
+- Apply `field.Separator` sparingly to ensure screen readers encounter clear section boundaries.
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `field.Set` | Renders a semantic `<fieldset>` with spacing presets. |
+| `field.Legend` | `field.LegendLegend` (default) or `field.LegendLabel` |
+| `field.Group` | Stacks fields; it is the `@container/field-group` container for responsive orientations. |
+| `field.Field` | `field.Vertical` (default), `field.Horizontal`, `field.Responsive`; `h.Data("invalid", "true")` for the invalid state |
+| `field.Content` | Groups label and description beside the control. |
+| `field.Label` | A [Label](/docs/components/radix/label) styled for direct inputs and nested `field.Field` children. |
+| `field.Title` | A label-styled `<div>` for use inside `field.Content`. |
+| `field.Description` | Helper text that balances long lines in horizontal layouts. |
+| `field.Separator` | Divider between sections of a `field.Group`, with optional inline content. |
+| `field.Error` | Accessible error container; renders nothing without children. |
+| `field.Errors(messages, attrs...)` | Renders a list of messages: duplicates are removed, one message is rendered as text and several as a list. |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+
+### Legend
+
+The `field.LegendLabel` variant applies label sizing and alignment. Handy if you have nested `field.Set`.
+
+```go showLineNumbers
+field.Legend(field.LegendLabel, "Notification Preferences")
+```
+
+### Field
+
+```go showLineNumbers
+field.Field(field.Horizontal,
+	field.Label(h.For("remember"), "Remember me"),
+	switchui.Switch(h.ID("remember")),
+)
+```
+
+### Content
+
+```go showLineNumbers
+field.Field(
+	checkbox.Checkbox(h.ID("notifications")),
+	field.Content(
+		field.Label(h.For("notifications"), "Notifications"),
+		field.Description("Email, SMS, and push options."),
+	),
+)
+```
+
+### Title
+
+```go showLineNumbers
+field.Content(
+	field.Title("Enable Touch ID"),
+	field.Description("Unlock your device faster."),
+)
+```
+
+### Separator
+
+```go showLineNumbers
+field.Separator("Or continue with")
+```
+
+### Errors
+
+Pass the messages from your validation to `field.Errors`. When there are
+several messages, it renders a list.
+
+```go showLineNumbers
+field.Errors([]string{"Username is required.", "Username is too short."})
+```

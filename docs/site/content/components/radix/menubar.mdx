@@ -1,0 +1,158 @@
+---
+title: Menubar
+description: A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/menubar
+  api: https://www.radix-ui.com/docs/primitives/components/menubar#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="menubar-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/menubar"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+menubar.Menubar(
+	menubar.Menu(
+		menubar.Trigger("File"),
+		menubar.Content(
+			menubar.Group(
+				menubar.Item("New Tab ", menubar.Shortcut("⌘T")),
+				menubar.Item("New Window"),
+			),
+			menubar.Separator(),
+			menubar.Group(
+				menubar.Item("Share"),
+				menubar.Item("Print"),
+			),
+		),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build a `Menubar`:
+
+```text
+menubar.Menubar
+├── menubar.Menu
+│   ├── menubar.Trigger
+│   └── menubar.Content
+│       ├── menubar.Group
+│       │   ├── menubar.Label
+│       │   ├── menubar.Item
+│       │   └── menubar.Item
+│       ├── menubar.Separator
+│       ├── menubar.Group
+│       │   ├── menubar.Label
+│       │   ├── menubar.CheckboxItem
+│       │   └── menubar.CheckboxItem
+│       ├── menubar.Separator
+│       ├── menubar.Group
+│       │   ├── menubar.Label
+│       │   └── menubar.RadioGroup
+│       │       ├── menubar.RadioItem
+│       │       └── menubar.RadioItem
+│       └── menubar.Sub
+│           ├── menubar.SubTrigger
+│           └── menubar.SubContent
+│               └── menubar.Group
+│                   ├── menubar.Label
+│                   ├── menubar.Item
+│                   └── menubar.Item
+└── menubar.Menu
+    ├── menubar.Trigger
+    └── menubar.Content
+        └── menubar.Group
+            ├── menubar.Label
+            ├── menubar.Item
+            └── menubar.Item
+```
+
+## Checkbox
+
+Use `menubar.CheckboxItem` for toggleable options.
+
+<ComponentPreview styleName="radix-nova" name="menubar-checkbox" />
+
+## Radio
+
+Use `menubar.RadioGroup` and `menubar.RadioItem` for single-select options.
+
+<ComponentPreview styleName="radix-nova" name="menubar-radio" />
+
+## Submenu
+
+Use `menubar.Sub`, `menubar.SubTrigger`, and `menubar.SubContent` for nested menus.
+
+<ComponentPreview styleName="radix-nova" name="menubar-submenu" />
+
+## With Icons
+
+<ComponentPreview styleName="radix-nova" name="menubar-icons" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="menubar-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `menubar.Menubar` | `menubar.Loop(bool)` (default true), `menubar.Dir("rtl")`, `menubar.DefaultValue("...")` for the menu open on load |
+| `menubar.Menu` | `menubar.Value("...")` (default: a generated id) |
+| `menubar.Trigger` | `menubar.Disabled(true)`, `lib.AsChild` |
+| `menubar.Content`, `menubar.SubContent` | side (`menubar.SideTop`, `SideRight`, `SideBottom`, `SideLeft`), alignment (`menubar.AlignStart` (default), `AlignCenter`, `AlignEnd`), `menubar.SideOffset(px)` (default 8), `menubar.AlignOffset(px)` (default -4), `menubar.AvoidCollisions(bool)`, `menubar.CollisionPadding(px)`, `menubar.Sticky("always")`, `menubar.HideWhenDetached(bool)` |
+| `menubar.Item` | `menubar.VariantDestructive`, `menubar.Inset(true)`, `menubar.Disabled(true)`, `menubar.TextValue(s)` |
+| `menubar.CheckboxItem` | `menubar.Checked(bool)`, `menubar.Indeterminate`, `menubar.Controlled`, `menubar.Disabled(true)` |
+| `menubar.RadioGroup` | `menubar.Value(v)`, `menubar.Controlled` |
+| `menubar.RadioItem` | `menubar.Value(v)`, `menubar.Disabled(true)` |
+| `menubar.Sub` | `menubar.SubDefaultOpen(true)` |
+| `menubar.SubTrigger`, `menubar.Label` | `menubar.Inset(true)` |
+| `menubar.Group`, `menubar.Separator`, `menubar.Shortcut`, `menubar.Portal` | |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+
+The menubar dispatches a cancelable `shadcn:value-change` event when a menu
+opens or closes (`detail.value`: the open menu's value, `""` when closed).
+Checkbox items and radio groups keep their state in the page.
+`menubar.Controlled` leaves the state to your scripts. The menus dispatch
+bubbling, cancelable events on the live elements: `shadcn:select` on an item
+(cancel it to keep the menu open), `shadcn:checked-change` on a checkbox item
+(`detail.checked`), `shadcn:value-change` on a radio group (`detail.value`).
+
+```js showLineNumbers
+document.addEventListener("shadcn:select", (e) => {
+  console.log(e.target.textContent)
+})
+```
+
+The behavior follows [Radix UI's Menubar](https://www.radix-ui.com/docs/primitives/components/menubar#api-reference).

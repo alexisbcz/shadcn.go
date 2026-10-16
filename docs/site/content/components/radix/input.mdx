@@ -1,0 +1,179 @@
+---
+title: Input
+description: A text input component for forms and user data entry with built-in styling and accessibility features.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-demo"
+  previewClassName="*:max-w-xs"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/input"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+input.Input(h.Type("email"), h.Placeholder("Email"))
+```
+
+## Basic
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-basic"
+  previewClassName="*:max-w-xs"
+/>
+
+## Field
+
+Use `field.Field`, `field.Label`, and `field.Description` to create an input with a
+label and description.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-field"
+  previewClassName="*:max-w-xs"
+/>
+
+## Field Group
+
+Use `field.Group` to show multiple `field.Field` blocks and to build forms.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-fieldgroup"
+  previewClassName="*:max-w-xs"
+/>
+
+## Disabled
+
+Pass `h.Disabled()` to disable the input. To style the disabled state, add the `data-disabled` attribute to the `field.Field` component.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-disabled"
+  previewClassName="*:max-w-xs"
+/>
+
+## Invalid
+
+Pass `h.Aria("invalid", "true")` to mark the input as invalid. To style the invalid state, add the `data-invalid` attribute to the `field.Field` component.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-invalid"
+  previewClassName="*:max-w-xs"
+/>
+
+## File
+
+Pass `h.Type("file")` to create a file input.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-file"
+  previewClassName="*:max-w-xs"
+/>
+
+## Inline
+
+Use `field.Field` with `field.Horizontal` to create an inline input.
+Pair with `button.Button` to create a search input with a button.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-inline"
+  previewClassName="*:max-w-xs"
+/>
+
+## Grid
+
+Use a grid layout to place multiple inputs side by side.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-grid"
+  previewClassName="p-6"
+/>
+
+## Required
+
+Pass `h.Required()` to indicate required inputs.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-required"
+  previewClassName="*:max-w-xs"
+/>
+
+## Badge
+
+Use `badge.Badge` in the label to highlight a recommended field.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-badge"
+  previewClassName="*:max-w-xs"
+/>
+
+## Input Group
+
+To add icons, text, or buttons inside an input, use the `inputgroup` package. See the [Input Group](/docs/components/radix/input-group) component for more examples.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-input-group"
+  previewClassName="*:max-w-xs"
+/>
+
+## Button Group
+
+To add buttons to an input, use the `buttongroup` package. See the [Button Group](/docs/components/radix/button-group) component for more examples.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-button-group"
+  previewClassName="*:max-w-xs"
+/>
+
+## Form
+
+A full form example with multiple inputs, a select, and a button.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-form"
+  previewClassName="h-[32rem]"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-rtl"
+  direction="rtl"
+  previewClassName="*:max-w-xs"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `input.Input` | HTML attributes (`h.Type`, `h.Name`, `h.Placeholder`, `h.Required()`, `h.Disabled()`, `h.Aria("invalid", "true")`, `h.Class`, ...) |

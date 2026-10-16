@@ -1,0 +1,117 @@
+---
+title: Alert
+description: Displays a callout for user attention.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  name="alert-demo"
+  styleName="radix-nova"
+  previewClassName="h-auto sm:h-72 p-6"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/alert"
+	"github.com/alexisbcz/components/ui/button"
+	"github.com/alexisbcz/icons/lucide"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+alert.Alert(
+	lucide.Info(),
+	alert.Title("Heads up!"),
+	alert.Description("You can add components and dependencies to your app using the cli."),
+	alert.Action(
+		button.Button(button.VariantOutline, "Enable"),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build an `Alert`:
+
+```text
+alert.Alert
+├── Icon (lucide.Info, ...)
+├── alert.Title
+├── alert.Description
+└── alert.Action
+```
+
+## Basic
+
+A basic alert with an icon, title and description.
+
+<ComponentPreview
+  name="alert-basic"
+  styleName="radix-nova"
+  previewClassName="h-auto sm:h-72 p-6"
+/>
+
+## Destructive
+
+Pass `alert.VariantDestructive` to create a destructive alert.
+
+<ComponentPreview
+  name="alert-destructive"
+  styleName="radix-nova"
+  previewClassName="h-auto sm:h-72 p-6"
+/>
+
+## Action
+
+Use `alert.Action` to add a button or other action element to the alert.
+
+<ComponentPreview
+  name="alert-action"
+  styleName="radix-nova"
+  previewClassName="h-auto sm:h-72 p-6"
+/>
+
+## Custom Colors
+
+You can customize the alert colors by adding custom classes such as `h.Class("bg-amber-50 dark:bg-amber-950")` to `alert.Alert`.
+
+<ComponentPreview
+  name="alert-colors"
+  styleName="radix-nova"
+  previewClassName="h-auto sm:h-72 p-6"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="alert-rtl"
+  direction="rtl"
+  previewClassName="h-auto sm:h-72 p-6"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `alert.Alert` | `alert.VariantDefault` (default) or `alert.VariantDestructive` |
+| `alert.Title` | none |
+| `alert.Description` | none |
+| `alert.Action` | none; positioned in the top-right corner of the alert |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+`alert.Variants(variant, classes...)` returns the classes of an alert, for
+use on another element.

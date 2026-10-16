@@ -1,0 +1,128 @@
+---
+title: Dialog
+description: A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.
+featured: true
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/dialog
+  api: https://www.radix-ui.com/docs/primitives/components/dialog#api-reference
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="dialog-demo"
+  description="A dialog for editing profile details."
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/dialog"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+dialog.Dialog(
+	dialog.Trigger("Open"),
+	dialog.Content(
+		dialog.Header(
+			dialog.Title("Are you absolutely sure?"),
+			dialog.Description("This action cannot be undone. This will permanently delete your account and remove your data from our servers."),
+		),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build a `dialog.Dialog`:
+
+```text
+dialog.Dialog
+├── dialog.Trigger
+└── dialog.Content
+    ├── dialog.Header
+    │   ├── dialog.Title
+    │   └── dialog.Description
+    └── dialog.Footer
+```
+
+## Custom Close Button
+
+Replace the default close control with your own button: wrap it in
+`dialog.Close` with `lib.AsChild`.
+
+```go showLineNumbers
+dialog.Footer(
+	dialog.Close(lib.AsChild, button.Button(button.VariantSecondary, "Close")),
+)
+```
+
+<ComponentPreview styleName="radix-nova" name="dialog-close-button" />
+
+## No Close Button
+
+Pass `dialog.ShowCloseButton(false)` to `dialog.Content` to hide the close button.
+
+```go showLineNumbers
+dialog.Content(dialog.ShowCloseButton(false),
+	dialog.Header(dialog.Title("Title")),
+)
+```
+
+<ComponentPreview styleName="radix-nova" name="dialog-no-close-button" />
+
+## Sticky Footer
+
+Keep actions visible while the content scrolls.
+
+<ComponentPreview styleName="radix-nova" name="dialog-sticky-footer" />
+
+## Scrollable Content
+
+Long content can scroll while the header stays in view.
+
+<ComponentPreview styleName="radix-nova" name="dialog-scrollable-content" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="dialog-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `dialog.Dialog` | `dialog.Modal(bool)` (default true), `dialog.DefaultOpen` |
+| `dialog.Trigger` | `lib.AsChild` to render the child element as the trigger instead of a `<button>` |
+| `dialog.Content` | `dialog.ShowCloseButton(bool)` (default true) for the corner close button |
+| `dialog.Header` | |
+| `dialog.Footer` | `dialog.ShowCloseButton(bool)` (default false) appends an outline "Close" button |
+| `dialog.Title`, `dialog.Description` | |
+| `dialog.Close` | `lib.AsChild` |
+| `dialog.Overlay`, `dialog.Portal` | the parts `dialog.Content` renders for you |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content. The
+dialog dispatches a cancelable `shadcn:open-change` event (`detail.open`) when
+it opens or closes. The behavior follows [Radix UI's Dialog](https://www.radix-ui.com/docs/primitives/components/dialog#api-reference).

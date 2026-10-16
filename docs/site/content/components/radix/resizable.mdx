@@ -1,0 +1,116 @@
+---
+title: Resizable
+description: Accessible resizable panel groups and layouts with keyboard support.
+base: radix
+component: true
+links:
+  doc: https://github.com/bvaughn/react-resizable-panels
+  api: https://github.com/bvaughn/react-resizable-panels/tree/main/packages/react-resizable-panels
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="resizable-demo"
+  previewClassName="h-80"
+/>
+
+## About
+
+The `Resizable` component is built on top of [react-resizable-panels](https://github.com/bvaughn/react-resizable-panels) by [bvaughn](https://github.com/bvaughn).
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/resizable"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+resizable.PanelGroup(resizable.Horizontal,
+	resizable.Panel("One"),
+	resizable.Handle(),
+	resizable.Panel("Two"),
+)
+```
+
+## Composition
+
+Use the following composition to build a `resizable.PanelGroup`:
+
+```text
+resizable.PanelGroup
+├── resizable.Panel
+├── resizable.Handle
+└── resizable.Panel
+```
+
+## Vertical
+
+Pass `resizable.Vertical` to `resizable.PanelGroup` for vertical resizing.
+
+<ComponentPreview styleName="radix-nova" name="resizable-vertical" />
+
+## Handle
+
+Pass `resizable.WithHandle` to `resizable.Handle` to show a visible handle.
+
+<ComponentPreview styleName="radix-nova" name="resizable-handle" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="resizable-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `resizable.PanelGroup` | `resizable.Horizontal` (default) or `resizable.Vertical`, `resizable.Disabled(true)`, `resizable.DisableCursor(true)`, `resizable.DefaultLayout{"panel-id": 50, ...}`, `resizable.ResizeTargetMinimumSize{Fine: 10, Coarse: 20}` |
+| `resizable.Panel` | `resizable.DefaultSize("...")`, `resizable.MinSize("...")` (default `"0%"`), `resizable.MaxSize("...")` (default `"100%"`), `resizable.CollapsedSize("...")` (default `"0%"`), `resizable.Collapsible(true)` |
+| `resizable.Handle` | `resizable.WithHandle` to show a grip |
+
+Sizes take `%` (also a bare number), `px`, `rem`, `em`, `vh` and `vw`. A panel's
+`h.Class` and `h.Style` apply to its inner `<div>`. Other children are HTML
+attributes (`h.ID`, ...) and content.
+
+The group dispatches `shadcn:layout-change` (`detail.layout`, panel id to
+percentage) whenever the layout changes, and `shadcn:layout-changed` when a
+change is complete. Scripts can drive the group through `el.resizableGroup`
+(`getLayout()`, `setLayout(layout)`) and a panel through `el.resizablePanel`
+(`collapse()`, `expand()`, `getSize()`, `isCollapsed()`, `resize(size)`).
+
+```js showLineNumbers
+group.addEventListener("shadcn:layout-changed", (e) => {
+  console.log(e.detail.layout)
+})
+panel.resizablePanel.collapse()
+```
+
+The behavior follows [react-resizable-panels](https://github.com/bvaughn/react-resizable-panels/tree/main/packages/react-resizable-panels).
+
+## Changelog
+
+### 2025-02-02 `react-resizable-panels` v4
+
+The Go port follows `react-resizable-panels` v4 (v4.5.8). Sizes are strings
+with a unit, as in v4: `resizable.DefaultSize("50%")`.

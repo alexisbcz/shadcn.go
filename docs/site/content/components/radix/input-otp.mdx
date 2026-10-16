@@ -1,0 +1,178 @@
+---
+title: Input OTP
+description: Accessible one-time password component with copy-paste functionality.
+base: radix
+component: true
+links:
+  doc: https://input-otp.rodz.dev
+---
+
+<ComponentPreview styleName="radix-nova" name="input-otp-demo" />
+
+## About
+
+Input OTP is a Go port of [input-otp](https://github.com/guilhermerodz/input-otp) by [@guilherme_rodz](https://twitter.com/guilherme_rodz).
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	inputotp "github.com/alexisbcz/components/ui/input-otp"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+inputotp.InputOTP(inputotp.MaxLength(6),
+	inputotp.Group(
+		inputotp.Slot(0),
+		inputotp.Slot(1),
+		inputotp.Slot(2),
+	),
+	inputotp.Separator(),
+	inputotp.Group(
+		inputotp.Slot(3),
+		inputotp.Slot(4),
+		inputotp.Slot(5),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build an `inputotp.InputOTP`:
+
+```text
+inputotp.InputOTP
+├── inputotp.Group
+│   ├── inputotp.Slot
+│   ├── inputotp.Slot
+│   └── inputotp.Slot
+├── inputotp.Separator
+├── inputotp.Group
+│   ├── inputotp.Slot
+│   ├── inputotp.Slot
+│   └── inputotp.Slot
+├── inputotp.Separator
+└── inputotp.Group
+    ├── inputotp.Slot
+    └── inputotp.Slot
+```
+
+Slots are matched to indexes in document order: `inputotp.Slot(0)` comes first,
+then `inputotp.Slot(1)`, and so on.
+
+## Pattern
+
+Pass `inputotp.Pattern` to define a custom pattern for the OTP input.
+
+```go showLineNumbers {1}
+inputotp.InputOTP(inputotp.MaxLength(6), inputotp.Pattern(inputotp.RegexpOnlyDigitsAndChars),
+	// ...
+)
+```
+
+<ComponentPreview styleName="radix-nova" name="input-otp-pattern" />
+
+## Separator
+
+Use `inputotp.Separator()` to add a separator between input groups.
+
+<ComponentPreview styleName="radix-nova" name="input-otp-separator" />
+
+## Disabled
+
+Pass `h.Disabled()` to disable the input.
+
+<ComponentPreview styleName="radix-nova" name="input-otp-disabled" />
+
+## Controlled
+
+Pass `h.Value` to set the initial value. The input dispatches a
+`shadcn:value-change` event with `detail.value` after every change, and
+`shadcn:complete` when the last slot gets filled. Both bubble from the input.
+
+```go showLineNumbers
+inputotp.InputOTP(inputotp.MaxLength(6), h.ID("otp"), h.Value("123"),
+	inputotp.Group(
+		inputotp.Slot(0), inputotp.Slot(1), inputotp.Slot(2),
+		inputotp.Slot(3), inputotp.Slot(4), inputotp.Slot(5),
+	),
+)
+```
+
+```js showLineNumbers
+const otp = document.getElementById("otp")
+otp.addEventListener("shadcn:value-change", (event) => {
+  console.log(event.detail.value)
+})
+otp.addEventListener("shadcn:complete", (event) => {
+  console.log("complete", event.detail.value)
+})
+```
+
+<ComponentPreview styleName="radix-nova" name="input-otp-controlled" />
+
+## Invalid
+
+Pass `h.Aria("invalid", "true")` to the slots to show an error state.
+
+<ComponentPreview styleName="radix-nova" name="input-otp-invalid" />
+
+## Four Digits
+
+A common pattern for PIN codes. This uses `inputotp.Pattern(inputotp.RegexpOnlyDigits)`.
+
+<ComponentPreview styleName="radix-nova" name="input-otp-four-digits" />
+
+## Alphanumeric
+
+Use `inputotp.RegexpOnlyDigitsAndChars` to accept both letters and numbers.
+
+<ComponentPreview styleName="radix-nova" name="input-otp-alphanumeric" />
+
+## Form
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-otp-form"
+  previewClassName="h-[30rem]"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="input-otp-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `inputotp.InputOTP` | `inputotp.MaxLength(n)` (required), `inputotp.Pattern(regexp)` (`inputotp.RegexpOnlyDigits`, `RegexpOnlyChars`, `RegexpOnlyDigitsAndChars`), `inputotp.ContainerClass(class)`, `inputotp.InputMode(mode)` (default `"numeric"`), `inputotp.TextAlign(align)` (`"left"` (default), `"center"`, `"right"`) |
+| `inputotp.Group` | none; a group of slots |
+| `inputotp.Slot` | the slot index, first argument |
+| `inputotp.Separator` | none |
+
+Attributes given to `inputotp.InputOTP` (`h.Class`, `h.Name`, `h.Value`,
+`h.Disabled`, `h.Aria`, ...) go to the `<input>`; `inputotp.ContainerClass`
+styles the container. Other children of the parts are HTML attributes and
+content. See the [input-otp](https://input-otp.rodz.dev) documentation for
+more information.

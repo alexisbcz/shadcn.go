@@ -1,0 +1,506 @@
+---
+title: Chart
+description: Beautiful charts, with a port of Recharts running in the browser.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="chart-demo"
+  className="theme-blue [&_.preview]:h-auto [&_.preview]:p-0 [&_.preview]:lg:min-h-[404px] [&_.preview>div]:w-full [&_.preview>div]:border-none [&_.preview>div]:shadow-none"
+  hideCode
+/>
+
+Introducing **Charts**. A collection of chart components that you can copy and paste into your apps.
+
+Charts are designed to look great out of the box. They work well with the other components and are fully customizable to fit your project.
+
+[Browse the Charts Library](/charts).
+
+## Component
+
+The charts are rendered in the browser by `chart.js`, a port of [Recharts](https://recharts.org/) 3.8.0 that renders the same SVG Recharts renders.
+
+We designed the `chart` component with composition in mind. **You describe your chart with the Recharts element names and props (`chart.BarChart`, `chart.Bar`, `chart.XAxis`, ...) and only bring in shadcn parts, such as `chart.TooltipContent`, when and where you need them**.
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/chart"
+	h "github.com/alexisbcz/libhtml"
+)
+
+func MyChart() h.Node {
+	return chart.Container(chartConfig,
+		chart.BarChart(chart.Data(data),
+			chart.Bar(chart.DataKey("value")),
+			chart.Tooltip(chart.TooltipContent()),
+		),
+	)
+}
+```
+
+Props use Recharts' names: `chart.DataKey("month")` is `dataKey="month"`, and `chart.P("key", value)` sets a prop that has no helper. Function props, such as tick formatters and custom shapes, are named functions of the runtime: `chart.Slice`, `chart.ConfigLabel`, `chart.DateFormat`, ...
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+If your CSS file does not define the chart colors yet, add them:
+
+```css title="app/globals.css" showLineNumbers
+@layer base {
+  :root {
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
+  }
+
+  .dark {
+    --chart-1: oklch(0.488 0.243 264.376);
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0.265 303.9);
+    --chart-5: oklch(0.645 0.246 16.439);
+  }
+}
+```
+
+## Your First Chart
+
+Let's build your first chart. We'll build a bar chart, add a grid, axis, tooltip and legend.
+
+<Steps>
+
+<Step>Start by defining your data</Step>
+
+The following data represents the number of desktop and mobile users for each month.
+
+<Callout className="mt-4">
+
+**Note:** Your data can be in any shape. You are not limited to the shape of the data below. Use `chart.DataKey` to map your data to the chart.
+
+</Callout>
+
+```go showLineNumbers
+var chartData = []chart.Row{
+	{"month": "January", "desktop": 186, "mobile": 80},
+	{"month": "February", "desktop": 305, "mobile": 200},
+	{"month": "March", "desktop": 237, "mobile": 120},
+	{"month": "April", "desktop": 73, "mobile": 190},
+	{"month": "May", "desktop": 209, "mobile": 130},
+	{"month": "June", "desktop": 214, "mobile": 140},
+}
+```
+
+<Step>Define your chart config</Step>
+
+The chart config holds configuration for the chart. This is where you place human-readable strings, such as labels, icons and color tokens for theming.
+
+```go showLineNumbers
+var chartConfig = chart.Config{
+	{Key: "desktop", Label: "Desktop", Color: "#2563eb"},
+	{Key: "mobile", Label: "Mobile", Color: "#60a5fa"},
+}
+```
+
+<Step>Build your chart</Step>
+
+You can now build your chart with the Recharts elements.
+
+<Callout className="mt-4 bg-amber-50 border-amber-200 dark:bg-amber-950/50 dark:border-amber-950">
+
+**Important:** Remember to set a `min-h-[VALUE]` on `chart.Container` with `h.Class`. This is required for the chart to be responsive.
+
+</Callout>
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="chart-example"
+  previewClassName="h-80"
+/>
+
+</Steps>
+
+### Add a Grid
+
+Let's add a grid to the chart.
+
+<Steps className="mb-0 pt-2">
+
+<Step>Add `chart.CartesianGrid` to your chart.</Step>
+
+```go showLineNumbers {3}
+chart.Container(chartConfig, h.Class("min-h-[200px] w-full"),
+	chart.BarChart(chart.AccessibilityLayer(), chart.Data(chartData),
+		chart.CartesianGrid(chart.Vertical(false)),
+		chart.Bar(chart.DataKey("desktop"), chart.Fill("var(--color-desktop)"), chart.Radius(4)),
+		chart.Bar(chart.DataKey("mobile"), chart.Fill("var(--color-mobile)"), chart.Radius(4)),
+	),
+)
+```
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="chart-example-grid"
+  previewClassName="h-80"
+/>
+
+</Steps>
+
+### Add an Axis
+
+To add an x-axis to the chart, we'll use `chart.XAxis`.
+
+<Steps className="mb-0 pt-2">
+
+<Step>Add `chart.XAxis` to your chart.</Step>
+
+```go showLineNumbers {4-10}
+chart.Container(chartConfig, h.Class("h-[200px] w-full"),
+	chart.BarChart(chart.AccessibilityLayer(), chart.Data(chartData),
+		chart.CartesianGrid(chart.Vertical(false)),
+		chart.XAxis(
+			chart.DataKey("month"),
+			chart.TickLine(false),
+			chart.TickMargin(10),
+			chart.AxisLine(false),
+			chart.TickFormatter(chart.Slice(0, 3)),
+		),
+		chart.Bar(chart.DataKey("desktop"), chart.Fill("var(--color-desktop)"), chart.Radius(4)),
+		chart.Bar(chart.DataKey("mobile"), chart.Fill("var(--color-mobile)"), chart.Radius(4)),
+	),
+)
+```
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="chart-example-axis"
+  previewClassName="h-80"
+/>
+
+</Steps>
+
+### Add Tooltip
+
+So far we've only used Recharts elements. They look great out of the box thanks to some customization in the `chart` component.
+
+To add a tooltip, we'll use `chart.Tooltip` with the custom `chart.TooltipContent`.
+
+<Steps className="mb-0 pt-2">
+
+<Step>Add the tooltip to your chart.</Step>
+
+```go showLineNumbers {11}
+chart.Container(chartConfig, h.Class("h-[200px] w-full"),
+	chart.BarChart(chart.AccessibilityLayer(), chart.Data(chartData),
+		chart.CartesianGrid(chart.Vertical(false)),
+		chart.XAxis(
+			chart.DataKey("month"),
+			chart.TickLine(false),
+			chart.TickMargin(10),
+			chart.AxisLine(false),
+			chart.TickFormatter(chart.Slice(0, 3)),
+		),
+		chart.Tooltip(chart.TooltipContent()),
+		chart.Bar(chart.DataKey("desktop"), chart.Fill("var(--color-desktop)"), chart.Radius(4)),
+		chart.Bar(chart.DataKey("mobile"), chart.Fill("var(--color-mobile)"), chart.Radius(4)),
+	),
+)
+```
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="chart-example-tooltip"
+  previewClassName="h-80"
+/>
+
+Hover to see the tooltips. Easy, right? Two functions, and we've got a beautiful tooltip.
+
+</Steps>
+
+### Add Legend
+
+We'll do the same for the legend. We'll use `chart.Legend` with the custom `chart.LegendContent`.
+
+<Steps className="mb-0 pt-2">
+
+<Step>Add the legend to your chart.</Step>
+
+```go showLineNumbers {12}
+chart.Container(chartConfig, h.Class("h-[200px] w-full"),
+	chart.BarChart(chart.AccessibilityLayer(), chart.Data(chartData),
+		chart.CartesianGrid(chart.Vertical(false)),
+		chart.XAxis(
+			chart.DataKey("month"),
+			chart.TickLine(false),
+			chart.TickMargin(10),
+			chart.AxisLine(false),
+			chart.TickFormatter(chart.Slice(0, 3)),
+		),
+		chart.Tooltip(chart.TooltipContent()),
+		chart.Legend(chart.LegendContent()),
+		chart.Bar(chart.DataKey("desktop"), chart.Fill("var(--color-desktop)"), chart.Radius(4)),
+		chart.Bar(chart.DataKey("mobile"), chart.Fill("var(--color-mobile)"), chart.Radius(4)),
+	),
+)
+```
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="chart-example-legend"
+  previewClassName="h-80"
+/>
+
+</Steps>
+
+Done. You've built your first chart! What's next?
+
+- [Themes and Colors](/docs/components/radix/chart#theming)
+- [Tooltip](/docs/components/radix/chart#tooltip)
+- [Legend](/docs/components/radix/chart#legend)
+
+## Chart Config
+
+The chart config is where you define the labels, icons and colors for a chart.
+
+It is intentionally decoupled from chart data.
+
+This allows you to share config and color tokens between charts. It can also work independently for cases where your data or color tokens live remotely or in a different format.
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/chart"
+	"github.com/alexisbcz/icons/lucide"
+)
+
+var chartConfig = chart.Config{
+	{
+		Key:   "desktop",
+		Label: "Desktop",
+		Icon:  lucide.Monitor,
+		// A color like 'hsl(220, 98%, 61%)' or 'var(--color-name)'
+		Color: "#2563eb",
+		// OR a theme with light and dark colors
+		// Theme: &chart.Theme{Light: "#2563eb", Dark: "#dc2626"},
+	},
+}
+```
+
+`chart.Config` is a slice, so the items keep their declaration order.
+
+## Theming
+
+Charts have built-in support for theming. You can use css variables (recommended) or color values in any color format, such as hex, hsl or oklch.
+
+### CSS Variables
+
+<Steps className="mb-0 pt-2">
+
+<Step>Define your colors in your css file</Step>
+
+```css title="app/globals.css" showLineNumbers
+@layer base {
+  :root {
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.6 0.118 184.704);
+  }
+
+  .dark {
+    --chart-1: oklch(0.488 0.243 264.376);
+    --chart-2: oklch(0.696 0.17 162.48);
+  }
+}
+```
+
+<Step>Add the color to your chart config</Step>
+
+```go showLineNumbers
+var chartConfig = chart.Config{
+	{Key: "desktop", Label: "Desktop", Color: "var(--chart-1)"},
+	{Key: "mobile", Label: "Mobile", Color: "var(--chart-2)"},
+}
+```
+
+</Steps>
+
+### hex, hsl or oklch
+
+You can also define your colors directly in the chart config. Use the color format you prefer.
+
+```go showLineNumbers
+var chartConfig = chart.Config{
+	{Key: "desktop", Label: "Desktop", Color: "#2563eb"},
+	{Key: "mobile", Label: "Mobile", Color: "hsl(220, 98%, 61%)"},
+	{Key: "tablet", Label: "Tablet", Color: "oklch(0.5 0.2 240)"},
+	{Key: "laptop", Label: "Laptop", Color: "var(--chart-2)"},
+}
+```
+
+### Using Colors
+
+To use the theme colors in your chart, reference the colors using the format `var(--color-KEY)`.
+
+#### Components
+
+```go
+chart.Bar(chart.DataKey("desktop"), chart.Fill("var(--color-desktop)"))
+```
+
+#### Chart Data
+
+```go showLineNumbers
+var chartData = []chart.Row{
+	{"browser": "chrome", "visitors": 275, "fill": "var(--color-chrome)"},
+	{"browser": "safari", "visitors": 200, "fill": "var(--color-safari)"},
+}
+```
+
+#### Tailwind
+
+```go
+chart.LabelList(chart.ClassName("fill-(--color-desktop)"))
+```
+
+## Tooltip
+
+A chart tooltip contains a label, name, indicator and value. You can use a combination of these to customize your tooltip.
+
+<ComponentPreview styleName="radix-nova" name="chart-tooltip" hideCode />
+
+You can turn off any of these using `chart.HideLabel()` and `chart.HideIndicator()`, and customize the indicator style using `chart.Indicator`.
+
+Use `chart.LabelKey` and `chart.NameKey` to use a custom key for the tooltip label and name.
+
+Chart comes with `chart.Tooltip` and `chart.TooltipContent`. You can use these two to add custom tooltips to your chart.
+
+```go
+chart.Tooltip(chart.TooltipContent())
+```
+
+### Options
+
+Pass the following options to `chart.TooltipContent` to customize the tooltip.
+
+| Option | Description |
+| :-- | :-- |
+| `chart.LabelKey(key)` | The config or data key to use for the label. |
+| `chart.NameKey(key)` | The config or data key to use for the name. |
+| `chart.Indicator(style)` | The indicator style for the tooltip: `"dot"` (default), `"line"` or `"dashed"`. |
+| `chart.HideLabel()` | Hides the label. |
+| `chart.HideIndicator()` | Hides the indicator. |
+| `chart.LabelFormatter(fn)` | Formats the label with a runtime function. |
+| `chart.ClassName(c)`, `chart.LabelClassName(c)` | Classes for the tooltip and its label. |
+
+### Colors
+
+Colors are automatically referenced from the chart config.
+
+### Custom
+
+To use a custom key for tooltip label and names, use `chart.LabelKey` and `chart.NameKey`.
+
+```go showLineNumbers
+var chartData = []chart.Row{
+	{"browser": "chrome", "visitors": 187, "fill": "var(--color-chrome)"},
+	{"browser": "safari", "visitors": 200, "fill": "var(--color-safari)"},
+}
+
+var chartConfig = chart.Config{
+	{Key: "visitors", Label: "Total Visitors"},
+	{Key: "chrome", Label: "Chrome", Color: "var(--chart-1)"},
+	{Key: "safari", Label: "Safari", Color: "var(--chart-2)"},
+}
+```
+
+```go
+chart.Tooltip(chart.TooltipContent(chart.LabelKey("visitors"), chart.NameKey("browser")))
+```
+
+This will use `Total Visitors` for label and `Chrome` and `Safari` for the tooltip names.
+
+## Legend
+
+You can use `chart.Legend` and the custom `chart.LegendContent` to add a legend to your chart.
+
+```go
+chart.Legend(chart.LegendContent())
+```
+
+### Colors
+
+Colors are automatically referenced from the chart config.
+
+### Custom
+
+To use a custom key for legend names, use `chart.NameKey`.
+
+```go showLineNumbers
+var chartData = []chart.Row{
+	{"browser": "chrome", "visitors": 187, "fill": "var(--color-chrome)"},
+	{"browser": "safari", "visitors": 200, "fill": "var(--color-safari)"},
+}
+
+var chartConfig = chart.Config{
+	{Key: "chrome", Label: "Chrome", Color: "var(--chart-1)"},
+	{Key: "safari", Label: "Safari", Color: "var(--chart-2)"},
+}
+```
+
+```go
+chart.Legend(chart.LegendContent(chart.NameKey("browser")))
+```
+
+This will use `Chrome` and `Safari` for the legend names.
+
+## Accessibility
+
+You can turn on `chart.AccessibilityLayer()` to add an accessible layer to your chart.
+
+This option adds keyboard access and screen reader support to your charts.
+
+```go
+chart.LineChart(chart.AccessibilityLayer())
+```
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="base-nova"
+  name="chart-rtl"
+  direction="rtl"
+  previewClassName="h-92"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `chart.Container` | the `chart.Config` first, then the chart root, `chart.ID(id)`, `chart.Nonce(nonce)` (the CSP nonce of its `<style>`), `chart.InitialDimension{Width, Height}` (default 320x200) |
+| `chart.AreaChart`, `chart.BarChart`, `chart.LineChart`, `chart.ComposedChart`, `chart.PieChart`, `chart.RadarChart` | `chart.Data(rows)`, `chart.Margin{...}`, `chart.Layout`, `chart.AccessibilityLayer()`, ... and the elements below |
+| `chart.CartesianGrid`, `chart.XAxis`, `chart.YAxis`, `chart.Area`, `chart.Bar`, `chart.Line`, `chart.Pie`, `chart.LabelList`, `chart.Cell`, `chart.Label` | Recharts props: `chart.DataKey`, `chart.Fill`, `chart.Stroke`, `chart.Radius`, `chart.TickFormatter`, ..., or `chart.P(key, value)` |
+| `chart.Tooltip` | `chart.TooltipContent(...)`, `chart.Cursor(v)` |
+| `chart.Legend` | `chart.LegendContent(...)`, `chart.VerticalAlign(v)` |
+| `chart.TooltipContent` | see [Tooltip](#tooltip) |
+| `chart.LegendContent` | `chart.NameKey(key)`, `chart.HideIcon()`, `chart.VerticalAlign(v)`, `chart.ClassName(c)` |
+
+Other children of `chart.Container` are HTML attributes (`h.Class`, `h.ID`, ...).
+Elements without a helper are built with `chart.El(name, ...)`. The container's
+`<style>` sets the `--color-KEY` variables of the config.

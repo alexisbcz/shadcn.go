@@ -1,0 +1,58 @@
+---
+title: Skeleton
+description: Use to show a placeholder while content is loading.
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="skeleton-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/skeleton"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+skeleton.Skeleton(h.Class("h-[20px] w-[100px] rounded-full"))
+```
+
+## Avatar
+
+<ComponentPreview styleName="radix-nova" name="skeleton-avatar" />
+
+## Card
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="skeleton-card"
+  previewClassName="h-80"
+/>
+
+## Text
+
+<ComponentPreview styleName="radix-nova" name="skeleton-text" />
+
+## Form
+
+<ComponentPreview styleName="radix-nova" name="skeleton-form" />
+
+## Table
+
+<ComponentPreview styleName="radix-nova" name="skeleton-table" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="skeleton-rtl" direction="rtl" />

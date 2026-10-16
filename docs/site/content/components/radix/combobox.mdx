@@ -1,0 +1,272 @@
+---
+title: Combobox
+description: Autocomplete input with a list of suggestions.
+base: radix
+component: true
+links:
+  doc: https://base-ui.com/react/components/combobox
+  api: https://base-ui.com/react/components/combobox#api-reference
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="combobox-demo"
+  description="A combobox with a list of frameworks."
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/combobox"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+frameworks := []string{"Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"}
+
+combobox.Combobox(
+	combobox.Input(h.Placeholder("Select a framework")),
+	combobox.Content(
+		combobox.Empty("No items found."),
+		combobox.List(h.Map(frameworks, func(item string) h.Node {
+			return combobox.Item(combobox.ItemValue(item), item)
+		})),
+	),
+)
+```
+
+Items are rendered on the server. The behavior filters them as the user types.
+
+## Composition
+
+### Simple
+
+A single-line input and a flat list (see [Basic](#basic)).
+
+```text
+combobox.Combobox
+├── combobox.Input
+└── combobox.Content
+    ├── combobox.Empty
+    └── combobox.List
+        ├── combobox.Item
+        └── combobox.Item
+```
+
+### With chips
+
+Multi-select with `combobox.Multiple`, chips, and a chips input (see [Multiple](#multiple)).
+
+```text
+combobox.Combobox
+├── combobox.Chips
+│   └── combobox.Value
+│       ├── combobox.Chip
+│       └── combobox.ChipsInput
+└── combobox.Content
+    ├── combobox.Empty
+    └── combobox.List
+        ├── combobox.Item
+        └── combobox.Item
+```
+
+### With groups and collection
+
+Nested items per group using `combobox.Collection` inside each `combobox.Group`, with a separator between groups (see [Groups](#groups)).
+
+```text
+combobox.Combobox
+├── combobox.Input
+└── combobox.Content
+    ├── combobox.Empty
+    └── combobox.List
+        ├── combobox.Group
+        │   ├── combobox.Label
+        │   └── combobox.Collection
+        │       ├── combobox.Item
+        │       └── combobox.Item
+        ├── combobox.Separator
+        └── combobox.Group
+            ├── combobox.Label
+            └── combobox.Collection
+                ├── combobox.Item
+                └── combobox.Item
+```
+
+## Custom Items
+
+Pass `combobox.ItemLabel` when an item's value is not its label. The value is
+what the form receives; the label is what filtering, the input and
+`combobox.Value` show.
+
+```go showLineNumbers
+type Framework struct {
+	Label string
+	Value string
+}
+
+frameworks := []Framework{
+	{Label: "Next.js", Value: "next"},
+	{Label: "SvelteKit", Value: "sveltekit"},
+	{Label: "Nuxt", Value: "nuxt"},
+}
+
+combobox.Combobox(
+	combobox.Input(h.Placeholder("Select a framework")),
+	combobox.Content(
+		combobox.Empty("No items found."),
+		combobox.List(h.Map(frameworks, func(f Framework) h.Node {
+			return combobox.Item(combobox.ItemValue(f.Value), combobox.ItemLabel(f.Label), f.Label)
+		})),
+	),
+)
+```
+
+## Multiple Selection
+
+Use `combobox.Multiple` with chips for multi-select behavior. `combobox.Value`
+renders one `combobox.Chip` per selected item. Pass `combobox.DefaultValue`
+once per initially selected item.
+
+```go showLineNumbers
+frameworks := []string{"Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"}
+anchor := combobox.UseAnchor()
+
+combobox.Combobox(combobox.Multiple,
+	combobox.Chips(anchor,
+		combobox.Value(
+			combobox.Chip(),
+			combobox.ChipsInput(h.Placeholder("Add framework")),
+		),
+	),
+	combobox.Content(anchor,
+		combobox.Empty("No items found."),
+		combobox.List(h.Map(frameworks, func(item string) h.Node {
+			return combobox.Item(combobox.ItemValue(item), item)
+		})),
+	),
+)
+```
+
+The selection lives in the browser. The combobox dispatches a bubbling
+`shadcn:value-change` event with `detail.value` (the selected value, or the
+list of them with `combobox.Multiple`) and a `shadcn:open-change` event with
+`detail.open`. Listen on any element around it, for example an
+`h.Div(h.ID("frameworks"), ...)`:
+
+```js showLineNumbers
+document.getElementById("frameworks").addEventListener("shadcn:value-change", (event) => {
+  console.log(event.detail.value)
+})
+```
+
+## Basic
+
+A simple combobox with a list of frameworks.
+
+<ComponentPreview styleName="base-nova" name="combobox-basic" />
+
+## Multiple
+
+A combobox with multiple selection using `combobox.Multiple` and `combobox.Chips`.
+
+<ComponentPreview styleName="base-nova" name="combobox-multiple" />
+
+## Clear Button
+
+Pass `combobox.ShowClear(true)` to `combobox.Input` to show a clear button.
+
+<ComponentPreview styleName="base-nova" name="combobox-clear" />
+
+## Groups
+
+Use `combobox.Group` and `combobox.Separator` to group items.
+
+<ComponentPreview styleName="base-nova" name="combobox-groups" />
+
+## Custom Items
+
+You can render a custom component inside `combobox.Item`.
+
+<ComponentPreview styleName="base-nova" name="combobox-custom" />
+
+## Invalid
+
+Pass `h.Aria("invalid", "true")` to `combobox.Input` to make the combobox invalid.
+
+<ComponentPreview styleName="base-nova" name="combobox-invalid" />
+
+## Disabled
+
+Pass `combobox.Disabled` to disable the combobox.
+
+<ComponentPreview styleName="base-nova" name="combobox-disabled" />
+
+## Auto Highlight
+
+Pass `combobox.AutoHighlight` to automatically highlight the first item on filter.
+
+<ComponentPreview styleName="base-nova" name="combobox-auto-highlight" />
+
+## Popup
+
+You can trigger the combobox from a button or any other component with `combobox.Trigger` and `combobox.Render`. Move the `combobox.Input` inside the `combobox.Content`.
+
+<ComponentPreview styleName="base-nova" name="combobox-popup" />
+
+## Input Group
+
+You can add an addon to the combobox by using `inputgroup.Addon` inside the `combobox.Input`.
+
+<ComponentPreview styleName="radix-nova" name="combobox-input-group" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="combobox-rtl"
+  direction="rtl"
+  align="start"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `combobox.Combobox` | `combobox.Multiple`, `combobox.AutoHighlight`, `combobox.DefaultValue(v)` (repeat it with `combobox.Multiple`), `combobox.Name(n)`, `combobox.Disabled` |
+| `combobox.Input` | `combobox.ShowTrigger(bool)` (default true), `combobox.ShowClear(bool)` (default false), `combobox.Disabled`, `inputgroup.Addon(...)` |
+| `combobox.Trigger` | `combobox.Render(el)` to render as another element (such as a `button.Button`), `combobox.Disabled` |
+| `combobox.Value` | `combobox.Placeholder(text)`; with `combobox.Multiple`, a `combobox.Chip` and a `combobox.ChipsInput` |
+| `combobox.Content` | a side (`combobox.SideBottom` (default), `SideTop`, `SideLeft`, `SideRight`), an alignment (`combobox.AlignStart` (default), `AlignCenter`, `AlignEnd`), `combobox.SideOffset(px)` (default 6), `combobox.AlignOffset(px)`, an anchor from `combobox.UseAnchor()` |
+| `combobox.List`, `combobox.Group`, `combobox.Label`, `combobox.Collection`, `combobox.Empty`, `combobox.Separator` | none |
+| `combobox.Item` | `combobox.ItemValue(v)`, `combobox.ItemLabel(label)` (default: the value) |
+| `combobox.Chips` | an anchor from `combobox.UseAnchor()` |
+| `combobox.Chip` | `combobox.ShowRemove(bool)` (default true) |
+| `combobox.ChipsInput` | none |
+
+Other children are HTML attributes (`h.Class`, `h.Placeholder`, ...) and
+content. The list dispatches a `shadcn:combobox-render` event each time it is
+rendered (`detail.groups`: the rendered groups in order). See the
+[Base UI](https://base-ui.com/react/components/combobox#api-reference)
+documentation for more information.

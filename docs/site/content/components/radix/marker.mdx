@@ -1,0 +1,219 @@
+---
+title: Marker
+description: Displays an inline status, system note, bordered row, or labeled separator in a conversation.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="marker-demo"
+  previewClassName="h-auto theme-blue"
+/>
+
+The `Marker` component displays inline conversation markers such as status updates, system notes, bordered rows, and labeled separators. Compose it with [`Message`](/docs/components/radix/message) in a conversation thread.
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/marker"
+	"github.com/alexisbcz/icons/lucide"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+marker.Marker(
+	marker.Icon(lucide.Check()),
+	marker.Content("Explored 4 files"),
+)
+```
+
+## Composition
+
+Use the following composition to build a marker:
+
+```text
+marker.Marker
+├── marker.Icon
+└── marker.Content
+```
+
+## Features
+
+- Inline marker, bordered row, and labeled separator variants
+- Decorative icon slot that is hidden from assistive tech
+- Polymorphic root via `lib.AsChild` for link and button markers
+- Pairs with the [`shimmer`](/docs/utils/shimmer) utility for streaming status text
+- Customizable styling through `h.Class(...)` on every part
+
+## Variants
+
+Pass a variant (`marker.VariantDefault`, `marker.VariantBorder`, `marker.VariantSeparator`) to switch between an inline marker, bordered row, and labeled separator.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="marker-variants"
+  previewClassName="h-auto theme-blue"
+/>
+
+| Variant                   | Description                                          |
+| ------------------------- | ---------------------------------------------------- |
+| `marker.VariantDefault`   | An inline marker for status, notes, and actions.     |
+| `marker.VariantBorder`    | A default marker with a bottom border under the row. |
+| `marker.VariantSeparator` | A centered label with divider lines on each side.    |
+
+## Status
+
+Set `h.Role("status")` and include a [`Spinner`](/docs/components/radix/spinner) for streaming or in-progress markers so updates are announced.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="marker-status"
+  previewClassName="h-auto theme-blue"
+/>
+
+## Shimmer
+
+Add the [`shimmer`](/docs/utils/shimmer) utility class to `marker.Content` for an animated streaming-text effect. See the shimmer docs for installation.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="marker-shimmer"
+  previewClassName="h-auto theme-blue"
+/>
+
+## Separator
+
+Use the separator variant for labeled dividers, such as dates or section breaks, in a conversation.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="marker-separator"
+  previewClassName="h-auto theme-blue"
+/>
+
+## Border
+
+Use the border variant for status rows that should keep the default marker alignment while separating the next row.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="marker-border"
+  previewClassName="h-auto theme-blue"
+/>
+
+## With Icon
+
+Use `marker.Icon` to render an icon alongside the content. Use `flex-col` to stack the icon above the content.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="marker-icon"
+  previewClassName="h-auto theme-blue"
+/>
+
+## Links and Buttons
+
+Turn a marker into a link or button with `lib.AsChild` on `marker.Marker`.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="marker-link-button"
+  previewClassName="h-auto theme-blue"
+/>
+
+```go showLineNumbers
+marker.Marker(lib.AsChild,
+	h.A(h.Href("#"),
+		marker.Content("View the pull request"),
+	),
+)
+```
+
+## Accessibility
+
+`marker.Marker` is presentational by default. The correct semantics depend on how you use it, so choose the role based on intent rather than relying on a single default.
+
+### Status and Progress
+
+For streaming or progress markers such as "Thinking..." or a running tool, set `h.Role("status")` so assistive tech announces the update as it appears. `marker.Marker` forwards the role to the underlying element.
+
+```go showLineNumbers
+marker.Marker(h.Role("status"),
+	marker.Icon(spinner.Spinner()),
+	marker.Content("Compacting conversation"),
+)
+```
+
+### Labeled Separators
+
+A separator that carries text, such as a date or a section label, needs no role. The divider lines are decorative CSS pseudo-elements, and the text is announced as ordinary content.
+
+```go showLineNumbers
+marker.Marker(marker.VariantSeparator,
+	marker.Content("Today"),
+)
+```
+
+<Callout>
+  **Note:** Do not add `role="separator"` to a labeled divider. A separator
+  takes its accessible name from `aria-label`, not from its text, and its
+  contents are treated as presentational, so the visible label would not be
+  announced. Reserve `role="separator"` for a divider with no meaningful text.
+</Callout>
+
+### Bordered Markers
+
+A bordered marker keeps the same semantics as the default marker. The bottom border is decorative, so choose `h.Role("status")`, `lib.AsChild`, or no role based on the marker's purpose.
+
+```go showLineNumbers
+marker.Marker(marker.VariantBorder,
+	marker.Icon(lucide.FileText()),
+	marker.Content("Opened implementation notes"),
+)
+```
+
+### Decorative Icons
+
+`marker.Icon` is decorative and hidden from assistive tech with `aria-hidden`, so the adjacent `marker.Content` carries the meaning. For an icon-only marker, provide an `aria-label` or visible text so it is not announced as empty.
+
+```go showLineNumbers
+marker.Marker(h.Aria("label", "Synced"),
+	marker.Icon(lucide.Check()),
+)
+```
+
+### Interactive Markers
+
+When a marker links or triggers an action, render it as a real `<button>` or `<a>` with `lib.AsChild` so it is focusable and exposes the correct role. The accessible name comes from the marker text.
+
+```go showLineNumbers
+marker.Marker(lib.AsChild,
+	h.A(h.Href("/files"),
+		marker.Icon(lucide.FileText()),
+		marker.Content("Explored 4 files"),
+	),
+)
+```
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `marker.Marker` | `marker.VariantDefault` (default), `marker.VariantBorder`, `marker.VariantSeparator`; `lib.AsChild` to render the child element (such as a link) instead of a `<div>` |
+| `marker.Icon` | A decorative icon slot, hidden from assistive tech with `aria-hidden` |
+| `marker.Content` | The marker text content |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+`marker.Marker` also has the builder methods `.Variant(...)` and `.AsChild()`.
+`marker.Variants(variant, className...)` returns the marker classes for
+composing them into custom components.

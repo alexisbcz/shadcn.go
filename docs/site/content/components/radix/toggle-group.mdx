@@ -1,0 +1,133 @@
+---
+title: Toggle Group
+description: A set of two-state buttons that can be toggled on or off.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/toggle-group
+  api: https://www.radix-ui.com/docs/primitives/components/toggle-group#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="toggle-group-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	togglegroup "github.com/alexisbcz/components/ui/toggle-group"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+togglegroup.ToggleGroup(togglegroup.TypeSingle,
+	togglegroup.Item(togglegroup.Value("a"), "A"),
+	togglegroup.Item(togglegroup.Value("b"), "B"),
+	togglegroup.Item(togglegroup.Value("c"), "C"),
+)
+```
+
+## Composition
+
+Use the following composition to build a `ToggleGroup`:
+
+```text
+togglegroup.ToggleGroup
+├── togglegroup.Item
+└── togglegroup.Item
+```
+
+## Outline
+
+Pass `togglegroup.VariantOutline` for an outline style.
+
+<ComponentPreview styleName="radix-nova" name="toggle-group-outline" />
+
+## Size
+
+Pass a size (`togglegroup.SizeSm`, `togglegroup.SizeDefault`, `togglegroup.SizeLg`) to change the size of the toggle group.
+
+<ComponentPreview styleName="radix-nova" name="toggle-group-sizes" />
+
+## Spacing
+
+Pass `togglegroup.Spacing(n)` to set the spacing between toggle group items.
+
+<ComponentPreview styleName="radix-nova" name="toggle-group-spacing" />
+
+## Vertical
+
+Pass `togglegroup.OrientationVertical` for vertical toggle groups.
+
+<ComponentPreview styleName="radix-nova" name="toggle-group-vertical" />
+
+## Disabled
+
+<ComponentPreview styleName="radix-nova" name="toggle-group-disabled" />
+
+## Custom
+
+A custom toggle group example.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="toggle-group-font-weight-selector"
+  previewClassName="*:data-[slot=field]:max-w-xs"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="toggle-group-rtl"
+  direction="rtl"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `togglegroup.ToggleGroup` | `togglegroup.TypeSingle` or `togglegroup.TypeMultiple` (required), a variant, a size, `togglegroup.Spacing(n)`, `togglegroup.Value("...")` for the initially pressed items (repeat it with `TypeMultiple`), `togglegroup.Disabled(true)`, `togglegroup.OrientationHorizontal` or `OrientationVertical`, `togglegroup.Loop(bool)` (default true), `togglegroup.RovingFocus(bool)` (default true) |
+| `togglegroup.Item` | `togglegroup.Value("...")`, a variant, a size, `h.Disabled()` |
+
+Variants are `togglegroup.VariantDefault` and `VariantOutline`; sizes are
+`togglegroup.SizeDefault`, `SizeSm` and `SizeLg`. The group's variant and size
+win over the item's. Other children are HTML attributes (`h.Class`, `h.Aria`,
+...) and content.
+
+Before every change, the group dispatches a cancelable `shadcn:value-change`
+event with `detail: { item, pressed, pressedItems }` (the item elements).
+Cancel it to keep the current state.
+
+```js showLineNumbers
+group.addEventListener("shadcn:value-change", (e) => {
+  console.log(e.detail.item, e.detail.pressed)
+})
+```
+
+The behavior follows [Radix UI's Toggle Group](https://www.radix-ui.com/docs/primitives/components/toggle-group#api-reference).
+
+## Changelog
+
+### 2026-05-17 Default Spacing
+
+Changed the default `spacing` from `0` to `2` so toggle groups render with space between items by default. Pass `togglegroup.Spacing(0)` for connected items.

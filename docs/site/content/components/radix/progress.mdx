@@ -1,0 +1,75 @@
+---
+title: Progress
+description: Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/progress
+  api: https://www.radix-ui.com/docs/primitives/components/progress#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="progress-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/progress"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+progress.Progress(progress.Value(33))
+```
+
+## Label
+
+Use `field.Field` to add a label to the progress bar.
+
+<ComponentPreview styleName="radix-nova" name="progress-label" />
+
+## Controlled
+
+A progress bar that can be controlled by a slider. To change the value in the
+browser, import `setProgress` from the runtime's `progress.js` module and call
+it with the `[data-slot=progress]` root (`null` makes it indeterminate).
+
+```js showLineNumbers
+const { setProgress } = await import("/_shadcn/progress.js")
+setProgress(document.querySelector("[data-slot=progress]"), 66)
+```
+
+<ComponentPreview styleName="radix-nova" name="progress-controlled" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="progress-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `progress.Progress` | `progress.Value(n)` (0 to max), `progress.Max(n)` (default 100) |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...). The behavior
+follows [Radix UI's Progress](https://www.radix-ui.com/docs/primitives/components/progress#api-reference).

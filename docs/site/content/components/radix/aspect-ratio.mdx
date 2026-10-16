@@ -1,0 +1,72 @@
+---
+title: Aspect Ratio
+description: Displays content within a desired ratio.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/primitives/docs/components/aspect-ratio
+  api: https://www.radix-ui.com/primitives/docs/components/aspect-ratio#api-reference
+---
+
+<ComponentPreview name="aspect-ratio-demo" styleName="radix-nova" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	aspectratio "github.com/alexisbcz/components/ui/aspect-ratio"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+aspectratio.AspectRatio(aspectratio.Ratio(16.0/9),
+	h.Img(h.Src("..."), h.Alt("Image"), h.Class("rounded-md object-cover")),
+)
+```
+
+## Square
+
+A square aspect ratio component using `aspectratio.Ratio(1)`. This is useful for displaying images in a square format.
+
+<ComponentPreview name="aspect-ratio-square" styleName="radix-nova" />
+
+## Portrait
+
+A portrait aspect ratio component using `aspectratio.Ratio(9.0/16)`. This is useful for displaying images in a portrait format.
+
+<ComponentPreview
+  name="aspect-ratio-portrait"
+  styleName="radix-nova"
+  previewClassName="h-96"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="aspect-ratio-rtl"
+  direction="rtl"
+  previewClassName="h-96"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `aspectratio.AspectRatio` | `aspectratio.Ratio(width / height)` (default 1) |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content. They
+go to the inner `<div>`, which is absolutely positioned inside a wrapper sized
+to the ratio.
+
+For more information, see the [Radix UI documentation](https://www.radix-ui.com/primitives/docs/components/aspect-ratio#api-reference).

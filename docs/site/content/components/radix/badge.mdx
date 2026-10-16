@@ -1,0 +1,91 @@
+---
+title: Badge
+description: Displays a badge or a component that looks like a badge.
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="badge-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/badge"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+badge.Badge(badge.VariantOutline, "Badge")
+```
+
+## Variants
+
+Pass a variant (`badge.VariantDefault`, `VariantSecondary`, `VariantDestructive`, `VariantOutline`, `VariantGhost`, `VariantLink`) to change the variant of the badge.
+
+<ComponentPreview styleName="radix-nova" name="badge-variants" />
+
+## With Icon
+
+You can render an icon inside the badge. Use `h.Data("icon", "inline-start")` to render the icon on the left and `h.Data("icon", "inline-end")` to render the icon on the right.
+
+```go showLineNumbers
+badge.Badge(badge.VariantSecondary,
+	lucide.BadgeCheck(h.Data("icon", "inline-start")),
+	"Verified",
+)
+```
+
+<ComponentPreview styleName="radix-nova" name="badge-icon" />
+
+## With Spinner
+
+You can render a spinner inside the badge. Remember to add `h.Data("icon", "inline-start")` or `h.Data("icon", "inline-end")` to the spinner.
+
+```go showLineNumbers
+badge.Badge(badge.VariantSecondary,
+	spinner.Spinner(h.Data("icon", "inline-start")),
+	"Syncing",
+)
+```
+
+<ComponentPreview styleName="radix-nova" name="badge-spinner" />
+
+## Link
+
+Pass `lib.AsChild` to render a link as a badge.
+
+```go showLineNumbers
+badge.Badge(lib.AsChild, h.A(h.Href("#"), "Link"))
+```
+
+<ComponentPreview styleName="radix-nova" name="badge-link" />
+
+## Custom Colors
+
+You can customize the colors of a badge by adding custom classes such as `h.Class("bg-green-50 dark:bg-green-800")` to `badge.Badge`.
+
+<ComponentPreview styleName="radix-nova" name="badge-colors" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="badge-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `badge.Badge` | a variant: `badge.VariantDefault` (default), `VariantSecondary`, `VariantDestructive`, `VariantOutline`, `VariantGhost`, `VariantLink`; `lib.AsChild` to render the child element as the badge instead of a `<span>` |
+| `badge.Variants(variant, className...)` | returns the badge classes for a variant, to style another element as a badge |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.

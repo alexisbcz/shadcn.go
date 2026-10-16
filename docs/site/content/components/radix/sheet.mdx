@@ -1,0 +1,97 @@
+---
+title: Sheet
+description: Extends the Dialog component to display content that complements the main content of the screen.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/dialog
+  api: https://www.radix-ui.com/docs/primitives/components/dialog#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="sheet-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/sheet"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+sheet.Sheet(
+	sheet.Trigger("Open"),
+	sheet.Content(
+		sheet.Header(
+			sheet.Title("Are you absolutely sure?"),
+			sheet.Description("This action cannot be undone."),
+		),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build a `Sheet`:
+
+```text
+sheet.Sheet
+├── sheet.Trigger
+└── sheet.Content
+    ├── sheet.Header
+    │   ├── sheet.Title
+    │   └── sheet.Description
+    └── sheet.Footer
+```
+
+## Side
+
+Pass a side to `sheet.Content` to set the edge of the screen where the sheet appears. Values are `sheet.SideTop`, `sheet.SideRight` (default), `sheet.SideBottom`, or `sheet.SideLeft`.
+
+<ComponentPreview styleName="radix-nova" name="sheet-side" />
+
+## No Close Button
+
+Pass `sheet.ShowCloseButton(false)` to `sheet.Content` to hide the close button.
+
+<ComponentPreview styleName="radix-nova" name="sheet-no-close-button" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="sheet-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `sheet.Sheet` | `sheet.Modal(bool)` (default true), `sheet.DefaultOpen` |
+| `sheet.Trigger` | `lib.AsChild` to render the child element as the trigger instead of a `<button>` |
+| `sheet.Content` | a side (`sheet.SideTop`, `SideRight`, `SideBottom`, `SideLeft`; default `SideRight`), `sheet.ShowCloseButton(bool)` (default true) for the corner close button |
+| `sheet.Header`, `sheet.Footer` | |
+| `sheet.Title`, `sheet.Description` | |
+| `sheet.Close` | `lib.AsChild` |
+| `sheet.Overlay`, `sheet.Portal` | the parts `sheet.Content` renders for you |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content. The
+sheet dispatches a cancelable `shadcn:open-change` event (`detail.open`) when
+it opens or closes. The behavior follows [Radix UI's Dialog](https://www.radix-ui.com/docs/primitives/components/dialog#api-reference).

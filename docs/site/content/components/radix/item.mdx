@@ -1,0 +1,186 @@
+---
+title: Item
+description: A versatile component for displaying content with media, title, description, and actions.
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="item-demo" />
+
+`item.Item` is a straightforward flex container that can house nearly any type of content. Use it to display a title, description, and actions. Group it with `item.Group` to create a list of items.
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/button"
+	"github.com/alexisbcz/components/ui/item"
+	"github.com/alexisbcz/icons/lucide"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+item.Item(
+	item.Media(item.MediaIcon, lucide.Inbox()),
+	item.Content(
+		item.Title("Title"),
+		item.Description("Description"),
+	),
+	item.Actions(button.Button("Action")),
+)
+```
+
+## Composition
+
+Use the following composition to build an `item.Item`:
+
+```text
+item.Group
+└── item.Item
+    ├── item.Header
+    ├── item.Media
+    ├── item.Content
+    │   ├── item.Title
+    │   └── item.Description
+    ├── item.Actions
+    └── item.Footer
+```
+
+## Item vs Field
+
+Use [Field](/docs/components/radix/field) if you need to display a form input such as a checkbox, input, radio, or select.
+
+If you only need to display content such as a title, description, and actions, use `item.Item`.
+
+## Variant
+
+Pass a variant (`item.VariantDefault`, `item.VariantOutline`, `item.VariantMuted`) to change the visual style of the item.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="item-variant"
+  previewClassName="h-96"
+/>
+
+## Size
+
+Pass a size to change the size of the item. Available sizes are `item.SizeDefault`, `item.SizeSm`, and `item.SizeXs`.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="item-size"
+  previewClassName="h-96"
+/>
+
+## Icon
+
+Use `item.Media` with `item.MediaIcon` to display an icon.
+
+<ComponentPreview styleName="radix-nova" name="item-icon" />
+
+## Avatar
+
+Put an `avatar.Avatar` in `item.Media` to display an avatar.
+
+<ComponentPreview styleName="radix-nova" name="item-avatar" />
+
+## Image
+
+Use `item.Media` with `item.MediaImage` to display an image.
+
+<ComponentPreview styleName="radix-nova" name="item-image" />
+
+## Group
+
+Use `item.Group` to group related items together.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="item-group"
+  previewClassName="h-96"
+/>
+
+## Header
+
+Use `item.Header` to add a header above the item content.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="item-header"
+  previewClassName="h-96"
+/>
+
+## Link
+
+Pass `lib.AsChild` to render the item as a link. The hover and focus states will be applied to the anchor element.
+
+<ComponentPreview styleName="radix-nova" name="item-link" />
+
+```go showLineNumbers
+item.Item(lib.AsChild,
+	h.A(h.Href("/dashboard"),
+		item.Media(item.MediaIcon, lucide.House()),
+		item.Content(
+			item.Title("Dashboard"),
+			item.Description("Overview of your account and activity."),
+		),
+	),
+)
+```
+
+## Dropdown
+
+<ComponentPreview styleName="radix-nova" name="item-dropdown" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="item-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `item.Item` | `item.VariantDefault` (default), `item.VariantOutline`, `item.VariantMuted`; `item.SizeDefault` (default), `item.SizeSm`, `item.SizeXs`; `lib.AsChild` to render its single element child (e.g. an `<a>`) as the item |
+| `item.Group` | Groups related items (`role="list"`). |
+| `item.Separator` | A separator between items in a group. Horizontal unless given a `separator.Orientation`. |
+| `item.Media` | `item.MediaDefault` (default), `item.MediaIcon`, `item.MediaImage` |
+| `item.Content` | Wraps the title and description. |
+| `item.Title` | The item's title. |
+| `item.Description` | The item's description (a `<p>`, clamped to two lines). |
+| `item.Actions` | Container for buttons or other controls. |
+| `item.Header` | Spans the item's full width above its content. |
+| `item.Footer` | Spans the item's full width below its content. |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+
+```go showLineNumbers
+item.Group(
+	item.Item(item.Content(item.Title("First"))),
+	item.Separator(),
+	item.Item(item.Content(item.Title("Second"))),
+)
+```
+
+```go showLineNumbers
+item.Media(item.MediaImage,
+	h.Img(h.Src("/cover.png"), h.Alt("Cover")),
+)
+```
+
+```go showLineNumbers
+item.Item(
+	item.Header("Header"),
+	item.Content(item.Title("Title")),
+	item.Footer("Footer"),
+)
+```

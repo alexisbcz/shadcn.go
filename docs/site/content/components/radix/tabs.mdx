@@ -1,0 +1,113 @@
+---
+title: Tabs
+description: A set of layered sections of content—known as tab panels—that are displayed one at a time.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/tabs
+  api: https://www.radix-ui.com/docs/primitives/components/tabs#api-reference
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="tabs-demo"
+  previewClassName="h-96"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/tabs"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+tabs.Tabs(tabs.Value("account"), h.Class("w-[400px]"),
+	tabs.List(
+		tabs.Trigger(tabs.Value("account"), "Account"),
+		tabs.Trigger(tabs.Value("password"), "Password"),
+	),
+	tabs.Content(tabs.Value("account"), "Make changes to your account here."),
+	tabs.Content(tabs.Value("password"), "Change your password here."),
+)
+```
+
+## Composition
+
+Use the following composition to build `Tabs`:
+
+```text
+tabs.Tabs
+├── tabs.List
+│   ├── tabs.Trigger
+│   └── tabs.Trigger
+├── tabs.Content
+└── tabs.Content
+```
+
+## Line
+
+Pass `tabs.ListVariantLine` to `tabs.List` for a line style.
+
+<ComponentPreview styleName="radix-nova" name="tabs-line" />
+
+## Vertical
+
+Pass `tabs.OrientationVertical` to `tabs.Tabs` for vertical tabs.
+
+<ComponentPreview styleName="radix-nova" name="tabs-vertical" />
+
+## Disabled
+
+<ComponentPreview styleName="radix-nova" name="tabs-disabled" />
+
+## Icons
+
+<ComponentPreview styleName="radix-nova" name="tabs-icons" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="tabs-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `tabs.Tabs` | `tabs.Value("...")` for the initially selected tab, `tabs.OrientationHorizontal` (default) or `tabs.OrientationVertical`, `tabs.ActivationAutomatic` (default) or `tabs.ActivationManual` |
+| `tabs.List` | `tabs.ListVariantDefault` or `tabs.ListVariantLine`, `tabs.Loop(bool)` (default true) |
+| `tabs.Trigger` | `tabs.Value("...")`, `h.Disabled()` |
+| `tabs.Content` | `tabs.Value("...")` |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+
+Before every change, the root dispatches a cancelable `shadcn:value-change`
+event with `detail: { value }`. Cancel it to keep the current tab.
+
+```js showLineNumbers
+root.addEventListener("shadcn:value-change", (e) => {
+  console.log(e.detail.value)
+})
+```
+
+The behavior follows [Radix UI's Tabs](https://www.radix-ui.com/docs/primitives/components/tabs#api-reference).

@@ -1,0 +1,89 @@
+---
+title: Spinner
+description: An indicator that can be used to show a loading state.
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="spinner-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/spinner"
+)
+```
+
+```go showLineNumbers
+spinner.Spinner()
+```
+
+## Customization
+
+You can replace the default spinner icon with any other icon by writing your own `Spinner` function.
+
+<ComponentPreview styleName="radix-nova" name="spinner-custom" />
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/lib"
+	"github.com/alexisbcz/icons/lucide"
+	h "github.com/alexisbcz/libhtml"
+)
+
+func Spinner(class string) h.Node {
+	return lucide.Loader(
+		h.Role("status"),
+		h.Aria("label", "Loading"),
+		h.Class(lib.Cn("size-4 animate-spin", class)),
+	)
+}
+```
+
+## Size
+
+Pass a `size-*` utility class with `h.Class` to change the size of the spinner.
+
+<ComponentPreview styleName="radix-nova" name="spinner-size" />
+
+## Button
+
+Add a spinner to a button to indicate a loading state. Place `spinner.Spinner(h.Data("icon", "inline-start"))` before the label for a start position, or `spinner.Spinner(h.Data("icon", "inline-end"))` after the label for an end position.
+
+<ComponentPreview styleName="radix-nova" name="spinner-button" />
+
+## Badge
+
+Add a spinner to a badge to indicate a loading state. Place `spinner.Spinner(h.Data("icon", "inline-start"))` before the label for a start position, or `spinner.Spinner(h.Data("icon", "inline-end"))` after the label for an end position.
+
+<ComponentPreview styleName="radix-nova" name="spinner-badge" />
+
+## Input Group
+
+<ComponentPreview styleName="radix-nova" name="spinner-input-group" />
+
+## Empty
+
+<ComponentPreview styleName="radix-nova" name="spinner-empty" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="spinner-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `spinner.Spinner` | none; renders a spinning `LoaderCircle` icon with `role="status"` and `aria-label="Loading"` |
+
+Children are HTML attributes (`h.Class`, `h.Data`, ...).

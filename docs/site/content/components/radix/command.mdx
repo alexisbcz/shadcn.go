@@ -1,0 +1,162 @@
+---
+title: Command
+description: Command menu for search and quick actions.
+base: radix
+component: true
+links:
+  doc: https://github.com/dip/cmdk
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="command-demo"
+  align="start"
+  previewClassName="h-[24.5rem]"
+/>
+
+## About
+
+`command.Command` is a port of the [`cmdk`](https://github.com/dip/cmdk) component by [Dip](https://www.dip.org/): the same markup, with filtering and keyboard navigation in a JavaScript module.
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/command"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+command.Command(h.Class("max-w-sm rounded-lg border"),
+	command.Input(h.Placeholder("Type a command or search...")),
+	command.List(
+		command.Empty("No results found."),
+		command.Group(command.Heading("Suggestions"),
+			command.Item("Calendar"),
+			command.Item("Search Emoji"),
+			command.Item("Calculator"),
+		),
+		command.Separator(),
+		command.Group(command.Heading("Settings"),
+			command.Item("Profile"),
+			command.Item("Billing"),
+			command.Item("Settings"),
+		),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build a `Command`:
+
+```text
+command.Command
+├── command.Input
+└── command.List
+    ├── command.Empty
+    ├── command.Group
+    │   ├── command.Item
+    │   └── command.Item
+    ├── command.Separator
+    └── command.Group
+        ├── command.Item
+        └── command.Item
+```
+
+## Basic
+
+A simple command menu in a dialog. `command.Dialog` takes the same children as `command.Command`.
+
+```go showLineNumbers
+command.Dialog(
+	command.Input(h.Placeholder("Type a command or search...")),
+	command.List(
+		command.Empty("No results found."),
+		command.Group(command.Heading("Suggestions"),
+			command.Item("Calendar"),
+			command.Item("Search Emoji"),
+		),
+	),
+)
+```
+
+<ComponentPreview styleName="radix-nova" name="command-basic" />
+
+## Shortcuts
+
+```go showLineNumbers
+command.Item(lucide.User(), h.Span("Profile"), command.Shortcut("⌘P"))
+```
+
+<ComponentPreview styleName="radix-nova" name="command-shortcuts" />
+
+## Groups
+
+A command menu with groups, icons and separators.
+
+<ComponentPreview styleName="radix-nova" name="command-groups" />
+
+## Scrollable
+
+Scrollable command menu with multiple items.
+
+<ComponentPreview styleName="radix-nova" name="command-scrollable" />
+
+## Events
+
+When an item is chosen (Enter or a click), it dispatches a `shadcn:select` event with `detail.value`. The root dispatches `shadcn:value-change` (`detail.value`) when the selection moves and `shadcn:search-change` (`detail.search`) when the search changes. The events bubble.
+
+```js showLineNumbers
+document.addEventListener("shadcn:select", (e) => {
+  if (!e.target.closest("[cmdk-root]")) return
+  console.log("selected", e.detail.value)
+})
+```
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="command-rtl"
+  direction="rtl"
+  align="start"
+  previewClassName="h-[24.5rem]"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `command.Command` | `command.Label(text)` (the input's hidden label), `command.DefaultValue(value)` (default: the first enabled item), `command.Loop(bool)`, `command.ShouldFilter(bool)` (default true), `command.VimBindings(bool)` (Ctrl+N/J/P/K, default true), `command.DisablePointerSelection(bool)` |
+| `command.Dialog` | the `command.Command` children, plus `command.Title(text)` and `command.Description(text)` (screen-reader only, defaults "Command Palette" and "Search for a command to run..."), `command.ShowCloseButton(bool)`, `dialog.DefaultOpen`, `dialog.Modal(bool)`; `h.Class` styles the dialog content |
+| `command.Input` | HTML attributes such as `h.Placeholder` |
+| `command.List` | `command.Label(text)` (its `aria-label`, default "Suggestions") |
+| `command.Empty` | - (shown when no item matches) |
+| `command.Group` | `command.Heading(text)`, `command.Value(value)` (default: the heading), `command.ForceMount(bool)` |
+| `command.Item` | `command.Value(value)` (default: its text content), `command.Keywords{...}`, `command.Disabled(bool)`, `command.ForceMount(bool)` |
+| `command.Separator` | `command.AlwaysRender(bool)` (keep it while searching) |
+| `command.Shortcut` | - (a keyboard hint at the end of an item) |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content. The
+behavior follows [cmdk](https://github.com/dip/cmdk).

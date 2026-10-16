@@ -1,0 +1,123 @@
+---
+title: Table
+description: A responsive table component.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="table-demo"
+  previewClassName="h-[30rem]"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/table"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+table.Table(
+	table.Caption("A list of your recent invoices."),
+	table.Header(
+		table.Row(
+			table.Head(h.Class("w-[100px]"), "Invoice"),
+			table.Head("Status"),
+			table.Head("Method"),
+			table.Head(h.Class("text-right"), "Amount"),
+		),
+	),
+	table.Body(
+		table.Row(
+			table.Cell(h.Class("font-medium"), "INV001"),
+			table.Cell("Paid"),
+			table.Cell("Credit Card"),
+			table.Cell(h.Class("text-right"), "$250.00"),
+		),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build a `Table`:
+
+```text
+table.Table
+├── table.Caption
+├── table.Header
+│   └── table.Row
+│       ├── table.Head
+│       ├── table.Head
+│       ├── table.Head
+│       └── table.Head
+├── table.Body
+│   ├── table.Row
+│   │   ├── table.Cell
+│   │   ├── table.Cell
+│   │   ├── table.Cell
+│   │   └── table.Cell
+│   └── table.Row
+│       ├── table.Cell
+│       ├── table.Cell
+│       ├── table.Cell
+│       └── table.Cell
+└── table.Footer
+```
+
+## Footer
+
+Use `table.Footer` to add a footer to the table.
+
+<ComponentPreview styleName="radix-nova" name="table-footer" />
+
+## Actions
+
+A table showing actions for each row using a [Dropdown Menu](/docs/components/radix/dropdown-menu).
+
+<ComponentPreview styleName="radix-nova" name="table-actions" />
+
+## Data Table
+
+You can use `table.Table` to build more complex data tables. The Go port has no TanStack Table equivalent: sort, filter and paginate the rows in your handler, then render them.
+
+See the [Data Table](/docs/components/data-table) documentation for more information.
+
+You can also see an example of a data table in the [Tasks](/examples/tasks) demo.
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="table-rtl"
+  direction="rtl"
+  previewClassName="h-auto"
+/>
+
+## API Reference
+
+| Function | Renders |
+| --- | --- |
+| `table.Table` | a `<table>` inside a horizontally scrolling `<div>` (attributes apply to the `<table>`) |
+| `table.Header` | `<thead>` |
+| `table.Body` | `<tbody>` |
+| `table.Footer` | `<tfoot>` |
+| `table.Row` | `<tr>` |
+| `table.Head` | `<th>` |
+| `table.Cell` | `<td>` |
+| `table.Caption` | `<caption>` |
+
+Children are HTML attributes (`h.Class`, `h.ID`, ...) and content.

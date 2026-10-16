@@ -1,0 +1,149 @@
+---
+title: Button
+description: Displays a button or a component that looks like a button.
+featured: true
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="button-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/button"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+button.Button(button.VariantOutline, "Button")
+```
+
+## Cursor
+
+Tailwind v4 [switched](https://tailwindcss.com/docs/upgrade-guide#buttons-use-the-default-cursor) from `cursor: pointer` to `cursor: default` for the button component.
+
+If you want to keep the `cursor: pointer` behavior, add the following code to your CSS file:
+
+```css showLineNumbers title="globals.css"
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+```
+
+## Size
+
+Pass a size (`button.SizeDefault`, `SizeXs`, `SizeSm`, `SizeLg`, `SizeIcon`, `SizeIconXs`, `SizeIconSm`, `SizeIconLg`) to change the size of the button.
+
+```go showLineNumbers
+button.Button(button.VariantOutline, button.SizeSm, "Small")
+```
+
+<ComponentPreview styleName="radix-nova" name="button-size" />
+
+## Default
+
+<ComponentPreview styleName="radix-nova" name="button-default" />
+
+## Outline
+
+<ComponentPreview styleName="radix-nova" name="button-outline" />
+
+## Secondary
+
+<ComponentPreview styleName="radix-nova" name="button-secondary" />
+
+## Ghost
+
+<ComponentPreview styleName="radix-nova" name="button-ghost" />
+
+## Destructive
+
+<ComponentPreview styleName="radix-nova" name="button-destructive" />
+
+## Link
+
+<ComponentPreview styleName="radix-nova" name="button-link" />
+
+## Icon
+
+<ComponentPreview styleName="radix-nova" name="button-icon" />
+
+## With Icon
+
+Remember to add `h.Data("icon", "inline-start")` or `h.Data("icon", "inline-end")` to the icon for the correct spacing.
+
+```go showLineNumbers
+button.Button(button.VariantOutline,
+	lucide.GitBranch(h.Data("icon", "inline-start")),
+	"New Branch",
+)
+```
+
+<ComponentPreview styleName="radix-nova" name="button-with-icon" />
+
+## Rounded
+
+Use the `rounded-full` class to make the button rounded.
+
+```go showLineNumbers
+button.Button(button.VariantOutline, button.SizeIcon, h.Class("rounded-full"), lucide.ArrowUp())
+```
+
+<ComponentPreview styleName="radix-nova" name="button-rounded" />
+
+## Spinner
+
+Render a `spinner.Spinner()` inside the button to show a loading state. Remember to add `h.Data("icon", "inline-start")` or `h.Data("icon", "inline-end")` to the spinner for the correct spacing.
+
+```go showLineNumbers
+button.Button(button.VariantOutline, h.Disabled(),
+	spinner.Spinner(h.Data("icon", "inline-start")),
+	"Submit",
+)
+```
+
+<ComponentPreview styleName="radix-nova" name="button-spinner" />
+
+## Button Group
+
+To create a button group, use `buttongroup.ButtonGroup`. See the [Button Group](/docs/components/radix/button-group) documentation for more details.
+
+<ComponentPreview styleName="radix-nova" name="button-group-demo" />
+
+## As Child
+
+You can pass `lib.AsChild` to `button.Button` to make another element look like a button. Here's an example of a link that looks like a button.
+
+```go showLineNumbers
+button.Button(lib.AsChild, h.A(h.Href("/login"), "Login"))
+```
+
+<ComponentPreview styleName="radix-nova" name="button-aschild" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="button-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `button.Button` | a variant: `button.VariantDefault` (default), `VariantOutline`, `VariantGhost`, `VariantDestructive`, `VariantSecondary`, `VariantLink`; a size: `button.SizeDefault` (default), `SizeXs`, `SizeSm`, `SizeLg`, `SizeIcon`, `SizeIconXs`, `SizeIconSm`, `SizeIconLg`; `lib.AsChild` to render the child element as the button instead of a `<button>` |
+| `button.Variants(variant, size, className...)` | returns the button classes for a variant and size, to style another element as a button |
+
+Other children are HTML attributes (`h.Class`, `h.Type`, `h.Disabled`, ...) and content. The builder also has `.Variant`, `.Size`, `.AsChild`, `.Type`, `.Name`, `.Value`, `.Form`, `.Disabled` and `.AutoFocus` methods.

@@ -1,0 +1,297 @@
+---
+title: Input Group
+description: Add addons, buttons, and helper content to inputs.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-demo"
+  previewClassName="h-[26rem]"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	inputgroup "github.com/alexisbcz/components/ui/input-group"
+	"github.com/alexisbcz/icons/lucide"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+inputgroup.InputGroup(
+	inputgroup.Input(h.Placeholder("Search...")),
+	inputgroup.Addon(lucide.Search()),
+)
+```
+
+## Composition
+
+Use the following composition to build an `InputGroup`:
+
+```text
+inputgroup.InputGroup
+├── inputgroup.Input or inputgroup.Textarea
+└── inputgroup.Addon
+    ├── inputgroup.Button
+    └── inputgroup.Text
+```
+
+## Align
+
+Pass an alignment (`inputgroup.AlignInlineStart`, `AlignInlineEnd`, `AlignBlockStart`, `AlignBlockEnd`) to `inputgroup.Addon` to position the addon relative to the input.
+
+<Callout>
+  For proper focus management, `inputgroup.Addon` should always be placed after
+  `inputgroup.Input` or `inputgroup.Textarea` in the DOM. Use an alignment to
+  visually position the addon.
+</Callout>
+
+### inline-start
+
+Use `inputgroup.AlignInlineStart` to position the addon at the start of the input. This is the default.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-inline-start"
+  previewClassName="h-48"
+/>
+
+### inline-end
+
+Use `inputgroup.AlignInlineEnd` to position the addon at the end of the input.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-inline-end"
+  previewClassName="h-48"
+/>
+
+### block-start
+
+Use `inputgroup.AlignBlockStart` to position the addon above the input.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-block-start"
+  previewClassName="h-96"
+/>
+
+### block-end
+
+Use `inputgroup.AlignBlockEnd` to position the addon below the input.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-block-end"
+  previewClassName="h-[26rem]"
+/>
+
+## Icon
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-icon"
+  previewClassName="h-80"
+/>
+
+## Text
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-text"
+  previewClassName="h-80"
+/>
+
+## Button
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-button"
+  previewClassName="h-72"
+/>
+
+## Kbd
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-kbd"
+  previewClassName="h-40"
+/>
+
+## Dropdown
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-dropdown"
+  previewClassName="h-56"
+/>
+
+## Spinner
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-spinner"
+  previewClassName="h-80"
+/>
+
+## Textarea
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-textarea"
+  previewClassName="h-96"
+/>
+
+## Custom Input
+
+Add `h.Data("slot", "input-group-control")` to your custom input for automatic focus state handling.
+
+Here's an example of a custom auto-resizing textarea.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-custom"
+  previewClassName="h-56"
+/>
+
+```go showLineNumbers {2}
+inputgroup.InputGroup(
+	h.Textarea(h.Data("slot", "input-group-control"),
+		h.Class("flex field-sizing-content min-h-16 w-full resize-none rounded-md bg-transparent px-3 py-2.5 text-base outline-none md:text-sm"),
+		h.Placeholder("Autoresize textarea..."),
+	),
+	inputgroup.Addon(inputgroup.AlignBlockEnd,
+		inputgroup.Button(h.Class("ml-auto"), inputgroup.ButtonSizeSm, button.VariantDefault, "Submit"),
+	),
+)
+```
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="input-group-rtl"
+  direction="rtl"
+  previewClassName="h-[30rem]"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `inputgroup.InputGroup` | |
+| `inputgroup.Addon` | `inputgroup.AlignInlineStart` (default), `inputgroup.AlignInlineEnd`, `inputgroup.AlignBlockStart`, `inputgroup.AlignBlockEnd` |
+| `inputgroup.Button` | `inputgroup.ButtonSizeXs` (default), `ButtonSizeIconXs`, `ButtonSizeSm`, `ButtonSizeIconSm`; a `button.Variant` (default `button.VariantGhost`) |
+| `inputgroup.Text` | |
+| `inputgroup.Input` | HTML attributes of the `<input>` (`h.Placeholder`, `h.Name`, ...) |
+| `inputgroup.Textarea` | HTML attributes of the `<textarea>` |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+`inputgroup.Addon` and `inputgroup.Button` also have the builder methods
+`.Align(...)`, `.Size(...)` and `.Variant(...)`.
+
+### InputGroup
+
+The main component that wraps inputs and addons.
+
+```go
+inputgroup.InputGroup(
+	inputgroup.Input(),
+	inputgroup.Addon(),
+)
+```
+
+### Addon
+
+Displays icons, text, buttons, or other content alongside inputs. Clicking an
+addon outside its buttons focuses the group's input.
+
+<Callout title="Focus Navigation">
+  For proper focus navigation, `inputgroup.Addon` should be placed after the
+  input. Pass an alignment to position the addon.
+</Callout>
+
+```go
+inputgroup.Addon(inputgroup.AlignInlineEnd,
+	lucide.Search(),
+)
+```
+
+**For `inputgroup.Input`, use the inline-start or inline-end alignment. For `inputgroup.Textarea`, use the block-start or block-end alignment.**
+
+`inputgroup.Addon` can hold multiple `inputgroup.Button` components and icons.
+
+```go
+inputgroup.Addon(
+	inputgroup.Button("Button"),
+	inputgroup.Button("Button"),
+)
+```
+
+### Button
+
+Displays buttons within input groups.
+
+```go
+inputgroup.Button("Button")
+inputgroup.Button(inputgroup.ButtonSizeIconXs, h.Aria("label", "Copy"),
+	lucide.Copy(),
+)
+```
+
+### Input
+
+Replacement for `input.Input` when building input groups. It has the input group styles pre-applied and uses the unified `data-slot="input-group-control"` for focus state handling.
+
+All other children are passed through to the underlying `input.Input`.
+
+```go
+inputgroup.InputGroup(
+	inputgroup.Input(h.Placeholder("Enter text...")),
+	inputgroup.Addon(lucide.Search()),
+)
+```
+
+### Textarea
+
+Replacement for `textarea.Textarea` when building input groups. It has the textarea group styles pre-applied and uses the unified `data-slot="input-group-control"` for focus state handling.
+
+All other children are passed through to the underlying `textarea.Textarea`.
+
+```go
+inputgroup.InputGroup(
+	inputgroup.Textarea(h.Placeholder("Enter message...")),
+	inputgroup.Addon(inputgroup.AlignBlockEnd,
+		inputgroup.Button("Send"),
+	),
+)
+```
+
+## Changelog
+
+### 2025-10-06 `InputGroup`
+
+Add the `min-w-0` class to the `InputGroup` component. See [diff](https://github.com/shadcn-ui/ui/pull/8341/files#diff-0e2ee95d0050ca4c5d82339df86c54e14a6739dc4638fdda0eec8f73aebc2da9).

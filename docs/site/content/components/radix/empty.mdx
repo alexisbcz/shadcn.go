@@ -1,0 +1,193 @@
+---
+title: Empty
+description: Use the Empty component to display an empty state.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="empty-demo"
+  previewClassName="h-96 p-0"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go
+import (
+	"github.com/alexisbcz/components/ui/empty"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go
+empty.Empty(
+	empty.Header(
+		empty.Media(empty.MediaIcon, lucide.FolderCode()),
+		empty.Title("No data"),
+		empty.Description("No data found"),
+	),
+	empty.Content(
+		button.Button("Add data"),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build an `Empty` state:
+
+```text
+empty.Empty
+├── empty.Header
+│   ├── empty.Media
+│   ├── empty.Title
+│   └── empty.Description
+└── empty.Content
+```
+
+## Outline
+
+Use the `border` utility class to create an outline empty state.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="empty-outline"
+  previewClassName="h-96 p-6 md:p-10"
+/>
+
+## Background
+
+Use the `bg-*` and `bg-gradient-*` utilities to add a background to the empty state.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="empty-background"
+  previewClassName="h-96 p-0"
+/>
+
+## Avatar
+
+Use `empty.Media` to display an avatar in the empty state.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="empty-avatar"
+  previewClassName="h-96 p-0"
+/>
+
+## Avatar Group
+
+Use `empty.Media` to display an avatar group in the empty state.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="empty-avatar-group"
+  previewClassName="h-96 p-0"
+/>
+
+## InputGroup
+
+You can add an `InputGroup` component to `empty.Content`.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="empty-input-group"
+  previewClassName="h-96 p-0"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="empty-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `empty.Empty` | |
+| `empty.Header` | |
+| `empty.Media` | `empty.MediaDefault` (default), `empty.MediaIcon` |
+| `empty.Title` | |
+| `empty.Description` | |
+| `empty.Content` | |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+`empty.MediaVariants(variant, className...)` returns the classes of
+`empty.Media` for a variant.
+
+### Empty
+
+The main component of the empty state. Wraps `empty.Header` and `empty.Content`.
+
+```go
+empty.Empty(
+	empty.Header(),
+	empty.Content(),
+)
+```
+
+### Header
+
+`empty.Header` wraps the empty media, title, and description.
+
+```go
+empty.Header(
+	empty.Media(),
+	empty.Title(),
+	empty.Description(),
+)
+```
+
+### Media
+
+Use `empty.Media` to display the media of the empty state such as an icon or an image. You can also use it to display other components such as an avatar.
+
+```go
+empty.Media(empty.MediaIcon,
+	lucide.FolderCode(),
+)
+```
+
+```go
+empty.Media(
+	avatar.Avatar(
+		avatar.Image(h.Src("..."), h.Alt("@shadcn")),
+		avatar.Fallback("CN"),
+	),
+)
+```
+
+### Title
+
+Use `empty.Title` to display the title of the empty state.
+
+```go
+empty.Title("No data")
+```
+
+### Description
+
+Use `empty.Description` to display the description of the empty state.
+
+```go
+empty.Description("You do not have any notifications.")
+```
+
+### Content
+
+Use `empty.Content` to display the content of the empty state such as a button, input or a link.
+
+```go
+empty.Content(
+	button.Button("Add Project"),
+)
+```

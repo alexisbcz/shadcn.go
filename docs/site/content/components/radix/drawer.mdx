@@ -1,0 +1,118 @@
+---
+title: Drawer
+description: A drawer component.
+base: radix
+component: true
+links:
+  doc: https://vaul.emilkowal.ski/getting-started
+---
+
+<ComponentPreview styleName="radix-nova" name="drawer-demo" />
+
+## About
+
+Drawer is built on top of [Vaul](https://github.com/emilkowalski/vaul) by [emilkowalski](https://twitter.com/emilkowalski).
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/lib"
+	"github.com/alexisbcz/components/ui/button"
+	"github.com/alexisbcz/components/ui/drawer"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+drawer.Drawer(
+	drawer.Trigger("Open"),
+	drawer.Content(
+		drawer.Header(
+			drawer.Title("Are you absolutely sure?"),
+			drawer.Description("This action cannot be undone."),
+		),
+		drawer.Footer(
+			button.Button("Submit"),
+			drawer.Close(lib.AsChild, button.Button(button.VariantOutline, "Cancel")),
+		),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build a `drawer.Drawer`:
+
+```text
+drawer.Drawer
+├── drawer.Trigger
+└── drawer.Content
+    ├── drawer.Header
+    │   ├── drawer.Title
+    │   └── drawer.Description
+    └── drawer.Footer
+```
+
+## Scrollable Content
+
+Keep actions visible while the content scrolls.
+
+<ComponentPreview styleName="radix-nova" name="drawer-scrollable-content" />
+
+## Sides
+
+Pass a direction to `drawer.Drawer` to set the side of the drawer. Available options are `drawer.DirectionTop`, `DirectionRight`, `DirectionBottom` (the default), and `DirectionLeft`.
+
+```go showLineNumbers
+drawer.Drawer(drawer.DirectionRight,
+	drawer.Trigger("Open"),
+	drawer.Content(drawer.Header(drawer.Title("Settings"))),
+)
+```
+
+<ComponentPreview styleName="radix-nova" name="drawer-sides" />
+
+## Responsive Dialog
+
+You can combine the `dialog` and `drawer` components to create a responsive dialog. This renders a `dialog.Dialog` on desktop and a `drawer.Drawer` on mobile. The server does not know the screen size, so the example renders both and a small script swaps them when a `matchMedia("(min-width: 768px)")` query changes.
+
+<ComponentPreview styleName="radix-nova" name="drawer-dialog" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="drawer-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `drawer.Drawer` | a direction (`drawer.DirectionTop`, `DirectionRight`, `DirectionBottom`, `DirectionLeft`), `drawer.Modal(bool)` (default true), `drawer.DefaultOpen`, `drawer.Dismissible(bool)` (default true), `drawer.ShouldScaleBackground`, `drawer.SetBackgroundColorOnScale(bool)`, `drawer.SnapPoints(...)`, `drawer.FadeFromIndex(i)`, `drawer.CloseThreshold(v)` (default 0.25), `drawer.HandleOnly`, `drawer.NoBodyStyles`, `drawer.AutoFocus` |
+| `drawer.Trigger` | `lib.AsChild` to render the child element as the trigger instead of a `<button>` |
+| `drawer.Content` | |
+| `drawer.Header`, `drawer.Footer`, `drawer.Title`, `drawer.Description` | |
+| `drawer.Close` | `lib.AsChild` |
+| `drawer.Handle` | the drag handle, for use with `drawer.HandleOnly` |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content. The
+drawer dispatches a cancelable `shadcn:open-change` event (`detail.open`) when
+it opens or closes. The behavior follows [Vaul](https://vaul.emilkowal.ski/getting-started).

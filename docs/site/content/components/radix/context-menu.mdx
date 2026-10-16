@@ -1,0 +1,178 @@
+---
+title: Context Menu
+description: Displays a menu of actions triggered by a right click.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/context-menu
+  api: https://www.radix-ui.com/docs/primitives/components/context-menu#api-reference
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="context-menu-demo"
+  description="A context menu with sub menu items."
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	contextmenu "github.com/alexisbcz/components/ui/context-menu"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+contextmenu.ContextMenu(
+	contextmenu.Trigger("Right click here"),
+	contextmenu.Content(
+		contextmenu.Item("Profile"),
+		contextmenu.Item("Billing"),
+		contextmenu.Item("Team"),
+		contextmenu.Item("Subscription"),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build a `contextmenu.ContextMenu`:
+
+```text
+contextmenu.ContextMenu
+├── contextmenu.Trigger
+└── contextmenu.Content
+    ├── contextmenu.Group
+    │   ├── contextmenu.Label
+    │   ├── contextmenu.Item
+    │   └── contextmenu.Item
+    ├── contextmenu.Separator
+    ├── contextmenu.Group
+    │   ├── contextmenu.Label
+    │   ├── contextmenu.CheckboxItem
+    │   └── contextmenu.CheckboxItem
+    ├── contextmenu.Separator
+    ├── contextmenu.Group
+    │   ├── contextmenu.Label
+    │   └── contextmenu.RadioGroup
+    │       ├── contextmenu.RadioItem
+    │       └── contextmenu.RadioItem
+    └── contextmenu.Sub
+        ├── contextmenu.SubTrigger
+        └── contextmenu.SubContent
+            └── contextmenu.Group
+                ├── contextmenu.Item
+                └── contextmenu.Item
+```
+
+## Basic
+
+A simple context menu with a few actions.
+
+<ComponentPreview styleName="radix-nova" name="context-menu-basic" />
+
+## Submenu
+
+Use `contextmenu.Sub`, with a `contextmenu.SubTrigger` and a `contextmenu.SubContent`, to nest secondary actions.
+
+<ComponentPreview styleName="radix-nova" name="context-menu-submenu" />
+
+## Shortcuts
+
+Add `contextmenu.Shortcut` to an item to show keyboard hints.
+
+<ComponentPreview styleName="radix-nova" name="context-menu-shortcuts" />
+
+## Groups
+
+Group related actions and separate them with dividers.
+
+<ComponentPreview styleName="radix-nova" name="context-menu-groups" />
+
+## Icons
+
+Combine icons with labels for quick scanning.
+
+<ComponentPreview styleName="radix-nova" name="context-menu-icons" />
+
+## Checkboxes
+
+Use `contextmenu.CheckboxItem` for toggles. Pass `contextmenu.Checked(true)` to check it initially.
+
+<ComponentPreview styleName="radix-nova" name="context-menu-checkboxes" />
+
+## Radio
+
+Use `contextmenu.RadioItem` inside a `contextmenu.RadioGroup` for exclusive choices. Pass `contextmenu.Value(...)` to the group to select an item initially.
+
+<ComponentPreview styleName="radix-nova" name="context-menu-radio" />
+
+## Destructive
+
+Pass `contextmenu.VariantDestructive` to `contextmenu.Item` to style the menu item as destructive.
+
+```go showLineNumbers
+contextmenu.Item(contextmenu.VariantDestructive, "Delete")
+```
+
+<ComponentPreview styleName="radix-nova" name="context-menu-destructive" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="context-menu-rtl"
+  direction="rtl"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `contextmenu.ContextMenu` | `contextmenu.Modal(bool)` (default true), `contextmenu.Dir("rtl")` |
+| `contextmenu.Trigger` | `contextmenu.Disabled(true)`, `lib.AsChild` |
+| `contextmenu.Content`, `contextmenu.SubContent` | `contextmenu.AlignOffset(px)`, `contextmenu.AvoidCollisions(bool)`, `contextmenu.CollisionPadding(px)`, `contextmenu.Sticky...`, `contextmenu.HideWhenDetached(bool)`, `contextmenu.Loop(bool)` |
+| `contextmenu.Item` | `contextmenu.VariantDestructive`, `contextmenu.Inset(true)`, `contextmenu.Disabled(true)`, `contextmenu.TextValue(s)` |
+| `contextmenu.CheckboxItem` | `contextmenu.Checked(bool)`, `contextmenu.Indeterminate`, `contextmenu.Controlled`, `contextmenu.Disabled(true)` |
+| `contextmenu.RadioGroup` | `contextmenu.Value(v)`, `contextmenu.Controlled` |
+| `contextmenu.RadioItem` | `contextmenu.Value(v)`, `contextmenu.Disabled(true)` |
+| `contextmenu.Sub` | `contextmenu.SubDefaultOpen(true)` |
+| `contextmenu.SubTrigger`, `contextmenu.Label` | `contextmenu.Inset(true)` |
+| `contextmenu.Group`, `contextmenu.Separator`, `contextmenu.Shortcut`, `contextmenu.Portal` | |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content. The
+content always opens at the pointer, so there are no side or alignment options.
+
+Checkbox items and radio groups keep their state in the page.
+`contextmenu.Controlled` leaves the state to your scripts. The menu dispatches
+bubbling, cancelable events on the live elements: `shadcn:select` on an item
+(cancel it to keep the menu open), `shadcn:checked-change` on a checkbox item
+(`detail.checked`), `shadcn:value-change` on a radio group (`detail.value`).
+
+```js showLineNumbers
+document.addEventListener("shadcn:value-change", (e) => {
+  console.log(e.detail.value)
+})
+```
+
+The behavior follows [Radix UI's Context Menu](https://www.radix-ui.com/docs/primitives/components/context-menu#api-reference).

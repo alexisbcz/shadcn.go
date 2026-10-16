@@ -1,0 +1,590 @@
+---
+title: Data Table
+description: Powerful tables and datagrids built from the Table component.
+base: radix
+component: true
+links:
+  doc: https://tanstack.com/table/latest/docs/overview
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="data-table-demo"
+  align="start"
+  previewClassName="items-start h-auto px-4 md:px-8"
+  hideCode
+/>
+
+## Introduction
+
+Every data table or datagrid I've created has been unique. They all behave differently, have specific sorting and filtering requirements, and work with different data sources.
+
+It doesn't make sense to combine all of these variations into a single component.
+
+So instead of a data-table component, I thought it would be more helpful to provide a guide on how to build your own.
+
+We'll start with the basic `table.Table` component and build a complex data table from scratch.
+
+<Callout className="mt-4">
+
+**Tip:** If you find yourself using the same table in multiple places in your app, you can always extract it into a reusable function.
+
+</Callout>
+
+## Table of Contents
+
+The Go port has no table library like [TanStack Table](https://tanstack.com/table). This guide renders the table on the server with the `table` component and keeps its state (page, sort, filter) in the query string. Small scripts handle what only the browser knows. We'll cover the following topics:
+
+- [Basic Table](#basic-table)
+- [Cell Formatting](#cell-formatting)
+- [Row Actions](#row-actions)
+- [Pagination](#pagination)
+- [Sorting](#sorting)
+- [Filtering](#filtering)
+- [Visibility](#visibility)
+- [Row Selection](#row-selection)
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The dropdown menus and checkboxes of this guide are driven by JavaScript modules
+served by the runtime. Serve the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Prerequisites
+
+We are going to build a table to show recent payments. Here's what our data looks like:
+
+```go showLineNumbers
+type Payment struct {
+	ID     string
+	Amount float64
+	Status string // "pending", "processing", "success" or "failed"
+	Email  string
+}
+
+var payments = []Payment{
+	{ID: "728ed52f", Amount: 100, Status: "pending", Email: "m@example.com"},
+	{ID: "489e1d42", Amount: 125, Status: "processing", Email: "example@gmail.com"},
+	// ...
+}
+```
+
+## Project Structure
+
+Start by creating the following file structure:
+
+```txt
+payments
+├── columns.go
+├── data_table.go
+└── handler.go
+```
+
+- `columns.go` will contain our column definitions.
+- `data_table.go` will contain our `DataTable` function.
+- `handler.go` is where we'll fetch data and render our table.
+
+## Basic Table
+
+Let's start by building a basic table.
+
+<Steps className="mb-0 pt-2">
+
+### Column Definitions
+
+First, we'll define our columns.
+
+```go showLineNumbers title="payments/columns.go"
+package payments
+
+import (
+	"fmt"
+
+	h "github.com/alexisbcz/libhtml"
+)
+
+// Payment is the shape of our data.
+type Payment struct {
+	ID     string
+	Amount float64
+	Status string // "pending", "processing", "success" or "failed"
+	Email  string
+}
+
+// Column renders a header cell and the cell of each row.
+type Column struct {
+	ID     string
+	Header h.Node
+	Cell   func(p Payment) h.Node
+}
+
+var columns = []Column{
+	{ID: "status", Header: h.Text("Status"), Cell: func(p Payment) h.Node { return h.Text(p.Status) }},
+	{ID: "email", Header: h.Text("Email"), Cell: func(p Payment) h.Node { return h.Text(p.Email) }},
+	{ID: "amount", Header: h.Text("Amount"), Cell: func(p Payment) h.Node { return h.Text(fmt.Sprint(p.Amount)) }},
+}
+```
+
+<Callout className="mt-4">
+
+**Note:** Columns are where you define the core of what your table
+will look like. They define the data that will be displayed, how it will be
+formatted, sorted and filtered.
+
+</Callout>
+
+### `DataTable` function
+
+Next, we'll create a `DataTable` function to render our table.
+
+```go showLineNumbers title="payments/data_table.go"
+package payments
+
+import (
+	"strconv"
+
+	"github.com/alexisbcz/components/ui/table"
+	h "github.com/alexisbcz/libhtml"
+)
+
+func DataTable(columns []Column, data []Payment) h.Node {
+	body := table.Body(h.Map(data, func(p Payment) h.Node {
+		return table.Row(h.Map(columns, func(c Column) h.Node {
+			return table.Cell(c.Cell(p))
+		}))
+	}))
+	if len(data) == 0 {
+		body.Children(table.Row(
+			table.Cell(h.Attr("colspan", strconv.Itoa(len(columns))), h.Class("h-24 text-center"), "No results."),
+		))
+	}
+	return h.Div(h.Class("overflow-hidden rounded-md border"),
+		table.Table(
+			table.Header(table.Row(h.Map(columns, func(c Column) h.Node {
+				return table.Head(c.Header)
+			}))),
+			body,
+		),
+	)
+}
+```
+
+<Callout>
+
+**Tip**: If you find yourself using `DataTable` in multiple places, this is the function you could make reusable by making it generic over the row type: `DataTable[T any](columns []Column[T], data []T)`.
+
+</Callout>
+
+### Render the table
+
+Finally, we'll render our table in an HTTP handler.
+
+```go showLineNumbers title="payments/handler.go"
+package payments
+
+import "net/http"
+
+func getData() []Payment {
+	// Fetch data from your API here.
+	return []Payment{
+		{ID: "728ed52f", Amount: 100, Status: "pending", Email: "m@example.com"},
+		// ...
+	}
+}
+
+func Handler(w http.ResponseWriter, r *http.Request) {
+	DataTable(columns, getData()).Render(w)
+}
+```
+
+</Steps>
+
+## Cell Formatting
+
+Let's format the amount cell to display the dollar amount. We'll also align the cell to the right.
+
+<Steps className="mb-0 pt-2">
+
+### Update columns definition
+
+Update the `Header` and `Cell` of the amount column as follows:
+
+```go showLineNumbers title="payments/columns.go"
+{
+	ID:     "amount",
+	Header: h.Div(h.Class("text-right"), "Amount"),
+	Cell: func(p Payment) h.Node {
+		return h.Div(h.Class("text-right font-medium"), fmt.Sprintf("$%.2f", p.Amount))
+	},
+},
+```
+
+You can use the same approach to format other cells and headers.
+
+</Steps>
+
+## Row Actions
+
+Let's add row actions to our table. We'll use a `dropdownmenu.DropdownMenu` component for this.
+
+<Steps className="mb-0 pt-2">
+
+### Update columns definition
+
+Add a new `actions` column. Its cell returns a `dropdownmenu.DropdownMenu`.
+
+```go showLineNumbers title="payments/columns.go"
+import (
+	"github.com/alexisbcz/components/lib"
+	"github.com/alexisbcz/components/ui/button"
+	dropdownmenu "github.com/alexisbcz/components/ui/dropdown-menu"
+	"github.com/alexisbcz/icons/lucide"
+	h "github.com/alexisbcz/libhtml"
+)
+
+var columns = []Column{
+	// ...
+	{
+		ID: "actions",
+		Cell: func(p Payment) h.Node {
+			return dropdownmenu.DropdownMenu(
+				dropdownmenu.Trigger(lib.AsChild,
+					button.Button(button.VariantGhost, h.Class("h-8 w-8 p-0"),
+						h.Span(h.Class("sr-only"), "Open menu"),
+						lucide.Ellipsis(),
+					),
+				),
+				dropdownmenu.Content(dropdownmenu.AlignEnd,
+					dropdownmenu.Label("Actions"),
+					dropdownmenu.Item(h.Data("copy", p.ID), "Copy payment ID"),
+					dropdownmenu.Separator(),
+					dropdownmenu.Item(lib.AsChild, h.A(h.Href("/customers/"+p.Email), "View customer")),
+					dropdownmenu.Item(lib.AsChild, h.A(h.Href("/payments/"+p.ID), "View payment details")),
+				),
+			)
+		},
+	},
+}
+```
+
+The `Cell` function gets the row's data. Use it to handle actions for your row, eg. link to a page for the payment or post its `ID` to your API.
+
+Actions that run in the browser, like copying the ID, listen for the
+`shadcn:select` event the menu dispatches on the selected item:
+
+```js showLineNumbers
+document.addEventListener("shadcn:select", (e) => {
+  const id = e.target.dataset.copy
+  if (id) navigator.clipboard.writeText(id)
+})
+```
+
+</Steps>
+
+## Pagination
+
+Next, we'll add pagination to our table.
+
+<Steps className="mb-0 pt-2">
+
+### Read the page from the query string
+
+The handler passes the query to `DataTable`, which shows pages of 10 rows.
+
+```go showLineNumbers title="payments/handler.go"
+func Handler(w http.ResponseWriter, r *http.Request) {
+	DataTable(columns, getData(), r.URL.Query()).Render(w)
+}
+```
+
+### Add pagination controls
+
+We can add pagination controls to our table using the `button.Button` component. Each one links to the same page with another `?page=`.
+
+```go showLineNumbers title="payments/data_table.go"
+const pageSize = 10
+
+func DataTable(columns []Column, data []Payment, q url.Values) h.Node {
+	page, _ := strconv.Atoi(q.Get("page"))
+	page = max(0, min(page, (len(data)-1)/pageSize))
+	rows := data[page*pageSize : min((page+1)*pageSize, len(data))]
+
+	// Render rows instead of data in the table body, as before.
+
+	return h.Div(h.Class("w-full"),
+		h.Div(h.Class("overflow-hidden rounded-md border"),
+			table.Table( /* ... */ ),
+		),
+		h.Div(h.Class("flex items-center justify-end space-x-2 py-4"),
+			pageButton(q, "Previous", page-1, page > 0),
+			pageButton(q, "Next", page+1, (page+1)*pageSize < len(data)),
+		),
+	)
+}
+
+// pageButton links to page p, keeping the rest of the query.
+func pageButton(q url.Values, label string, p int, enabled bool) h.Node {
+	if !enabled {
+		return button.Button(button.VariantOutline, button.SizeSm, h.Disabled(), label)
+	}
+	return button.Button(lib.AsChild, button.VariantOutline, button.SizeSm,
+		h.A(h.Href(withParam(q, "page", strconv.Itoa(p))), label),
+	)
+}
+
+// withParam returns the query string q with key set to value.
+func withParam(q url.Values, key, value string) string {
+	c := url.Values{}
+	for k, v := range q {
+		c[k] = v
+	}
+	c.Set(key, value)
+	return "?" + c.Encode()
+}
+```
+
+You can also paginate in your database query (`LIMIT` and `OFFSET`) instead of slicing the data.
+
+</Steps>
+
+## Sorting
+
+Let's make the email column sortable.
+
+<Steps className="mb-0 pt-2">
+
+### Update column definitions
+
+Add a `SortKey` to the columns you want to sort by.
+
+```go showLineNumbers title="payments/columns.go"
+type Column struct {
+	ID      string
+	Header  h.Node
+	Cell    func(p Payment) h.Node
+	SortKey func(p Payment) string // non-nil makes the column sortable
+}
+
+var columns = []Column{
+	// ...
+	{
+		ID:      "email",
+		Header:  h.Text("Email"),
+		Cell:    func(p Payment) h.Node { return h.Text(p.Email) },
+		SortKey: func(p Payment) string { return strings.ToLower(p.Email) },
+	},
+	// ...
+}
+```
+
+### Update `DataTable`
+
+Sort the data on `?sort=email`, or `?sort=-email` for descending, before you paginate it:
+
+```go showLineNumbers title="payments/data_table.go"
+sort := q.Get("sort")
+id, desc := strings.TrimPrefix(sort, "-"), strings.HasPrefix(sort, "-")
+for _, c := range columns {
+	if c.ID == id && c.SortKey != nil {
+		data = slices.Clone(data)
+		slices.SortStableFunc(data, func(a, b Payment) int {
+			if desc {
+				a, b = b, a
+			}
+			return strings.Compare(c.SortKey(a), c.SortKey(b))
+		})
+	}
+}
+```
+
+### Make header cell sortable
+
+Render the header of a sortable column as a link that toggles the order:
+
+```go showLineNumbers title="payments/data_table.go"
+table.Header(table.Row(h.Map(columns, func(c Column) h.Node {
+	return header(c, q)
+}))),
+
+// ...
+
+func header(c Column, q url.Values) h.Node {
+	if c.SortKey == nil {
+		return table.Head(c.Header)
+	}
+	next := c.ID
+	if q.Get("sort") == c.ID {
+		next = "-" + c.ID
+	}
+	return table.Head(
+		button.Button(lib.AsChild, button.VariantGhost,
+			h.A(h.Href(withParam(q, "sort", next)), c.Header, lucide.ArrowUpDown()),
+		),
+	)
+}
+```
+
+This will sort the table (asc and desc) when the user toggles on the header cell.
+
+</Steps>
+
+## Filtering
+
+Let's add a search input to filter emails in our table.
+
+<Steps className="mb-0 pt-2">
+
+### Update `DataTable`
+
+Filter the data on `?email=` before you sort it, and render the input in a `GET` form. Pressing Enter submits it.
+
+```go showLineNumbers title="payments/data_table.go"
+if email := strings.ToLower(q.Get("email")); email != "" {
+	data = h.Filter(data, func(p Payment) bool {
+		return strings.Contains(strings.ToLower(p.Email), email)
+	})
+}
+
+// ...
+
+return h.Div(h.Class("w-full"),
+	h.Div(h.Class("flex items-center py-4"),
+		h.Form(h.Method("get"),
+			input.Input(h.Name("email"), h.Value(q.Get("email")), h.Placeholder("Filter emails..."), h.Class("max-w-sm")),
+			h.Input(h.Type("hidden"), h.Name("sort"), h.Value(q.Get("sort"))),
+		),
+	),
+	// ...
+)
+```
+
+Filtering is now enabled for the `email` column. You can add filters to other columns the same way.
+
+</Steps>
+
+## Visibility
+
+Column visibility only changes what the browser shows, so it is a few lines of script on top of a `dropdownmenu.DropdownMenu`.
+
+<Steps className="mb-0 pt-2">
+
+### Update `DataTable`
+
+Mark every header and cell with its column, and add a menu with a `dropdownmenu.CheckboxItem` per column:
+
+```go showLineNumbers title="payments/data_table.go"
+table.Cell(h.Data("column", c.ID), c.Cell(p))
+table.Head(h.Data("column", c.ID), c.Header)
+
+// ...
+
+dropdownmenu.DropdownMenu(
+	dropdownmenu.Trigger(lib.AsChild,
+		button.Button(button.VariantOutline, h.Class("ml-auto"), "Columns", lucide.ChevronDown()),
+	),
+	dropdownmenu.Content(dropdownmenu.AlignEnd,
+		h.Map([]string{"status", "email", "amount"}, func(id string) h.Node {
+			return dropdownmenu.CheckboxItem(h.Class("capitalize"), h.Data("column", id), dropdownmenu.Checked(true), id)
+		}),
+	),
+),
+```
+
+### Hide the cells
+
+The menu dispatches `shadcn:checked-change` on a checkbox item when it is toggled:
+
+```js showLineNumbers
+document.addEventListener("shadcn:checked-change", (e) => {
+  const column = e.target.dataset.column
+  if (!column) return
+  for (const cell of document.querySelectorAll(`th[data-column="${column}"], td[data-column="${column}"]`)) {
+    cell.hidden = !e.detail.checked
+  }
+})
+```
+
+This adds a dropdown menu that you can use to toggle column visibility.
+
+</Steps>
+
+## Row Selection
+
+Next, we're going to add row selection to our table.
+
+<Steps className="mb-0 pt-2">
+
+### Update column definitions
+
+```go showLineNumbers title="payments/columns.go"
+var columns = []Column{
+	{
+		ID:     "select",
+		Header: checkbox.Checkbox(h.ID("select-all"), h.Aria("label", "Select all")),
+		Cell: func(p Payment) h.Node {
+			return checkbox.Checkbox(h.Name("selected"), h.Value(p.ID), h.Aria("label", "Select row"))
+		},
+	},
+	// ...
+}
+```
+
+This adds a checkbox to each row and a checkbox in the header. Wrap the table
+in a form, for example `h.Form(h.ID("payments"), h.Method("post"), h.Action("/payments/bulk"), ...)`,
+and the IDs of the selected rows are posted as `selected` values
+(`r.Form["selected"]` in your handler).
+
+### Show selected rows
+
+Add an element for the count under the table:
+
+```go showLineNumbers title="payments/data_table.go"
+h.Div(h.ID("selected-count"), h.Class("flex-1 text-sm text-muted-foreground"),
+	fmt.Sprintf("0 of %d row(s) selected.", len(rows)),
+),
+```
+
+Each checkbox dispatches `shadcn:checked-change` before it changes. Count the
+checked rows after the change, and let the header checkbox select all rows:
+
+```js showLineNumbers
+const form = document.getElementById("payments")
+const rows = () => form.querySelectorAll('tbody [data-slot="checkbox"]')
+
+form.addEventListener("shadcn:checked-change", (e) => {
+  if (e.target.id === "select-all") {
+    for (const cb of rows()) {
+      if ((cb.dataset.state === "checked") !== e.detail.checked) cb.click()
+    }
+  }
+  requestAnimationFrame(() => {
+    const n = form.querySelectorAll('tbody [data-slot="checkbox"][data-state="checked"]').length
+    document.getElementById("selected-count").textContent = `${n} of ${rows().length} row(s) selected.`
+  })
+})
+```
+
+</Steps>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="data-table-rtl"
+  direction="rtl"
+  previewClassName="items-start h-auto px-4 md:px-8"
+  hideCode
+/>

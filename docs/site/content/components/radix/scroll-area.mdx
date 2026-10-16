@@ -1,0 +1,84 @@
+---
+title: Scroll Area
+description: Augments native scroll functionality for custom, cross-browser styling.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/scroll-area
+  api: https://www.radix-ui.com/docs/primitives/components/scroll-area#api-reference
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="scroll-area-demo"
+  previewClassName="h-96"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	scrollarea "github.com/alexisbcz/components/ui/scroll-area"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+scrollarea.ScrollArea(h.Class("h-[200px] w-[350px] rounded-md border p-4"),
+	"Your scrollable content here.",
+)
+```
+
+## Composition
+
+Use the following composition to build a `ScrollArea`:
+
+```text
+scrollarea.ScrollArea
+└── scrollarea.ScrollBar
+```
+
+## Horizontal
+
+Add `scrollarea.ScrollBar(scrollarea.Horizontal)` among the children for horizontal scrolling.
+
+<ComponentPreview styleName="radix-nova" name="scroll-area-horizontal-demo" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="scroll-area-rtl"
+  direction="rtl"
+  previewClassName="h-auto"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `scrollarea.ScrollArea` | a type (`scrollarea.TypeHover` (default), `TypeScroll`, `TypeAuto`, `TypeAlways`), `scrollarea.ScrollHideDelay(ms)` (default 600), `scrollarea.Nonce("...")` for a nonce-based Content-Security-Policy |
+| `scrollarea.ScrollBar` | `scrollarea.Vertical` (default) or `scrollarea.Horizontal` |
+
+The scroll area always has a vertical scrollbar. Other children are HTML
+attributes (`h.Class`, `h.ID`, ...) and content. The behavior follows
+[Radix UI's Scroll Area](https://www.radix-ui.com/docs/primitives/components/scroll-area#api-reference).

@@ -1,0 +1,101 @@
+---
+title: Pagination
+description: Pagination with page navigation, next and previous links.
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="pagination-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/pagination"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+pagination.Pagination(
+	pagination.Content(
+		pagination.Item(pagination.Previous(h.Href("#"))),
+		pagination.Item(pagination.Link(h.Href("#"), "1")),
+		pagination.Item(pagination.Link(h.Href("#"), pagination.IsActive, "2")),
+		pagination.Item(pagination.Link(h.Href("#"), "3")),
+		pagination.Item(pagination.Ellipsis()),
+		pagination.Item(pagination.Next(h.Href("#"))),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build a `Pagination`:
+
+```text
+pagination.Pagination
+└── pagination.Content
+    ├── pagination.Item
+    │   └── pagination.Previous
+    ├── pagination.Item
+    │   └── pagination.Link
+    ├── pagination.Item
+    │   └── pagination.Ellipsis
+    └── pagination.Item
+        └── pagination.Next
+```
+
+## Simple
+
+A simple pagination with only page numbers.
+
+<ComponentPreview styleName="radix-nova" name="pagination-simple" />
+
+## Icons Only
+
+Use just the previous and next buttons without page numbers. This is useful for data tables with a rows per page selector.
+
+<ComponentPreview styleName="radix-nova" name="pagination-icons-only" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="pagination-rtl"
+  direction="rtl"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `pagination.Pagination` | renders the `<nav>` |
+| `pagination.Content` | renders the `<ul>` of items |
+| `pagination.Item` | renders one `<li>` |
+| `pagination.Link` | `pagination.IsActive` for the current page, a `button.Size` (default `button.SizeIcon`) |
+| `pagination.Previous`, `pagination.Next` | `pagination.Text("...")` to replace the label (`"Previous"`, `"Next"`) |
+| `pagination.Ellipsis` | |
+
+Links render an `<a>`: pass the page URL with `h.Href`. Other children are HTML
+attributes (`h.Class`, `h.ID`, ...) and content.
+
+## Changelog
+
+### RTL Support
+
+`pagination.Previous` and `pagination.Next` take a `pagination.Text` to replace
+their label:
+
+```go showLineNumbers
+pagination.Previous(h.Href("#"), pagination.Text("السابق"))
+```

@@ -1,0 +1,133 @@
+---
+title: Card
+description: Displays a card with header, content, and footer.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  name="card-demo"
+  styleName="radix-nova"
+  previewClassName="h-[30rem]"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/card"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+card.Card(
+	card.Header(
+		card.Title("Card Title"),
+		card.Description("Card Description"),
+		card.Action("Card Action"),
+	),
+	card.Content(
+		h.P("Card Content"),
+	),
+	card.Footer(
+		h.P("Card Footer"),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build a `card.Card`:
+
+```text
+card.Card
+├── card.Header
+│   ├── card.Title
+│   ├── card.Description
+│   └── card.Action
+├── card.Content
+└── card.Footer
+```
+
+## Size
+
+Pass `card.SizeSm` to `card.Card` to set the size of the card to small. The small size variant uses smaller spacing.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="card-small"
+  previewClassName="h-96"
+/>
+
+## Spacing
+
+In addition to `card.SizeSm`, you can use the `--card-spacing` CSS variable to control the spacing between sections and the inset of card parts.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="card-spacing"
+  previewClassName="h-[34rem]"
+/>
+
+Use negative margins with `-mx-(--card-spacing)` to make content go edge to edge while keeping it aligned with the card inset. When the edge-to-edge content sits above a footer, use `-mb-(--card-spacing)` on `card.Content` to remove the section gap.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="card-edge-to-edge"
+  previewClassName="h-[24rem]"
+/>
+
+## Image
+
+Add an image before the card header to create a card with an image.
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="card-image"
+  previewClassName="h-[32rem]"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="card-rtl"
+  direction="rtl"
+  previewClassName="h-[30rem]"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `card.Card` | `card.SizeDefault` (default) or `card.SizeSm`; the root container |
+| `card.Header` | none; holds a title, description and optional action |
+| `card.Title` | none; the card title |
+| `card.Description` | none; helper text under the title |
+| `card.Action` | none; content in the top-right of the header (for example, a button or a badge) |
+| `card.Content` | none; the main card body |
+| `card.Footer` | none; actions and secondary content at the bottom of the card |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+
+## Changelog
+
+### Spacing Variable
+
+The Go port's styles already use the `--card-spacing` variable, so there is
+nothing to update. Customize card spacing by setting `--card-spacing` on the
+`card.Card` with an arbitrary property class:
+
+```go showLineNumbers
+card.Card(h.Class("[--card-spacing:--spacing(6)]") /* , ... */)
+```

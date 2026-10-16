@@ -1,0 +1,132 @@
+---
+title: Checkbox
+description: A control that allows the user to toggle between checked and not checked.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/checkbox
+  api: https://www.radix-ui.com/docs/primitives/components/checkbox#api-reference
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="checkbox-demo"
+  previewClassName="h-80"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/checkbox"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+checkbox.Checkbox(h.ID("terms"))
+```
+
+## Checked State
+
+Pass `checkbox.Checked(true)` (or `checkbox.Indeterminate`) to set the initial
+state. The state then lives in the browser: the checkbox's `data-state` is
+`checked`, `unchecked` or `indeterminate`, and inside a `<form>` its hidden
+input submits `checkbox.Value` (default `"on"`) under `checkbox.Name`.
+
+```go showLineNumbers
+checkbox.Checkbox(h.ID("terms"), checkbox.Name("terms"), checkbox.Checked(true))
+```
+
+To react to changes, listen for the `shadcn:checked-change` event, dispatched
+before every change. Its `detail.checked` is `true`, `false` or
+`"indeterminate"`. Call `preventDefault()` to cancel the change.
+
+```js showLineNumbers
+document.querySelector("#terms").addEventListener("shadcn:checked-change", (e) => {
+  console.log(e.detail.checked)
+})
+```
+
+## Invalid State
+
+Set `aria-invalid` on the checkbox and `data-invalid` on the field wrapper to
+show the invalid styles.
+
+<ComponentPreview styleName="radix-nova" name="checkbox-invalid" />
+
+## Basic
+
+Pair the checkbox with `field.Field` and `field.Label` for proper layout and labeling.
+
+<ComponentPreview styleName="radix-nova" name="checkbox-basic" />
+
+## Description
+
+Use `field.Content` and `field.Description` for helper text.
+
+<ComponentPreview styleName="radix-nova" name="checkbox-description" />
+
+## Disabled
+
+Pass `h.Disabled()` to prevent interaction and add the `data-disabled` attribute to the `field.Field` component for disabled styles.
+
+<ComponentPreview styleName="radix-nova" name="checkbox-disabled" />
+
+## Group
+
+Use multiple fields to create a checkbox list.
+
+<ComponentPreview styleName="radix-nova" name="checkbox-group" />
+
+## Table
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="checkbox-table"
+  previewClassName="p-4 md:p-8"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="checkbox-rtl"
+  direction="rtl"
+  previewClassName="h-80"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `checkbox.Checkbox` | `checkbox.Checked(bool)` (initial state), `checkbox.Indeterminate`, `checkbox.Name`, `checkbox.Value` (default `"on"`), `checkbox.Required(bool)`, `checkbox.Disabled(bool)`, `checkbox.Form(id)` |
+
+The same options exist as builder methods (`checkbox.Checkbox().Checked(true)`).
+The attributes `h.Name`, `h.Value`, `h.Required()`, `h.Disabled()` and
+`h.FormAttr` are equivalent to the typed options. Other children are HTML
+attributes (`h.Class`, `h.ID`, ...).
+
+A click (or Space) toggles the checkbox, and an indeterminate checkbox becomes
+checked. The cancelable `shadcn:checked-change` event is dispatched before
+every change. The behavior follows
+[Radix UI's Checkbox](https://www.radix-ui.com/docs/primitives/components/checkbox#api-reference).

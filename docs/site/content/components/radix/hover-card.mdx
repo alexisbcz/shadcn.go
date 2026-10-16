@@ -1,0 +1,122 @@
+---
+title: Hover Card
+description: For sighted users to preview content available behind a link.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/hover-card
+  api: https://www.radix-ui.com/docs/primitives/components/hover-card#api-reference
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="hover-card-demo"
+  previewClassName="h-80"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	hovercard "github.com/alexisbcz/components/ui/hover-card"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+hovercard.HoverCard(
+	hovercard.Trigger("Hover"),
+	hovercard.Content("The React Framework – created and maintained by @vercel."),
+)
+```
+
+## Composition
+
+Use the following composition to build a `HoverCard`:
+
+```text
+hovercard.HoverCard
+├── hovercard.Trigger
+└── hovercard.Content
+```
+
+## Trigger Delays
+
+Pass `hovercard.OpenDelay` and `hovercard.CloseDelay` (in milliseconds) to
+`hovercard.HoverCard` to control when the card opens and closes. The defaults
+are 700 and 300.
+
+```go showLineNumbers
+hovercard.HoverCard(hovercard.OpenDelay(100), hovercard.CloseDelay(200),
+	hovercard.Trigger("Hover"),
+	hovercard.Content("Content"),
+)
+```
+
+## Positioning
+
+Pass a side (`hovercard.SideTop`, `SideRight`, `SideBottom`, `SideLeft`) and an
+alignment (`hovercard.AlignStart`, `AlignCenter`, `AlignEnd`) to
+`hovercard.Content` to control placement.
+
+```go showLineNumbers
+hovercard.HoverCard(
+	hovercard.Trigger("Hover"),
+	hovercard.Content(hovercard.SideTop, hovercard.AlignStart, "Content"),
+)
+```
+
+## Basic
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="hover-card-demo"
+  previewClassName="h-80"
+/>
+
+## Sides
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="hover-card-sides"
+  previewClassName="h-[22rem]"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="hover-card-rtl"
+  direction="rtl"
+  previewClassName="h-80"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `hovercard.HoverCard` | `hovercard.OpenDelay(ms)` (default 700), `hovercard.CloseDelay(ms)` (default 300), `hovercard.DefaultOpen` |
+| `hovercard.Trigger` | `lib.AsChild` to render the child element as the trigger instead of an `<a>` |
+| `hovercard.Content` | side, alignment, `hovercard.SideOffset(px)` (default 4), `hovercard.AlignOffset(px)`, `hovercard.AvoidCollisions(bool)`, `hovercard.CollisionPadding(px)`, `hovercard.Sticky...`, `hovercard.HideWhenDetached(bool)` |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content. The
+behavior follows [Radix UI's Hover Card](https://www.radix-ui.com/docs/primitives/components/hover-card#api-reference).

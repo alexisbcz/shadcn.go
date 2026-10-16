@@ -1,0 +1,86 @@
+---
+title: Toggle
+description: A two-state button that can be either on or off.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/toggle
+  api: https://www.radix-ui.com/docs/primitives/components/toggle#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="toggle-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/toggle"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+toggle.Toggle("Toggle")
+```
+
+## Outline
+
+Pass `toggle.VariantOutline` for an outline style.
+
+<ComponentPreview styleName="radix-nova" name="toggle-outline" />
+
+## With Text
+
+<ComponentPreview styleName="radix-nova" name="toggle-text" />
+
+## Size
+
+Pass a size (`toggle.SizeSm`, `toggle.SizeDefault`, `toggle.SizeLg`) to change the size of the toggle.
+
+<ComponentPreview styleName="radix-nova" name="toggle-sizes" />
+
+## Disabled
+
+<ComponentPreview styleName="radix-nova" name="toggle-disabled" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="toggle-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `toggle.Toggle` | a variant (`toggle.VariantDefault`, `toggle.VariantOutline`), a size (`toggle.SizeDefault`, `toggle.SizeSm`, `toggle.SizeLg`), `toggle.Pressed(bool)` for the initial state, `h.Disabled()` |
+
+Other children are HTML attributes (`h.Class`, `h.Aria`, ...) and content.
+Clicking the toggle flips `aria-pressed` and `data-state` (`on` or `off`) and
+dispatches a cancelable `shadcn:pressed-change` event (`detail: { pressed }`)
+on the button. Cancel it to keep the current state.
+
+```js showLineNumbers
+button.addEventListener("shadcn:pressed-change", (e) => {
+  console.log(e.detail.pressed)
+})
+```
+
+The behavior follows [Radix UI's Toggle](https://www.radix-ui.com/docs/primitives/components/toggle#api-reference).

@@ -1,0 +1,116 @@
+---
+title: Navigation Menu
+description: A collection of links for navigating websites.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/navigation-menu
+  api: https://www.radix-ui.com/docs/primitives/components/navigation-menu#api-reference
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="navigation-menu-demo"
+  previewClassName="h-96"
+  className="overflow-visible"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/lib"
+	navigationmenu "github.com/alexisbcz/components/ui/navigation-menu"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+navigationmenu.NavigationMenu(
+	navigationmenu.List(
+		navigationmenu.Item(
+			navigationmenu.Trigger("Item One"),
+			navigationmenu.Content(
+				navigationmenu.Link(h.Href("#"), "Link"),
+			),
+		),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build a `navigationmenu.NavigationMenu`:
+
+```text
+navigationmenu.NavigationMenu
+└── navigationmenu.List
+    ├── navigationmenu.Item
+    │   ├── navigationmenu.Trigger
+    │   └── navigationmenu.Content
+    │       ├── navigationmenu.Link
+    │       └── navigationmenu.Link
+    ├── navigationmenu.Item
+    │   └── navigationmenu.Link
+    └── navigationmenu.Indicator
+```
+
+## Link Component
+
+Use `lib.AsChild` to render your own link element as the link. Pass
+`navigationmenu.TriggerStyle()` to style it like a trigger.
+
+```go showLineNumbers
+navigationmenu.Item(
+	navigationmenu.Link(lib.AsChild, h.Class(navigationmenu.TriggerStyle()),
+		h.A(h.Href("/docs"), "Documentation"),
+	),
+)
+```
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="navigation-menu-rtl"
+  direction="rtl"
+  previewClassName="h-96"
+  className="overflow-visible"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `navigationmenu.NavigationMenu` | `navigationmenu.UseViewport(bool)` (default true: the panels render in a shared viewport below the list), `navigationmenu.DefaultValue(v)` (the open item's value), `navigationmenu.DelayDuration(ms)` (default 200), `navigationmenu.SkipDelayDuration(ms)` (default 300), `navigationmenu.OrientationVertical`, `navigationmenu.Dir("rtl")` |
+| `navigationmenu.List` | none |
+| `navigationmenu.Item` | `navigationmenu.ItemValue(v)` (default: a generated id) |
+| `navigationmenu.Trigger` | `navigationmenu.Disabled` |
+| `navigationmenu.Content` | none; the item's panel |
+| `navigationmenu.Link` | `navigationmenu.Active` to mark the current page, `lib.AsChild` |
+| `navigationmenu.Indicator` | none; the arrow under the open trigger, placed in the list |
+| `navigationmenu.Viewport` | the part `navigationmenu.NavigationMenu` renders for you |
+| `navigationmenu.TriggerStyle(class...)` | returns the trigger classes, for links styled as triggers |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content. The
+`<nav>` dispatches a `shadcn:value-change` event (`detail.value`) when the open
+item changes. See the [Radix UI Navigation Menu](https://www.radix-ui.com/docs/primitives/components/navigation-menu#api-reference) documentation for more information.

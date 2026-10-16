@@ -1,0 +1,98 @@
+---
+title: Slider
+description: An input where the user selects a value from within a given range.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/slider
+  api: https://www.radix-ui.com/docs/primitives/components/slider#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="slider-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/slider"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+slider.Slider(slider.DefaultValue(33), slider.Max(100), slider.Step(1))
+```
+
+## Range
+
+Pass two values to `slider.DefaultValue` for a range slider.
+
+<ComponentPreview styleName="radix-nova" name="slider-range" />
+
+## Multiple Thumbs
+
+Pass more values to `slider.DefaultValue` for multiple thumbs.
+
+<ComponentPreview styleName="radix-nova" name="slider-multiple" />
+
+## Vertical
+
+Pass `slider.OrientationVertical` for a vertical slider.
+
+<ComponentPreview styleName="radix-nova" name="slider-vertical" />
+
+## Controlled
+
+The slider keeps its value in the browser. To react to changes, listen for the
+`shadcn:value-change` event on the root (`detail: { value }`, one number per
+thumb). Cancel it to reject the change. `shadcn:value-commit` fires at the end
+of a drag or keyboard change.
+
+```js showLineNumbers
+slider.addEventListener("shadcn:value-change", (e) => {
+  output.textContent = e.detail.value.join(", ")
+})
+```
+
+<ComponentPreview styleName="radix-nova" name="slider-controlled" />
+
+## Disabled
+
+Pass `slider.Disabled(true)` to disable the slider.
+
+<ComponentPreview styleName="radix-nova" name="slider-disabled" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="slider-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `slider.Slider` | `slider.DefaultValue(v...)` (one value per thumb), `slider.Min(n)` (default 0), `slider.Max(n)` (default 100), `slider.Step(n)` (default 1), `slider.MinStepsBetweenThumbs(n)`, `slider.OrientationHorizontal` or `slider.OrientationVertical`, `slider.Inverted(bool)`, `slider.Disabled(bool)`, `slider.Name("...")`, `slider.Form("form-id")` |
+
+Other children are HTML attributes (`h.ID`, `h.Class`, `h.Dir`, ...). Inside a
+`<form>`, each thumb renders a hidden input, so the value submits with the
+form.
+
+The behavior follows [Radix UI's Slider](https://www.radix-ui.com/docs/primitives/components/slider#api-reference).

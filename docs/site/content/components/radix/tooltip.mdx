@@ -1,0 +1,101 @@
+---
+title: Tooltip
+description: A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/tooltip
+  api: https://www.radix-ui.com/docs/primitives/components/tooltip#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="tooltip-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/tooltip"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+tooltip.Tooltip(
+	tooltip.Trigger("Hover"),
+	tooltip.Content(h.P("Add to library")),
+)
+```
+
+## Composition
+
+Use the following composition to build a `tooltip.Tooltip`:
+
+```text
+tooltip.Provider (optional)
+└── tooltip.Tooltip
+    ├── tooltip.Trigger
+    └── tooltip.Content
+```
+
+`tooltip.Provider` shares the open delay between tooltips: once one is open,
+moving to another opens it instantly. Tooltips rendered outside a provider
+share a page-wide one with the default options.
+
+## Side
+
+Pass a side (`tooltip.SideTop`, `SideRight`, `SideBottom`, `SideLeft`) to
+`tooltip.Content` to change the position of the tooltip.
+
+```go showLineNumbers
+tooltip.Tooltip(
+	tooltip.Trigger("Hover"),
+	tooltip.Content(tooltip.SideLeft, "Add to library"),
+)
+```
+
+<ComponentPreview styleName="radix-nova" name="tooltip-sides" />
+
+## With Keyboard Shortcut
+
+<ComponentPreview styleName="radix-nova" name="tooltip-keyboard" />
+
+## Disabled Button
+
+Show a tooltip on a disabled button by wrapping it with a span.
+
+<ComponentPreview styleName="radix-nova" name="tooltip-disabled" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="tooltip-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `tooltip.Provider` | `tooltip.DelayDuration(ms)` (default 0), `tooltip.SkipDelayDuration(ms)` (default 300), `tooltip.DisableHoverableContent(bool)` |
+| `tooltip.Tooltip` | `tooltip.DelayDuration(ms)`, `tooltip.DisableHoverableContent(bool)`, `tooltip.DefaultOpen` |
+| `tooltip.Trigger` | `lib.AsChild` to render the child element as the trigger instead of a `<button>` |
+| `tooltip.Content` | side (default `tooltip.SideTop`), alignment (`tooltip.AlignStart`, `AlignCenter`, `AlignEnd`), `tooltip.SideOffset(px)` (default 0), `tooltip.AlignOffset(px)`, `tooltip.AvoidCollisions(bool)`, `tooltip.CollisionPadding(px)`, `tooltip.Sticky...`, `tooltip.HideWhenDetached(bool)`, `tooltip.AriaLabel(label)` |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content. The
+behavior follows [Radix UI's Tooltip](https://www.radix-ui.com/docs/primitives/components/tooltip#api-reference).

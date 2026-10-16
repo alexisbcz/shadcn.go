@@ -1,0 +1,164 @@
+---
+title: Alert Dialog
+description: A modal dialog that interrupts the user with important content and expects a response.
+featured: true
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/primitives/docs/components/alert-dialog
+  api: https://www.radix-ui.com/primitives/docs/components/alert-dialog#api-reference
+---
+
+<ComponentPreview
+  name="alert-dialog-demo"
+  styleName="radix-nova"
+  previewClassName="h-56"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	alertdialog "github.com/alexisbcz/components/ui/alert-dialog"
+	"github.com/alexisbcz/components/ui/button"
+	"github.com/alexisbcz/components/lib"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+alertdialog.AlertDialog(
+	alertdialog.Trigger(lib.AsChild,
+		button.Button(button.VariantOutline, "Show Dialog"),
+	),
+	alertdialog.Content(
+		alertdialog.Header(
+			alertdialog.Title("Are you absolutely sure?"),
+			alertdialog.Description("This action cannot be undone. This will permanently delete your account from our servers."),
+		),
+		alertdialog.Footer(
+			alertdialog.Cancel("Cancel"),
+			alertdialog.Action("Continue"),
+		),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build an `AlertDialog`:
+
+```text
+alertdialog.AlertDialog
+├── alertdialog.Trigger
+└── alertdialog.Content
+    ├── alertdialog.Header
+    │   ├── alertdialog.Media
+    │   ├── alertdialog.Title
+    │   └── alertdialog.Description
+    └── alertdialog.Footer
+        ├── alertdialog.Cancel
+        └── alertdialog.Action
+```
+
+## Basic
+
+A basic alert dialog with a title, description, and cancel and continue buttons.
+
+<ComponentPreview
+  name="alert-dialog-basic"
+  styleName="radix-nova"
+  previewClassName="h-56"
+/>
+
+## Small
+
+Pass `alertdialog.SizeSm` to `alertdialog.Content` to make the alert dialog smaller.
+
+<ComponentPreview
+  name="alert-dialog-small"
+  styleName="radix-nova"
+  previewClassName="h-56"
+/>
+
+## Media
+
+Use `alertdialog.Media` to add a media element such as an icon or image to the alert dialog.
+
+<ComponentPreview
+  name="alert-dialog-media"
+  styleName="radix-nova"
+  previewClassName="h-56"
+/>
+
+## Small with Media
+
+Pass `alertdialog.SizeSm` to `alertdialog.Content` to make the alert dialog smaller and use `alertdialog.Media` to add a media element such as an icon or image to the alert dialog.
+
+<ComponentPreview
+  name="alert-dialog-small-media"
+  styleName="radix-nova"
+  previewClassName="h-56"
+/>
+
+## Destructive
+
+Pass `button.VariantDestructive` to `alertdialog.Action` to add a destructive action button to the alert dialog.
+
+```go showLineNumbers
+alertdialog.Action(button.VariantDestructive, "Delete")
+```
+
+<ComponentPreview
+  name="alert-dialog-destructive"
+  styleName="radix-nova"
+  previewClassName="h-56"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="alert-dialog-rtl"
+  direction="rtl"
+  previewClassName="h-56"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `alertdialog.AlertDialog` | `alertdialog.DefaultOpen` to open it when the page loads |
+| `alertdialog.Trigger` | `lib.AsChild` to render the child element as the trigger instead of a `<button>` |
+| `alertdialog.Content` | `alertdialog.SizeDefault` (default) or `alertdialog.SizeSm` |
+| `alertdialog.Header`, `alertdialog.Footer`, `alertdialog.Media` | none |
+| `alertdialog.Title`, `alertdialog.Description` | none |
+| `alertdialog.Action` | a `button.Variant` (default `button.VariantDefault`) and a `button.Size`; closes the dialog |
+| `alertdialog.Cancel` | a `button.Variant` (default `button.VariantOutline`) and a `button.Size`; closes the dialog and has focus when it opens |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+
+Unlike a dialog, an alert dialog is always modal and is not dismissed by
+clicking outside. Before it opens or closes, the dialog dispatches a cancelable
+`shadcn:open-change` event (`detail.open`) on its `<template>`.
+
+For more information about the behavior, see the [Radix UI documentation](https://www.radix-ui.com/primitives/docs/components/alert-dialog#api-reference).

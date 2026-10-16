@@ -54,6 +54,8 @@ type Site struct {
 	// Docs are the docs pages by URL ("/docs", "/docs/components/radix/button").
 	Docs map[string]*Doc
 
+	// content holds the docs pages (paths relative to content/docs).
+	content fs.FS
 	css     *stylesheet
 	logf    func(string, ...any)
 	scripts headScripts
@@ -76,7 +78,7 @@ type Doc struct {
 // Page returns the parsed page.
 func (d *Doc) Page() (*content.Page, error) {
 	d.once.Do(func() {
-		b, err := os.ReadFile(filepath.Join(d.site.contentDir(), filepath.FromSlash(d.Path)))
+		b, err := fs.ReadFile(d.site.content, d.Path)
 		if err != nil {
 			d.err = err
 			return
@@ -86,7 +88,22 @@ func (d *Doc) Page() (*content.Page, error) {
 	return d.page, d.err
 }
 
-func (s *Site) contentDir() string { return filepath.Join(s.App, "content", "docs") }
+// overlayFS is the docs content: the Go port's pages (docs/site/content,
+// where they differ from upstream: Go code instead of React) over the
+// upstream ones vendored in package content.
+type overlayFS struct{ over, base fs.FS }
+
+func (o overlayFS) Open(name string) (fs.File, error) {
+	if f, err := o.over.Open(name); err == nil {
+		if st, err := f.Stat(); err == nil && !st.IsDir() {
+			return f, nil
+		}
+		f.Close()
+	}
+	return o.base.Open(name)
+}
+
+func (o overlayFS) ReadDir(name string) ([]fs.DirEntry, error) { return fs.ReadDir(o.base, name) }
 
 // New loads the content and starts building the stylesheet.
 func New(opts Options) (*Site, error) {
@@ -103,7 +120,8 @@ func New(opts Options) (*Site, error) {
 	}
 	s.css = newStylesheet(root, s.logf)
 
-	fsys := os.DirFS(s.contentDir())
+	s.content = overlayFS{over: os.DirFS(filepath.Join(root, "docs", "site", "content")), base: content.Source()}
+	fsys := s.content
 	var infos []pagetree.PageInfo
 	err = fs.WalkDir(fsys, ".", func(p string, d fs.DirEntry, err error) error {
 		if err != nil || d.IsDir() || !strings.HasSuffix(p, ".mdx") {

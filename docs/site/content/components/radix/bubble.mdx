@@ -1,0 +1,249 @@
+---
+title: Bubble
+description: Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="bubble-demo"
+  previewClassName="h-auto theme-blue"
+/>
+
+The `Bubble` component displays framed conversational content. Use it for chat text, short structured output, quoted replies, suggestions, and reactions.
+
+For full-featured chat interfaces, use the [`Message`](/docs/components/radix/message) component. `Bubble` is intentionally scoped to the bubble surface. Place avatars, names, timestamps, metadata, and message-level actions in [`Message`](/docs/components/radix/message).
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/bubble"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+bubble.Bubble(
+	bubble.Content("I checked the registry output and removed the stale route."),
+	bubble.Reactions(h.Span("👍")),
+)
+```
+
+## Composition
+
+Use the following composition to build a bubble:
+
+```text
+bubble.Bubble
+├── bubble.Content
+└── bubble.Reactions
+```
+
+Use `bubble.Group` to group consecutive bubbles from the same sender:
+
+```text
+bubble.Group
+├── bubble.Bubble
+│   └── bubble.Content
+└── bubble.Bubble
+    └── bubble.Content
+```
+
+## Features
+
+- Seven visual variants, from a strong primary bubble to unframed ghost content
+- Start and end alignment for sender and receiver bubbles
+- Reactions that anchor to the bubble edge with configurable side and alignment
+- Bubbles size to their content, up to 80% of the container width
+- Polymorphic content via `lib.AsChild` for link and button bubbles
+- Customizable styling through `h.Class(...)` on every part
+
+## Variants
+
+Pass a variant (`bubble.VariantDefault`, `bubble.VariantMuted`, ...) to `bubble.Bubble` to change the visual treatment of the bubble.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="bubble-variants"
+  previewClassName="h-auto theme-blue"
+/>
+
+| Variant                     | Description                                            |
+| --------------------------- | ------------------------------------------------------ |
+| `bubble.VariantDefault`     | A strong primary bubble, usually for the current user. |
+| `bubble.VariantSecondary`   | The standard neutral bubble for conversation content.  |
+| `bubble.VariantMuted`       | A lower-emphasis bubble for quiet supporting content.  |
+| `bubble.VariantTinted`      | A subtle primary-tinted bubble.                        |
+| `bubble.VariantOutline`     | A bordered bubble for secondary or rich content.       |
+| `bubble.VariantGhost`       | Unframed content for assistant text or rich content.   |
+| `bubble.VariantDestructive` | A destructive bubble for error or failed actions.      |
+
+A bubble sizes to its content, up to 80% of the container width. The ghost variant removes the max-width so assistant text and rich content can span the full row.
+
+## Alignment
+
+Pass `bubble.AlignStart` or `bubble.AlignEnd` to `bubble.Bubble` to align the bubble to the start or end of the conversation.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="bubble-alignment"
+  previewClassName="h-auto theme-blue"
+/>
+
+| Alignment           | Description                                        |
+| ------------------- | -------------------------------------------------- |
+| `bubble.AlignStart` | Align the bubble to the start of the conversation. |
+| `bubble.AlignEnd`   | Align the bubble to the end of the conversation.   |
+
+**Note:** When building chat interfaces, you probably want to use alignment on the `Message` component itself, not the `Bubble` component. You can pass `message.AlignEnd` to `message.Message` to automatically align the bubble to the start or end of the conversation.
+
+## Bubble Group
+
+Use `bubble.Group` to group consecutive bubbles from the same sender. Note the alignment should be passed to `bubble.Bubble` itself, not to `bubble.Group`.
+
+```text
+bubble.Group
+├── bubble.Bubble
+│   └── bubble.Content
+└── bubble.Bubble
+    └── bubble.Content
+```
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="bubble-group-demo"
+  previewClassName="h-auto theme-blue"
+/>
+
+## Links and Buttons
+
+You can turn a bubble into a link or button by passing `lib.AsChild` to `bubble.Content`.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="bubble-link-button"
+  previewClassName="h-auto theme-blue"
+/>
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/lib"
+	"github.com/alexisbcz/components/ui/bubble"
+	h "github.com/alexisbcz/libhtml"
+)
+
+func BubbleLinkDemo() h.Node {
+	return bubble.Bubble(bubble.VariantMuted,
+		bubble.Content(lib.AsChild, h.Button("Click here")),
+	)
+}
+```
+
+## Reactions
+
+Use `bubble.Reactions` for bubble reactions. You can use it to display reactions or quick action buttons. Pass a side (`bubble.SideTop`, `bubble.SideBottom`) and an alignment (`bubble.AlignStart`, `bubble.AlignEnd`) to position the row — `bubble.SideTop` anchors it to the upper edge. Reactions overlap the bubble edge, so leave vertical space between rows — the examples below use a larger `gap` for this reason.
+
+```go showLineNumbers
+bubble.Bubble(bubble.VariantTinted,
+	bubble.Content("Shipped!"),
+	bubble.Reactions(bubble.SideTop, bubble.AlignStart, h.Span("🎉")),
+)
+```
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="bubble-reactions"
+  previewClassName="h-auto theme-blue"
+/>
+
+## Show More / Collapsible
+
+Long bubble content can be composed with [`Collapsible`](/docs/components/radix/collapsible) to allow for a show more or show less interaction. Use `collapsible.Trigger` to trigger the collapsible content.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="bubble-collapsible"
+  previewClassName="h-auto theme-blue"
+/>
+
+## Tooltip
+
+Wrap a bubble in a [`Tooltip`](/docs/components/radix/tooltip) to reveal metadata on hover, such as when a message was read.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="bubble-tooltip"
+  previewClassName="h-auto theme-blue"
+/>
+
+## Popover
+
+Pair a bubble with a [`Popover`](/docs/components/radix/popover) to surface more information on demand, such as the full error message for a failed action.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="bubble-popover"
+  previewClassName="h-auto theme-blue"
+/>
+
+## Accessibility
+
+`Bubble` renders the presentational message surface. Keep conversation-level semantics on the surrounding container and follow the guidelines below.
+
+### Labeling Reactions
+
+Reactions render as a row of emoji. A screen reader reads each glyph with no context, and counters like `+8` are announced as "plus eight". Group the row as a single image with a descriptive `aria-label` so it announces once. `h.Role("img")` also hides the individual emoji from assistive tech, so no `aria-hidden` is needed.
+
+```go showLineNumbers
+bubble.Reactions(h.Role("img"), h.Aria("label", "Reactions: thumbs up, fire, and 8 more"),
+	h.Span("👍"),
+	h.Span("🔥"),
+	h.Span("+8"),
+)
+```
+
+When reactions are interactive, render buttons instead and give icon-only buttons an `aria-label`.
+
+```go showLineNumbers
+bubble.Reactions(
+	button.Button(h.Aria("label", "Thumbs up"), button.VariantSecondary, button.SizeIconXs,
+		lucide.ThumbsUp(),
+	),
+)
+```
+
+### Interactive Bubbles
+
+When a bubble is clickable, render it as a real `<button>` or `<a>` with `lib.AsChild` so it is focusable and exposes the correct role. `bubble.Content` ships a visible focus ring for interactive elements, and the accessible name comes from the bubble text. No extra label is needed.
+
+```go showLineNumbers
+bubble.Bubble(bubble.VariantMuted, bubble.AlignEnd,
+	bubble.Content(lib.AsChild,
+		h.Button(h.Type("button"), "I forgot my password"),
+	),
+)
+```
+
+### Meaning Beyond Color
+
+Bubble variants signal role and tone with color. Pair them with text, alignment, or icons so meaning is not conveyed by color alone. For a `destructive` bubble, keep the error context in the message text rather than relying on the color treatment.
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `bubble.Bubble` | a variant (`bubble.VariantDefault` (default), `VariantSecondary`, `VariantMuted`, `VariantTinted`, `VariantOutline`, `VariantGhost`, `VariantDestructive`), an alignment (`bubble.AlignStart` (default), `bubble.AlignEnd`) |
+| `bubble.Content` | `lib.AsChild` to render its single child element (a button or a link) instead of a `<div>` |
+| `bubble.Reactions` | a side (`bubble.SideTop`, `bubble.SideBottom` (default)), an alignment (`bubble.AlignStart`, `bubble.AlignEnd` (default)) |
+| `bubble.Group` | groups consecutive bubbles from the same sender |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.

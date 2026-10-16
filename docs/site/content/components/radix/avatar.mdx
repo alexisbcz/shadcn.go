@@ -1,0 +1,184 @@
+---
+title: Avatar
+description: An image element with a fallback for representing the user.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/primitives/docs/components/avatar
+  api: https://www.radix-ui.com/primitives/docs/components/avatar#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="avatar-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/avatar"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+avatar.Avatar(
+	avatar.Image(h.Src("https://github.com/shadcn.png")),
+	avatar.Fallback("CN"),
+)
+```
+
+## Composition
+
+Use the following composition to build an `avatar.Avatar`:
+
+```text
+avatar.Avatar
+├── avatar.Image
+├── avatar.Fallback
+└── avatar.Badge
+```
+
+Use the following composition to build an `avatar.Group`:
+
+```text
+avatar.Group
+├── avatar.Avatar
+│   ├── avatar.Image
+│   ├── avatar.Fallback
+│   └── avatar.Badge
+├── avatar.Avatar
+│   ├── avatar.Image
+│   ├── avatar.Fallback
+│   └── avatar.Badge
+└── avatar.GroupCount
+```
+
+## Basic
+
+A basic avatar component with an image and a fallback.
+
+<ComponentPreview styleName="radix-nova" name="avatar-basic" />
+
+## Badge
+
+Use `avatar.Badge` to add a badge to the avatar. The badge is positioned at the bottom right of the avatar.
+
+<ComponentPreview styleName="radix-nova" name="avatar-badge" />
+
+Pass `h.Class` to add custom styles to the badge such as custom colors, sizes, etc.
+
+```go showLineNumbers
+avatar.Avatar(
+	avatar.Image(h.Src("https://github.com/shadcn.png"), h.Alt("@shadcn")),
+	avatar.Fallback("CN"),
+	avatar.Badge(h.Class("bg-green-600 dark:bg-green-800")),
+)
+```
+
+## Badge with Icon
+
+You can also use an icon inside `avatar.Badge`.
+
+<ComponentPreview
+  name="avatar-badge-icon"
+  styleName="radix-nova"
+
+/>
+
+## Avatar Group
+
+Use `avatar.Group` to add a group of avatars.
+
+<ComponentPreview
+  name="avatar-group"
+  styleName="radix-nova"
+
+/>
+
+## Avatar Group Count
+
+Use `avatar.GroupCount` to add a count to the group.
+
+<ComponentPreview
+  name="avatar-group-count"
+  styleName="radix-nova"
+
+/>
+
+## Avatar Group with Icon
+
+You can also use an icon inside `avatar.GroupCount`.
+
+<ComponentPreview
+  name="avatar-group-count-icon"
+  styleName="radix-nova"
+
+/>
+
+## Sizes
+
+Pass `avatar.SizeSm` or `avatar.SizeLg` to `avatar.Avatar` to change the size of the avatar.
+
+<ComponentPreview
+  name="avatar-size"
+  styleName="radix-nova"
+
+/>
+
+## Dropdown
+
+You can use `avatar.Avatar` as a trigger for a dropdown menu.
+
+<ComponentPreview styleName="radix-nova" name="avatar-dropdown" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="avatar-rtl"
+  direction="rtl"
+  previewClassName="h-72"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `avatar.Avatar` | `avatar.SizeDefault` (default), `avatar.SizeSm`, `avatar.SizeLg` |
+| `avatar.Image` | `h.Src`, `h.Alt` (and `h.CrossOrigin` or `h.Attr("referrerpolicy", ...)`, which also apply to the loading request); shown once the image has loaded |
+| `avatar.Fallback` | `avatar.DelayMs(ms)` to delay rendering the fallback; shown while the image has not loaded |
+| `avatar.Badge` | none; a badge indicator, positioned at the bottom right |
+| `avatar.Group` | none; a group of overlapping avatars |
+| `avatar.GroupCount` | none; a count indicator in an avatar group |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+
+When the image's loading status changes, the avatar dispatches a
+`shadcn:loading-status-change` DOM event with `detail.status` set to
+`"loading"`, `"loaded"` or `"error"` (Radix `onLoadingStatusChange`):
+
+```js showLineNumbers
+avatarEl.addEventListener("shadcn:loading-status-change", (event) => {
+  console.log(event.detail.status)
+})
+```
+
+The behavior follows [Radix UI's Avatar](https://www.radix-ui.com/primitives/docs/components/avatar#api-reference).

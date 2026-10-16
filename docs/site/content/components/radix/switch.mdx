@@ -1,0 +1,96 @@
+---
+title: Switch
+description: A control that allows the user to toggle between checked and not checked.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/switch
+  api: https://www.radix-ui.com/docs/primitives/components/switch#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="switch-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	switchui "github.com/alexisbcz/components/ui/switch"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+switchui.Switch()
+```
+
+## Description
+
+<ComponentPreview styleName="radix-nova" name="switch-description" />
+
+## Choice Card
+
+Card-style selection where `field.Label` wraps the entire `field.Field` for a clickable card pattern.
+
+<ComponentPreview styleName="radix-nova" name="switch-choice-card" />
+
+## Disabled
+
+Pass `h.Disabled()` to `switchui.Switch` to disable the switch. Pass `h.Data("disabled", "true")` to `field.Field` for styling.
+
+<ComponentPreview styleName="radix-nova" name="switch-disabled" />
+
+## Invalid
+
+Pass `h.Aria("invalid", "true")` to `switchui.Switch` to indicate an invalid state. Pass `h.Data("invalid", "true")` to `field.Field` for styling.
+
+<ComponentPreview styleName="radix-nova" name="switch-invalid" />
+
+## Size
+
+Pass `switchui.SizeSm` or `switchui.SizeDefault` to change the size of the switch.
+
+<ComponentPreview styleName="radix-nova" name="switch-sizes" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="switch-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `switchui.Switch` | `switchui.Checked(bool)` for the initial state, `switchui.SizeDefault` or `switchui.SizeSm`, `switchui.Name("...")`, `switchui.Value("...")` (default `"on"`), `switchui.Required(bool)`, `switchui.Disabled(bool)`, `switchui.Form("form-id")` |
+
+Other children are HTML attributes (`h.ID`, `h.Class`, `h.Aria`, ...). Inside a
+`<form>`, the switch renders a hidden checkbox input, so it submits with the
+form.
+
+Before every change, the switch dispatches a cancelable `shadcn:checked-change`
+event with `detail: { checked }`. Cancel it to keep the current state.
+
+```js showLineNumbers
+button.addEventListener("shadcn:checked-change", (e) => {
+  console.log(e.detail.checked)
+})
+```
+
+The behavior follows [Radix UI's Switch](https://www.radix-ui.com/docs/primitives/components/switch#api-reference).

@@ -1,0 +1,155 @@
+---
+title: Accordion
+description: A vertically stacked set of interactive headings that each reveal a section of content.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/primitives/docs/components/accordion
+  api: https://www.radix-ui.com/primitives/docs/components/accordion#api-reference
+---
+
+<ComponentPreview
+  name="accordion-demo"
+  styleName="radix-nova"
+  align="start"
+  previewClassName="*:data-[slot=accordion]:max-w-sm h-[300px]"
+/>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/accordion"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+accordion.Accordion(accordion.TypeSingle, accordion.Collapsible(true), accordion.Value("item-1"),
+	accordion.Item(accordion.Value("item-1"),
+		accordion.Trigger("Is it accessible?"),
+		accordion.Content("Yes. It adheres to the WAI-ARIA design pattern."),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build an `Accordion`:
+
+```text
+accordion.Accordion
+├── accordion.Item
+│   ├── accordion.Trigger
+│   └── accordion.Content
+└── accordion.Item
+    ├── accordion.Trigger
+    └── accordion.Content
+```
+
+## Basic
+
+A basic accordion that shows one item at a time. The first item is open by default.
+
+<ComponentPreview
+  name="accordion-basic"
+  styleName="radix-nova"
+  align="start"
+  previewClassName="*:data-[slot=accordion]:max-w-sm h-[300px]"
+/>
+
+## Multiple
+
+Pass `accordion.TypeMultiple` to allow multiple items to be open at the same time.
+Repeat `accordion.Value` on the root to open several items initially.
+
+<ComponentPreview
+  name="accordion-multiple"
+  styleName="radix-nova"
+  align="start"
+  previewClassName="*:data-[slot=accordion]:max-w-sm h-[36rem] md:h-[30rem]"
+/>
+
+## Disabled
+
+Pass `accordion.Disabled(true)` to `accordion.Item` to disable individual items.
+
+<ComponentPreview
+  name="accordion-disabled"
+  styleName="radix-nova"
+  align="start"
+  previewClassName="*:data-[slot=accordion]:max-w-sm h-[300px]"
+/>
+
+## Borders
+
+Add `h.Class("border")` to `accordion.Accordion` and `h.Class("border-b last:border-b-0")` to `accordion.Item` to add borders to the items.
+
+<ComponentPreview
+  name="accordion-borders"
+  styleName="radix-nova"
+  align="start"
+  previewClassName="*:data-[slot=accordion]:max-w-sm h-96 md:h-80"
+/>
+
+## Card
+
+Wrap the `accordion.Accordion` in a [`card.Card`](/docs/components/radix/card) component.
+
+<ComponentPreview
+  name="accordion-card"
+  styleName="radix-nova"
+  align="start"
+  previewClassName="*:data-[slot=accordion]:max-w-sm h-[32rem] md:h-[28rem]"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="accordion-rtl"
+  align="start"
+  direction="rtl"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `accordion.Accordion` | `accordion.TypeSingle` (default) or `accordion.TypeMultiple`, `accordion.Collapsible(bool)`, `accordion.Value(v)` (initially open item; repeat for several), `accordion.Disabled(bool)`, `accordion.OrientationVertical` (default) or `accordion.OrientationHorizontal`, `accordion.DirLTR` or `accordion.DirRTL` |
+| `accordion.Item` | `accordion.Value(v)`, `accordion.Disabled(bool)` |
+| `accordion.Trigger` | none |
+| `accordion.Content` | none; its classes style the inner `<div>` |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+
+Before every change, the root dispatches a cancelable `shadcn:value-change`
+event. Its `detail.value` is a string for a single accordion and an array for
+a multiple one:
+
+```js showLineNumbers
+document.querySelector("#faq").addEventListener("shadcn:value-change", (e) => {
+  console.log(e.detail.value)
+})
+```
+
+The behavior follows [Radix UI's Accordion](https://www.radix-ui.com/primitives/docs/components/accordion#api-reference).

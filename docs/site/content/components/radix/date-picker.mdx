@@ -1,0 +1,129 @@
+---
+title: Date Picker
+description: A date picker component with range and presets.
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="date-picker-demo" />
+
+## Installation
+
+The Date Picker is built using a composition of the `popover` and the `calendar` components.
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+See installation instructions for the [Popover](/docs/components/radix/popover#installation) and the [Calendar](/docs/components/radix/calendar#installation) components.
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/lib"
+	"github.com/alexisbcz/components/ui/button"
+	"github.com/alexisbcz/components/ui/calendar"
+	"github.com/alexisbcz/components/ui/popover"
+	"github.com/alexisbcz/icons/lucide"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+popover.Popover(
+	popover.Trigger(lib.AsChild, button.Button(button.VariantOutline, h.ID("date-picker"),
+		h.Data("empty", "true"),
+		h.Class("w-[280px] justify-start text-left font-normal data-[empty=true]:text-muted-foreground"),
+		lucide.Calendar(),
+		h.Span("Pick a date"),
+	)),
+	popover.Content(h.Class("w-auto p-0"),
+		calendar.Calendar(calendar.ModeSingle),
+	),
+)
+```
+
+The calendar dispatches a bubbling `shadcn:select` event when a day is picked,
+with the ISO date (`"YYYY-MM-DD"`, or `null` when cleared) in
+`detail.selected`. Show it in the trigger with a few lines of script. The
+popover mounts a fresh calendar each time it opens, so pass the pick back with
+`setCalendarProps`:
+
+```js showLineNumbers
+import { getPopover } from "/_shadcn/popover.js"
+import { setCalendarProps } from "/_shadcn/calendar.js"
+
+const trigger = document.getElementById("date-picker")
+const id = trigger.getAttribute("aria-controls")
+
+document.addEventListener("shadcn:select", (e) => {
+  if (e.target.closest('[data-slot="popover-content"]')?.id !== id) return
+  const { selected } = e.detail
+  trigger.querySelector("span").textContent = selected ?? "Pick a date"
+  trigger.dataset.empty = String(!selected)
+  const template = document.querySelector(`template[data-content-id="${id}"]`)
+  setCalendarProps(template.content, { selected })
+  getPopover(id)?.setOpen(false)
+})
+```
+
+See the [Calendar](/docs/components/radix/calendar) documentation for the calendar's options.
+
+## Composition
+
+A date picker is built from `popover.Popover` and `calendar.Calendar` (there is no `DatePicker` root component):
+
+```text
+popover.Popover
+├── popover.Trigger
+└── popover.Content
+    └── calendar.Calendar
+```
+
+## Basic
+
+A basic date picker component.
+
+<ComponentPreview styleName="radix-nova" name="date-picker-basic" />
+
+## Range Picker
+
+A date picker component for selecting a range of dates. Pass `calendar.ModeRange` (and `calendar.NumberOfMonths(2)` to show two months).
+
+<ComponentPreview styleName="radix-nova" name="date-picker-range" />
+
+## Date of Birth
+
+A date picker component for selecting a date of birth. This component includes a dropdown caption layout (`calendar.CaptionDropdown`) for date and month selection.
+
+<ComponentPreview styleName="radix-nova" name="date-picker-dob" />
+
+## Input
+
+A date picker component with an input field for selecting a date.
+
+<ComponentPreview styleName="radix-nova" name="date-picker-input" />
+
+## Time Picker
+
+A date picker component with a time input field for selecting a time.
+
+<ComponentPreview styleName="radix-nova" name="date-picker-time" />
+
+## Natural Language Picker
+
+The upstream example parses typed natural language dates with the `chrono-node` library. The Go port does not parse natural language: its preview fills the input from the calendar only.
+
+<ComponentPreview styleName="radix-nova" name="date-picker-natural-language" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="date-picker-rtl"
+  direction="rtl"
+/>

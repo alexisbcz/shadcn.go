@@ -1,0 +1,172 @@
+---
+title: Button Group
+description: A container that groups related buttons together with consistent styling.
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="button-group-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/button"
+	buttongroup "github.com/alexisbcz/components/ui/button-group"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+buttongroup.ButtonGroup(
+	button.Button("Button 1"),
+	button.Button("Button 2"),
+)
+```
+
+## Composition
+
+Use the following composition to build a `buttongroup.ButtonGroup`:
+
+```text
+buttongroup.ButtonGroup
+├── button.Button or input.Input
+├── buttongroup.Separator
+└── buttongroup.Text
+```
+
+## Accessibility
+
+- `buttongroup.ButtonGroup` has the `role` attribute set to `group`.
+- Use <Kbd>Tab</Kbd> to navigate between the buttons in the group.
+- Use `aria-label` or `aria-labelledby` to label the button group.
+
+```go showLineNumbers
+buttongroup.ButtonGroup(h.Aria("label", "Button group"),
+	button.Button("Button 1"),
+	button.Button("Button 2"),
+)
+```
+
+## ButtonGroup vs ToggleGroup
+
+- Use `buttongroup.ButtonGroup` when you want to group buttons that perform an action.
+- Use `togglegroup.ToggleGroup` when you want to group buttons that toggle a state.
+
+## Orientation
+
+Pass `buttongroup.Vertical` (or `buttongroup.Horizontal`, the default) to change the button group layout.
+
+<ComponentPreview styleName="radix-nova" name="button-group-orientation" />
+
+## Size
+
+Control the size of buttons by passing a size (`button.SizeSm`, ...) to individual buttons.
+
+<ComponentPreview styleName="radix-nova" name="button-group-size" />
+
+## Nested
+
+Nest `buttongroup.ButtonGroup` components to create button groups with spacing.
+
+<ComponentPreview styleName="radix-nova" name="button-group-nested" />
+
+## Separator
+
+`buttongroup.Separator` visually divides buttons within a group.
+
+Buttons with `button.VariantOutline` do not need a separator since they have a border. For other variants, a separator is recommended to improve the visual hierarchy.
+
+<ComponentPreview styleName="radix-nova" name="button-group-separator" />
+
+## Split
+
+Create a split button group by adding two buttons separated by a `buttongroup.Separator`.
+
+<ComponentPreview styleName="radix-nova" name="button-group-split" />
+
+## Input
+
+Wrap an `input.Input` with buttons.
+
+<ComponentPreview styleName="radix-nova" name="button-group-input" />
+
+## Input Group
+
+Wrap an `inputgroup.InputGroup` to create complex input layouts.
+
+<ComponentPreview styleName="radix-nova" name="button-group-input-group" />
+
+## Dropdown Menu
+
+Create a split button group with a `dropdownmenu.DropdownMenu`.
+
+<ComponentPreview styleName="radix-nova" name="button-group-dropdown" />
+
+## Select
+
+Pair with a `selectui.Select`.
+
+<ComponentPreview styleName="radix-nova" name="button-group-select" />
+
+## Popover
+
+Use with a `popover.Popover`.
+
+<ComponentPreview styleName="radix-nova" name="button-group-popover" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="button-group-rtl"
+  direction="rtl"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `buttongroup.ButtonGroup` | `buttongroup.Horizontal` (default), `buttongroup.Vertical` |
+| `buttongroup.Separator` | `buttongroup.Vertical` (default), `buttongroup.Horizontal` (a `separator.Orientation` is accepted too) |
+| `buttongroup.Text` | `lib.AsChild` to render the child element as the text instead of a `<div>` |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
+
+Nest multiple button groups to create complex layouts with spacing. See the [nested](#nested) example for more details.
+
+```go showLineNumbers
+buttongroup.ButtonGroup(
+	buttongroup.ButtonGroup(button.Button("Button 1")),
+	buttongroup.ButtonGroup(button.Button("Button 2")),
+)
+```
+
+Use `buttongroup.Text` to display text within a button group, and
+`lib.AsChild` to render another element as the text, for example a label.
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/lib"
+	buttongroup "github.com/alexisbcz/components/ui/button-group"
+	"github.com/alexisbcz/components/ui/input"
+	"github.com/alexisbcz/components/ui/label"
+	h "github.com/alexisbcz/libhtml"
+)
+
+buttongroup.ButtonGroup(
+	buttongroup.Text(lib.AsChild,
+		label.Label(h.For("name"), "Text"),
+	),
+	input.Input(h.ID("name"), h.Placeholder("Type something here...")),
+)
+```

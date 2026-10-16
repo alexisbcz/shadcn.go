@@ -1,0 +1,123 @@
+---
+title: Radio Group
+description: A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/radio-group
+  api: https://www.radix-ui.com/docs/primitives/components/radio-group#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="radio-group-demo" />
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/label"
+	radiogroup "github.com/alexisbcz/components/ui/radio-group"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+radiogroup.RadioGroup(radiogroup.Value("option-one"),
+	h.Div(h.Class("flex items-center gap-3"),
+		radiogroup.Item(radiogroup.Value("option-one"), h.ID("option-one")),
+		label.Label(h.For("option-one"), "Option One"),
+	),
+	h.Div(h.Class("flex items-center gap-3"),
+		radiogroup.Item(radiogroup.Value("option-two"), h.ID("option-two")),
+		label.Label(h.For("option-two"), "Option Two"),
+	),
+)
+```
+
+## Composition
+
+Use the following composition to build a `RadioGroup`:
+
+```text
+radiogroup.RadioGroup
+├── radiogroup.Item
+└── radiogroup.Item
+```
+
+## Description
+
+Radio group items with a description using `field.Field`.
+
+<ComponentPreview styleName="radix-nova" name="radio-group-description" />
+
+## Choice Card
+
+Use `field.Label` to wrap the entire `field.Field` for a clickable card-style selection.
+
+<ComponentPreview styleName="radix-nova" name="radio-group-choice-card" />
+
+## Fieldset
+
+Use `field.Set` and `field.Legend` to group radio items with a label and description.
+
+<ComponentPreview styleName="radix-nova" name="radio-group-fieldset" />
+
+## Disabled
+
+Pass `h.Disabled()` to `radiogroup.Item` to disable individual items.
+
+<ComponentPreview styleName="radix-nova" name="radio-group-disabled" />
+
+## Invalid
+
+Pass `h.Aria("invalid", "true")` to `radiogroup.Item` and `h.Data("invalid", "true")` to `field.Field` to show validation errors.
+
+<ComponentPreview styleName="radix-nova" name="radio-group-invalid" />
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="radio-group-rtl"
+  direction="rtl"
+/>
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `radiogroup.RadioGroup` | `radiogroup.Value("...")` for the initially checked item, `radiogroup.Name("...")`, `radiogroup.Required(true)`, `radiogroup.Disabled(true)`, `radiogroup.OrientationHorizontal` or `OrientationVertical`, `radiogroup.Loop(bool)` (default true) |
+| `radiogroup.Item` | `radiogroup.Value("...")` (default `"on"`), `h.Disabled()` |
+
+Items may sit anywhere under the group. Other children are HTML attributes
+(`h.ID`, `h.Class`, ...) and content. Inside a `<form>`, each item renders a
+hidden radio input, so the value submits with the form.
+
+Before every change, the group dispatches a cancelable `shadcn:value-change`
+event with `detail: { value }`. Cancel it to keep the current value.
+
+```js showLineNumbers
+group.addEventListener("shadcn:value-change", (e) => {
+  console.log(e.detail.value)
+})
+```
+
+The behavior follows [Radix UI's Radio Group](https://www.radix-ui.com/docs/primitives/components/radio-group#api-reference).

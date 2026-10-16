@@ -2,6 +2,7 @@ package site
 
 import (
 	"encoding/json"
+	"io/fs"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -60,7 +61,7 @@ func (s *Site) buildSearchIndex() (*search.Engine, error) {
 	}
 	var indexes []search.Index
 	for _, d := range s.searchPageOrder() {
-		b, err := os.ReadFile(filepath.Join(s.contentDir(), filepath.FromSlash(d.Path)))
+		b, err := fs.ReadFile(s.content, d.Path)
 		if err != nil {
 			return nil, err
 		}

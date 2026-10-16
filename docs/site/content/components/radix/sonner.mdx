@@ -1,0 +1,110 @@
+---
+title: Sonner
+description: An opinionated toast component.
+base: radix
+component: true
+links:
+  doc: https://sonner.emilkowal.ski
+---
+
+<ComponentPreview styleName="radix-nova" name="sonner-demo" />
+
+## About
+
+Sonner is built and maintained by [emilkowalski](https://twitter.com/emilkowalski).
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+Then render one `sonner.Toaster` per page, typically in the layout:
+
+```go showLineNumbers
+h.Body(
+	h.Main(children...),
+	sonner.Toaster(),
+)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/button"
+	"github.com/alexisbcz/components/ui/sonner"
+)
+```
+
+Show a toast when an element is clicked with `sonner.OnClick`:
+
+```go showLineNumbers
+button.Button(sonner.OnClick(sonner.Message("Event has been created.")), "Show Toast")
+```
+
+Or show it from JavaScript with the module's `toast` function:
+
+```js showLineNumbers
+import { toast } from "/_shadcn/sonner.js"
+
+toast("Event has been created.")
+```
+
+## Types
+
+<ComponentPreview styleName="radix-nova" name="sonner-types" />
+
+## Description
+
+<ComponentPreview styleName="radix-nova" name="sonner-description" />
+
+## Position
+
+Pass a position (`sonner.PositionTopLeft`, `PositionTopCenter`, `PositionTopRight`,
+`PositionBottomLeft`, `PositionBottomCenter`, `PositionBottomRight`) to
+`sonner.Toaster` to change the position of the toasts.
+
+```go showLineNumbers
+sonner.Toaster(sonner.PositionTopCenter)
+```
+
+<ComponentPreview styleName="radix-nova" name="sonner-position" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `sonner.Toaster` | a position (default `sonner.PositionBottomRight`), a theme (`sonner.ThemeLight`, `ThemeDark`, `ThemeSystem`), `sonner.RichColors`, `sonner.Expand`, `sonner.CloseButton`, `sonner.Invert`, `sonner.SonnerIcons`, `sonner.Duration(d)` (default 4s), `sonner.VisibleToasts(n)` (default 3), `sonner.Gap(px)`, `sonner.Offset(css)`, `sonner.MobileOffset(css)`, `sonner.Dir(dir)`, `sonner.Hotkey(keys...)`, `sonner.ContainerAriaLabel(label)`, `sonner.ID(id)`, `sonner.SwipeDirections(dirs...)`, `sonner.ToastOptions(map)` |
+| `sonner.OnClick` | a `sonner.Spec`: `sonner.Message`, `sonner.Success`, `sonner.Info`, `sonner.Warning`, `sonner.Error` or `sonner.Loading`, with `.WithDescription(text)` and `.WithAction(label)` |
+
+```go showLineNumbers
+button.Button(
+	sonner.OnClick(sonner.Message("Event has been created").
+		WithDescription("Sunday, December 03, 2023 at 9:00 AM").
+		WithAction("Undo")),
+	"Show Toast",
+)
+```
+
+Clicking an action button dispatches a `shadcn:toast-action` event on `document`:
+
+```js showLineNumbers
+document.addEventListener("shadcn:toast-action", (event) => {
+  console.log(event.detail.label) // "Undo"
+})
+```
+
+The `toast` function of `/_shadcn/sonner.js` takes the same arguments as
+sonner's. See the [Sonner API Reference](https://sonner.emilkowal.ski/getting-started) for more information.

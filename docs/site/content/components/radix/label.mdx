@@ -1,0 +1,80 @@
+---
+title: Label
+description: Renders an accessible label associated with controls.
+base: radix
+component: true
+links:
+  doc: https://www.radix-ui.com/docs/primitives/components/label
+  api: https://www.radix-ui.com/docs/primitives/components/label#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="label-demo" />
+
+<Callout>
+  For form fields, use the [Field](/docs/components/radix/field) component which
+  includes built-in label, description, and error handling.
+</Callout>
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+The component's behavior is a JavaScript module served by the runtime. Serve
+the runtime and load it once per page, as in the
+[components README](https://github.com/alexisbcz/components#use):
+
+```go showLineNumbers
+http.Handle(runtime.Prefix, runtime.Handler())
+// In <head>:
+runtime.Scripts(r)
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/label"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+label.Label(h.For("email"), "Your email address")
+```
+
+## Label in Field
+
+For form fields, use the [Field](/docs/components/radix/field) component which
+includes built-in `field.Label`, `field.Description`, and `field.Error` components.
+
+```go showLineNumbers
+field.Field(
+	field.Label(h.For("email"), "Your email address"),
+	input.Input(h.ID("email")),
+)
+```
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="field-demo"
+  previewClassName="h-[44rem]"
+/>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl).
+
+<ComponentPreview styleName="radix-nova" name="label-rtl" direction="rtl" />
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `label.Label` | `h.For(id)` to associate the label with a control |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content. Like
+Radix, double-clicking the label does not select its text. The behavior
+follows [Radix UI's Label](https://www.radix-ui.com/docs/primitives/components/label#api-reference).

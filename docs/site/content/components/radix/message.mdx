@@ -1,0 +1,185 @@
+---
+title: Message
+description: Displays a message in a conversation, with optional avatar, header, footer, and alignment.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="message-demo"
+  previewClassName="h-auto theme-blue"
+/>
+
+The `Message` component lays out a single message in a conversation. It handles the avatar, alignment, header, and footer around the message surface.
+
+For AI apps, you can render reasoning steps, tool calls and assistant messages using the `Message` component.
+
+## Installation
+
+```bash
+go get github.com/alexisbcz/components
+go mod tidy
+```
+
+## Usage
+
+```go showLineNumbers
+import (
+	"github.com/alexisbcz/components/ui/avatar"
+	"github.com/alexisbcz/components/ui/bubble"
+	"github.com/alexisbcz/components/ui/message"
+	h "github.com/alexisbcz/libhtml"
+)
+```
+
+```go showLineNumbers
+message.Message(
+	message.Avatar(
+		avatar.Avatar(
+			avatar.Image(h.Src("https://github.com/shadcn.png"), h.Alt("@shadcn")),
+			avatar.Fallback("CN"),
+		),
+	),
+	message.Content(
+		bubble.Bubble(bubble.Content("How can I help you today?")),
+	),
+)
+```
+
+**Note:** `message.Message` owns the row layout—avatar, alignment, header, and footer.
+Render the visible message surface inside it with
+[`Bubble`](/docs/components/radix/bubble). For the scroll container around a
+conversation, use [`MessageScroller`](/docs/components/radix/message-scroller).
+
+## Composition
+
+Use the following composition to build a message:
+
+```text
+message.Message
+├── message.Avatar
+└── message.Content
+    ├── message.Header
+    ├── bubble.Bubble
+    └── message.Footer
+```
+
+Use `message.Group` to stack consecutive messages from the same sender:
+
+```text
+message.Group
+├── message.Message
+└── message.Message
+```
+
+## Features
+
+- Start and end alignment for sender and receiver rows via `message.AlignStart` and `message.AlignEnd`
+- Avatar slot that anchors to the bottom of the message and stays clear of the footer
+- Header and footer slots for sender names, status, and message actions
+- Footer follows the message side; actions stay aligned on `message.AlignEnd` rows
+- Group wrapper for stacking consecutive messages from the same sender
+- Customizable styling through `h.Class(...)` on every part
+
+## Avatar
+
+Use `message.Avatar` to render an avatar next to the message. Pass `message.AlignEnd` to `message.Message` to align the avatar to the end of the message.
+
+```go showLineNumbers
+message.Message(message.AlignEnd,
+	message.Avatar(avatar.Avatar(avatar.Fallback("ME"))),
+	message.Content(bubble.Bubble(bubble.Content("Thanks!"))),
+)
+```
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="message-avatar"
+  previewClassName="h-auto theme-blue"
+/>
+
+| Alignment            | Description                                         |
+| -------------------- | --------------------------------------------------- |
+| `message.AlignStart` | Align the message to the start of the conversation. |
+| `message.AlignEnd`   | Align the message to the end of the conversation.   |
+
+## Group
+
+Use `message.Group` to stack consecutive messages from the same sender. Render an empty `message.Avatar` on the earlier messages to keep them aligned with the avatar on the last one.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="message-group"
+  previewClassName="h-auto theme-blue"
+/>
+
+## Header and Footer
+
+Use `message.Header` for a sender name and `message.Footer` for metadata such as a delivery or read status.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="message-header-footer"
+  previewClassName="h-auto theme-blue"
+/>
+
+## Actions
+
+Place message-level actions in `message.Footer`, such as copy, retry, or feedback buttons.
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="message-actions"
+  previewClassName="h-auto theme-blue"
+/>
+
+## Attachment
+
+<ComponentPreview
+  styleName="radix-rhea"
+  name="message-attachment"
+  previewClassName="h-auto theme-blue"
+/>
+
+## Accessibility
+
+`Message` is a presentational layout wrapper. Accessibility comes from the content you place inside it.
+
+### Label icon-only actions
+
+Action buttons in `message.Footer` are usually icon-only, so give each one an `aria-label`.
+
+```go showLineNumbers
+message.Footer(
+	button.Button(button.VariantGhost, button.SizeIcon, h.Aria("label", "Copy"),
+		lucide.Copy(),
+	),
+)
+```
+
+### Status updates
+
+For in-progress messages, use a [`Marker`](/docs/components/radix/marker) with `h.Role("status")` so assistive tech announces the update as it appears.
+
+```go showLineNumbers
+message.Message(
+	marker.Marker(h.Role("status"),
+		marker.Icon(spinner.Spinner()),
+		marker.Content("Checking the logs..."),
+	),
+)
+```
+
+## API Reference
+
+| Function | Options |
+| --- | --- |
+| `message.Message` | an alignment: `message.AlignStart` (default) or `message.AlignEnd` |
+| `message.Group` | groups consecutive messages from the same sender |
+| `message.Avatar` | the avatar slot, aligned to the bottom of the message. When the message has a `message.Footer`, it shifts up to stay aligned with the message surface |
+| `message.Content` | wraps the header, message surface, and footer |
+| `message.Header` | content above the message, such as a sender name. Stays aligned to the start |
+| `message.Footer` | content below the message, such as status or actions. Aligns to the message side |
+
+Other children are HTML attributes (`h.Class`, `h.ID`, ...) and content.
