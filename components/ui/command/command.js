@@ -257,6 +257,9 @@ function createCommand(root) {
       filterItems()
       sort()
       schedule(1, selectFirstItem)
+      // The first match is selected: show it, wherever the list had been
+      // scrolled to before the search changed.
+      if (list) list.scrollTop = 0
       emit(root, "shadcn:search-change", { search: value })
     } else if (key === "value") {
       const active = document.activeElement

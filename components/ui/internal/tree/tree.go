@@ -36,6 +36,9 @@ func Walk(children []any, visit func(n any) bool) {
 }
 
 func walk(c any, visit func(n any) bool) {
+	if h.IsNil(c) {
+		return
+	}
 	switch v := c.(type) {
 	case nil:
 		return

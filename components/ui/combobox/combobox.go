@@ -250,11 +250,13 @@ func mark(el *h.Element, s *state, name string) {
 // Builder is returned by Combobox.
 type Builder struct {
 	children []any
+	props    []h.Prop
 	st       *state
 }
 
 // Combobox is the root: it renders no element of its own, only its parts
-// followed by the hidden form input(s).
+// followed by the hidden form input(s). Attributes given to it (h.Class,
+// h.ID, h.Data, ...) wrap the parts in a <div> that carries them.
 func Combobox(children ...any) *Builder {
 	b := &Builder{st: &state{id: uid.New("base-ui")}}
 	for _, c := range children {
@@ -271,6 +273,8 @@ func Combobox(children ...any) *Builder {
 		case Name:
 			b.st.name = string(v)
 			b.st.hasName = true
+		case h.Prop:
+			b.props = append(b.props, v)
 		default:
 			b.children = append(b.children, c)
 		}
@@ -358,6 +362,9 @@ func (b *Builder) Render(w io.Writer) error {
 			}
 			out = append(out, in)
 		}
+	}
+	if len(b.props) > 0 {
+		return h.Div(b.props, out).Render(w)
 	}
 	return h.Group(out...).Render(w)
 }

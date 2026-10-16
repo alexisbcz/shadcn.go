@@ -267,8 +267,14 @@ func (b *ItemBuilder) element(st style.Style) *h.Element {
 		switch c := n.(type) {
 		case *TriggerBuilder:
 			c.item = ctx
+			if id, ok := c.Elem().GetAttr("id"); ok && id != "" {
+				ctx.triggerID = id // aria-labelledby follows the user's id
+			}
 		case *ContentBuilder:
 			c.item = ctx
+			if id, ok := c.Elem().GetAttr("id"); ok && id != "" {
+				ctx.contentID = id // aria-controls (accordion.js) follows it
+			}
 			return false // content may hold another accordion
 		case *ItemBuilder, *Builder:
 			return false

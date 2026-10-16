@@ -35,8 +35,8 @@ import (
 	"shadcn.go/components/lib"
 	"shadcn.go/components/style"
 	"shadcn.go/components/ui/internal/aschild"
-	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/rtl"
+	"shadcn.go/components/ui/internal/tree"
 	"shadcn.go/components/ui/internal/uid"
 	"shadcn.go/components/ui/menu"
 	"shadcn.go/components/ui/popper"
@@ -296,6 +296,10 @@ func (b *TriggerBuilder) AcceptChild(c any) bool {
 	}
 	return true
 }
+
+// UserID is the id given to the trigger or, with lib.AsChild, to its child:
+// menu.Share makes it the trigger's id for the whole menu.
+func (b *TriggerBuilder) UserID() string { return menu.UserID(b.Elem(), b.asChild) }
 
 // Element resolves the trigger.
 func (b *TriggerBuilder) Element() *h.Element { return b.element(triggerClass) }

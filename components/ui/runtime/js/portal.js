@@ -17,7 +17,9 @@
 //   import { instantiate, mount, takeMarked } from "./portal.js"
 //
 //   const nodes = instantiate(template)   // element children of a fresh
-//                                         // clone of template.content
+//                                         // clone of template.content; form
+//                                         // controls keep the <form> around
+//                                         // the template (form attribute)
 //   const unmount = mount(nodes, container = document.body)
 //                                         // appends them, in order, at the
 //                                         // end of container (createPortal)
@@ -37,7 +39,35 @@
  */
 export function instantiate(template) {
   const fragment = template.content.cloneNode(true)
-  return [...fragment.children]
+  const nodes = [...fragment.children]
+  keepForm(template, nodes)
+  return nodes
+}
+
+const formControls = "button, input, select, textarea, output, fieldset, object"
+
+/**
+ * Keeps the form controls of portalled content in the <form> that wraps its
+ * template (as in the upstream examples, where a form wraps DialogContent):
+ * mounted in document.body they would leave it, so they get the HTML form
+ * attribute pointing at it, and submit buttons submit it.
+ * @param {HTMLTemplateElement} template
+ * @param {Element[]} nodes
+ */
+function keepForm(template, nodes) {
+  const form = template.closest?.("form")
+  if (!form) return
+  let id = form.id
+  for (const n of nodes) {
+    const controls = n.matches?.(formControls) ? [n, ...n.querySelectorAll(formControls)] : [...n.querySelectorAll(formControls)]
+    for (const c of controls) {
+      if (c.hasAttribute("form") || c.parentElement?.closest("form")) continue
+      if (!id) {
+        id = form.id = "form-" + Math.random().toString(36).slice(2, 10)
+      }
+      c.setAttribute("form", id)
+    }
+  }
 }
 
 /**

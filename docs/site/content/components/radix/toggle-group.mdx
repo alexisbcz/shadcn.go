@@ -106,7 +106,7 @@ To enable RTL support in shadcn/ui, see the [RTL configuration guide](/docs/rtl)
 
 | Function | Options |
 | --- | --- |
-| `togglegroup.ToggleGroup` | `togglegroup.TypeSingle` or `togglegroup.TypeMultiple` (required), a variant, a size, `togglegroup.Spacing(n)`, `togglegroup.Value("...")` for the initially pressed items (repeat it with `TypeMultiple`), `togglegroup.Disabled(true)`, `togglegroup.OrientationHorizontal` or `OrientationVertical`, `togglegroup.Loop(bool)` (default true), `togglegroup.RovingFocus(bool)` (default true) |
+| `togglegroup.ToggleGroup` | `togglegroup.TypeSingle` or `togglegroup.TypeMultiple` (required), a variant, a size, `togglegroup.Spacing(n)`, `togglegroup.Value("...")` for the initially pressed items (repeat it with `TypeMultiple`), `togglegroup.Disabled(true)`, `togglegroup.OrientationHorizontal` or `OrientationVertical`, `togglegroup.Loop(bool)` (default true), `togglegroup.RovingFocus(bool)` (default true), `togglegroup.Required(true)` to keep one item pressed in a single group |
 | `togglegroup.Item` | `togglegroup.Value("...")`, a variant, a size, `h.Disabled()` |
 
 Variants are `togglegroup.VariantDefault` and `VariantOutline`; sizes are
@@ -115,14 +115,20 @@ win over the item's. Other children are HTML attributes (`h.Class`, `h.Aria`,
 ...) and content.
 
 Before every change, the group dispatches a cancelable `shadcn:value-change`
-event with `detail: { item, pressed, pressedItems }` (the item elements).
-Cancel it to keep the current state.
+event with `detail: { item, pressed, pressedItems }` (the item elements;
+`pressedItems` is the state after the change). Cancel it to keep the current
+state. After the change, when the items' `data-state` is up to date, it
+dispatches `shadcn:value-changed` with the same detail.
 
 ```js showLineNumbers
-group.addEventListener("shadcn:value-change", (e) => {
-  console.log(e.detail.item, e.detail.pressed)
+group.addEventListener("shadcn:value-changed", (e) => {
+  console.log(e.detail.item, e.detail.pressed, e.detail.pressedItems)
 })
 ```
+
+In a single group, pressing the pressed item releases it, as in Radix, which
+leaves no item pressed. Pass `togglegroup.Required(true)` to keep one item
+pressed.
 
 The behavior follows [Radix UI's Toggle Group](https://www.radix-ui.com/docs/primitives/components/toggle-group#api-reference).
 

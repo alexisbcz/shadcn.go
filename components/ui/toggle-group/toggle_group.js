@@ -41,13 +41,18 @@ define("toggle-group", {
       if (event.defaultPrevented || !item || !items().includes(item) || item.disabled) return
       const pressed = !isPressed(item)
       const single = isSingle(item)
+      // Required (single groups): the pressed item stays pressed.
+      if (single && !pressed && required) return
       const next = items().filter((it) => (it === item ? pressed : !single && isPressed(it)))
       if (!emit(root, "shadcn:value-change", { item, pressed, pressedItems: next })) return
       for (const it of items()) setPressed(it, next.includes(it))
+      // After the change: the items' state attributes are up to date.
+      emit(root, "shadcn:value-changed", { item, pressed, pressedItems: next })
     }
     root.addEventListener("click", onClick)
 
     let roving = null
+    const required = takeOption(root, "data-required") === "true"
     const loop = takeOption(root, "data-loop") !== "false"
     if (takeOption(root, "data-roving-focus") !== "false") {
       roving = createRovingFocusGroup(root, {

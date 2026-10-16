@@ -179,8 +179,48 @@ func Share(children []any, sc *Scope) {
 		if p, ok := n.(Participant); ok {
 			p.SetMenuScope(sc)
 		}
+		if t, ok := n.(Trigger); ok {
+			if id := t.UserID(); id != "" {
+				sc.TriggerID = id
+			}
+		}
 		return true
 	})
+}
+
+// Trigger is implemented by the components' trigger parts. An id given to
+// the trigger (h.ID), or with lib.AsChild to its child, replaces the
+// generated one, so that the content and the behavior keep finding it.
+type Trigger interface {
+	UserID() string
+}
+
+// UserID returns the id the user gave a part (el), or with asChild the
+// element it renders as (its first element child), or "".
+func UserID(el *h.Element, asChild bool) string {
+	if id, ok := el.GetAttr("id"); ok && id != "" {
+		return id
+	}
+	if !asChild {
+		return ""
+	}
+	for _, c := range el.ChildNodes() {
+		var child *h.Element
+		switch v := c.(type) {
+		case string:
+			continue
+		case *h.Element:
+			child = v
+		case interface{ Elem() *h.Element }:
+			child = v.Elem()
+		}
+		if child != nil {
+			id, _ := child.GetAttr("id")
+			return id
+		}
+		return ""
+	}
+	return ""
 }
 
 // Scoped is embedded by the parts.
@@ -838,6 +878,11 @@ func (b *SubBuilder) Render(w io.Writer) error {
 			return false
 		case subParticipant:
 			c.setSubScope(ss)
+		}
+		if t, ok := n.(*SubTriggerBuilder); ok {
+			if id := UserID(t.Elem(), false); id != "" {
+				ss.TriggerID = id
+			}
 		}
 		return true
 	})

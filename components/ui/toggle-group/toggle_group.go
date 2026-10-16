@@ -8,14 +8,16 @@
 //
 // Root children may include a Type (required, like Radix), a Variant, a
 // Size, Spacing, Value (the initially pressed items' values, repeatable for
-// TypeMultiple), Disabled, Orientation, Loop and RovingFocus. Items take a
+// TypeMultiple), Disabled, Orientation, Loop, RovingFocus and Required. Items take a
 // Value, a Variant and a Size (the group's win, like upstream).
 //
 // Behavior (toggle-group.js): Radix's roving focus (arrow keys, Home/End,
 // loop), single or multiple selection; a cancelable "shadcn:value-change"
 // event is dispatched on the group before every change, with detail
 // { item, pressed, pressedItems } (Radix does not render item values, so the
-// detail carries the item elements; cancelling keeps the current state).
+// detail carries the item elements; cancelling keeps the current state),
+// and "shadcn:value-changed", with the same detail, after the items' state
+// has changed.
 //
 // Right to left (Radix's dir prop): pass h.Dir("rtl") to the root; it
 // replaces the default dir="ltr" and the arrow keys follow it.
@@ -94,6 +96,10 @@ type Loop bool
 // true); without it every item is a tab stop.
 type RovingFocus bool
 
+// Required keeps one item pressed in a TypeSingle group: pressing the
+// pressed item no longer releases it (Radix lets it, leaving no value).
+type Required bool
+
 type context struct {
 	typ         Type
 	variant     Variant
@@ -111,9 +117,10 @@ type context struct {
 // Builder is returned by ToggleGroup.
 type Builder struct {
 	h.Builder[Builder]
-	rtl  bool // inside style.ScopeRTL, set by ElementIn
-	ctx  context
-	loop bool
+	rtl      bool // inside style.ScopeRTL, set by ElementIn
+	ctx      context
+	loop     bool
+	required bool
 }
 
 // ToggleGroup returns the group's root <div>.
@@ -145,6 +152,8 @@ func (b *Builder) AcceptChild(c any) bool {
 		b.loop = bool(v)
 	case RovingFocus:
 		b.ctx.rovingFocus = bool(v)
+	case Required:
+		b.required = bool(v)
 	default:
 		return false
 	}
@@ -174,6 +183,9 @@ func (b *Builder) Orientation(o Orientation) *Builder { b.ctx.orientation = o; r
 
 // Loop sets whether keyboard navigation wraps around.
 func (b *Builder) Loop(on bool) *Builder { b.loop = on; return b }
+
+// Required keeps one item pressed in a TypeSingle group.
+func (b *Builder) Required(on bool) *Builder { b.required = on; return b }
 
 // RovingFocus sets whether arrow keys move focus among items.
 func (b *Builder) RovingFocus(on bool) *Builder { b.ctx.rovingFocus = on; return b }
@@ -238,6 +250,9 @@ func (b *Builder) element(st style.Style) *h.Element {
 		}
 	} else {
 		base.Data("roving-focus", "false")
+	}
+	if b.required {
+		base.Data("required", "true")
 	}
 	base.Data("slot", "toggle-group")
 	if ctx.variant != "" {

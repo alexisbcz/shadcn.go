@@ -211,6 +211,10 @@ func (b *TriggerBuilder) AcceptChild(c any) bool {
 	return true
 }
 
+// UserID is the id given to the trigger or, with lib.AsChild, to its child:
+// menu.Share makes it the trigger's id for the whole menu.
+func (b *TriggerBuilder) UserID() string { return menu.UserID(b.Elem(), b.asChild) }
+
 // Element resolves the trigger.
 func (b *TriggerBuilder) Element() *h.Element {
 	sc := b.MenuScope()
