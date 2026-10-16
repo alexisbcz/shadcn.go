@@ -18,6 +18,11 @@
 // -now 2026-01-15T12:00:00Z for comparisons: server-rendered dates
 // (calendars, date pickers) then use the same "now".
 //
+// With -export DIR, it writes the site as static files instead of serving
+// it, for GitHub Pages (scripts/deploy-pages.sh):
+//
+//	go run ./cmd/docs -export /tmp/site -base-path /shadcn.go -site-url https://alexisbcz.github.io/shadcn.go
+//
 // The site itself is package shadcn.go/docs/site; its README-level comment
 // lists the extension points (header, docs layout, search, MDX components).
 package main
@@ -41,7 +46,13 @@ func main() {
 	root := flag.String("root", ".", "repository root")
 	preload := flag.Bool("preload", false, "parse every docs page at startup")
 	nowFlag := flag.String("now", "", `pin "now" for every rendered date (RFC 3339), e.g. the docs harness's frozen browser clock 2026-01-15T12:00:00Z`)
+	export := flag.String("export", "", "write the site as static files to this directory and exit")
+	basePath := flag.String("base-path", "", `with -export, the path the site is served under ("/shadcn.go")`)
+	siteURL := flag.String("site-url", "", "the site's URL for canonical and Open Graph links (default: the reference's)")
 	flag.Parse()
+	if *siteURL != "" {
+		site.SiteURL = *siteURL
+	}
 	if *nowFlag != "" {
 		t, err := time.Parse(time.RFC3339, *nowFlag)
 		if err != nil {
@@ -56,6 +67,13 @@ func main() {
 		log.Fatal(err)
 	}
 	log.Printf("docs: %d pages loaded in %s", len(s.Docs), time.Since(start).Round(time.Millisecond))
+	if *export != "" {
+		if err := s.Export(*export, *basePath); err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("docs: exported to %s in %s", *export, time.Since(start).Round(time.Second))
+		return
+	}
 
 	ln, err := net.Listen("tcp", *addr)
 	if err != nil {

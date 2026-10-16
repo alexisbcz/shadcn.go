@@ -10,7 +10,7 @@ import (
 )
 
 // go-examples.json is the Go source of every docs example, generated from
-// examples/ by gen/goexamples: the code panels show it in their Go tab.
+// examples/ by gen/goexamples: the code panels show it.
 //
 //go:embed go-examples.json
 var goExamplesJSON []byte
@@ -57,17 +57,4 @@ func goSource(code string, maxLines int) h.Node {
 		code = firstLines(code, maxLines)
 	}
 	return h.Div(h.Class("relative"), componentCode(code, "go", ""))
-}
-
-// langSwitch toggles the code panels between React and Go (site.js keeps
-// the choice for every panel and page).
-func langSwitch() h.Node {
-	btn := func(lang, label string) h.Node {
-		return h.Button(h.Type("button"), h.Data("code-lang-switch", lang), h.Aria("label", "Show "+label+" code"),
-			h.Class("rounded-md px-2 py-0.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"),
-			label)
-	}
-	return h.Div(h.Data("slot", "code-lang"),
-		h.Class("absolute top-2 right-14 z-20 flex items-center gap-0.5 rounded-lg border bg-background p-0.5"),
-		btn("react", "React"), btn("go", "Go"))
 }

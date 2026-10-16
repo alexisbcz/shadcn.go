@@ -15,10 +15,13 @@ import (
 	h "shadcn.go/libhtml"
 )
 
+// SiteURL is the site's origin (and base path), for canonical and
+// Open Graph URLs: the reference's, or where the static export is hosted.
+var SiteURL = "https://ui.shadcn.com"
+
 // Site constants (ui/apps/v4/lib/config.ts).
 const (
 	SiteName        = "shadcn/ui"
-	SiteURL         = "https://ui.shadcn.com"
 	SiteDescription = "Composable, accessible components with thoughtful defaults. Build your own component library with code you can customize, extend, and make your own."
 	ThemeColorLight = "#ffffff"
 	ThemeColorDark  = "#09090b"
@@ -67,14 +70,6 @@ const themeColorScript = h.UnsafeJS(`
                 }
               } catch (_) {}
             `)
-
-// codeLangScript applies the code language picked with the React/Go switch
-// of the code panels (stored by site.js) before the first paint.
-const codeLangScript = h.UnsafeJS(`try{if(localStorage.codeLang==="go")document.documentElement.setAttribute("data-code-lang","go")}catch(_){}`)
-
-// codeLangCSS shows the code of the picked language (React by default).
-const codeLangCSS = `html:not([data-code-lang=go]) [data-code-lang-block=go],html[data-code-lang=go] [data-code-lang-block=react]{display:none}` +
-	`html:not([data-code-lang=go]) [data-code-lang-switch=react],html[data-code-lang=go] [data-code-lang-switch=go]{background:var(--muted);color:var(--foreground)}`
 
 // themeScript is next-themes' inline script (ThemeProvider: attribute
 // "class", storage key "theme", default "system", enableSystem,
@@ -142,8 +137,6 @@ func (s *Site) Document(r *http.Request, m Meta, body ...any) h.Node {
 		h.Script(h.Type("module"), h.Src(staticPrefix+"site.js")),
 		h.Script(s.scripts.sidebarScroll),
 		h.Script(themeColorScript),
-		h.Script(codeLangScript),
-		h.StyleEl(h.UnsafeCSS(codeLangCSS)),
 		h.Meta(h.Name("theme-color"), h.Content(ThemeColorLight)),
 		h.Title(title),
 		h.Meta(h.Name("description"), h.Content(desc)),

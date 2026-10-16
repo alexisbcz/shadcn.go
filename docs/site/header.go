@@ -34,9 +34,9 @@ var NavItems = []NavItem{
 	{"/create", "Create"},
 }
 
-// GitHubStars is the star count the reference build bakes in
-// (components/github-link.tsx fetches it at build time; DOCS_PLAN.md D0).
-const GitHubStars = "126k"
+// GitHubRepo is the repository of the Go port, which the GitHub links of
+// the header and footer point to.
+const GitHubRepo = "https://github.com/alexisbcz/shadcn.go"
 
 // headerPagesNew is PAGES_NEW of lib/docs.ts.
 var headerPagesNew = map[string]bool{
@@ -109,11 +109,11 @@ func (s *Site) SiteHeader(r *http.Request) h.Node {
 // GitHubLink is components/github-link.tsx.
 func GitHubLink() h.Node {
 	return button.Button(button.SizeSm, button.VariantGhost, h.Class("h-8 shadow-none"), lib.AsChild,
-		h.A(h.Href("https://github.com/shadcn-ui/ui"), h.Target("_blank"), h.Rel("noreferrer"),
+		h.A(h.Href(GitHubRepo), h.Target("_blank"), h.Rel("noreferrer"),
 			h.El("svg", h.Attr("viewBox", "0 0 438.549 438.549"),
 				h.Path(h.Attr("fill", "currentColor"), h.Attr("d", githubPath)),
 			),
-			h.Span(h.Class("w-fit text-xs text-muted-foreground tabular-nums"), GitHubStars),
+			h.Span(h.Class("sr-only"), "GitHub"),
 		),
 	)
 }
@@ -239,7 +239,7 @@ func mobileCurrentBase(path string) string {
 			}
 		}
 	}
-	return "base"
+	return "radix"
 }
 
 // mobileFolderPages is getPagesFromFolder of lib/page-tree.ts.
@@ -287,7 +287,7 @@ func (s *Site) SiteFooter(r *http.Request) h.Node {
 				h.Div(h.Class("w-full px-1 text-center text-xs leading-loose text-muted-foreground sm:text-sm"),
 					"Built by ", link("https://twitter.com/shadcn", "shadcn"), " at ",
 					link("https://vercel.com/new?utm_source=shadcn_site&utm_medium=web&utm_campaign=docs_cta_deploy_now_callout", "Vercel"),
-					". The source code is available on ", link("https://github.com/shadcn-ui/ui", "GitHub"), ".",
+					". The source code is available on ", link(GitHubRepo, "GitHub"), ".",
 				),
 			),
 		),

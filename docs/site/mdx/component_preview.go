@@ -117,24 +117,15 @@ func codePanel(name, styleName string, rtl bool) h.Node {
 			h.Span("// See the ", h.A(h.Href("/docs/rtl"), h.Class("underline underline-offset-4"), "RTL guide"), " for more information."),
 		))
 	}
-	full = append(full, componentSource(name, "", styleName, "", "", "", false, 0))
-	collapsed := componentSource(name, "", styleName, "", "", "", false, 3)
-	// The Go version of the example, behind the React/Go switch.
-	var lang h.Node = h.Group()
-	if code, ok := GoExample(name, styleName); ok {
-		lang = langSwitch()
-		full = []any{lang,
-			h.Div(h.Data("code-lang-block", "react"), h.Group(full...)),
-			h.Div(h.Data("code-lang-block", "go"), goSource(code, 0)),
-		}
-		collapsed = h.Group(
-			h.Div(h.Data("code-lang-block", "react"), collapsed),
-			h.Div(h.Data("code-lang-block", "go"), goSource(code, 3)),
-		)
+	// The panels show the Go version of the example, not the React one.
+	code, ok := GoExample(name, styleName)
+	if !ok {
+		return h.Group()
 	}
+	full = append(full, goSource(code, 0))
+	collapsed := goSource(code, 3)
 	return h.Div(h.Data("slot", "code"), h.Data("mobile-code-visible", "false"),
 		h.Class("relative overflow-hidden **:data-[slot=copy-button]:right-4 **:data-[slot=copy-button]:hidden data-[mobile-code-visible=true]:**:data-[slot=copy-button]:flex [&_[data-rehype-pretty-code-figure]]:m-0! [&_[data-rehype-pretty-code-figure]]:rounded-t-none [&_[data-rehype-pretty-code-figure]]:border-t [&_pre]:max-h-72"),
-		lang,
 		h.Div(h.Class("relative"),
 			collapsed,
 			h.Div(h.Class("absolute inset-0 flex items-center justify-center pb-4"),

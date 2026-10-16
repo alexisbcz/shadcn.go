@@ -30,7 +30,7 @@ func ComponentsList(env *Env, _ *content.Context, props content.Props, _ []h.Nod
 	}
 	base := props.String("currentBase")
 	if base == "" {
-		base = "base"
+		base = "radix"
 	}
 	variant := props.String("variant")
 	if variant == "" {

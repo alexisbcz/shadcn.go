@@ -250,22 +250,3 @@ define("docs-directory", {
     }
   },
 })
-
-// The React/Go switch of the code panels: the choice applies to every panel
-// and is kept for the next pages (the head script applies it on load).
-define("docs-code-lang", {
-  selector: '[data-slot="code-lang"]',
-  mount(root) {
-    const onClick = (event) => {
-      const btn = event.target.closest("[data-code-lang-switch]")
-      if (!btn) return
-      event.stopPropagation()
-      const lang = btn.getAttribute("data-code-lang-switch")
-      if (lang === "go") document.documentElement.setAttribute("data-code-lang", "go")
-      else document.documentElement.removeAttribute("data-code-lang")
-      try { localStorage.codeLang = lang } catch {}
-    }
-    root.addEventListener("click", onClick)
-    return () => root.removeEventListener("click", onClick)
-  },
-})

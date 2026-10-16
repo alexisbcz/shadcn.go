@@ -18,6 +18,7 @@ package site
 
 import (
 	"fmt"
+	"io"
 	"io/fs"
 	"log"
 	"net/http"
@@ -108,6 +109,11 @@ func New(opts Options) (*Site, error) {
 		if err != nil || d.IsDir() || !strings.HasSuffix(p, ".mdx") {
 			return err
 		}
+		// Only the Radix UI pages: the Go components port Radix, not Base
+		// UI or React Aria.
+		if strings.HasPrefix(p, "components/base/") || strings.HasPrefix(p, "components/aria/") {
+			return nil
+		}
 		b, err := fs.ReadFile(fsys, p)
 		if err != nil {
 			return err
@@ -179,6 +185,7 @@ func (s *Site) Handler() http.Handler {
 	mux.HandleFunc("GET /view/{style}/{name}", s.page(s.View))
 	mux.HandleFunc("GET /blocks", s.page(s.Blocks))
 	mux.HandleFunc("GET /blocks/{categories...}", s.page(s.BlocksCategory))
+	mux.HandleFunc("GET /charts", s.page(func(*http.Request) (h.Node, error) { return redirectPage("/charts/area"), nil }))
 	mux.HandleFunc("GET /charts/{type}", s.page(s.Charts))
 	mux.HandleFunc("GET /colors", s.page(s.Colors))
 	mux.HandleFunc("GET /examples/dashboard", s.page(s.ExampleDashboard))
@@ -223,10 +230,79 @@ func (s *Site) page(fn func(r *http.Request) (h.Node, error)) http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		if err := h.WriteHTTP(w, http.StatusOK, n); err != nil {
+		out, err := h.RenderString(n)
+		if err != nil {
 			s.logf("%s: %v", r.URL.Path, err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		w.Header().Set("X-Content-Type-Options", "nosniff")
+		io.WriteString(w, radixLinks.Replace(out))
 	}
+}
+
+// radixLinks points the links to Base UI and React Aria component pages
+// (the content links to them) at the Radix UI page, the only one the port
+// has.
+var radixLinks = strings.NewReplacer(
+	`"/docs/components/base/`, `"/docs/components/radix/`,
+	`"/docs/components/aria/`, `"/docs/components/radix/`,
+)
+
+// redirectTarget is where the redirects of next.config.mjs send a docs
+// path, with the Base UI and React Aria component pages sent to the Radix
+// UI ones.
+func (s *Site) redirectTarget(p string) (string, bool) {
+	p = strings.TrimSuffix(p, "/")
+	if rest, ok := strings.CutPrefix(p, "/docs/primitives/"); ok {
+		p = "/docs/components/" + rest
+	}
+	rest, ok := strings.CutPrefix(p, "/docs/components/")
+	if !ok || rest == "" {
+		return "", false
+	}
+	name := rest
+	if b, n, ok := strings.Cut(rest, "/"); ok {
+		if b != "base" && b != "aria" && b != "radix" {
+			return "", false
+		}
+		name = n
+	}
+	switch name {
+	case "form":
+		return "/docs/forms", true
+	case "typography":
+		return "/docs/typeset", true
+	}
+	to := "/docs/components/radix/" + name
+	if _, ok := s.Docs[to]; !ok || to == p {
+		return "", false
+	}
+	return to, true
+}
+
+// docsRedirect is the page left at a redirected docs path: it sends the
+// browser on (a static host cannot answer with a redirect).
+func (s *Site) docsRedirect(r *http.Request) (h.Node, error) {
+	to, ok := s.redirectTarget(r.URL.Path)
+	if !ok {
+		return nil, errNotFound
+	}
+	return redirectPage(to), nil
+}
+
+// redirectPage is a page sending the browser to another URL.
+func redirectPage(to string) h.Node {
+	return h.Group(h.UnsafeHTML("<!doctype html>"), h.El("html",
+		h.El("head",
+			h.Meta(h.Charset("utf-8")),
+			h.Title("Redirecting…"),
+			h.Link(h.Rel("canonical"), h.Href(to)),
+			h.Meta(h.Attr("http-equiv", "refresh"), h.Content("0; url="+to)),
+		),
+		h.El("body", h.A(h.Href(to), to)),
+	))
 }
 
 // notFound renders the 404 page: the app has no not-found.tsx, so Next.js

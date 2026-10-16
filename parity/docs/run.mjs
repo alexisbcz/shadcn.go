@@ -377,13 +377,6 @@ const PRELUDE = `(() => {
       else if (!e.defaultPrevented) window.__parityClipboard = String(document.getSelection() ?? "")
     })
   }, true)
-  // D14: the port's React/Go switch of the code panels has no counterpart
-  // in the reference: it is hidden (React, the default, shows).
-  document.addEventListener("DOMContentLoaded", () => {
-    const st = document.createElement("style")
-    st.textContent = '[data-slot="code-lang"]{display:none!important}'
-    document.head.append(st)
-  })
 })()`
 
 // Serializes the document into comparable lines, see "DOM normalization

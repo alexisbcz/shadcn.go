@@ -46,12 +46,12 @@ var PagesNew = map[string]bool{
 var baseRe = regexp.MustCompile(`/docs/components/(radix|base|aria)/`)
 
 // CurrentBase is getCurrentBase of lib/page-tree.ts: the component base of
-// a docs path, "base" by default.
+// a docs path, "radix" by default (the only base the Go port has).
 func CurrentBase(pathname string) string {
 	if m := baseRe.FindStringSubmatch(pathname); m != nil {
 		return m[1]
 	}
-	return "base"
+	return "radix"
 }
 
 // PagesFromFolder is getPagesFromFolder of lib/page-tree.ts: a folder's

@@ -16,8 +16,8 @@ import (
 // The docs chrome. DocsLayout is app/(app)/docs/layout.tsx (SidebarProvider
 // + DocsSidebar, docssidebar.go), DocsPage is
 // app/(app)/docs/[[...slug]]/page.tsx: the page header (title, description,
-// DocsCopyPage in docscopypage.go, prev/next buttons), DocsBaseSwitcher,
-// the MDX content, the bottom pager, and the TOC column (TOC and
+// DocsCopyPage in docscopypage.go, prev/next buttons), the MDX
+// content, the bottom pager, and the TOC column (TOC and
 // OpenInV0Cta, docstoc.go). Client behaviors (TOC scroll-spy, copy page,
 // sidebar scroll saving) are in static/docs.js.
 
@@ -26,7 +26,7 @@ func (s *Site) DocsPage(r *http.Request) (h.Node, error) {
 	path := strings.TrimSuffix(r.URL.Path, "/")
 	doc, ok := s.Docs[path]
 	if !ok {
-		return nil, errNotFound
+		return s.docsRedirect(r)
 	}
 	page, err := doc.Page()
 	if err != nil {
@@ -46,10 +46,6 @@ func (s *Site) DocsPage(r *http.Request) (h.Node, error) {
 	if err != nil {
 		return nil, err
 	}
-	var baseSwitcher h.Node
-	if len(doc.Slugs) >= 3 && doc.Slugs[0] == "components" {
-		baseSwitcher = s.DocsBaseSwitcher(r, doc.Slugs[1], doc.Slugs[2])
-	}
 	raw, _ := os.ReadFile(filepath.Join(s.contentDir(), filepath.FromSlash(doc.Path)))
 	main := s.DocsArticle(r, DocsArticle{
 		Title:       fm.Title,
@@ -61,11 +57,10 @@ func (s *Site) DocsPage(r *http.Request) (h.Node, error) {
 			}
 			return ""
 		}),
-		Prev:   prev,
-		Next:   next,
-		Before: baseSwitcher,
-		Body:   body,
-		TOC:    toc,
+		Prev: prev,
+		Next: next,
+		Body: body,
+		TOC:  toc,
 	})
 	return s.Document(r, Meta{Title: fm.Title, Description: fm.Description, Canonical: doc.URL, Article: true},
 		s.AppLayout(r, s.DocsLayout(r, doc.URL, main)),
@@ -102,7 +97,7 @@ type DocsArticle struct {
 	// Actions replace the default header actions (copy page + prev/next),
 	// e.g. the changelog's RSS button.
 	Actions h.Node
-	// Before is rendered at the top of the content (DocsBaseSwitcher).
+	// Before is rendered at the top of the content.
 	Before h.Node
 	Body   h.Node
 	TOC    h.Node
